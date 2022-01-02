@@ -10,5 +10,12 @@ let game: Phaser.Game = new Phaser.Game({
     fps: {
         min: 40,
         target: 50
+    },
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: {y: 300},
+            debug: false
+        }
     }
 });
