@@ -15,7 +15,8 @@ export default class BootScene extends Phaser.Scene {
     }
 
     create(): void {
-        let sky = this.add.image(400, 300, 'sky');
+        this.add.image(400, 300, 'sky');
+        this.add.image(400, 300, 'star');
     }
     
 }
