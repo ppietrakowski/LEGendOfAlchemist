@@ -1,0 +1,28 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build",
+			"type": "shell",
+			"command": "npx",
+			"args": [
+				"gulp",
+				"build"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"dependsOn": ["Build"],
+			"label": "Run",
+			"type": "shell",
+			"command": "npx",
+			"args": [
+				"gulp",
+				"serve"
+			]
+		}
+	]
+}

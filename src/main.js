@@ -1,8 +1,7 @@
-
-/// <reference path="../phaser/phaser.d.ts"/>
 import BootScene from './BootScene'
 
-let game: Phaser.Game = new Phaser.Game({
+
+let game = new Phaser.Game({
     type: Phaser.AUTO,
     scene: [new BootScene()],
     width: 800,

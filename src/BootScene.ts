@@ -18,12 +18,15 @@ export default class BootScene extends Phaser.Scene {
 
     create(): void {
         this.add.image(400, 300, 'sky');
-        this.add.image(400, 300, 'star');
+        var star = this.physics.add.image(400, 300, 'star');
+        star.setCollideWorldBounds(true);
+        star.setBounce(0.2);
         this.platforms = this.physics.add.staticGroup()
         this.platforms.create(400, 568, 'ground').setScale(2).refreshBody();
         this.platforms.create(600, 400, 'ground');
         this.platforms.create(50, 250, 'ground');
         this.platforms.create(750, 220, 'ground');
+        this.physics.add.collider(star, this.platforms);
     }
     
 }

@@ -8,7 +8,7 @@ var buffer = require('vinyl-buffer');
 
 const paths = {
   pages: ["src/*.html"],
-  typescriptEntries: ["src/main.ts"],
+  typescriptEntries: ["src/main.js"],
   buildDir: 'dist/'
 };
 
@@ -25,15 +25,16 @@ gulp.task('serve', () =>
     })
 );
 
-gulp.task('build', function() {
+gulp.task('build', () => {
     return browserify({
       basedir: ".",
-      debug: true,
+      debug: false,
       entries: paths.typescriptEntries,
       cache: {},
       packageCache: {},
     })
       .plugin(tsify, 'tsconfig.json')
+      
       .bundle()
       .pipe(source("bundle.js"))
       .pipe(buffer())
