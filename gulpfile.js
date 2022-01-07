@@ -12,6 +12,8 @@ const paths = {
   buildDir: 'dist/'
 };
 
+const EmptyTask = () => null;
+
 gulp.task('copy-phaser-bin', () => gulp.src('phaser/phaser.min.js').pipe(gulp.dest(paths.buildDir)));
 
 gulp.task("copy-html", () => gulp.src(paths.pages).pipe(gulp.dest(paths.buildDir)));
@@ -42,4 +44,5 @@ gulp.task('build', () => {
       .pipe(gulp.dest(paths.buildDir));
   });
 
-gulp.task('default', gulp.series(['copy-phaser-bin', 'copy-html', 'build', 'serve'], () => null));
+
+gulp.task('default', gulp.series(['copy-phaser-bin', 'copy-html', 'build', 'serve'], EmptyTask));

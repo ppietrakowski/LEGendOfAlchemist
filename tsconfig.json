@@ -1,5 +1,5 @@
 {
-  "files": ["src/main.ts", "src/BootScene.ts"],
+  "files": ["src/main.js", "src/BootScene.ts"],
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
 
