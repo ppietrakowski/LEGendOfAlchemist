@@ -4,9 +4,9 @@
     "gulp-typescript": "^6.0.0-alpha.1",
     "sharp": "^0.29.3"
   },
-  "name": "match3",
+  "name": "pwjs-game",
   "version": "1.0.0",
-  "main": "dist/main.js",
+  "main": "dist/bundle.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "install": "npx gulp build",
