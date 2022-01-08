@@ -15,7 +15,9 @@
 			}
 		},
 		{
-			"dependsOn": ["Build"],
+			"dependsOn": [
+				"Build"
+			],
 			"label": "Run",
 			"type": "shell",
 			"command": "npx",
@@ -23,6 +25,16 @@
 				"gulp",
 				"serve"
 			]
+		},
+		{
+			"label": "clear dist",
+			"type": "shell",
+			"command": "rm",
+			"args": [
+				"-r",
+				"dist/*",
+			],
+			"problemMatcher": []
 		}
 	]
 }
