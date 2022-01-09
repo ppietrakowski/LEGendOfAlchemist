@@ -56,9 +56,7 @@ function copyAssets() {
     return gulp.src("./assets/**/*").pipe(gulp.dest("./dist/assets/"));
 }
 gulp.task("copy-assets", copyAssets);
-gulp.watch(['assets/**/*'], function() {
-    copyAssets();
-});
+
 
 gulp.task('serve', () =>
     server.init({
@@ -71,6 +69,7 @@ gulp.task('serve', () =>
 gulp.task('build-assets', gulp.series(['generate-assets', 'copy-assets']), EmptyTask);
 
 gulp.task('build', () => {
+    
     return browserify({
       basedir: ".",
       debug: true,
@@ -99,4 +98,6 @@ gulp.task('build', () => {
 
 
 
-gulp.task('default', gulp.series(['copy-assets', 'copy-html', 'build', 'serve'], EmptyTask));
+gulp.task('default', gulp.series(['copy-assets', 'copy-html', 'build', 'serve'], () => gulp.watch(['assets/**/*'], function() {
+    copyAssets();
+})));
