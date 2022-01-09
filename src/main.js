@@ -1,5 +1,4 @@
 import BootScene from './game/BootScene';
-import GameScene from './game/GameScene';
 import MainMenu from './game/MainMenu'
 import Phaser from 'phaser';
 
