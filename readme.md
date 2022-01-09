@@ -3,6 +3,9 @@
 
 ## what's new
 
+* menu
+* credits
+
 
 ## special thanks to
 
