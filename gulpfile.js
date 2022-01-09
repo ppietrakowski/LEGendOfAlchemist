@@ -52,8 +52,13 @@ gulp.task("generate-assets", (done) => {
     done();
 });
 
-gulp.task("copy-assets", () => gulp.src("./assets/**/*").pipe(gulp.dest("./dist/assets/")));
-
+function copyAssets() {
+    return gulp.src("./assets/**/*").pipe(gulp.dest("./dist/assets/"));
+}
+gulp.task("copy-assets", copyAssets);
+gulp.watch(['assets/**/*'], function() {
+    copyAssets();
+});
 
 gulp.task('serve', () =>
     server.init({

@@ -1,5 +1,7 @@
 import BootScene from './game/BootScene';
 import MainMenu from './game/MainMenu'
+import Credits from './game/Credits'
+
 import Phaser from 'phaser';
 
 class Game extends Phaser.Game {
@@ -31,6 +33,7 @@ class Game extends Phaser.Game {
 
         this.scene.add("BootScene", BootScene, true);
         this.scene.add('MainMenu', MainMenu, false);
+        this.scene.add('Credits', Credits, false);
     }
 }
 
