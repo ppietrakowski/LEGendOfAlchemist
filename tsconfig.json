@@ -1,5 +1,5 @@
 {
-  "files": ["src/main.js", "src/game/BootScene.ts", "src/game/GameScene.ts", "src/game/Gem.ts", "src/game/GemArray.ts", "src/game/State.ts"],
+  "files": ["src/main.js", "src/game/*.ts", "src/game/*.js"],
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
 
