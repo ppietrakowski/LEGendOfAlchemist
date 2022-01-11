@@ -27,7 +27,7 @@ export default class Effect implements Component {
     }
 
     start(character: Character): void {
-        console.log(character);
+        console.log(`Effect ${this.debugName()} on ${character}`);
         this.character = character;
     }
 
@@ -42,8 +42,6 @@ export default class Effect implements Component {
         atrributes.hp = Math.ceil(atrributes.hp);
         atrributes.wisdom = Math.ceil(atrributes.wisdom);
         atrributes.strength = Math.ceil(atrributes.strength);
-
-        console.log(timeSinceLastFrame);
     }
     
     hasTimePassed(): boolean {

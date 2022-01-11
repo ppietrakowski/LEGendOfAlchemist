@@ -37,7 +37,7 @@ export default class Attribute implements Component {
             effect.update(timeSinceLastFrame);
 
             if (effect.hasTimePassed()) {
-                
+
                 this.deleteEffect(effect);
             }
         }
@@ -53,13 +53,13 @@ export default class Attribute implements Component {
     }
 
     private deleteEffect(effect: Effect): void {
-        for(let i = 0; i < this.effects.length; i++){ 
-    
-            if (this.effects[i] === effect) { 
-        
-                this.effects.splice(i, 1); 
+        for (let i = 0; i < this.effects.length; i++) {
+
+            if (this.effects[i] === effect) {
+
+                this.effects.splice(i, 1);
             }
-        
+
         }
     }
 }

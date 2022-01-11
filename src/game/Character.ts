@@ -8,7 +8,7 @@ interface ComponentDictionary {
 export default abstract class Character {
     private components: ComponentDictionary;
     sprite: Phaser.Physics.Arcade.Sprite;
-    
+
     constructor(sprite: Phaser.Physics.Arcade.Sprite) {
         this.components = {};
         this.sprite = sprite;
@@ -22,7 +22,7 @@ export default abstract class Character {
     getComponent<T extends Component>(name: string): T {
         return this.components[name] as T;
     }
-    
+
     abstract start(scene: Phaser.Scene): void;
 
     update(timePassedSinceLastFrame: number): void {

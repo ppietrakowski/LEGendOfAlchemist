@@ -33,12 +33,12 @@ class Game extends Phaser.Game {
             pixelArt: true
         });
 
-        
+
         this.scene.add("BootScene", BootScene, true);
         this.scene.add('MainMenu', MainMenu, false);
         this.scene.add('Credits', Credits, false);
         this.scene.add('DeadScene', DeadScene);
-            
+
     }
 }
 

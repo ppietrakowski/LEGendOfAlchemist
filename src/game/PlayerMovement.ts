@@ -33,13 +33,13 @@ export default class PlayerMovement implements Component {
             this.onMovement('left-run', -100 * timeSinceLastFrame, 0);
         else if (this.input.right.isDown)
             this.onMovement('right-run', 100 * timeSinceLastFrame, 0);
-        else 
+        else
             this.onMovement(this.prevMovement, 0, 0);
     }
 
     private onMovement(frameName: string, velX: number, velY: number) {
-        
-        
+
+
         this.character.sprite.anims.play(frameName, true);
         this.character.sprite.setVelocity(velX, velY);
     }
