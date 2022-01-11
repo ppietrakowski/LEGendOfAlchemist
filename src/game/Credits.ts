@@ -1,4 +1,4 @@
-import Phaser from "phaser";
+
 import Button from "./Button";
 
 function onBack(this: Phaser.GameObjects.Sprite): void {

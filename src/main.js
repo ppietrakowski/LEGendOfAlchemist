@@ -1,8 +1,9 @@
 import BootScene from './game/BootScene';
 import MainMenu from './game/MainMenu'
 import Credits from './game/Credits'
-
+import GameScene from './game/GameScene'
 import Phaser from 'phaser';
+import DeadScene from './game/DeadScene';
 
 class Game extends Phaser.Game {
 
@@ -21,19 +22,23 @@ class Game extends Phaser.Game {
             physics: {
                 default: 'arcade',
                 arcade: {
-                    gravity: { y: 300 },
+                    gravity: { y: 0 },
                     debug: false
                 }
             },
             scale: {
                 mode: Phaser.Scale.ScaleModes.FIT,
                 autoCenter: Phaser.Scale.CENTER_BOTH
-            }
+            },
+            pixelArt: true
         });
 
+        
         this.scene.add("BootScene", BootScene, true);
         this.scene.add('MainMenu', MainMenu, false);
         this.scene.add('Credits', Credits, false);
+        this.scene.add('DeadScene', DeadScene);
+            
     }
 }
 

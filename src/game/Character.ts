@@ -1,3 +1,4 @@
+
 import Component from "./Component";
 
 interface ComponentDictionary {
@@ -6,10 +7,11 @@ interface ComponentDictionary {
 
 export default abstract class Character {
     private components: ComponentDictionary;
-    sprite: Phaser.GameObjects.Sprite;
+    sprite: Phaser.Physics.Arcade.Sprite;
     
-    constructor() {
+    constructor(sprite: Phaser.Physics.Arcade.Sprite) {
         this.components = {};
+        this.sprite = sprite;
     }
 
     addComponent(component: Component): void {
@@ -30,4 +32,6 @@ export default abstract class Character {
     }
 
     abstract makeDead(): void;
+
+    abstract isDead(): boolean;
 }

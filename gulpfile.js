@@ -8,7 +8,7 @@ var buffer = require('vinyl-buffer');
 var babelify = require('babelify');
 const { texturepack } = require("texturepack");
 const path = require('path');
-const { execSync } = require('child_process');
+const { execSync, exec } = require('child_process');
 const log = require('fancy-log');
 const sourcemaps = require("gulp-sourcemaps");
 const args = require("args-parser")(process.argv);
@@ -74,8 +74,6 @@ gulp.task('build', () => {
       basedir: ".",
       debug: true,
       entries: paths.typescriptEntries,
-      cache: {},
-      packageCache: {},
       transform: [
             [
                 babelify, {
@@ -91,7 +89,7 @@ gulp.task('build', () => {
       .pipe(buffer())
       
       .pipe(gulpif(isProduction === false, sourcemaps.init({loadMaps: true})))
-      .pipe(uglify())
+      .pipe(gulpif(isProduction, uglify()))
       .pipe(gulpif(isProduction === false, sourcemaps.write('.')))
       .pipe(gulp.dest(paths.buildDir));
   });

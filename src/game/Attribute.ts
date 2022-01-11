@@ -33,10 +33,6 @@ export default class Attribute implements Component {
     update(timeSinceLastFrame: number): void {
         Attribute.count++;
 
-        if (Attribute.count % 10 === 0) {
-            console.log(this);
-        }
-
         for (let effect of this.effects) {
             effect.update(timeSinceLastFrame);
 
@@ -57,7 +53,7 @@ export default class Attribute implements Component {
     }
 
     private deleteEffect(effect: Effect): void {
-        for( var i = 0; i < this.effects.length; i++){ 
+        for(let i = 0; i < this.effects.length; i++){ 
     
             if (this.effects[i] === effect) { 
         

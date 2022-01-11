@@ -1,5 +1,4 @@
-/// <reference path="../../phaser/phaser.d.ts"/>
-import Phaser from 'phaser';
+import Phaser from "phaser";
 
 export default class BootScene extends Phaser.Scene {
 
