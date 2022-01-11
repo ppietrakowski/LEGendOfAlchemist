@@ -6,7 +6,8 @@ interface ComponentDictionary {
 
 export default abstract class Character {
     private components: ComponentDictionary;
-
+    sprite: Phaser.GameObjects.Sprite;
+    
     constructor() {
         this.components = {};
     }
@@ -20,7 +21,7 @@ export default abstract class Character {
         return this.components[name] as T;
     }
     
-    abstract start(): void;
+    abstract start(scene: Phaser.Scene): void;
 
     update(timePassedSinceLastFrame: number): void {
         for (let i in this.components) {
