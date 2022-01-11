@@ -3,8 +3,11 @@ import Button from './Button'
 import Character from './Character'
 import Attribute from './Attribute'
 import Effect from "./Effect";
+import {Islands} from './Island'
 
 function onMainGameClicked(this: Phaser.GameObjects.Sprite): void {
+    this.scene.game.scene.add('Island1', Islands.island1);
+    this.scene.game.scene.switch('MainMenu', 'Island1');
 }
 
 function onCreditsClicked(this: Phaser.GameObjects.Sprite): void {
