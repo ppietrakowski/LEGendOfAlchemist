@@ -15,6 +15,10 @@ export default abstract class Character {
         this.components[component.getName()] = component;
     }
 
+    getComponent<T extends Component>(name: string): T {
+        return this.components[name] as T;
+    }
+    
     abstract start(): void;
 
     update(timePassedSinceLastFrame: number): void {
