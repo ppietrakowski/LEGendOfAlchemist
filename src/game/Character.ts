@@ -13,6 +13,7 @@ export default abstract class Character {
 
     addComponent(component: Component): void {
         this.components[component.getName()] = component;
+        component.start(this);
     }
 
     getComponent<T extends Component>(name: string): T {
@@ -26,4 +27,6 @@ export default abstract class Character {
             this.components[i].update(timePassedSinceLastFrame);
         }
     }
+
+    abstract makeDead(): void;
 }

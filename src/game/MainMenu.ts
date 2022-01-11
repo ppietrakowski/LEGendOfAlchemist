@@ -1,5 +1,8 @@
 import Phaser from "phaser";
 import Button from './Button'
+import Character from './Character'
+import Attribute from './Attribute'
+import Effect from "./Effect";
 
 function onMainGameClicked(this: Phaser.GameObjects.Sprite): void {
 }
@@ -10,7 +13,6 @@ function onCreditsClicked(this: Phaser.GameObjects.Sprite): void {
 
 export default class MainMenu extends Phaser.Scene {
     private buttons: Array<Button>;
-
     constructor() {
         super('MainMenu');
         this.buttons = [];
@@ -25,7 +27,7 @@ export default class MainMenu extends Phaser.Scene {
 
     create(): void {
         this.add.image(0, 0, 'background').setOrigin(0, 0);
-
+        
         this.buttons.push(new Button(this, 960 / 2 - 30, 95 + 120, 'play', onMainGameClicked));
         this.buttons.push(new Button(this, 960 / 2 - 30, 95 + 255, 'credits', onCreditsClicked));
     }
