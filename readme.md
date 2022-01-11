@@ -5,7 +5,7 @@
 
 * menu
 * credits
-
+* characters utility
 
 ## special thanks to
 
