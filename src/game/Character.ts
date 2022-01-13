@@ -41,5 +41,7 @@ export default abstract class Character {
 
     abstract makeDead(): void;
 
-    abstract isDead(): boolean;
+    isDead(): boolean {
+        return !this.attribute.isAlive();
+    }
 }

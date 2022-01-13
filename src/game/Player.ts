@@ -27,11 +27,6 @@ export default class Player extends Character {
         this.sprite.scene.game.scene.switch('GameScene', 'DeadScene');
     }
 
-    isDead(): boolean {
-        return !this.attribute.isAlive();
-    }
-
-
     private addAnimations(): void {
         let anims = this.sprite.anims;
         anims.create(
