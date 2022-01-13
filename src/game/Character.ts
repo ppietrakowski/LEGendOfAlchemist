@@ -1,4 +1,5 @@
 
+import Attribute from "./Attribute";
 import Component from "./Component";
 
 interface ComponentDictionary {
@@ -12,6 +13,7 @@ export default abstract class Character {
     constructor(sprite: Phaser.Physics.Arcade.Sprite) {
         this.components = {};
         this.sprite = sprite;
+        this.addComponent(new Attribute(100, 50, 10));
     }
 
     addComponent(component: Component): void {
@@ -29,6 +31,12 @@ export default abstract class Character {
         for (let i in this.components) {
             this.components[i].update(timePassedSinceLastFrame);
         }
+        if (this.isDead())
+            this.makeDead();
+    }
+
+    get attribute(): Attribute {
+        return this.getComponent<Attribute>('attributes');
     }
 
     abstract makeDead(): void;

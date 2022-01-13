@@ -1,30 +1,25 @@
 import Character from "./Character";
 import PlayerMovement from './PlayerMovement'
 import Attribute from './Attribute'
+import Effect from "./Effect";
 
 export default class Player extends Character {
 
     constructor(sprite: Phaser.Physics.Arcade.Sprite) {
         super(sprite);
+        this.addComponent(new Attribute(100, 50, 10));
         this.addComponent(new PlayerMovement());
         sprite.setScrollFactor(1);
-        this.addComponent(new Attribute(100, 50, 10));
         sprite.scene.cameras.main.startFollow(sprite, true, 0.08, 0.08);
         this.start();
     }
 
     start(): void {
-        this.addAnimations()
-        this.sprite.anims.play('front', false)
+        this.addAnimations();
+        this.sprite.anims.play('front', false);
 
-        this.sprite.scaleX = 1.5
-        this.sprite.scaleY = 1.5
-    }
-
-    update(timePassedSinceLastFrame: number): void {
-        super.update(timePassedSinceLastFrame);
-        if (this.isDead())
-            this.makeDead();
+        this.sprite.scaleX = 1.5;
+        this.sprite.scaleY = 1.5;   
     }
 
     makeDead(): void {
@@ -33,7 +28,7 @@ export default class Player extends Character {
     }
 
     isDead(): boolean {
-        return !this.getComponent<Attribute>('attributes').isAlive();
+        return !this.attribute.isAlive();
     }
 
 

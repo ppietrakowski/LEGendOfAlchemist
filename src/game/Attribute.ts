@@ -28,11 +28,8 @@ export default class Attribute implements Component {
         console.log(this);
         this.character = character;
     }
-
-    static count: number = 0;
+    
     update(timeSinceLastFrame: number): void {
-        Attribute.count++;
-
         for (let effect of this.effects) {
             effect.update(timeSinceLastFrame);
 
