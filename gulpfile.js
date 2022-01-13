@@ -6,7 +6,7 @@ var server = require('browser-sync').create();
 var uglify = require('gulp-uglify');
 var buffer = require('vinyl-buffer');
 var babelify = require('babelify');
-const { texturepack } = require("texturepack");
+//const { texturepack } = require("texturepack");
 const path = require('path');
 const { execSync, exec } = require('child_process');
 const log = require('fancy-log');
@@ -89,7 +89,7 @@ gulp.task('build', () => {
       .pipe(buffer())
       
       .pipe(gulpif(isProduction === false, sourcemaps.init({loadMaps: true})))
-      .pipe(gulpif(isProduction, uglify()))
+      .pipe(gulpif(isProduction === true, uglify()))
       .pipe(gulpif(isProduction === false, sourcemaps.write('.')))
       .pipe(gulp.dest(paths.buildDir));
   });
