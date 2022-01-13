@@ -96,14 +96,18 @@ export default class EnemyController implements Component {
         
         return Phaser.Math.Distance.Between(player.x, player.y, enemy.x, enemy.y) < 300;
     }
+
     // TODO proper movement
     private onRoam(timeSinceLastFrame: number): void {
         
     }
 
     private onAttack(timeSinceLastFrame: number): void {
+        // stops after chasing
         this.self.sprite.setVelocity(0, 0);
         this.self.sprite.anims.play('enemy-attack', true);
+
+        // just attack
         this.target.attribute.addEffect(new Effect(this.getDamage(timeSinceLastFrame), 0, 0, 1));
     }
 
@@ -113,7 +117,11 @@ export default class EnemyController implements Component {
     }
 
     private onAbort(timeSinceLastFrame: number): void {
+        // stops, if it chasing
         this.self.sprite.setVelocity(0, 0);
+
+        // moves back to spawnpoint
+        // TODO: smoother back animation
         this.self.sprite.body.x = this.startPos.x;
         this.self.sprite.body.y = this.startPos.y;
         this.self.sprite.anims.play('enemy-stay', true);
