@@ -17,6 +17,8 @@ export default abstract class Character {
     }
 
     addComponent(component: Component): void {
+        console.log(component.debugName());
+        
         this.components[component.getName()] = component;
         component.start(this);
     }
