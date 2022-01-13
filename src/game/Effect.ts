@@ -37,11 +37,7 @@ export default class Effect implements Component {
 
         atrributes.hp += this.deltaHp * timeSinceLastFrame;
         atrributes.wisdom += this.deltaWisdom * timeSinceLastFrame;
-        atrributes.strength += this.deltaStrength * timeSinceLastFrame;
-
-        atrributes.hp = Math.floor(atrributes.hp);
-        atrributes.wisdom = Math.floor(atrributes.wisdom);
-        atrributes.strength = Math.floor(atrributes.strength);
+        atrributes.strength += this.deltaStrength * timeSinceLastFrame;        
     }
     
     hasTimePassed(): boolean {

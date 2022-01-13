@@ -23,7 +23,7 @@ export default class GameScene extends Phaser.Scene {
         let islands = this.physics.add.staticGroup();
         islands.create(0, 0, 'background');
         this.add.image(0, 0, 'islands');   
-        this.player = new Player(this.physics.add.sprite(120, 100, 'player'));
+        this.player = new Player(this.physics.add.sprite(140, 100, 'player'));
         this.testEnemy = new Enemy(this.physics.add.sprite(0, 0, 'enemy'), this.player);
     }
 

@@ -13,7 +13,7 @@ export default abstract class Character {
     constructor(sprite: Phaser.Physics.Arcade.Sprite) {
         this.components = {};
         this.sprite = sprite;
-        this.addComponent(new Attribute(100, 50, 10));
+        this.addComponent(new Attribute(100, 20, 10));
     }
 
     addComponent(component: Component): void {
