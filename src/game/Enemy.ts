@@ -8,10 +8,16 @@ export default class Enemy extends Character {
         super(sprite);
 
         this.addComponent(new EnemyController(player));
+        
+        
     }
 
     start(scene: Phaser.Scene): void {
-        
+        scene.anims.create({
+            key: 'enemy',
+            frameRate: -5,
+            frames: scene.anims.generateFrameNumbers('enemy', {start: 0, end: 0})
+        })
     }
 
     makeDead(): void {
