@@ -10,22 +10,32 @@ const noise = new SimplexNoise();
 
 enum AI_State {
     Roaming,
+    DuringMove,
     Chasing,
     Attack,
     Aborted,
     DuringReturning
 }
 
+function getRandomVector(): Phaser.Math.Vector2 {
+    return new Phaser.Math.Vector2(Phaser.Math.Between(-1, 1), Phaser.Math.Between(-1, 1)).normalize();
+}
 
+function getRoamingPosition(startPos: Phaser.Math.Vector2): Phaser.Math.Vector2 {
+    let v = getRandomVector();
+    let range = Phaser.Math.Between(10, 70);
+
+    return new Phaser.Math.Vector2(startPos.x + v.x * range, startPos.y + v.y * range);
+}
 export default class EnemyController implements Component {
     target: Player;
     self: Enemy;
     state: AI_State;
     startPos: Phaser.Math.Vector2;
+    endPos: Phaser.Math.Vector2;
 
     constructor(target: Player) {
         this.target = target;
-
         this.state = AI_State.Roaming;
     }
 
@@ -56,15 +66,19 @@ export default class EnemyController implements Component {
             state = AI_State.DuringReturning;
         else if (this.isPlayerOutOfRange() && this.state === AI_State.Chasing)
             state = AI_State.Aborted;
+        else if (this.state === AI_State.DuringMove)
+            state = AI_State.DuringMove;
         else
             state = AI_State.Roaming;
-            
+        
         return state;
     }
 
     update(timeSinceLastFrame: number): void {
         this.state = this.getNextState();
 
+        if (this.state === AI_State.DuringMove)
+            this.onMoving(timeSinceLastFrame);
         if (this.state === AI_State.Roaming)
             this.onRoam(timeSinceLastFrame);
         else if (this.state === AI_State.Chasing)
@@ -89,14 +103,14 @@ export default class EnemyController implements Component {
         let player = this.target.sprite;
         let enemy = this.self.sprite;
 
-        return Phaser.Math.Distance.Between(player.x, player.y, enemy.x, enemy.y) < 50;
+        return Phaser.Math.Distance.Between(player.x, player.y, enemy.x, enemy.y) < 60;
     }
 
     private isPlayerInRange(): boolean {
         let player = this.target.sprite;
         let enemy = this.self.sprite;
 
-        return Phaser.Math.Distance.Between(player.x, player.y, enemy.x, enemy.y) < 100;
+        return Phaser.Math.Distance.Between(player.x, player.y, enemy.x, enemy.y) < 200;
     }
 
     private isPlayerOutOfRange(): boolean {
@@ -118,7 +132,14 @@ export default class EnemyController implements Component {
 
     // TODO proper movement
     private onRoam(timeSinceLastFrame: number): void {
+        this.self.sprite.setVelocity(0, 0);
+        this.endPos = getRoamingPosition(this.startPos);
+
+        this.state = AI_State.DuringMove;
+
+        console.log(this.endPos);
         
+        this.self.sprite.scene.physics.moveTo(this.self.sprite, this.endPos.x, this.endPos.y);
     }
 
     private onAttack(timeSinceLastFrame: number): void {
@@ -148,6 +169,11 @@ export default class EnemyController implements Component {
 
     private onReturningToStart(timeSinceLastFrame: number): void {
         if (this.isNearSpawnpoint())
+            this.switchToRoaming();
+    }
+
+    private onMoving(timeSinceLastFrame: number): void {
+        if (Phaser.Math.Distance.Between(this.self.sprite.x, this.self.sprite.y, this.endPos.x, this.endPos.y) <= 2)
             this.switchToRoaming();
     }
 }
