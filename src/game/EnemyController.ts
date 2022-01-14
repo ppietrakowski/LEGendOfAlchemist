@@ -12,8 +12,10 @@ enum AI_State {
     Roaming,
     Chasing,
     Attack,
-    Aborted
+    Aborted,
+    DuringReturning
 }
+
 
 export default class EnemyController implements Component {
     target: Player;
@@ -23,7 +25,7 @@ export default class EnemyController implements Component {
 
     constructor(target: Player) {
         this.target = target;
-        
+
         this.state = AI_State.Roaming;
     }
 
@@ -44,18 +46,18 @@ export default class EnemyController implements Component {
 
     getNextState(): AI_State {
         let state: AI_State;
-        
+
         if (this.isPlayerNear())
             state = AI_State.Attack;
         else if (this.isPlayerInRange())
-           state = AI_State.Chasing;
-        else if (this.isPlayerOutOfRange())
+            state = AI_State.Chasing;
+        else if (this.state === AI_State.Aborted || this.state === AI_State.DuringReturning)
+            state = AI_State.DuringReturning;
+        else if (this.isPlayerOutOfRange() && this.state === AI_State.Chasing)
             state = AI_State.Aborted;
         else
             state = AI_State.Roaming;
-        
-        console.log(state);
-        
+            
         return state;
     }
 
@@ -70,6 +72,8 @@ export default class EnemyController implements Component {
             this.onAttack(timeSinceLastFrame);
         else if (this.state === AI_State.Aborted)
             this.onAbort(timeSinceLastFrame);
+        else if (this.state === AI_State.DuringReturning)
+            this.onReturningToStart(timeSinceLastFrame);
     }
 
     private getDamage(timeSinceLastFrame: number): number {
@@ -79,21 +83,21 @@ export default class EnemyController implements Component {
     private isPlayerNear(): boolean {
         let player = this.target.sprite;
         let enemy = this.self.sprite;
-        
+
         return Phaser.Math.Distance.Between(player.x, player.y, enemy.x, enemy.y) < 50;
     }
 
     private isPlayerInRange(): boolean {
         let player = this.target.sprite;
         let enemy = this.self.sprite;
-        
+
         return Phaser.Math.Distance.Between(player.x, player.y, enemy.x, enemy.y) < 100;
     }
-    
+
     private isPlayerOutOfRange(): boolean {
         let player = this.target.sprite;
         let enemy = this.self.sprite;
-        
+
         return Phaser.Math.Distance.Between(player.x, player.y, enemy.x, enemy.y) < 300;
     }
 
@@ -121,9 +125,17 @@ export default class EnemyController implements Component {
         this.self.sprite.setVelocity(0, 0);
 
         // moves back to spawnpoint
-        // TODO: smoother back animation
-        this.self.sprite.body.x = this.startPos.x;
-        this.self.sprite.body.y = this.startPos.y;
-        this.self.sprite.anims.play('enemy-stay', true);
+        this.self.sprite.scene.physics.moveTo(this.self.sprite, this.startPos.x, this.startPos.y);
+        
+        // just play move animation
+        this.self.sprite.anims.play('enemy-attack', true);
+    }
+
+    private onReturningToStart(timeSinceLastFrame: number): void {
+        if (Phaser.Math.Distance.Between(this.self.sprite.x, this.self.sprite.y, this.startPos.x, this.startPos.y) <= 1) {
+            this.self.sprite.setVelocity(0, 0);
+            this.state = AI_State.Roaming;
+            this.self.sprite.anims.play('enemy-stay', true);
+        }
     }
 }
