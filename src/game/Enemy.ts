@@ -28,8 +28,4 @@ export default class Enemy extends Character {
     makeDead(): void {
         this.sprite.destroy();
     }
-
-    isDead(): boolean {
-        return !this.attribute.isAlive();
-    }
 }
