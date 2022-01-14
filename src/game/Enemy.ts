@@ -7,7 +7,7 @@ export default class Enemy extends Character {
     constructor(sprite: Phaser.Physics.Arcade.Sprite, player: Player) {
         super(sprite);
         this.start(sprite.scene);
-        this.addComponent(new EnemyController(player));
+        this.addComponent(new EnemyController(player, 200));
     }
 
     start(scene: Phaser.Scene): void {

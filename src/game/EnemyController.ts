@@ -31,10 +31,12 @@ export default class EnemyController implements Component {
     state: AI_State;
     spawnPoint: Phaser.Math.Vector2;
     endPos: Phaser.Math.Vector2;
+    maxRange: number;
 
-    constructor(target: Player) {
+    constructor(target: Player, maxRange: number) {
         this.target = target;
         this.state = AI_State.Roaming;
+        this.maxRange = maxRange;
     }
 
     debugName(): string {
@@ -97,15 +99,15 @@ export default class EnemyController implements Component {
     }
 
     private isPlayerNear(): boolean {
-        return this.self.isNearObject(this.target.sprite, 60);
+        return this.self.isNearObject(this.target.sprite, 40);
     }
 
     private isPlayerInRange(): boolean {
-        return this.self.isNearObject(this.target.sprite, 200);
+        return this.self.isNearObject(this.target.sprite, this.maxRange);
     }
 
     private isPlayerOutOfRange(): boolean {
-        return this.self.isNearObject(this.target.sprite, 300);
+        return this.self.isNearObject(this.target.sprite, this.maxRange + 100);
     }
 
     private isNearSpawnpoint(): boolean {
