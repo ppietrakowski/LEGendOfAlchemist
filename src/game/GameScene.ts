@@ -25,6 +25,8 @@ export default class GameScene extends Phaser.Scene {
         this.add.image(0, 0, 'islands');   
         this.player = new Player(this.physics.add.sprite(140, 100, 'player'));
         this.testEnemy = new Enemy(this.physics.add.sprite(0, 0, 'enemy'), this.player);
+
+        this.physics.add.collider(this.player.sprite, this.testEnemy.sprite);
     }
 
     update(time: number, delta: number): void {
