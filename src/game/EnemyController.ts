@@ -42,6 +42,7 @@ export default class EnemyController implements Component {
         this.self = character;
         this.startPos = new Phaser.Math.Vector2(character.sprite.x, character.sprite.y);
         this.self.sprite.setVelocity(0, 0);
+        character.sprite.scene.physics.add.collider(character.sprite, this.target.sprite);
     }
 
     getNextState(): AI_State {
