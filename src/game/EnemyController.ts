@@ -133,8 +133,6 @@ export default class EnemyController implements Component {
         this.endPos = getRoamingPosition(this.startPos);
 
         this.state = AI_State.DuringMove;
-
-        console.log(this.endPos);
         
         this.self.sprite.scene.physics.moveTo(this.self.sprite, this.endPos.x, this.endPos.y);
     }
