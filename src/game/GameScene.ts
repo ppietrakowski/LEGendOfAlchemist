@@ -15,7 +15,7 @@ export default class GameScene extends Phaser.Scene {
     preload(): void {
         this.load.image('background', 'assets/temp/background.png');
         this.load.image('islands', 'assets/temp/islands.png');
-        this.load.spritesheet('enemy', 'assets/temp/leg_shark.png', {frameWidth: 32, frameHeight: 32});
+        this.load.spritesheet('shark', 'assets/temp/shark_walk.png', {frameWidth: 32, frameHeight: 32});
         this.load.spritesheet('player', 'assets/player.png', { frameWidth: 32, frameHeight: 64 });
     }
 
@@ -24,7 +24,7 @@ export default class GameScene extends Phaser.Scene {
         islands.create(0, 0, 'background');
         this.add.image(0, 0, 'islands');   
         this.player = new Player(this.physics.add.sprite(140, 100, 'player'));
-        this.testEnemy = new Enemy(this.physics.add.sprite(0, 0, 'enemy'), this.player);
+        this.testEnemy = new Enemy('shark', this.physics.add.sprite(0, 0, 'shark'), this.player);
 
         
     }
