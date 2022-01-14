@@ -24,6 +24,7 @@ function getRoamingPosition(startPos: Phaser.Math.Vector2): Phaser.Math.Vector2 
 
     return new Phaser.Math.Vector2(startPos.x + v.x * range, startPos.y + v.y * range);
 }
+
 export default class EnemyController implements Component {
     target: Player;
     self: Enemy;
@@ -43,7 +44,6 @@ export default class EnemyController implements Component {
     getName(): string {
         return 'enemy-movement';
     }
-
 
     start(character: Character): void {
         this.self = character;
@@ -67,7 +67,7 @@ export default class EnemyController implements Component {
             state = AI_State.DuringMove;
         else
             state = AI_State.Roaming;
-        
+
         return state;
     }
 
@@ -133,7 +133,7 @@ export default class EnemyController implements Component {
         this.endPos = getRoamingPosition(this.startPos);
 
         this.state = AI_State.DuringMove;
-        
+
         this.self.sprite.scene.physics.moveTo(this.self.sprite, this.endPos.x, this.endPos.y);
     }
 
@@ -157,7 +157,7 @@ export default class EnemyController implements Component {
 
         // moves back to spawnpoint
         this.self.sprite.scene.physics.moveTo(this.self.sprite, this.startPos.x, this.startPos.y);
-        
+
         // just play move animation
         this.self.sprite.anims.play('enemy-attack', true);
     }

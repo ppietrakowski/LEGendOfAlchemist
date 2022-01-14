@@ -1,4 +1,5 @@
 
+import { Vector } from "matter";
 import Attribute from "./Attribute";
 import Component from "./Component";
 
@@ -45,5 +46,9 @@ export default abstract class Character {
 
     isDead(): boolean {
         return !this.attributes.isAlive();
+    }
+
+    isNear(point: Phaser.Math.Vector2, maxTolerance: number = 1): boolean {
+        return Phaser.Math.Distance.Between(point.x, point.y, this.sprite.x, this.sprite.y) <= maxTolerance;
     }
 }
