@@ -51,4 +51,8 @@ export default abstract class Character {
     isNear(point: Phaser.Math.Vector2, maxTolerance: number = 1): boolean {
         return Phaser.Math.Distance.Between(point.x, point.y, this.sprite.x, this.sprite.y) <= maxTolerance;
     }
+
+    isNearObject(gameobject: Phaser.GameObjects.Sprite, maxTolerance: number = 1): boolean {
+        return Phaser.Math.Distance.Between(gameobject.x, gameobject.y, this.sprite.x, this.sprite.y) <= maxTolerance;
+    }
 }

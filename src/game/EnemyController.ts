@@ -29,7 +29,7 @@ export default class EnemyController implements Component {
     target: Player;
     self: Enemy;
     state: AI_State;
-    startPos: Phaser.Math.Vector2;
+    spawnPoint: Phaser.Math.Vector2;
     endPos: Phaser.Math.Vector2;
 
     constructor(target: Player) {
@@ -47,7 +47,7 @@ export default class EnemyController implements Component {
 
     start(character: Character): void {
         this.self = character;
-        this.startPos = new Phaser.Math.Vector2(character.sprite.x, character.sprite.y);
+        this.spawnPoint = new Phaser.Math.Vector2(character.sprite.x, character.sprite.y);
         this.self.sprite.setVelocity(0, 0);
         character.sprite.scene.physics.add.collider(character.sprite, this.target.sprite);
     }
@@ -97,28 +97,19 @@ export default class EnemyController implements Component {
     }
 
     private isPlayerNear(): boolean {
-        let player = this.target.sprite;
-        let enemy = this.self.sprite;
-
-        return Phaser.Math.Distance.Between(player.x, player.y, enemy.x, enemy.y) < 60;
+        return this.self.isNearObject(this.target.sprite, 60);
     }
 
     private isPlayerInRange(): boolean {
-        let player = this.target.sprite;
-        let enemy = this.self.sprite;
-
-        return Phaser.Math.Distance.Between(player.x, player.y, enemy.x, enemy.y) < 200;
+        return this.self.isNearObject(this.target.sprite, 200);
     }
 
     private isPlayerOutOfRange(): boolean {
-        let player = this.target.sprite;
-        let enemy = this.self.sprite;
-
-        return Phaser.Math.Distance.Between(player.x, player.y, enemy.x, enemy.y) < 300;
+        return this.self.isNearObject(this.target.sprite, 300);
     }
 
     private isNearSpawnpoint(): boolean {
-        return Phaser.Math.Distance.Between(this.self.sprite.x, this.self.sprite.y, this.startPos.x, this.startPos.y) <= 1;
+        return this.self.isNear(this.spawnPoint, 1);
     }
 
     private switchToRoaming() {
@@ -130,7 +121,7 @@ export default class EnemyController implements Component {
     // TODO proper movement
     private onRoam(timeSinceLastFrame: number): void {
         this.self.sprite.setVelocity(0, 0);
-        this.endPos = getRoamingPosition(this.startPos);
+        this.endPos = getRoamingPosition(this.spawnPoint);
 
         this.state = AI_State.DuringMove;
 
@@ -156,7 +147,7 @@ export default class EnemyController implements Component {
         this.self.sprite.setVelocity(0, 0);
 
         // moves back to spawnpoint
-        this.self.sprite.scene.physics.moveTo(this.self.sprite, this.startPos.x, this.startPos.y);
+        this.self.sprite.scene.physics.moveTo(this.self.sprite, this.spawnPoint.x, this.spawnPoint.y);
 
         // just play move animation
         this.self.sprite.anims.play('enemy-attack', true);
@@ -168,7 +159,7 @@ export default class EnemyController implements Component {
     }
 
     private onMoving(timeSinceLastFrame: number): void {
-        if (Phaser.Math.Distance.Between(this.self.sprite.x, this.self.sprite.y, this.endPos.x, this.endPos.y) <= 2)
+        if (this.self.isNear(this.endPos, 2))
             this.switchToRoaming();
     }
 }
