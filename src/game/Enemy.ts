@@ -2,6 +2,7 @@ import Character from './Character'
 import Phaser from 'phaser'
 import Player from './Player';
 import EnemyController from './EnemyController';
+import HealthBar from './HealthBar';
 
 export default class Enemy extends Character {
     name: string;
@@ -11,7 +12,7 @@ export default class Enemy extends Character {
         this.name = name;
         this.start(sprite.scene);
         this.addComponent(new EnemyController(player, maxRange));
-        
+        this.addComponent(new HealthBar(player, 100));
     }
 
     start(scene: Phaser.Scene): void {

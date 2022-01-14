@@ -2,6 +2,7 @@ import Character from "./Character";
 import PlayerMovement from './PlayerMovement'
 import Attribute from './Attribute'
 import Effect from "./Effect";
+import HealthBar from './HealthBar'
 
 export default class Player extends Character {
 
@@ -9,6 +10,9 @@ export default class Player extends Character {
         super(sprite);
         this.addComponent(new Attribute(100, 50, 10));
         this.addComponent(new PlayerMovement(new Phaser.Math.Vector2(100, 100)));
+        this.addComponent(new HealthBar(this, 10));
+    
+
         sprite.setScrollFactor(1);
         sprite.scene.cameras.main.startFollow(sprite, true, 0.08, 0.08);
         this.start();
