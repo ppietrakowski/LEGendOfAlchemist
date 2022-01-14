@@ -114,11 +114,17 @@ export default class EnemyController implements Component {
         return this.self.isNear(this.spawnPoint, 1);
     }
 
-    private switchToRoaming() {
+    private switchToRoaming(): void {
         this.self.sprite.setVelocity(0, 0);
         this.state = AI_State.Roaming;
         this.self.sprite.anims.play('enemy-stay', true);
     }
+
+    private playMoveAnim(): void {
+
+    }
+
+
 
     // TODO proper movement
     private onRoam(timeSinceLastFrame: number): void {
@@ -127,6 +133,7 @@ export default class EnemyController implements Component {
 
         this.state = AI_State.DuringMove;
 
+        this.playMoveAnim();
         this.self.sprite.scene.physics.moveTo(this.self.sprite, this.endPos.x, this.endPos.y);
     }
 
