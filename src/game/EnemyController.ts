@@ -51,7 +51,7 @@ export default class EnemyController implements Component {
             state = AI_State.Attack;
         else if (this.isPlayerInRange())
             state = AI_State.Chasing;
-        else if (this.state === AI_State.Aborted || this.state === AI_State.DuringReturning)
+        else if (this.isReturningToStart())
             state = AI_State.DuringReturning;
         else if (this.isPlayerOutOfRange() && this.state === AI_State.Chasing)
             state = AI_State.Aborted;
@@ -76,8 +76,12 @@ export default class EnemyController implements Component {
             this.onReturningToStart(timeSinceLastFrame);
     }
 
+    private isReturningToStart() {
+        return this.state === AI_State.Aborted || this.state === AI_State.DuringReturning;
+    }
+
     private getDamage(timeSinceLastFrame: number): number {
-        return -timeSinceLastFrame * this.self.attribute.strength;
+        return -timeSinceLastFrame * this.self.attributes.strength;
     }
 
     private isPlayerNear(): boolean {
@@ -101,6 +105,16 @@ export default class EnemyController implements Component {
         return Phaser.Math.Distance.Between(player.x, player.y, enemy.x, enemy.y) < 300;
     }
 
+    private isNearSpawnpoint(): boolean {
+        return Phaser.Math.Distance.Between(this.self.sprite.x, this.self.sprite.y, this.startPos.x, this.startPos.y) <= 1;
+    }
+
+    private switchToRoaming() {
+        this.self.sprite.setVelocity(0, 0);
+        this.state = AI_State.Roaming;
+        this.self.sprite.anims.play('enemy-stay', true);
+    }
+
     // TODO proper movement
     private onRoam(timeSinceLastFrame: number): void {
         
@@ -112,7 +126,7 @@ export default class EnemyController implements Component {
         this.self.sprite.anims.play('enemy-attack', true);
 
         // just attack
-        this.target.attribute.addEffect(new Effect(this.getDamage(timeSinceLastFrame), 0, 0, 1));
+        this.target.attributes.addEffect(new Effect(this.getDamage(timeSinceLastFrame), 0, 0, 1));
     }
 
     private onChase(timeSinceLastFrame: number): void {
@@ -132,10 +146,7 @@ export default class EnemyController implements Component {
     }
 
     private onReturningToStart(timeSinceLastFrame: number): void {
-        if (Phaser.Math.Distance.Between(this.self.sprite.x, this.self.sprite.y, this.startPos.x, this.startPos.y) <= 1) {
-            this.self.sprite.setVelocity(0, 0);
-            this.state = AI_State.Roaming;
-            this.self.sprite.anims.play('enemy-stay', true);
-        }
+        if (this.isNearSpawnpoint())
+            this.switchToRoaming();
     }
 }

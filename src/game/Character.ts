@@ -37,13 +37,13 @@ export default abstract class Character {
             this.makeDead();
     }
 
-    get attribute(): Attribute {
+    get attributes(): Attribute {
         return this.getComponent<Attribute>('attributes');
     }
 
     abstract makeDead(): void;
 
     isDead(): boolean {
-        return !this.attribute.isAlive();
+        return !this.attributes.isAlive();
     }
 }

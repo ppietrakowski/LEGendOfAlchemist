@@ -1,4 +1,3 @@
 dead animation
 background music
 proper enemy wandering
-smoother back animation
