@@ -3,10 +3,7 @@ import Character from "./Character";
 import Component from "./Component";
 import Enemy from "./Enemy";
 import Player from './Player'
-import SimplexNoise from 'simplex-noise'
 import Effect from "./Effect";
-
-const noise = new SimplexNoise();
 
 enum AI_State {
     Roaming,
