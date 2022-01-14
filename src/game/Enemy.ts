@@ -6,19 +6,18 @@ import EnemyController from './EnemyController';
 export default class Enemy extends Character {
     name: string;
 
-    constructor(name: string, sprite: Phaser.Physics.Arcade.Sprite, player: Player) {
+    constructor(name: string, maxRange: number, sprite: Phaser.Physics.Arcade.Sprite, player: Player) {
         super(sprite);
         this.name = name;
         this.start(sprite.scene);
-        this.addComponent(new EnemyController(player, 200));
+        this.addComponent(new EnemyController(player, maxRange));
         
     }
 
     start(scene: Phaser.Scene): void {
         let anims = this.sprite.anims;
         let frameName = this.name;
-        console.log(frameName);
-        
+
         anims.create(
             {
                 key: frameName + '-stay',
