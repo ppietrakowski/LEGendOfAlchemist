@@ -8,7 +8,7 @@ export default class Player extends Character {
     constructor(sprite: Phaser.Physics.Arcade.Sprite) {
         super(sprite);
         this.addComponent(new Attribute(100, 50, 10));
-        this.addComponent(new PlayerMovement(new Phaser.Math.Vector2(10, 10)));
+        this.addComponent(new PlayerMovement(new Phaser.Math.Vector2(100, 100)));
         sprite.setScrollFactor(1);
         sprite.scene.cameras.main.startFollow(sprite, true, 0.08, 0.08);
         this.start();
