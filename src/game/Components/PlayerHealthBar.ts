@@ -1,3 +1,4 @@
+
 import HealthBar from './HealthBar';
 
 import Character from '../Entities/Character';
@@ -16,6 +17,7 @@ export default class PlayerHealthBar extends HealthBar {
                backgroundColor: '#880000', fontSize: '16px'});
             
         this.text.setScrollFactor(0);
+<<<<<<< HEAD:src/game/Components/PlayerHealthBar.ts
         this.hpMax = character.attributes.hp;
         this.self = this.player;
     }
@@ -23,5 +25,11 @@ export default class PlayerHealthBar extends HealthBar {
     update(timeSinceLastFrame: number): void {
         this.updateHealthOnIncrease();
         this.text.setText(Math.round(this.player.attributes.hp).toString() + "/" + this.hpMax);
+=======
+    }
+    
+    update(timeSinceLastFrame: number): void {
+        this.text.setText('HEALTH: ' + Math.round(this.player.attributes.hp).toString());
+>>>>>>> parent of 8c64d58 (Added hpMax stats):src/game/PlayerHealthBar.ts
     }
 }

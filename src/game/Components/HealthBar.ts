@@ -31,7 +31,7 @@ export default class HealthBar implements Component {
         let attributes = character.attributes;
         this.self = character;
         this.hpMax = this.self.attributes.hp;
-        
+
         this.text = character.sprite.scene.add.text(character.sprite.x, character.sprite.y - 2 * this.self.sprite.width, attributes.hp.toString(), {color: '#000000', backgroundColor: '#880000'});
         this.text.setVisible(false);
     }
@@ -47,9 +47,9 @@ export default class HealthBar implements Component {
             this.text.setVisible(false);
     }
 
+
     updateHealthOnIncrease(): void {
         if (this.self.attributes.hp >= this.hpMax)
             this.hpMax = this.self.attributes.hp;
     }
-    
 }
