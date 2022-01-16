@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 
 import Player from '../Entities/Player';
 import Enemy from '../Entities/Enemy';
+import PlayerCombat from '../Components/PlayerCombat';
 
 
 
@@ -37,6 +38,7 @@ export default class GameScene extends Phaser.Scene {
         for (let i = 0; i < 10; i++) {
             this.enemies.push(new Enemy(`shark`, 120, this.physics.add.sprite(Math.random() * 960, Math.random() * 540, 'shark'), this.player));
             this.addEnemyAnimation(this.enemies[i].sprite, 'shark');
+            this.player.getComponent<PlayerCombat>('player-combat').addEnemy(this.enemies[i]);
         }
     }
 

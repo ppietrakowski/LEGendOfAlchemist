@@ -32,6 +32,7 @@ export default class Effect implements Component {
     }
 
     update(timeSinceLastFrame: number): void {
+        console.log(this.debugName());
         this.timePassed += timeSinceLastFrame;
         let atrributes = this.character.attributes;
 

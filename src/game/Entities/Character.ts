@@ -14,6 +14,7 @@ export default abstract class Character {
     constructor(sprite: Phaser.Physics.Arcade.Sprite) {
         this.components = {};
         this.sprite = sprite;
+        sprite.setInteractive({pixelPerfect: true});
         this.addComponent(new Attribute(100, 20, 10));
     }
 
