@@ -21,9 +21,7 @@ export default class Enemy extends Character {
     }
 
     makeDead(): void {
-        
         this.getComponent<HealthBar>('hp-bar').hide();
-        
         this.sprite.destroy();
     }
 }
