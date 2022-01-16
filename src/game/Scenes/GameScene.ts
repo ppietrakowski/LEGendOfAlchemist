@@ -34,7 +34,6 @@ export default class GameScene extends Phaser.Scene {
         
         this.enemies = [];
 
-    
         for (let i = 0; i < 10; i++) {
             this.enemies.push(new Enemy(`shark`, 120, this.physics.add.sprite(Math.random() * 960, Math.random() * 540, 'shark'), this.player));
             this.addEnemyAnimation(this.enemies[i].sprite, 'shark');
@@ -45,7 +44,15 @@ export default class GameScene extends Phaser.Scene {
         this.player.update(delta / 1000);
         for (let i of this.enemies) {
             i.update(delta / 1000);
+
+            if (i.isDead()) {
+                i.makeDead();
+                this.deleteEnemy(i);
+            }
         }
+
+        if (this.player.isDead())
+            this.player.makeDead();
     }
 
     deleteEnemy(enemy: Enemy) {

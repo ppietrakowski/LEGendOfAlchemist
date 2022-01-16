@@ -35,8 +35,6 @@ export default abstract class Character {
         for (let i in this.components) {
             this.components[i].update(timePassedSinceLastFrame);
         }
-        if (this.isDead())
-            this.makeDead();
     }
 
     get attributes(): Attribute {
