@@ -1,7 +1,9 @@
 import Phaser from 'phaser'
-import Character from './Character'
+
 import Component from './Component'
-import Player from './Player';
+
+import Character from '../Entities/Character'
+import Player from '../Entities/Player';
 
 
 export default class HealthBar implements Component {

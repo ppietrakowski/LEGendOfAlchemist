@@ -1,5 +1,6 @@
+import Phaser from 'phaser';
 
-import Button from "./Button";
+import Button from '../Entities/Button';
 
 function onBack(this: Phaser.GameObjects.Sprite): void {
     this.scene.game.scene.switch('Credits', 'MainMenu');

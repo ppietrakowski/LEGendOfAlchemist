@@ -1,6 +1,7 @@
-import Character from "./Character";
-import HealthBar from "./HealthBar";
-import Player from "./Player";
+import HealthBar from './HealthBar';
+
+import Character from '../Entities/Character';
+import Player from '../Entities/Player';
 
 
 export default class PlayerHealthBar extends HealthBar {

@@ -1,7 +1,7 @@
+import Phaser from 'phaser';
 
-import Player from './Player'
-import Phaser, { Physics } from 'phaser';
-import Enemy from './Enemy'
+import Player from '../Entities/Player';
+import Enemy from '../Entities/Enemy';
 
 export default class GameScene extends Phaser.Scene {
 

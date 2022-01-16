@@ -1,7 +1,7 @@
+import Phaser from 'phaser';
 
-import { Vector } from "matter";
-import Attribute from "./Attribute";
-import Component from "./Component";
+import Attribute from "../Components/Attribute";
+import Component from "../Components/Component";
 
 interface ComponentDictionary {
     [key: string]: Component
@@ -17,6 +17,7 @@ export default abstract class Character {
         this.addComponent(new Attribute(100, 20, 10));
     }
 
+    // TODO: console.log should be called in debug mode only
     addComponent(component: Component): void {
         console.log(component.debugName());
         

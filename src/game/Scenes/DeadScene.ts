@@ -1,10 +1,12 @@
-import Phaser from "phaser";
-import Button from './Button'
+import Phaser from 'phaser'
+
+import Button from '../Entities/Button';
 
 function onButtonPressed(this: Phaser.GameObjects.Sprite): void {
     this.scene.game.scene.remove('GameScene');
     this.scene.game.scene.switch('DeadScene', 'MainMenu');
 }
+
 export default class DeadScene extends Phaser.Scene {
     back: Button;
 
