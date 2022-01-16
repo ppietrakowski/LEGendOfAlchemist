@@ -3,10 +3,14 @@ import Component from "./Component";
 
 
 export default class PlayerMovement implements Component {
-    input: Phaser.Types.Input.Keyboard.CursorKeys;
-    character: Character;
-    prevMovement: string;
+    private input: Phaser.Types.Input.Keyboard.CursorKeys;
+    private character: Character;
+    private prevMovement: string;
+    private speed: Phaser.Math.Vector2;
 
+    constructor(speed: Phaser.Math.Vector2) {
+        this.speed = speed;
+    }
 
     debugName(): string {
         return 'player-movement';
@@ -26,17 +30,17 @@ export default class PlayerMovement implements Component {
         timeSinceLastFrame *= 50;
 
         if (this.input.down.isDown) {
-            this.onMovement('front-run', 0, 100 * timeSinceLastFrame);
+            this.onMovement('front-run', 0, this.speed.y * timeSinceLastFrame);
             this.prevMovement = 'front';
         } else if (this.input.up.isDown) {
-            this.onMovement('back-run', 0, -100 * timeSinceLastFrame);
+            this.onMovement('back-run', 0, -this.speed.y * timeSinceLastFrame);
             this.prevMovement = 'back';
         } else if (this.input.left.isDown) {
-            this.onMovement('left-run', -100 * timeSinceLastFrame, 0);
+            this.onMovement('left-run', -this.speed.x * timeSinceLastFrame, 0);
             this.prevMovement = 'front';
         }
         else if (this.input.right.isDown) {
-            this.onMovement('right-run', 100 * timeSinceLastFrame, 0);
+            this.onMovement('right-run', this.speed.x * timeSinceLastFrame, 0);
             this.prevMovement = 'front';
         }
         else

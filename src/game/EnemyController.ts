@@ -24,16 +24,19 @@ function getRoamingPosition(startPos: Phaser.Math.Vector2): Phaser.Math.Vector2 
 
     return new Phaser.Math.Vector2(startPos.x + v.x * range, startPos.y + v.y * range);
 }
+
 export default class EnemyController implements Component {
     target: Player;
     self: Enemy;
     state: AI_State;
-    startPos: Phaser.Math.Vector2;
+    spawnPoint: Phaser.Math.Vector2;
     endPos: Phaser.Math.Vector2;
+    maxRange: number;
 
-    constructor(target: Player) {
+    constructor(target: Player, maxRange: number) {
         this.target = target;
         this.state = AI_State.Roaming;
+        this.maxRange = maxRange;
     }
 
     debugName(): string {
@@ -44,10 +47,9 @@ export default class EnemyController implements Component {
         return 'enemy-movement';
     }
 
-
     start(character: Character): void {
-        this.self = character;
-        this.startPos = new Phaser.Math.Vector2(character.sprite.x, character.sprite.y);
+        this.self = character as Enemy;
+        this.spawnPoint = new Phaser.Math.Vector2(character.sprite.x, character.sprite.y);
         this.self.sprite.setVelocity(0, 0);
         character.sprite.scene.physics.add.collider(character.sprite, this.target.sprite);
     }
@@ -67,7 +69,7 @@ export default class EnemyController implements Component {
             state = AI_State.DuringMove;
         else
             state = AI_State.Roaming;
-        
+
         return state;
     }
 
@@ -97,58 +99,76 @@ export default class EnemyController implements Component {
     }
 
     private isPlayerNear(): boolean {
-        let player = this.target.sprite;
-        let enemy = this.self.sprite;
-
-        return Phaser.Math.Distance.Between(player.x, player.y, enemy.x, enemy.y) < 60;
+        return this.self.isNearObject(this.target.sprite, 49);
     }
 
     private isPlayerInRange(): boolean {
-        let player = this.target.sprite;
-        let enemy = this.self.sprite;
-
-        return Phaser.Math.Distance.Between(player.x, player.y, enemy.x, enemy.y) < 200;
+        return this.self.isNearObject(this.target.sprite, this.maxRange);
     }
 
     private isPlayerOutOfRange(): boolean {
-        let player = this.target.sprite;
-        let enemy = this.self.sprite;
-
-        return Phaser.Math.Distance.Between(player.x, player.y, enemy.x, enemy.y) < 300;
+        return this.self.isNearObject(this.target.sprite, this.maxRange + 100);
     }
 
     private isNearSpawnpoint(): boolean {
-        return Phaser.Math.Distance.Between(this.self.sprite.x, this.self.sprite.y, this.startPos.x, this.startPos.y) <= 1;
+        return this.self.isNear(this.spawnPoint, 1);
     }
 
-    private switchToRoaming() {
+    private switchToRoaming(): void {
         this.self.sprite.setVelocity(0, 0);
         this.state = AI_State.Roaming;
-        this.self.sprite.anims.play('enemy-stay', true);
+        this.self.sprite.anims.play(`${this.self.name}-stay`, true);
     }
+
+    private onMoveUpOrDown(vel: Phaser.Math.Vector2): void {
+        if (vel.y < 0)
+        this.self.sprite.anims.play(`${this.self.name}-back-run`, true);
+        else
+        this.self.sprite.anims.play(`${this.self.name}-front-run`, true);
+    }
+    private playMoveAnim(): void {
+        let vel = this.self.sprite.body.velocity;
+
+        if (vel.x > 0) {
+            // left
+            if (vel.x > Math.abs(vel.y))
+                this.self.sprite.anims.play(`${this.self.name}-right-run`, true);
+            else
+                this.onMoveUpOrDown(vel);
+
+        } else {
+            // right
+            if (Math.abs(vel.x) > Math.abs(vel.y))
+                this.self.sprite.anims.play(`${this.self.name}-left-run`, true);
+            else
+                this.onMoveUpOrDown(vel);
+        }
+    }
+
+
 
     // TODO proper movement
     private onRoam(timeSinceLastFrame: number): void {
         this.self.sprite.setVelocity(0, 0);
-        this.endPos = getRoamingPosition(this.startPos);
+        this.endPos = getRoamingPosition(this.spawnPoint);
 
         this.state = AI_State.DuringMove;
-        
+
+        this.playMoveAnim();
         this.self.sprite.scene.physics.moveTo(this.self.sprite, this.endPos.x, this.endPos.y);
     }
 
     private onAttack(timeSinceLastFrame: number): void {
         // stops after chasing
         this.self.sprite.setVelocity(0, 0);
-        this.self.sprite.anims.play('enemy-attack', true);
 
         // just attack
         this.target.attributes.addEffect(new Effect(this.getDamage(timeSinceLastFrame), 0, 0, 1));
     }
 
     private onChase(timeSinceLastFrame: number): void {
-        this.self.sprite.anims.play('enemy-attack', true);
         this.self.sprite.scene.physics.moveToObject(this.self.sprite, this.target.sprite, 40);
+        this.playMoveAnim();
     }
 
     private onAbort(timeSinceLastFrame: number): void {
@@ -156,10 +176,10 @@ export default class EnemyController implements Component {
         this.self.sprite.setVelocity(0, 0);
 
         // moves back to spawnpoint
-        this.self.sprite.scene.physics.moveTo(this.self.sprite, this.startPos.x, this.startPos.y);
-        
+        this.self.sprite.scene.physics.moveTo(this.self.sprite, this.spawnPoint.x, this.spawnPoint.y);
+
         // just play move animation
-        this.self.sprite.anims.play('enemy-attack', true);
+        this.self.sprite.anims.play(`${this.self.name}-front-run`, true);
     }
 
     private onReturningToStart(timeSinceLastFrame: number): void {
@@ -168,7 +188,7 @@ export default class EnemyController implements Component {
     }
 
     private onMoving(timeSinceLastFrame: number): void {
-        if (Phaser.Math.Distance.Between(this.self.sprite.x, this.self.sprite.y, this.endPos.x, this.endPos.y) <= 2)
+        if (this.self.isNear(this.endPos, 2))
             this.switchToRoaming();
     }
 }

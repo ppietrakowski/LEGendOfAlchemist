@@ -1,9 +1,10 @@
-import BootScene from './game/BootScene';
-import MainMenu from './game/MainMenu'
-import Credits from './game/Credits'
-import GameScene from './game/GameScene'
 import Phaser from 'phaser';
-import DeadScene from './game/DeadScene';
+
+import BootScene from './game/Scenes/BootScene';
+import MainMenu from './game/Scenes/MainMenu'
+import Credits from './game/Scenes/Credits'
+import GameScene from './game/Scenes/GameScene'
+import DeadScene from './game/Scenes/DeadScene';
 
 class Game extends Phaser.Game {
 
@@ -38,7 +39,7 @@ class Game extends Phaser.Game {
         this.scene.add('MainMenu', MainMenu, false);
         this.scene.add('Credits', Credits, false);
         this.scene.add('DeadScene', DeadScene, false);
-
+        this.scene.add('GameScene', GameScene, false);
     }
 }
 

@@ -27,13 +27,12 @@ export default class Effect implements Component {
     }
 
     start(character: Character): void {
-        console.log(`Effect ${this.debugName()} on ${character}`);
         this.character = character;
     }
 
     update(timeSinceLastFrame: number): void {
         this.timePassed += timeSinceLastFrame;
-        let atrributes = this.character.getComponent<Attribute>('attributes');
+        let atrributes = this.character.attributes;
 
         atrributes.hp += this.deltaHp * timeSinceLastFrame;
         atrributes.wisdom += this.deltaWisdom * timeSinceLastFrame;
