@@ -15,9 +15,12 @@ export default class PlayerHealthBar extends HealthBar {
                backgroundColor: '#880000', fontSize: '16px'});
             
         this.text.setScrollFactor(0);
+        this.hpMax = character.attributes.hp;
+        this.self = this.player;
     }
     
     update(timeSinceLastFrame: number): void {
-        this.text.setText('HEALTH: ' + Math.round(this.player.attributes.hp).toString());
+        this.updateHealthOnIncrease();
+        this.text.setText(Math.round(this.player.attributes.hp).toString() + "/" + this.hpMax);
     }
 }
