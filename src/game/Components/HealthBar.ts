@@ -52,4 +52,7 @@ export default class HealthBar implements Component {
             this.hpMax = this.self.attributes.hp;
     }
     
+    hide(): void {
+        this.text.setVisible(false);
+    }
 }
