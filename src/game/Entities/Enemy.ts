@@ -18,46 +18,6 @@ export default class Enemy extends Character {
     }
 
     start(scene: Phaser.Scene): void {
-        let anims = this.sprite.anims;
-        let frameName = this.name;
-
-        anims.create(
-            {
-                key: frameName + '-stay',
-                frames: anims.generateFrameNumbers(frameName, { start: 0, end: 0 }),
-                frameRate: 5
-            });
-
-        anims.create(
-            {
-                key: frameName + '-front-run',
-                frames: anims.generateFrameNumbers(frameName, { start: 0, end: 3 }),
-                frameRate: 5
-            });
-
-            anims.create(
-                {
-                    key: frameName + '-right-run',
-                    frames: anims.generateFrameNumbers(frameName, { start: 8, end: 11 }),
-                    repeat: -1,
-                    frameRate: 5
-                });
-
-        anims.create(
-            {
-                key: frameName + '-left-run',
-                frames: anims.generateFrameNumbers(frameName, { start: 12, end: 15 }),
-                repeat: -1,
-                frameRate: 5
-            });
-
-        anims.create(
-            {
-                key: frameName + '-back-run',
-                frames: anims.generateFrameNumbers(frameName, { start: 4, end: 7 }),
-                repeat: -1,
-                frameRate: 5
-            });
     }
 
     makeDead(): void {
