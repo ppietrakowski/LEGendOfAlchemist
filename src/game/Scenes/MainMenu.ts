@@ -1,9 +1,10 @@
 
-import Phaser from 'phaser';
+import Button from './Button'
+import GameScene from "./GameScene";
 
-import Button from '../Entities/Button';
 
 function onMainGameClicked(this: Phaser.GameObjects.Sprite): void {
+    this.scene.game.scene.add('GameScene', GameScene, false);
     this.scene.game.scene.switch('MainMenu', 'GameScene');
 }
 
@@ -31,5 +32,4 @@ export default class MainMenu extends Phaser.Scene {
         this.buttons.push(new Button(this, 960 / 2 - 30, 95 + 120, 'play', onMainGameClicked));
         this.buttons.push(new Button(this, 960 / 2 - 30, 95 + 255, 'credits', onCreditsClicked));
     }
-
 }

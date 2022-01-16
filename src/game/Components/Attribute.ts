@@ -1,7 +1,7 @@
-import Component from './Component';
-import Effect from './Effect';
+import Character from "./Character";
+import Component from "./Component";
+import Effect from "./Effect";
 
-import Character from '../Entities/Character';
 
 export default class Attribute implements Component {
     hp: number;
@@ -24,18 +24,19 @@ export default class Attribute implements Component {
     getName(): string {
         return 'attributes';
     }
-
     start(character: Character): void {
         console.log(this);
         this.character = character;
     }
-
+    
     update(timeSinceLastFrame: number): void {
         for (let effect of this.effects) {
             effect.update(timeSinceLastFrame);
 
-            if (effect.hasTimePassed())
+            if (effect.hasTimePassed()) {
+
                 this.deleteEffect(effect);
+            }
         }
     }
 
@@ -50,8 +51,12 @@ export default class Attribute implements Component {
 
     private deleteEffect(effect: Effect): void {
         for (let i = 0; i < this.effects.length; i++) {
-            if (this.effects[i] === effect)
+
+            if (this.effects[i] === effect) {
+
                 this.effects.splice(i, 1);
+            }
+
         }
     }
 }

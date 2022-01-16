@@ -1,10 +1,7 @@
-import Phaser from 'phaser'
-
-import Character from './Character'
-
-import PlayerMovement from '../Components/PlayerMovement'
-import Attribute from '../Components/Attribute'
-import PlayerHealthBar from '../Components/PlayerHealthBar'
+import Character from "./Character"
+import PlayerMovement from './PlayerMovement'
+import Attribute from './Attribute'
+import PlayerHealthBar from './PlayerHealthBar'
 
 export default class Player extends Character {
 

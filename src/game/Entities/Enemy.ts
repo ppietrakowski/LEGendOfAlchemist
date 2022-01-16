@@ -1,10 +1,8 @@
-import Phaser from 'phaser'
-
 import Character from './Character'
+import Phaser from 'phaser'
 import Player from './Player';
-
-import EnemyController from '../Components/EnemyController';
-import HealthBar from '../Components/HealthBar';
+import EnemyController from './EnemyController';
+import HealthBar from './HealthBar';
 
 export default class Enemy extends Character {
     name: string;

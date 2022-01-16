@@ -1,4 +1,3 @@
-import Phaser from 'phaser';
 
 export default class Button extends Phaser.GameObjects.Sprite {
     private onClick: Function;
@@ -8,16 +7,12 @@ export default class Button extends Phaser.GameObjects.Sprite {
         this.onClick = onClick;
 
         this.setInteractive({ pixelPerfect: true });
-        this.addEvents();
-
-        this.setVisible(true);
-        scene.add.existing(this);
-    }
-
-    private addEvents() {
         this.on(Phaser.Input.Events.POINTER_OVER, () => this.setTint(0x787878));
         this.on(Phaser.Input.Events.POINTER_OUT, () => this.clearTint());
         this.on(Phaser.Input.Events.POINTER_UP, this.onClick);
+
+        this.setVisible(true);
+        scene.add.existing(this);
     }
 
 }

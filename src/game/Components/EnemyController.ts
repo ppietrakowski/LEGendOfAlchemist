@@ -1,10 +1,9 @@
-import Phaser from 'phaser';
-import Component from './Component';
-import Effect from './Effect';
-
-import Character from '../Entities/Character';
-import Enemy from '../Entities/Enemy';
-import Player from '../Entities/Player'
+import Phaser from "phaser";
+import Character from "./Character";
+import Component from "./Component";
+import Enemy from "./Enemy";
+import Player from './Player'
+import Effect from "./Effect";
 
 enum AI_State {
     Roaming,
@@ -55,24 +54,7 @@ export default class EnemyController implements Component {
         character.sprite.scene.physics.add.collider(character.sprite, this.target.sprite);
     }
 
-    update(timeSinceLastFrame: number): void {
-        this.state = this.getNextState();
-
-        if (this.state === AI_State.DuringMove)
-            this.onMoving(timeSinceLastFrame);
-        if (this.state === AI_State.Roaming)
-            this.onRoam(timeSinceLastFrame);
-        else if (this.state === AI_State.Chasing)
-            this.onChase(timeSinceLastFrame);
-        else if (this.state === AI_State.Attack)
-            this.onAttack(timeSinceLastFrame);
-        else if (this.state === AI_State.Aborted)
-            this.onAbort(timeSinceLastFrame);
-        else if (this.state === AI_State.DuringReturning)
-            this.onReturningToStart(timeSinceLastFrame);
-    }
-
-    private getNextState(): AI_State {
+    getNextState(): AI_State {
         let state: AI_State;
 
         if (this.isPlayerNear())
@@ -89,6 +71,23 @@ export default class EnemyController implements Component {
             state = AI_State.Roaming;
 
         return state;
+    }
+
+    update(timeSinceLastFrame: number): void {
+        this.state = this.getNextState();
+
+        if (this.state === AI_State.DuringMove)
+            this.onMoving(timeSinceLastFrame);
+        if (this.state === AI_State.Roaming)
+            this.onRoam(timeSinceLastFrame);
+        else if (this.state === AI_State.Chasing)
+            this.onChase(timeSinceLastFrame);
+        else if (this.state === AI_State.Attack)
+            this.onAttack(timeSinceLastFrame);
+        else if (this.state === AI_State.Aborted)
+            this.onAbort(timeSinceLastFrame);
+        else if (this.state === AI_State.DuringReturning)
+            this.onReturningToStart(timeSinceLastFrame);
     }
 
     private isReturningToStart() {
@@ -123,31 +122,30 @@ export default class EnemyController implements Component {
 
     private onMoveUpOrDown(vel: Phaser.Math.Vector2): void {
         if (vel.y < 0)
-            this.self.sprite.anims.play(`${this.self.name}-back-run`, true);
+        this.self.sprite.anims.play(`${this.self.name}-back-run`, true);
         else
-            this.self.sprite.anims.play(`${this.self.name}-front-run`, true);
+        this.self.sprite.anims.play(`${this.self.name}-front-run`, true);
     }
-
-    private onDirected(condition: boolean, vel: Phaser.Math.Vector2, animName: string): void {
-        // left
-        if (condition)
-            this.self.sprite.anims.play(animName, true);
-        else
-            this.onMoveUpOrDown(vel);
-    }
-
-    private isDirectedInRightSide(): boolean {
-        return this.self.sprite.body.velocity.x > 0;
-    }
-
     private playMoveAnim(): void {
         let vel = this.self.sprite.body.velocity;
 
-        if (this.isDirectedInRightSide())
-            this.onDirected(vel.x > Math.abs(vel.y), vel, `${this.self.name}-right-run`);
-        else
-            this.onDirected(Math.abs(vel.x) > Math.abs(vel.y), vel, `${this.self.name}-left-run`);
+        if (vel.x > 0) {
+            // left
+            if (vel.x > Math.abs(vel.y))
+                this.self.sprite.anims.play(`${this.self.name}-right-run`, true);
+            else
+                this.onMoveUpOrDown(vel);
+
+        } else {
+            // right
+            if (Math.abs(vel.x) > Math.abs(vel.y))
+                this.self.sprite.anims.play(`${this.self.name}-left-run`, true);
+            else
+                this.onMoveUpOrDown(vel);
+        }
     }
+
+
 
     // TODO proper movement
     private onRoam(timeSinceLastFrame: number): void {
