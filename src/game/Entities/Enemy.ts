@@ -5,6 +5,9 @@ import Player from './Player';
 
 import EnemyController from '../Components/EnemyController';
 import HealthBar from '../Components/HealthBar';
+import Ingredient from './Ingredient';
+import Effect from '../Components/Effect';
+import {Items, getItemWithRandomEffect} from '../Entities/Items'
 
 export default class Enemy extends Character {
     name: string;
@@ -22,6 +25,8 @@ export default class Enemy extends Character {
 
     makeDead(): void {
         this.getComponent<HealthBar>('hp-bar').hide();
+        var i: Ingredient = getItemWithRandomEffect(this.sprite.x, this.sprite.y, this.sprite.scene);
+        i.onUse(this.getComponent<EnemyController>('enemy-movement').target);
         this.sprite.destroy();
     }
 }

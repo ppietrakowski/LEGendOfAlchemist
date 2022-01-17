@@ -4,7 +4,8 @@ import Player from '../Entities/Player';
 import Enemy from '../Entities/Enemy';
 import PlayerCombat from '../Components/PlayerCombat';
 
-
+import Ingredient from '../Entities/Ingredient'
+import Effect from '../Components/Effect';
 
 export default class GameScene extends Phaser.Scene {
 
