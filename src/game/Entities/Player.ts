@@ -6,11 +6,14 @@ import PlayerMovement from '../Components/PlayerMovement'
 import Attribute from '../Components/Attribute'
 import PlayerHealthBar from '../Components/PlayerHealthBar'
 import PlayerCombat from '../Components/PlayerCombat'
+import GameScene from '../Scenes/GameScene'
 
 export default class Player extends Character {
+    gameScene: GameScene;
 
-    constructor(sprite: Phaser.Physics.Arcade.Sprite) {
+    constructor(scene: GameScene, sprite: Phaser.Physics.Arcade.Sprite) {
         super(sprite);
+        this.gameScene = scene;
         this.addComponent(new Attribute(100, 50, 10));
         this.addComponent(new PlayerMovement(new Phaser.Math.Vector2(100, 100)));
         this.addComponent(new PlayerHealthBar(this));

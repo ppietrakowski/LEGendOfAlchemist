@@ -1,10 +1,11 @@
 import Character from '../Entities/Character';
+import Player from '../Entities/Player';
 
 import Component from './Component';
 
 export default class PlayerMovement implements Component {
     private input: Phaser.Types.Input.Keyboard.CursorKeys;
-    private character: Character;
+    private character: Player;
     private prevMovement: string;
     private speed: Phaser.Math.Vector2;
 
@@ -22,7 +23,7 @@ export default class PlayerMovement implements Component {
 
     start(character: Character): void {
         this.prevMovement = 'front';
-        this.character = character;
+        this.character = character as Player;
         this.input = character.sprite.scene.input.keyboard.createCursorKeys();
     }
 
