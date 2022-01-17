@@ -13,11 +13,6 @@ export function getRandomItemIndex() {
     return index;
 }
 
-/**
- * @param {number} x
- * @param {number} y
- * @param {Phaser.Scene} scene
- */
 export function getItemWithRandomEffect(x, y, scene) {
     let index = getRandomItemIndex();
     let hp = Math.ceil(Math.random() * (10 + 10) - 10);
