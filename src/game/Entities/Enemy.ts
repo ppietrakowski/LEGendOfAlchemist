@@ -7,7 +7,50 @@ import EnemyController from '../Components/EnemyController';
 import HealthBar from '../Components/HealthBar';
 import Ingredient from './Ingredient';
 import Effect from '../Components/Effect';
-import {Items, getItemWithRandomEffect} from '../Entities/Items'
+import { Items, getItemWithRandomEffect } from '../Entities/Items'
+
+function addEnemyAnimation(enemy: Phaser.Physics.Arcade.Sprite, enemyName: string) {
+    let frameName = enemyName;
+    let anims = enemy.anims;
+
+    anims.create(
+        {
+            key: frameName + '-stay',
+            frames: anims.generateFrameNumbers(frameName, { start: 0, end: 0 }),
+            frameRate: 5
+        });
+
+    anims.create(
+        {
+            key: frameName + '-front-run',
+            frames: anims.generateFrameNumbers(frameName, { start: 0, end: 3 }),
+            frameRate: 5
+        });
+
+    anims.create(
+        {
+            key: frameName + '-right-run',
+            frames: anims.generateFrameNumbers(frameName, { start: 8, end: 11 }),
+            repeat: -1,
+            frameRate: 5
+        });
+
+    anims.create(
+        {
+            key: frameName + '-left-run',
+            frames: anims.generateFrameNumbers(frameName, { start: 12, end: 15 }),
+            repeat: -1,
+            frameRate: 5
+        });
+
+    anims.create(
+        {
+            key: frameName + '-back-run',
+            frames: anims.generateFrameNumbers(frameName, { start: 4, end: 7 }),
+            repeat: -1,
+            frameRate: 5
+        });
+}
 
 export default class Enemy extends Character {
     name: string;
@@ -18,6 +61,7 @@ export default class Enemy extends Character {
         this.start(sprite.scene);
         this.addComponent(new EnemyController(player, maxRange));
         this.addComponent(new HealthBar(player, 100));
+        addEnemyAnimation(this.sprite, name);
     }
 
     start(scene: Phaser.Scene): void {

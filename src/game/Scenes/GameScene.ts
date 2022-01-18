@@ -46,7 +46,6 @@ export default class GameScene extends Phaser.Scene {
 
         for (let i = 0; i < 10; i++) {
             this.enemies.push(new Enemy(`shark`, 120, this.physics.add.sprite(Math.random() * 960, Math.random() * 540, 'shark'), this.player));
-            this.addEnemyAnimation(this.enemies[i].sprite, 'shark');
             this.player.getComponent<PlayerCombat>('player-combat').addEnemy(this.enemies[i]);
             this.physics.add.collider(this.enemies[i].sprite, p);
         }
@@ -76,48 +75,5 @@ export default class GameScene extends Phaser.Scene {
             if (this.enemies[i] === enemy)
                 this.enemies.splice(i, 1);
         }    
-    }
-
-    addEnemyAnimation(enemy: Phaser.Physics.Arcade.Sprite, enemyName: string) {
-        let frameName = enemyName;
-        let anims = enemy.anims;
-
-        anims.create(
-            {
-                key: frameName + '-stay',
-                frames: anims.generateFrameNumbers(frameName, { start: 0, end: 0 }),
-                frameRate: 5
-            });
-
-        anims.create(
-            {
-                key: frameName + '-front-run',
-                frames: anims.generateFrameNumbers(frameName, { start: 0, end: 3 }),
-                frameRate: 5
-            });
-
-            anims.create(
-                {
-                    key: frameName + '-right-run',
-                    frames: anims.generateFrameNumbers(frameName, { start: 8, end: 11 }),
-                    repeat: -1,
-                    frameRate: 5
-                });
-
-        anims.create(
-            {
-                key: frameName + '-left-run',
-                frames: anims.generateFrameNumbers(frameName, { start: 12, end: 15 }),
-                repeat: -1,
-                frameRate: 5
-            });
-
-        anims.create(
-            {
-                key: frameName + '-back-run',
-                frames: anims.generateFrameNumbers(frameName, { start: 4, end: 7 }),
-                repeat: -1,
-                frameRate: 5
-            });
     }
 }
