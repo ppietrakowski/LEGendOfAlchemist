@@ -39,12 +39,16 @@ export default class HealthBar implements Component {
     update(timeSinceLastFrame: number): void {
         this.updateHealthOnIncrease();
 
-        if (this.self.isNearObject(this.player.sprite, this.range)) {
-            this.text.setVisible(true);
-            this.text.setPosition(this.self.sprite.x, this.self.sprite.y - 1.5 * this.self.sprite.width);
-            this.text.setText(Math.round(this.self.attributes.hp).toString() + "/" + this.hpMax);
-        } else
-            this.text.setVisible(false);
+        if (this.self.isNearObject(this.player.sprite, this.range))
+            this.show();
+        else
+            this.hide();
+    }
+
+    private show(): void {
+        this.text.setVisible(true);
+        this.text.setPosition(this.self.sprite.x, this.self.sprite.y - 1.5 * this.self.sprite.width);
+        this.text.setText(Math.round(this.self.attributes.hp).toString() + "/" + Math.round(this.hpMax));
     }
 
     updateHealthOnIncrease(): void {
