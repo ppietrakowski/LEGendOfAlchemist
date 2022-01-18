@@ -25,10 +25,10 @@ export default class GameScene extends Phaser.Scene {
         this.load.spritesheet('shark', 'assets/temp/shark_walk.png', {frameWidth: 32, frameHeight: 32});
         this.load.spritesheet('player', 'assets/player.png', { frameWidth: 32, frameHeight: 64 });
         this.load.tilemapTiledJSON('island', 'assets/tilemap/main-island.json');
-        this.load.image('item-bkg', 'assets/temp/item_bkg.png')
         this.load.image('cherries', 'assets/items/cherries.png');
         this.load.image('orange', 'assets/items/orange.png');
         this.load.image('red_flower', 'assets/items/red_flower.png');
+        this.load.image('throwable', 'assets/items/potion.png');
     }
 
     create(): void {
