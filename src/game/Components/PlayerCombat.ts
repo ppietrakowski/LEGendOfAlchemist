@@ -26,25 +26,28 @@ export default class PlayerCombat implements Component {
     }
 
     addEnemy(enemy: Enemy): void {
-        
-        
         enemy.sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, (pointer: Phaser.Input.Pointer) => {
-            let throwable = enemy.sprite.scene.add.image(this.player.sprite.x, this.player.sprite.y, 'potion');
-            let duration = 100 * Phaser.Math.Distance.Between(enemy.sprite.x, enemy.sprite.y, this.player.sprite.x, this.player.sprite.y) * this.timeSinceLastFrame;
-
-            throwable.setRotation(Math.PI / 360)
-            throwable.scene.tweens.add({
-                targets: [throwable],
-                ease: 'linear',
-                duration: duration,
-                x: enemy.sprite.x,
-                y: enemy.sprite.y,
-                onComplete: () => { enemy.attributes.addEffect(new Effect(100 * this.timeSinceLastFrame * -this.player.attributes.strength, 0, 0, 0.5)); throwable.destroy(); } 
-            })
+            this.onThrowAnything(enemy);
         });
     }
 
     update(timeSinceLastFrame: number): void {
         this.timeSinceLastFrame = timeSinceLastFrame;
+    }
+
+    onThrowAnything(enemy: Enemy) {
+
+        let throwable = enemy.sprite.scene.add.image(this.player.sprite.x, this.player.sprite.y, 'potion');
+        let duration = 100 * Phaser.Math.Distance.Between(enemy.sprite.x, enemy.sprite.y, this.player.sprite.x, this.player.sprite.y) * this.timeSinceLastFrame;
+
+        throwable.setRotation(Math.PI / 360)
+        throwable.scene.tweens.add({
+            targets: [throwable],
+            ease: 'linear',
+            duration: duration,
+            x: enemy.sprite.x,
+            y: enemy.sprite.y,
+            onComplete: () => { enemy.attributes.addEffect(new Effect(100 * this.timeSinceLastFrame * -this.player.attributes.strength, 0, 0, 0.5)); throwable.destroy(); }
+        });
     }
 }

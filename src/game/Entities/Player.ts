@@ -34,7 +34,7 @@ export default class Player extends Character {
         this.sprite.anims.play('front', false);
 
         this.sprite.scaleX = 1.5;
-        this.sprite.scaleY = 1.5;   
+        this.sprite.scaleY = 1.5;
     }
 
     makeDead(): void {

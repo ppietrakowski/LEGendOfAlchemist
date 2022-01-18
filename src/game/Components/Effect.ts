@@ -28,11 +28,12 @@ export default class Effect implements Component {
     }
 
     start(character: Character): void {
+        console.log(this.debugName());
         this.character = character;
     }
 
     update(timeSinceLastFrame: number): void {
-        console.log(this.debugName());
+        
         this.timePassed += timeSinceLastFrame;
         let atrributes = this.character.attributes;
 
