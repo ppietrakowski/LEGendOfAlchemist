@@ -5,12 +5,20 @@ import Item from "./Item";
 export const Items = [
     'cherries',
     'orange',
-    'red_flower'
+    'red_flower',
+    'potion'
 ]
 
 export function getRandomItemIndex() {
     let index = Math.round( Math.random() * (Items.length - 1) );
     return index;
+}
+
+export function loadItems(scene) {
+    for (let i of Items) {
+        console.warn(`assets/items/${i}.png`);
+        scene.load.image(i, `assets/items/${i}.png`);
+    }
 }
 
 export function getItemWithRandomEffect(x, y, scene) {

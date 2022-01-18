@@ -29,7 +29,7 @@ export default class PlayerCombat implements Component {
         
         
         enemy.sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, (pointer: Phaser.Input.Pointer) => {
-            let throwable = enemy.sprite.scene.add.image(this.player.sprite.x, this.player.sprite.y, 'throwable');
+            let throwable = enemy.sprite.scene.add.image(this.player.sprite.x, this.player.sprite.y, 'potion');
             let duration = 100 * Phaser.Math.Distance.Between(enemy.sprite.x, enemy.sprite.y, this.player.sprite.x, this.player.sprite.y) * this.timeSinceLastFrame;
 
             throwable.setRotation(Math.PI / 360)
