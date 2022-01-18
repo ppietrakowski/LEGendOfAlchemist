@@ -26,7 +26,7 @@ export default class PlayerCombat implements Component {
 
     addEnemy(enemy: Enemy): void {
         enemy.sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, (pointer: Phaser.Input.Pointer) => {
-           enemy.attributes.addEffect(new Effect(10 * this.timeSinceLastFrame * -this.player.attributes.strength, 0, 0, 0.5)); 
+           enemy.attributes.addEffect(new Effect(100 * this.timeSinceLastFrame * -this.player.attributes.strength, 0, 0, 0.5)); 
         });
     }
 

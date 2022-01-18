@@ -3,14 +3,11 @@ import Character from '../Entities/Character';
 import Component from './Component'
 import Item from './../Entities/Item'
 
-interface Quantify {
-    item: Item;
-    quantify: number;
-}
 
 export default class Inventory implements Component {
-    items: Array<Quantify>;
+    items: Array<Item>;
     owner: Character;
+    hasItemsUpdate: boolean = false;
 
     debugName(): string {
         return this.getName();
@@ -25,20 +22,26 @@ export default class Inventory implements Component {
         this.items = [];
     }
 
-    addItem(item: Item) {
-        var found: boolean = false;
+    getItem(index: number): Item {
+        return this.items[index];
+    }
 
-        this.items.forEach((p: Quantify) => { if (p.item === item && !found) { found = true; p.quantify++;}})
+    addItem(item: Item) {
+            this.items.push(item);
+            this.hasItemsUpdate = true;
     }
 
     deleteItem(index: number) {
         for (let i = 0; i < this.items.length; i++) {
-            if (i === index)
+            if (i === index) {
+                let item = this.items[i];
+                item.sprite.destroy();
                 this.items.splice(i, 1);
+            }
         }
+        this.hasItemsUpdate = true;
     }
 
     update(timeSinceLastFrame: number): void {
-
     }
 }
