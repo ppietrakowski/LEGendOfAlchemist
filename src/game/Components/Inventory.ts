@@ -8,7 +8,7 @@ import InventoryUi from './InventoryUi'
 export default class Inventory implements Component {
     items: Array<Item>;
     owner: Character;
-    hasItemsUpdate: boolean = true;
+    hasItemsUpdate: boolean = false;
     ui: InventoryUi;
     keyI: Phaser.Input.Keyboard.Key;
 

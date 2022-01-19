@@ -15,7 +15,6 @@ export default class Ingredient extends Item {
         this.sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, (pointer: Phaser.Input.Pointer) => {
            character.getComponent<Inventory>('inventory').addItem(this);
            console.log("ADDED TO INVENTORY " + character.getComponent<Inventory>('inventory'));
-           //this.sprite.visible = false;
         });
     }
 

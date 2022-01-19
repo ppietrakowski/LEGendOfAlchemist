@@ -9,12 +9,9 @@ export default class InventoryUi implements Component {
     inventory: Inventory;
     background: Phaser.GameObjects.Sprite;
     container: Phaser.GameObjects.Container;
-    maxRow: number = 4;
-    currentRow: number = 0;
-    heigth: number;
-
+    maxRow: number = 5;
     visible: boolean;
-
+    title: Phaser.GameObjects.Text;
 
     constructor(inventory: Inventory) {
         this.inventory = inventory;
@@ -33,7 +30,6 @@ export default class InventoryUi implements Component {
         this.container.add(child);
         this.updatePosition();
         child.setVisible(true);
-        child.setScrollFactor(0);
     }
 
     deleteChild(child: Phaser.GameObjects.Sprite) {
@@ -45,10 +41,12 @@ export default class InventoryUi implements Component {
 
 
         this.container = character.sprite.scene.add.container(50, 60);
-        this.container.add(character.sprite.scene.add.sprite(50, 60, 'inventory-background').setOrigin(0, 0));
-        this.container.setScrollFactor(0);
+        this.background = character.sprite.scene.add.sprite(0, 60, 'inventory-background').setOrigin(0, 0);
         
-        this.heigth = 60;
+        this.container.add(this.background);
+        this.title = character.sprite.scene.add.text(20, 60, 'Inventory');
+        this.container.add(this.title);
+        this.container.setScrollFactor(0);
     }
 
     update(timeSinceLastFrame: number): void {
@@ -61,16 +59,22 @@ export default class InventoryUi implements Component {
     }
 
     updatePosition() {
-        this.currentRow = 0;
-        this.heigth = 60;
-        this.container.each((child: Phaser.GameObjects.Sprite) => {
-            child.setPosition(50 + 16 * this.currentRow, this.heigth).setOrigin(0, 0);
+        var currentRow = 0;
+        var heigth = 65;
 
-            ++this.currentRow;
-            if (this.currentRow === this.maxRow) {
-                this.heigth += 16;
-            }
+        this.container.each((child: Phaser.GameObjects.GameObject) => {
+            if (child != this.background && child != this.title) {
+                var ch = child as Phaser.GameObjects.Sprite;
+                ch.setPosition(5 + 24 * currentRow, heigth);
+                ++currentRow;
+                if (currentRow === this.maxRow) {
+                    heigth += 16;
+                    currentRow = 0;
+                }
+            } else if (child === this.title)
+                heigth += 16;
         });
+        this.inventory.hasItemsUpdate = false;
     }
 
 
