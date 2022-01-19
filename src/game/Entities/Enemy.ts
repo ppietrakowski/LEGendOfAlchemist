@@ -8,6 +8,7 @@ import HealthBar from '../Components/HealthBar';
 import Ingredient from './Ingredient';
 import Effect from '../Components/Effect';
 import { Items, getItemWithRandomEffect } from '../Entities/Items'
+import Inventory from '../Components/Inventory';
 
 function addEnemyAnimation(enemy: Phaser.Physics.Arcade.Sprite, enemyName: string) {
     let frameName = enemyName;
@@ -70,7 +71,10 @@ export default class Enemy extends Character {
     makeDead(): void {
         this.getComponent<HealthBar>('hp-bar').hide();
         var i: Ingredient = getItemWithRandomEffect(this.sprite.x, this.sprite.y, this.sprite.scene);
-        i.onUse(this.getComponent<EnemyController>('enemy-movement').target);
+        i.sprite.once(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, (pointer: Phaser.Input.Pointer) => {
+            this.getComponent<EnemyController>('enemy-movement').target.getComponent<Inventory>('inventory').addItem(i);
+        });
+
         this.sprite.destroy();
     }
 }

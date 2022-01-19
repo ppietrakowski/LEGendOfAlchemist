@@ -1,6 +1,7 @@
 import Phaser, { Game } from 'phaser'
 
 import Character from '../Entities/Character'
+import Item from '../Entities/Item';
 
 import Component from './Component'
 import Inventory from './Inventory'
@@ -26,23 +27,21 @@ export default class InventoryUi implements Component {
         return 'inventory-UI';
     }
 
-    addElement(child: Phaser.GameObjects.Sprite) {
-        this.container.add(child);
+    addElement(item: Item): void {
+        //TODO: Add clickable item
+        this.container.add(item.sprite);
         this.updatePosition();
-        child.setVisible(true);
     }
 
-    deleteChild(child: Phaser.GameObjects.Sprite) {
+    deleteChild(child: Phaser.GameObjects.Sprite): void {
         this.container.each((ch: Phaser.GameObjects.Sprite) => { if (ch === child) this.container.remove(child); });
         this.updatePosition();
     }
 
     start(character: Character): void {
-
-
         this.container = character.sprite.scene.add.container(50, 60);
         this.background = character.sprite.scene.add.sprite(0, 60, 'inventory-background').setOrigin(0, 0);
-        
+
         this.container.add(this.background);
         this.title = character.sprite.scene.add.text(20, 60, 'Inventory');
         this.container.add(this.title);
@@ -55,17 +54,17 @@ export default class InventoryUi implements Component {
         if (this.inventory.hasItemsUpdate) {
             this.updatePosition();
         }
-
     }
 
-    updatePosition() {
+    updatePosition(): void {
         var currentRow = 0;
         var heigth = 65;
 
         this.container.each((child: Phaser.GameObjects.GameObject) => {
             if (child != this.background && child != this.title) {
                 var ch = child as Phaser.GameObjects.Sprite;
-                ch.setPosition(5 + 24 * currentRow, heigth);
+                ch.x = 5 + 24 * currentRow;
+                ch.y = heigth;
                 ++currentRow;
                 if (currentRow === this.maxRow) {
                     heigth += 16;

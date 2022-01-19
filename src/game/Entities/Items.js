@@ -28,5 +28,5 @@ export function getItemWithRandomEffect(x, y, scene) {
     let wisdom = Math.ceil(Math.random() * (10 + 10) - 10);
     let time = Math.floor(Math.random() * (2 + 1) - 1);
 
-    return new Ingredient(new Effect(hp, strength, wisdom, time), scene.physics.add.sprite(x, y, Items[index]).setOrigin(0, 0));
+    return new Ingredient(new Effect(hp, strength, wisdom, time), scene.add.sprite(x, y, Items[index]).setOrigin(0, 0));
 }

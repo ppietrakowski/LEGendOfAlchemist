@@ -34,15 +34,14 @@ export default class Inventory implements Component {
     }
 
     addItem(item: Item) {
-            this.items.push(item);
-            this.hasItemsUpdate = true;
-            this.ui.addElement(item.sprite);
+        this.items.push(item);
+        this.hasItemsUpdate = true;
+        this.ui.addElement(item);
     }
 
-    deleteItem(index: number) {
+    deleteItem(item: Item) {
         for (let i = 0; i < this.items.length; i++) {
-            if (i === index) {
-                let item = this.items[i];
+            if (this.items[i] === item) {
                 this.ui.deleteChild(item.sprite);
                 item.sprite.destroy();
                 this.items.splice(i, 1);
