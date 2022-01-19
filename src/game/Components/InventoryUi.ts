@@ -22,7 +22,7 @@ export default class InventoryUi implements Component {
     }
 
     start(character: Character): void {
-            
+        this.background = character.sprite.scene.add.sprite(300, 300, 'inventory-background');
     }
 
     update(timeSinceLastFrame: number): void {
