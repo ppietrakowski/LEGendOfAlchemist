@@ -25,6 +25,7 @@ export default class GameScene extends Phaser.Scene {
         this.load.spritesheet('shark', 'assets/temp/shark_walk.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('player', 'assets/player.png', { frameWidth: 32, frameHeight: 64 });
         this.load.tilemapTiledJSON('island', 'assets/tilemap/main-island.json');
+        this.load.image('inventory-background', 'assets/temp/inventory-background.png');
         
         items.loadItems(this);
     }
