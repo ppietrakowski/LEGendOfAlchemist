@@ -1,13 +1,15 @@
 
 import Character from '../Entities/Character';
+
 import Component from './Component'
 import Item from './../Entities/Item'
-
+import InventoryUi from './InventoryUi'
 
 export default class Inventory implements Component {
     items: Array<Item>;
     owner: Character;
     hasItemsUpdate: boolean = false;
+    ui: InventoryUi;
 
     debugName(): string {
         return this.getName();
@@ -20,6 +22,8 @@ export default class Inventory implements Component {
     start(character: Character): void {
         this.owner = character;
         this.items = [];
+        this.ui = new InventoryUi(this);
+        this.ui.start(character);
     }
 
     getItem(index: number): Item {
@@ -43,5 +47,6 @@ export default class Inventory implements Component {
     }
 
     update(timeSinceLastFrame: number): void {
+        this.ui.update(timeSinceLastFrame);
     }
 }
