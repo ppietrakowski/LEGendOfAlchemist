@@ -47,6 +47,7 @@ export default class Inventory implements Component {
     }
 
     update(timeSinceLastFrame: number): void {
-        this.ui.update(timeSinceLastFrame);
+        if (this.hasItemsUpdate)
+            this.ui.update(timeSinceLastFrame);
     }
 }
