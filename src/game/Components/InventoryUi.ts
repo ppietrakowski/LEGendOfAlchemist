@@ -28,7 +28,6 @@ export default class InventoryUi implements Component {
     }
 
     addElement(item: Item): void {
-        //TODO: Add clickable item
         this.container.add(item.sprite);
         item.sprite.setScrollFactor(0);
         this.updatePosition();
@@ -43,12 +42,13 @@ export default class InventoryUi implements Component {
         let scene = character.sprite.scene;
 
         this.container = scene.add.container(50, 60);
-        this.background = scene.add.sprite(0, 60, 'inventory-background').setOrigin(0, 0);
+        this.container.setScrollFactor(0);
 
+        this.background = scene.add.sprite(0, 60, 'inventory-background').setOrigin(0, 0);
         this.container.add(this.background);
+
         this.title = scene.add.text(20, 60, 'Inventory');
         this.container.add(this.title);
-        this.container.setScrollFactor(0);
     }
 
     update(timeSinceLastFrame: number): void {
