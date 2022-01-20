@@ -6,7 +6,7 @@ import Component from './Component';
 export default class PlayerMovement implements Component {
     private input: Phaser.Types.Input.Keyboard.CursorKeys;
     private character: Player;
-    private prevMovement: string;
+    private onStayAnimation: string;
     private speed: Phaser.Math.Vector2;
 
     constructor(speed: Phaser.Math.Vector2) {
@@ -22,9 +22,11 @@ export default class PlayerMovement implements Component {
     }
 
     start(character: Character): void {
-        this.prevMovement = 'front';
+        let keyboard = character.sprite.scene.input.keyboard;
+
+        this.onStayAnimation = 'front';
         this.character = character as Player;
-        this.input = character.sprite.scene.input.keyboard.createCursorKeys();
+        this.input = keyboard.createCursorKeys();
     }
 
     update(timeSinceLastFrame: number): void {
@@ -32,24 +34,25 @@ export default class PlayerMovement implements Component {
 
         if (this.input.down.isDown) {
             this.onMovement('front-run', 0, this.speed.y * timeSinceLastFrame);
-            this.prevMovement = 'front';
+            this.onStayAnimation = 'front';
         } else if (this.input.up.isDown) {
             this.onMovement('back-run', 0, -this.speed.y * timeSinceLastFrame);
-            this.prevMovement = 'back';
+            this.onStayAnimation = 'back';
         } else if (this.input.left.isDown) {
             this.onMovement('left-run', -this.speed.x * timeSinceLastFrame, 0);
-            this.prevMovement = 'front';
+            this.onStayAnimation = 'front';
         }
         else if (this.input.right.isDown) {
             this.onMovement('right-run', this.speed.x * timeSinceLastFrame, 0);
-            this.prevMovement = 'front';
+            this.onStayAnimation = 'front';
         }
         else
-            this.onMovement(this.prevMovement, 0, 0);
+            this.onMovement(this.onStayAnimation, 0, 0);
     }
 
     private onMovement(frameName: string, velX: number, velY: number) {
-        this.character.sprite.anims.play(frameName, true);
-        this.character.sprite.setVelocity(velX, velY);
+        let sprite = this.character.sprite;
+        sprite.anims.play(frameName, true);
+        sprite.setVelocity(velX, velY);
     }
 }
