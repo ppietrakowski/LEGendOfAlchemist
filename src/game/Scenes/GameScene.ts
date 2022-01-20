@@ -77,7 +77,7 @@ export default class GameScene extends Phaser.Scene {
 
     private addPortals() {
         this.portals = [];
-        this.portals.push(new Portal(`1`, this.physics.add.sprite(450, 200, 'portal'), this.player));
+        this.portals.push(new Portal(`1`, this.physics.add.sprite(450, 200, 'portal'), this.player, new Phaser.Math.Vector2(1500, 1500)));
     }
 
     private updateEnemy(enemy: Enemy, deltaTime: number) {
