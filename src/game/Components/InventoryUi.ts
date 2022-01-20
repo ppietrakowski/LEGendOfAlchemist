@@ -40,11 +40,13 @@ export default class InventoryUi implements Component {
     }
 
     start(character: Character): void {
-        this.container = character.sprite.scene.add.container(50, 60);
-        this.background = character.sprite.scene.add.sprite(0, 60, 'inventory-background').setOrigin(0, 0);
+        let scene = character.sprite.scene;
+
+        this.container = scene.add.container(50, 60);
+        this.background = scene.add.sprite(0, 60, 'inventory-background').setOrigin(0, 0);
 
         this.container.add(this.background);
-        this.title = character.sprite.scene.add.text(20, 60, 'Inventory');
+        this.title = scene.add.text(20, 60, 'Inventory');
         this.container.add(this.title);
         this.container.setScrollFactor(0);
     }
