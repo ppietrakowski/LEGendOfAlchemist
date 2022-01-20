@@ -29,6 +29,7 @@ export default class HealthBar implements Component {
 
     start(character: Character): void {
         let attributes = character.attributes;
+        
         this.self = character;
         this.hpMax = this.self.attributes.hp;
         

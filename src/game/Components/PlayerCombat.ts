@@ -36,8 +36,9 @@ export default class PlayerCombat implements Component {
     }
 
     onThrowAnything(enemy: Enemy) {
+        let scene = enemy.sprite.scene;
 
-        let throwable = enemy.sprite.scene.add.image(this.player.sprite.x, this.player.sprite.y, 'potion');
+        let throwable = scene.add.image(this.player.sprite.x, this.player.sprite.y, 'potion');
         let duration = 100 * Phaser.Math.Distance.Between(enemy.sprite.x, enemy.sprite.y, this.player.sprite.x, this.player.sprite.y) * this.timeSinceLastFrame;
 
         throwable.setRotation(Math.PI / 360)
