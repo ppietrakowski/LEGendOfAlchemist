@@ -1,4 +1,4 @@
-import Phaser, { Game } from 'phaser'
+import Phaser, { Game, Physics } from 'phaser'
 
 import Character from '../Entities/Character'
 import Item from '../Entities/Item';
@@ -30,6 +30,7 @@ export default class InventoryUi implements Component {
     addElement(item: Item): void {
         //TODO: Add clickable item
         this.container.add(item.sprite);
+        item.sprite.setScrollFactor(0);
         this.updatePosition();
     }
 

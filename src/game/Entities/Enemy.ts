@@ -69,10 +69,17 @@ export default class Enemy extends Character {
     }
 
     makeDead(): void {
+        var player = this.getComponent<EnemyController>('enemy-movement').target;
         this.getComponent<HealthBar>('hp-bar').hide();
         var i: Ingredient = getItemWithRandomEffect(this.sprite.x, this.sprite.y, this.sprite.scene);
         i.sprite.once(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, (pointer: Phaser.Input.Pointer) => {
-            this.getComponent<EnemyController>('enemy-movement').target.getComponent<Inventory>('inventory').addItem(i);
+            player.getComponent<Inventory>('inventory').addItem(i);
+            i.sprite.setInteractive({pixelPerfect: true});
+            i.sprite.once(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
+                i.onUse(player);
+                player.getComponent<Inventory>('inventory').deleteItem(i);
+                i.sprite.destroy();
+            });
         });
 
         this.sprite.destroy();
