@@ -23,7 +23,7 @@ export default class Credits extends Phaser.Scene {
 
     create(): void {
         this.add.image(0, 0, 'background').setOrigin(0, 0);
-        this.add.text(50, 50, this.text, {color: '#111155'});
+        this.add.text(50, 50, this.text, { color: '#111155' });
         this.back = new Button(this, 185, 500, 'back', onBack);
         this.back.scaleX = 0.5;
         this.back.scaleY = 0.5;

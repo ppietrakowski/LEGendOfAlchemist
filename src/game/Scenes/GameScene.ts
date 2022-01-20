@@ -29,7 +29,7 @@ export default class GameScene extends Phaser.Scene {
         this.load.tilemapTiledJSON('island', 'assets/tilemap/main-island.json');
         this.load.image('inventory-background', 'assets/temp/inventory-background.png');
         this.load.image('portal', 'assets/temp/portals/portal.png');
-        
+
         items.loadItems(this);
     }
 

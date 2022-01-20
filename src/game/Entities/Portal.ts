@@ -11,7 +11,7 @@ export default class Portal {
         console.log('Portal created')
         this.player = player
         this.sprite = sprite;
-        
+
         this.sprite.scene.physics.add.overlap(this.sprite, this.player.sprite, () => { player.sprite.setX(endPoint.x); player.sprite.setY(endPoint.y); });
         sprite.setInteractive();
     }

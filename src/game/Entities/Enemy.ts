@@ -6,8 +6,7 @@ import Player from './Player';
 import EnemyController from '../Components/EnemyController';
 import HealthBar from '../Components/HealthBar';
 import Ingredient from './Ingredient';
-import Effect from '../Components/Effect';
-import { Items, getItemWithRandomEffect } from '../Entities/Items'
+import { getItemWithRandomEffect } from '../Entities/Items'
 import Inventory from '../Components/Inventory';
 
 function addEnemyAnimation(enemy: Phaser.Physics.Arcade.Sprite, enemyName: string) {
@@ -74,7 +73,7 @@ export default class Enemy extends Character {
         var i: Ingredient = getItemWithRandomEffect(this.sprite.x, this.sprite.y, this.sprite.scene);
         i.sprite.once(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, (pointer: Phaser.Input.Pointer) => {
             player.getComponent<Inventory>('inventory').addItem(i);
-            i.sprite.setInteractive({pixelPerfect: true});
+            i.sprite.setInteractive({ pixelPerfect: true });
             i.sprite.once(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
                 i.onUse(player);
                 player.getComponent<Inventory>('inventory').deleteItem(i);

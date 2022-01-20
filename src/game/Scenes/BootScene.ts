@@ -12,6 +12,5 @@ export default class BootScene extends Phaser.Scene {
             delay: 0,
             callback: () => this.game.scene.start('MainMenu')
         });
-
     }
 }
