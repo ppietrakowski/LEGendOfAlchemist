@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 
 import Player from '../Entities/Player';
 import Enemy from '../Entities/Enemy';
+import Portal from '../Entities/Portal';
 import PlayerCombat from '../Components/PlayerCombat';
 
 import Ingredient from '../Entities/Ingredient'
@@ -12,6 +13,7 @@ export default class GameScene extends Phaser.Scene {
 
     player: Player;
     enemies: Array<Enemy>;
+    portals: Array<Portal>;
     map: Phaser.Tilemaps.Tilemap;
     tileset: Phaser.Tilemaps.Tileset;
     seaLayer: Phaser.Tilemaps.TilemapLayer;
@@ -26,6 +28,7 @@ export default class GameScene extends Phaser.Scene {
         this.load.spritesheet('player', 'assets/player.png', { frameWidth: 32, frameHeight: 64 });
         this.load.tilemapTiledJSON('island', 'assets/tilemap/main-island.json');
         this.load.image('inventory-background', 'assets/temp/inventory-background.png');
+        this.load.image('portal', 'assets/temp/portals/portal.png');
         
         items.loadItems(this);
     }
@@ -38,6 +41,7 @@ export default class GameScene extends Phaser.Scene {
 
         this.player = new Player(this, this.physics.add.sprite(220, 140, 'player'));
         this.addEnemies();
+        this.addPortals();
         this.addCollision();
     }
 
@@ -45,7 +49,6 @@ export default class GameScene extends Phaser.Scene {
         this.player.update(delta / 1000);
         for (let i of this.enemies)
             this.updateEnemy(i, delta);
-
         if (this.player.isDead())
             this.player.makeDead();
     }
@@ -70,6 +73,11 @@ export default class GameScene extends Phaser.Scene {
         this.physics.add.collider(this.player.sprite, this.seaLayer);
         this.seaLayer.setCollisionBetween(48, 51);
         this.seaLayer.setCollisionBetween(56, 59);
+    }
+
+    private addPortals() {
+        this.portals = [];
+        this.portals.push(new Portal(`1`, this.physics.add.sprite(450, 200, 'portal'), this.player));
     }
 
     private updateEnemy(enemy: Enemy, deltaTime: number) {
