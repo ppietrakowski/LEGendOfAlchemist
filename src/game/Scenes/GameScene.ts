@@ -40,8 +40,8 @@ export default class GameScene extends Phaser.Scene {
         this.map.createLayer('island', this.tileset, -100, -100);
 
         this.player = new Player(this, this.physics.add.sprite(220, 140, 'player'));
-        this.addEnemies();
         this.addPortals();
+        this.addEnemies();
         this.addCollision();
     }
 
@@ -66,6 +66,9 @@ export default class GameScene extends Phaser.Scene {
             this.enemies.push(new Enemy(`shark`, 120, this.physics.add.sprite(Math.random() * 960, Math.random() * 540, 'shark'), this.player));
             this.player.getComponent<PlayerCombat>('player-combat').addEnemy(this.enemies[i]);
             this.physics.add.collider(this.enemies[i].sprite, this.seaLayer);
+            for (let portal of this.portals) {
+                this.physics.add.collider(this.enemies[i].sprite, portal.sprite);
+            }
         }
     }
 
