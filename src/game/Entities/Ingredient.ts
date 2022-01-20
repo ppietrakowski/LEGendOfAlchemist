@@ -11,8 +11,8 @@ export default class Ingredient extends Item {
     }
 
     onUse(character: Character): void {
-
         character.attributes.addEffect(this.effect);    
+        this.sprite.destroy();
     }
 
 }

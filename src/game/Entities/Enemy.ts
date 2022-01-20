@@ -78,7 +78,6 @@ export default class Enemy extends Character {
             i.sprite.once(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
                 i.onUse(player);
                 player.getComponent<Inventory>('inventory').deleteItem(i);
-                i.sprite.destroy();
             });
         });
 
