@@ -21,12 +21,14 @@ export default class Inventory implements Component {
     }
 
     start(character: Character): void {
+        let keyboard = character.sprite.scene.input.keyboard;
+
         this.owner = character;
         this.items = [];
         this.ui = new InventoryUi(this);
         this.ui.start(character);
 
-        this.keyI = character.sprite.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
+        this.keyI = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
     }
 
     getItem(index: number): Item {
