@@ -43,3 +43,8 @@ npm install
 Now project should be build in dist folder.
 
 You can place into ```htdocs``` in xampp or use other local server service.
+
+You can also build it as production, if you enter:
+```
+npm run build
+```

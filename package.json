@@ -10,7 +10,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 0",
     "install": "npx gulp",
-    "run": "npx gulp"
+    "run": "npx gulp",
+    "build": "npx gulp --production"
   },
   "author": "",
   "license": "ISC",
