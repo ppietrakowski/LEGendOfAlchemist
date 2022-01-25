@@ -33,6 +33,7 @@ export default class EnemyController implements Component {
     spawnPoint: Phaser.Math.Vector2;
     endPos: Phaser.Math.Vector2;
     maxRange: number;
+    hitSound: Phaser.Sound.BaseSound;
 
     constructor(target: Player, maxRange: number) {
         this.target = target;
@@ -53,6 +54,7 @@ export default class EnemyController implements Component {
         this.spawnPoint = new Phaser.Math.Vector2(character.sprite.x, character.sprite.y);
         this.self.sprite.setVelocity(0, 0);
         character.sprite.scene.physics.add.collider(character.sprite, this.target.sprite);
+        this.hitSound = this.self.sprite.scene.sound.add('player-slap');
     }
 
     update(timeSinceLastFrame: number): void {
@@ -165,7 +167,10 @@ export default class EnemyController implements Component {
         this.self.sprite.setVelocity(0, 0);
 
         // just attack
-        this.target.attributes.addEffect(new Effect(this.getDamage(timeSinceLastFrame), 0, 0, 1));
+        this.target.attributes.addEffect(new Effect(this.getDamage(timeSinceLastFrame), 0, 0, 0.25));
+        
+        if (!this.hitSound.isPlaying)
+            this.hitSound.play();
     }
 
     private onChase(timeSinceLastFrame: number): void {
