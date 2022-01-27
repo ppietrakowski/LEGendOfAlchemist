@@ -8,7 +8,6 @@ export default class Portal {
     sprite: Phaser.Physics.Arcade.Sprite;
 
     constructor(name: string, sprite: Phaser.Physics.Arcade.Sprite, player: Player, endPoint: Phaser.Math.Vector2) {
-        console.log('Portal created')
         this.player = player
         this.sprite = sprite;
 

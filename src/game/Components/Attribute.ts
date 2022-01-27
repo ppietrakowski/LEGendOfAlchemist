@@ -26,7 +26,6 @@ export default class Attribute implements Component {
     }
 
     start(character: Character): void {
-        console.log(this.debugName());
         this.character = character;
     }
 

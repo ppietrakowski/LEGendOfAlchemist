@@ -7,7 +7,6 @@ export default class BootScene extends Phaser.Scene {
     }
 
     create(): void {
-        console.log('A game has started !');
         this.time.addEvent({
             delay: 0,
             callback: () => this.game.scene.start('MainMenu')

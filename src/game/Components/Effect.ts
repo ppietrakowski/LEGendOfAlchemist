@@ -28,7 +28,6 @@ export default class Effect implements Component {
     }
 
     start(character: Character): void {
-        console.log(this.debugName());
         this.character = character;
     }
 
