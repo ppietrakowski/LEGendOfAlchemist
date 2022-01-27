@@ -1,8 +1,8 @@
 
 import Character from '../Entities/Character';
+import Item from './../Entities/Item'
 
 import Component from './Component'
-import Item from './../Entities/Item'
 import InventoryUi from './InventoryUi'
 
 export default class Inventory implements Component {

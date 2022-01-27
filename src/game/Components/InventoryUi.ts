@@ -1,4 +1,4 @@
-import Phaser, { Game, Physics } from 'phaser'
+import Phaser from 'phaser'
 
 import Character from '../Entities/Character'
 import Item from '../Entities/Item';
@@ -60,12 +60,12 @@ export default class InventoryUi implements Component {
     }
 
     updatePosition(): void {
-        var currentRow = 0;
-        var heigth = 65;
+        let currentRow = 0;
+        let heigth = 65;
 
         this.container.each((child: Phaser.GameObjects.GameObject) => {
             if (child != this.background && child != this.title) {
-                var ch = child as Phaser.GameObjects.Sprite;
+                let ch = child as Phaser.GameObjects.Sprite;
                 ch.x = 5 + 24 * currentRow;
                 ch.y = heigth;
                 ++currentRow;

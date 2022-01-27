@@ -1,12 +1,11 @@
 import Phaser from 'phaser'
 
 import Component from './Component'
+import Effect from './Effect'
 
 import Character from '../Entities/Character'
 import Player from '../Entities/Player'
 import Enemy from '../Entities/Enemy'
-import Effect from './Effect'
-import EnemyController from './EnemyController'
 
 export default class PlayerCombat implements Component {
     player: Player;
@@ -37,10 +36,14 @@ export default class PlayerCombat implements Component {
 
     onThrowAnything(enemy: Enemy) {
         let scene = enemy.sprite.scene;
-        scene.sound.add('potion-throwed').play();
         let throwable = scene.add.image(this.player.sprite.x, this.player.sprite.y, 'potion');
-        let duration = 100 * Phaser.Math.Distance.Between(enemy.sprite.x, enemy.sprite.y, this.player.sprite.x, this.player.sprite.y) * this.timeSinceLastFrame;
+        
+        scene.sound.add('potion-throwed').play();
+        this.throw(throwable, enemy);
+    }
 
+    throw(throwable: Phaser.GameObjects.Image, enemy: Enemy) {
+        let duration = 100 * Phaser.Math.Distance.Between(enemy.sprite.x, enemy.sprite.y, this.player.sprite.x, this.player.sprite.y) * this.timeSinceLastFrame;
         throwable.setRotation(Math.PI / 360)
         throwable.scene.tweens.add({
             targets: [throwable],
@@ -49,7 +52,7 @@ export default class PlayerCombat implements Component {
             x: enemy.sprite.x,
             y: enemy.sprite.y,
             onComplete: () => { enemy.attributes.addEffect(new Effect(100 * this.timeSinceLastFrame * -this.player.attributes.strength, 0, 0, 0.5)); throwable.destroy();
-                scene.sound.add('potion-hit').play();
+                enemy.sprite.scene.sound.add('potion-hit').play();
              }
         });
     }

@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+
 import Component from './Component';
 import Effect from './Effect';
 

@@ -1,4 +1,3 @@
-import Attribute from './Attribute';
 import Component from './Component';
 
 import Character from '../Entities/Character';
@@ -32,7 +31,6 @@ export default class Effect implements Component {
     }
 
     update(timeSinceLastFrame: number): void {
-        
         this.timePassed += timeSinceLastFrame;
         let atrributes = this.character.attributes;
 
