@@ -9,18 +9,32 @@ export const Items = [
     'potion'
 ]
 
+/**
+ * Returns random index of Items.
+ * @returns {number}
+ */
 export function getRandomItemIndex() {
     let index = Math.round( Math.random() * (Items.length - 1) );
     return index;
 }
 
+/**
+ * Loads items with names in array Items
+ * @param {Phaser.Scene} scene 
+ * @returns {void}
+ */
 export function loadItems(scene) {
-    for (let i of Items) {
-        console.warn(`assets/items/${i}.png`);
+    for (let i of Items)
         scene.load.image(i, `assets/items/${i}.png`);
-    }
 }
 
+/**
+ * Returns a item with random effect
+ * @param {number} x 
+ * @param {number} y 
+ * @param {Phaser.Scene} scene 
+ * @returns {Item}
+ */
 export function getItemWithRandomEffect(x, y, scene) {
     let index = getRandomItemIndex();
     let hp = Math.ceil(Math.random() * (10 + 10) - 10);
