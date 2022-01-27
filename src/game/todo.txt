@@ -1,6 +1,5 @@
 dead animation
 background music
 proper enemy wandering
-inventory UI
-teleport system
 crafting (alchemy)
+inventory as scene
