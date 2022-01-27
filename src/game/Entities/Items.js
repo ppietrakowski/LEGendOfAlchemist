@@ -1,6 +1,7 @@
-import Effect from "../Components/Effect";
 import Ingredient from "./Ingredient";
 import Item from "./Item";
+
+import Effect from "../Components/Effect";
 
 export const Items = [
     'cherries',

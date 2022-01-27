@@ -1,12 +1,13 @@
 import Phaser from 'phaser'
 
+import GameScene from '../Scenes/GameScene'
+
 import Character from './Character'
 
 import PlayerMovement from '../Components/PlayerMovement'
 import Attribute from '../Components/Attribute'
 import PlayerHealthBar from '../Components/PlayerHealthBar'
 import PlayerCombat from '../Components/PlayerCombat'
-import GameScene from '../Scenes/GameScene'
 import Inventory from '../Components/Inventory'
 
 export default class Player extends Character {

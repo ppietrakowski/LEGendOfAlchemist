@@ -2,12 +2,11 @@ import Phaser from 'phaser'
 
 import Character from './Character'
 import Player from './Player';
+import { getItemWithRandomEffect } from './Items'
+import Ingredient from './Ingredient';
 
 import EnemyController from '../Components/EnemyController';
 import HealthBar from '../Components/HealthBar';
-import Ingredient from './Ingredient';
-import { getItemWithRandomEffect } from '../Entities/Items'
-import Inventory from '../Components/Inventory';
 
 function addEnemyAnimation(enemy: Phaser.Physics.Arcade.Sprite, enemyName: string) {
     let frameName = enemyName;
@@ -68,15 +67,19 @@ export default class Enemy extends Character {
     }
 
     makeDead(): void {
-        var player = this.getComponent<EnemyController>('enemy-movement').target;
+        let player = this.getComponent<EnemyController>('enemy-movement').target;
+        let ingredient: Ingredient = getItemWithRandomEffect(this.sprite.x, this.sprite.y, this.sprite.scene);
+
         this.getComponent<HealthBar>('hp-bar').hide();
-        var i: Ingredient = getItemWithRandomEffect(this.sprite.x, this.sprite.y, this.sprite.scene);
-        i.sprite.once(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, (pointer: Phaser.Input.Pointer) => {
-            player.getComponent<Inventory>('inventory').addItem(i);
-            i.sprite.setInteractive({ pixelPerfect: true });
-            i.sprite.once(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
-                i.onUse(player);
-                player.getComponent<Inventory>('inventory').deleteItem(i);
+
+        // add event to throw item in place of enemey
+        ingredient.sprite.once(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, (pointer: Phaser.Input.Pointer) => {
+            player.inventory.addItem(ingredient);
+            ingredient.sprite.setInteractive({ pixelPerfect: true });
+
+            ingredient.sprite.once(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
+                ingredient.onUse(player);
+                player.inventory.deleteItem(ingredient);
             });
         });
 

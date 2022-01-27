@@ -1,4 +1,5 @@
 import Effect from "../Components/Effect";
+
 import Character from "./Character";
 import Item from "./Item";
 

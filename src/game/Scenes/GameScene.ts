@@ -3,11 +3,9 @@ import Phaser from 'phaser';
 import Player from '../Entities/Player';
 import Enemy from '../Entities/Enemy';
 import Portal from '../Entities/Portal';
-import PlayerCombat from '../Components/PlayerCombat';
-
-import Ingredient from '../Entities/Ingredient'
-import Effect from '../Components/Effect';
 import * as items from '../Entities/Items';
+
+import PlayerCombat from '../Components/PlayerCombat';
 
 export default class GameScene extends Phaser.Scene {
 
@@ -27,13 +25,12 @@ export default class GameScene extends Phaser.Scene {
         this.load.spritesheet('shark', 'assets/temp/shark_walk.png', { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet('player', 'assets/player.png', { frameWidth: 32, frameHeight: 64 });
         this.load.tilemapTiledJSON('island', 'assets/tilemap/main-island.json');
+        
         this.load.image('inventory-background', 'assets/temp/inventory-background.png');
         this.load.image('portal', 'assets/temp/portals/portal.png');
 
         this.load.audio('player-slap', 'assets/sounds/player-slap.wav');
-
         this.load.audio('potion-hit', 'assets/sounds/potion-hit.wav');
-
         this.load.audio('potion-throwed', 'assets/sounds/throw.wav');
         
         items.loadItems(this);
@@ -71,6 +68,7 @@ export default class GameScene extends Phaser.Scene {
         for (let i = 0; i < 10; i++) {
             this.enemies.push(new Enemy(`shark`, 120, this.physics.add.sprite(Math.random() * 960, Math.random() * 540, 'shark'), this.player));
             this.player.getComponent<PlayerCombat>('player-combat').addEnemy(this.enemies[i]);
+
             this.physics.add.collider(this.enemies[i].sprite, this.seaLayer);
             for (let portal of this.portals) {
                 this.physics.add.collider(this.enemies[i].sprite, portal.sprite);
