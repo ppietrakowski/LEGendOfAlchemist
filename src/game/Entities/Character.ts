@@ -18,10 +18,7 @@ export default abstract class Character {
         this.addComponent(new Attribute(100, 20, 10));
     }
 
-    // TODO: console.log should be called in debug mode only
     addComponent(component: Component): void {
-        console.log(component.debugName());
-        
         this.components[component.getName()] = component;
         component.start(this);
     }

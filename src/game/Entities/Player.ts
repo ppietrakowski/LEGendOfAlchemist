@@ -26,7 +26,7 @@ export default class Player extends Character {
     }
 
     get inventory(): Inventory {
-        return this.getComponent<Inventory>('inventory') as Inventory;
+        return this.getComponent<Inventory>('inventory');
     }
 
     start(): void {
