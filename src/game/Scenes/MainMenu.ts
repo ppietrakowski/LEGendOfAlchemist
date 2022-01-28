@@ -13,6 +13,8 @@ function onCreditsClicked(this: Phaser.GameObjects.Sprite): void {
 
 export default class MainMenu extends Phaser.Scene {
     private buttons: Array<Button>;
+    private theme: Phaser.Sound.BaseSound;
+
     constructor() {
         super('MainMenu');
         this.buttons = [];
@@ -21,6 +23,8 @@ export default class MainMenu extends Phaser.Scene {
     //TODO: background music
 
     create(): void {
+        this.theme = this.sound.add('menu-theme');
+        this.theme.play();
         this.add.image(0, 0, 'background').setOrigin(0, 0);
 
         this.buttons.push(new Button(this, 960 / 2 - 30, 95 + 120, 'play', onMainGameClicked));

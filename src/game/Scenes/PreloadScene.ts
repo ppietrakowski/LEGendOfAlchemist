@@ -22,6 +22,8 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.audio('player-slap', 'assets/sounds/player-slap.wav');
         this.load.audio('potion-hit', 'assets/sounds/potion-hit.wav');
         this.load.audio('potion-throwed', 'assets/sounds/throw.wav');
+        
+        this.load.audio('menu-theme', 'assets/sounds/menu-theme.mp3');
 
         this.load.image('back', 'assets/buttons/back.png');
         this.load.image('background', 'assets/temp/background.png');
