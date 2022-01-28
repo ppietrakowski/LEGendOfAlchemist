@@ -51,8 +51,9 @@ export default class PlayerCombat implements Component {
             duration: duration,
             x: enemy.sprite.x,
             y: enemy.sprite.y,
-            onComplete: () => { enemy.attributes.addEffect(new Effect(100 * this.timeSinceLastFrame * -this.player.attributes.strength, 0, 0, 0.5)); throwable.destroy();
-                enemy.sprite.scene.sound.add('potion-hit').play();
+            onComplete: () => { 
+                throwable.scene.sound.add('potion-hit').play();
+                enemy.attributes.addEffect(new Effect(100 * this.timeSinceLastFrame * -this.player.attributes.strength, 0, 0, 0.5)); throwable.destroy();
              }
         });
     }
