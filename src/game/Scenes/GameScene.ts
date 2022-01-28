@@ -3,7 +3,6 @@ import Phaser from 'phaser';
 import Player from '../Entities/Player';
 import Enemy from '../Entities/Enemy';
 import Portal from '../Entities/Portal';
-import * as items from '../Entities/Items';
 
 import PlayerCombat from '../Components/PlayerCombat';
 

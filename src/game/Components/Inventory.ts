@@ -43,7 +43,7 @@ export default class Inventory implements Component {
         let sprite = this.ui.add.sprite(x, y, item.sprite.texture.key);
         item.sprite.destroy();
         item.sprite = sprite;
-        item.sprite.setInteractive({ pixelPerfect: true});
+        item.sprite.setInteractive({ pixelPerfect: true, draggable: true});
 
         item.sprite.once(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
             item.onUse(this.owner);
