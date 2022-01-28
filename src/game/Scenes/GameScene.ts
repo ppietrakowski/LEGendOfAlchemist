@@ -15,6 +15,7 @@ export default class GameScene extends Phaser.Scene {
     map: Phaser.Tilemaps.Tilemap;
     tileset: Phaser.Tilemaps.Tileset;
     seaLayer: Phaser.Tilemaps.TilemapLayer;
+    keyC: Phaser.Input.Keyboard.Key;
 
     constructor() {
         super('GameScene');
@@ -46,9 +47,16 @@ export default class GameScene extends Phaser.Scene {
         this.addPortals();
         this.addEnemies();
         this.addCollision();
+        this.keyC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
     }
 
     update(time: number, delta: number): void {
+
+        if (this.keyC.isDown) {
+            this.game.scene.run('Crafting');
+            this.game.scene.pause('GameScene');
+        }
+
         this.player.update(delta / 1000);
         for (let i of this.enemies)
             this.updateEnemy(i, delta);
