@@ -24,8 +24,6 @@ export default class Crafting extends Phaser.Scene {
     }
 
     preload(): void {
-        this.load.image('item-background', 'assets/temp/item-background.png')
-        this.load.image('craft-item', 'assets/buttons/craft.png')
         this.items = []
     }
 

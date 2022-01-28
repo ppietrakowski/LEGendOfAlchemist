@@ -20,9 +20,6 @@ export default class MainMenu extends Phaser.Scene {
 
     //TODO: background music
     preload(): void {
-        this.load.image('play', 'assets/buttons/play.png');
-        this.load.image('credits', 'assets/buttons/credits.png');
-        this.load.image('background', 'assets/temp/background.png');
     }
 
     create(): void {

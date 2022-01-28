@@ -18,14 +18,6 @@ export default class InventoryUi extends Phaser.Scene {
         this.inventory = null;
     }
 
-    debugName(): string {
-        return " " + this;
-    }
-
-    getName(): string {
-        return 'inventory-UI';
-    }
-
     addElement(item: Item): void {
         this.container.add(item.sprite);
         item.sprite.setScrollFactor(0);
@@ -37,7 +29,7 @@ export default class InventoryUi extends Phaser.Scene {
         this.updatePosition();
     }
 
-    create() {
+    preload() {
         this.container = this.add.container(50, 60);
         this.container.setScrollFactor(0);
 

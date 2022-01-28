@@ -14,7 +14,6 @@ export default class DeadScene extends Phaser.Scene {
     }
 
     preload(): void {
-        this.load.image('back', 'assets/buttons/back.png');
     }
 
     create(): void {

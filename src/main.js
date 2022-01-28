@@ -6,6 +6,7 @@ import GameScene from './game/Scenes/GameScene'
 import DeadScene from './game/Scenes/DeadScene';
 import Crafting from './game/Scenes/Crafting'
 import InventoryUi from './game/Scenes/InventoryUi';
+import PreloadScene from './game/Scenes/PreloadScene'
 
 class Game extends Phaser.Game {
 
@@ -35,13 +36,14 @@ class Game extends Phaser.Game {
             pixelArt: true
         });
         
-
-        this.scene.add('MainMenu', MainMenu, true);
+        this.scene.add('Preload', PreloadScene, true);
+        this.scene.add('MainMenu', MainMenu, false);
         this.scene.add('Credits', Credits, false);
         this.scene.add('DeadScene', DeadScene, false);
         this.scene.add('GameScene', GameScene, false);
-        this.scene.add('Crafting', Crafting, false);
         this.scene.add('Inventory', InventoryUi, false);
+        this.scene.add('Crafting', Crafting, false);
+        
     }
 }
 
