@@ -132,12 +132,8 @@ export default class Crafting extends InventoryBase {
             }
         }
 
-
         // for now just get back to gamescene
         this.game.scene.pause('Crafting', () => {
-            // disable all items
-            for (let item of this.items)
-                item.item = null;
             this.updatePosition();
         });
 
