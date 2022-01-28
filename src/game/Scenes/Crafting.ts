@@ -55,14 +55,14 @@ export default class Crafting extends InventoryBase {
     }
 
     addElement(item: Item): void {
-        var sprite = this.add.sprite(item.sprite.x, item.sprite.y, item.sprite.texture.key);
+        let sprite = this.add.sprite(item.sprite.x, item.sprite.y, item.sprite.texture.key);
         sprite.name = item.sprite.name;
 
         sprite.setInteractive({pixelPerfect: true, draggable: true});
         
         sprite.on(Phaser.Input.Events.DROP, (pointer: Phaser.Input.Pointer, dropZone: Phaser.GameObjects.Image) => {
             if (dropZone.name.startsWith('item-bkg-') && !this.items.find((v) => v.backgroundImage.name === dropZone.name).item) {
-                var i = dropZone.getTopLeft()
+                let i = dropZone.getTopLeft()
                 sprite.setPosition(i.x + sprite.width / 2, i.y);
                 this.items.find((v) => v.backgroundImage.name === dropZone.name).item = item;
             }

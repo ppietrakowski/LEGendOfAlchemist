@@ -57,7 +57,7 @@ export default class Inventory implements Component {
         item.sprite.on(Phaser.Input.Events.DRAG_ENTER, (pointer : Phaser.Input.Pointer, gameObject: Phaser.GameObjects.GameObject, dropZone : Phaser.GameObjects.GameObject) => {
             
             if (dropZone.name.search(/item-bkg-\d/) != -1) {
-                var field = (this.owner.sprite.scene.game.scene.getScene('Crafting') as Crafting).getField(dropZone.name);
+                let field = (this.owner.sprite.scene.game.scene.getScene('Crafting') as Crafting).getField(dropZone.name);
                 field.item = item;
             }
 
