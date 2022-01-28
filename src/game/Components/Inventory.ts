@@ -46,7 +46,6 @@ export default class Inventory implements Component {
         item.sprite.setInteractive({ pixelPerfect: true});
 
         item.sprite.once(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
-            console.log(item);
             item.onUse(this.owner);
             (this.owner as Player).inventory.deleteItem(item);
         });

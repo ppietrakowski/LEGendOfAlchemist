@@ -27,7 +27,6 @@ export default class InventoryUi extends Phaser.Scene {
     }
 
     addElement(item: Item): void {
-        console.log(item.sprite);
         this.container.add(item.sprite);
         item.sprite.setScrollFactor(0);
         this.updatePosition();
