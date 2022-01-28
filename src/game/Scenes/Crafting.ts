@@ -11,6 +11,7 @@ class Field {
     }
 }
 
+const MaxItemsForCraft = 4;
 
 export default class Crafting extends Phaser.Scene {
 
@@ -26,7 +27,7 @@ export default class Crafting extends Phaser.Scene {
     }
 
     create(): void {
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < MaxItemsForCraft; i++) {
             let field = new Field(null, this.add.image(120 + i * 24, 120, 'item-background'));
             this.items.push(field)
         }
