@@ -6,11 +6,11 @@ export default class Crafting extends Phaser.Scene {
     }
 
     preload(): void {
-
+        this.load.image('item-background', 'assets/temp/item-background.png');
     }
 
     create(): void {
-
+        
     }
 
     update(time: number, delta: number): void {
