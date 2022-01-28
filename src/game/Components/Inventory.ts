@@ -47,6 +47,8 @@ export default class Inventory implements Component {
         item.sprite = sprite;
         item.sprite.setInteractive({ pixelPerfect: true, draggable: true});
         item.sprite.name = sprite.texture.key + "-" + Math.round(sprite.x) + "-" + Math.round(sprite.y);
+        this.crafting.addElement(item);
+        
         item.sprite.once(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
             item.onUse(this.owner);
             (this.owner as Player).inventory.deleteItem(item);
@@ -63,7 +65,7 @@ export default class Inventory implements Component {
 
         this.hasItemsUpdate = true;
         this.ui.addElement(item);
-        this.crafting.addElement(item);
+        
     }
 
     deleteItem(item: Item) {
