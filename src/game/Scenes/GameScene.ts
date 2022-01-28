@@ -36,8 +36,9 @@ export default class GameScene extends Phaser.Scene {
     update(time: number, delta: number): void {
 
         if (this.keyC.isDown) {
-            this.game.scene.pause('GameScene');
             this.game.scene.run('Crafting');
+            this.game.scene.getScene('Crafting').scene.setVisible(true);
+            this.game.scene.pause('GameScene');
         }
 
         this.player.update(delta / 1000);
