@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import * as items from '../Entities/Items'
+import * as enemies from '../Entities/Enemies'
 
 export default class PreloadScene extends Phaser.Scene {
 
@@ -12,7 +13,7 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image('credits', 'assets/buttons/credits.png');
         this.load.image('background', 'assets/temp/background.png');
         this.load.image('main-island', 'assets/tilemap/placeholder.png');
-        this.load.spritesheet('shark', 'assets/temp/shark_walk.png', { frameWidth: 32, frameHeight: 32 });
+        
         this.load.spritesheet('player', 'assets/player.png', { frameWidth: 32, frameHeight: 64 });
         this.load.tilemapTiledJSON('island', 'assets/tilemap/main-island.json');
         
@@ -31,6 +32,7 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image('item-background', 'assets/temp/item-background.png')
         this.load.image('craft-item', 'assets/buttons/craft.png')
         
+        enemies.loadAllEnemies(this);
         items.loadItems(this);
     }
 
