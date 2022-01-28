@@ -16,7 +16,7 @@ export default class InventoryUi implements Component {
 
     constructor(inventory: Inventory) {
         this.inventory = inventory;
-        this.visible = true;
+        this.visible = false;
     }
 
     debugName(): string {
