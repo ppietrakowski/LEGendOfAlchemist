@@ -6,6 +6,7 @@ export default class PreloadScene extends Phaser.Scene {
     constructor() {
         super('Preload');
     }
+    
     preload() {
         this.load.image('play', 'assets/buttons/play.png');
         this.load.image('credits', 'assets/buttons/credits.png');
@@ -37,7 +38,8 @@ export default class PreloadScene extends Phaser.Scene {
             callback: () => { 
                 this.game.scene.run('Inventory'); 
                 this.game.scene.getScene('Inventory').scene.setVisible(false); 
-                this.game.scene.pause('Inventory'); this.game.scene.run('MainMenu')
+                this.game.scene.pause('Inventory');
+                this.game.scene.run('MainMenu')
             }
         })
     }
