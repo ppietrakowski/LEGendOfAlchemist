@@ -3,10 +3,10 @@ import Component from './Component';
 import Character from '../Entities/Character';
 
 export default class Effect implements Component {
-    private deltaHp: number;
-    private deltaStrength: number;
-    private deltaWisdom: number;
-    private character: Character;
+    deltaHp: number;
+    deltaStrength: number;
+    deltaWisdom: number;
+    character: Character;
     private timePassed: number;
     readonly duration: number;
 
@@ -36,9 +36,9 @@ export default class Effect implements Component {
 
         atrributes.hp += this.deltaHp * timeSinceLastFrame;
         atrributes.wisdom += this.deltaWisdom * timeSinceLastFrame;
-        atrributes.strength += this.deltaStrength * timeSinceLastFrame;        
+        atrributes.strength += this.deltaStrength * timeSinceLastFrame;
     }
-    
+
     hasTimePassed(): boolean {
         return this.timePassed >= this.duration;
     }

@@ -1,8 +1,10 @@
 import Phaser from 'phaser';
+import Effect from '../Components/Effect';
 import Inventory from '../Components/Inventory';
 import Button from '../Entities/Button';
 import Item from '../Entities/Item';
 import InventoryBase from './InventoryBase';
+import Potion from '../Entities/Potion'
 
 class Field {
     item: Item
@@ -85,7 +87,50 @@ export default class Crafting extends InventoryBase {
         return null;
     }
 
+
+    mixEffects(): Effect {
+        let effect = new Effect(0, 0, 0, Math.round(Math.random() * (4 - 1) + 1));
+
+        for (let item of this.items) {
+            if (item.item != null)
+                this.sumEffect(effect, item.item.effect);
+        }
+
+        return effect;
+    }
+
+    sumEffect(effect: Effect, itemEffect: Effect): void {
+        effect.deltaHp += itemEffect.deltaHp;
+        effect.deltaStrength += itemEffect.deltaStrength;
+        effect.deltaWisdom += itemEffect.deltaWisdom;
+    }
+
+    hasAnyItemInArray(): boolean {
+        let anyItem = false;
+        for (let item of this.items) {
+            if (item.item != null) {
+                anyItem = true;
+                break;
+            }
+        }
+
+        return anyItem;
+    }
+
     onCraft(): void {
+
+        if (this.hasAnyItemInArray()) {
+            let mixture = new Potion(this.mixEffects(), this.add.sprite(0, 0, 'potion'));
+            this.inventory.addItem(mixture);
+
+            // delete rest of items
+            for (let item of this.items) {
+                if (item.item != null) {
+                    this.inventory.deleteItem(item.item);
+                }
+            }
+        }
+
 
         // for now just get back to gamescene
         this.game.scene.pause('Crafting', () => {
