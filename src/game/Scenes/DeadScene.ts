@@ -13,9 +13,6 @@ export default class DeadScene extends Phaser.Scene {
         super('DeadScene');
     }
 
-    preload(): void {
-    }
-
     create(): void {
         this.add.text(120, 120, 'You failed to reach a boss');
         this.back = new Button(this, 120, 400, 'back', onButtonPressed);

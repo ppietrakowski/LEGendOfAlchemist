@@ -17,8 +17,6 @@ export default class Credits extends Phaser.Scene {
 
     preload(): void {
         this.text = 'Created by ppietrakowski, SebaPGK, MichalDrozdz2000';
-        this.load.image('back', 'assets/buttons/back.png');
-        this.load.image('background', 'assets/temp/background.png');
     }
 
     create(): void {
