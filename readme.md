@@ -1,14 +1,15 @@
 # About game
 
-
+LEGend of the Alchemist
 
 
 ## Controls:
 * arrows - for moving around with character
 * i - opens inventory
 * [click on enemy] - throws attack potion on the enemy
+* c - opens crafting menu
 
-## what's new
+## Features
 
 * menu
 * credits
@@ -16,12 +17,15 @@
 * enemy AI (simple)
 * inventory
 * portal system
+* crafting menu
 
 ## special thanks to
 * Authors of program Tiled.
 * Authors of program LibreSprite.
+* Make a field Music for sounds
 * Mike Koenig for sounds
 * Public domain
+
 ## authors
 * pawelp
 * michaldrozdz2000
@@ -33,6 +37,8 @@
 * cherries, orange, potion, red flower - michaldrozdz2000
 * player - michaldrozdz2000
 * player-slap - public domain
+* menu music - Make a field Music
+
 ## build info
 First you need to have installed nodejs environment.
 Then you go to project directory and write:

@@ -1,5 +1,4 @@
 dead animation
-background music
+background music +-
 proper enemy wandering
-crafting (alchemy)
-inventory as scene
+fix the alchemy gui
