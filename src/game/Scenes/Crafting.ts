@@ -57,6 +57,25 @@ export default class Crafting extends Phaser.Scene {
     addElement(item: Item): void {
         var sprite = this.add.sprite(item.sprite.x, item.sprite.y, item.sprite.texture.key);
         sprite.name = item.sprite.name;
+
+        sprite.setInteractive({pixelPerfect: true, draggable: true});
+        this.input.on(Phaser.Input.Events.DRAG, (pointer: Phaser.Input.Pointer, gameobject: Phaser.GameObjects.Sprite, dragX: number, dragY: number) => {
+            gameobject.x = dragX;
+            gameobject.y = dragY;
+        });
+
+        this.input.on(Phaser.Input.Events.DRAG, (pointer: Phaser.Input.Pointer, gameobject: Phaser.GameObjects.Sprite, dragX: number, dragY: number) => {
+            gameobject.x = dragX;
+            gameobject.y = dragY;
+        });
+
+        this.input.on(Phaser.Input.Events.DRAG_END, (pointer, gameObject, dropped) => {
+            if (!dropped) {
+                gameObject.x = gameObject.input.dragStartX;
+                gameObject.y = gameObject.input.dragStartY;
+            }
+        });
+
         this.container.add(sprite);
         sprite.setScrollFactor(0);
         this.updatePosition();
