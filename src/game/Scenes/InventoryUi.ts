@@ -3,20 +3,19 @@ import Phaser from 'phaser'
 import Character from '../Entities/Character'
 import Item from '../Entities/Item';
 
-import Component from './Component'
-import Inventory from './Inventory'
+import Inventory from '../Components/Inventory'
 
-export default class InventoryUi implements Component {
+export default class InventoryUi extends Phaser.Scene {
     inventory: Inventory;
     background: Phaser.GameObjects.Sprite;
     container: Phaser.GameObjects.Container;
     maxRow: number = 5;
-    visible: boolean;
     title: Phaser.GameObjects.Text;
+    keyI: Phaser.Input.Keyboard.Key;
 
-    constructor(inventory: Inventory) {
-        this.inventory = inventory;
-        this.visible = false;
+    constructor() {
+        super('Inventory');
+        this.inventory = null;
     }
 
     debugName(): string {
@@ -28,6 +27,7 @@ export default class InventoryUi implements Component {
     }
 
     addElement(item: Item): void {
+        console.log(item.sprite);
         this.container.add(item.sprite);
         item.sprite.setScrollFactor(0);
         this.updatePosition();
@@ -38,24 +38,23 @@ export default class InventoryUi implements Component {
         this.updatePosition();
     }
 
-    start(character: Character): void {
-        let scene = character.sprite.scene;
-
-        this.container = scene.add.container(50, 60);
+    create() {
+        this.container = this.add.container(50, 60);
         this.container.setScrollFactor(0);
 
-        this.background = scene.add.sprite(0, 60, 'inventory-background').setOrigin(0, 0);
+        this.background = this.add.sprite(0, 60, 'inventory-background').setOrigin(0, 0);
         this.container.add(this.background);
 
-        this.title = scene.add.text(20, 60, 'Inventory');
+        this.title = this.add.text(20, 60, 'Inventory');
         this.container.add(this.title);
+        this.keyI = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
     }
 
-    update(timeSinceLastFrame: number): void {
-        this.container.visible = this.visible;
-
-        if (this.inventory.hasItemsUpdate) {
-            this.updatePosition();
+    update(time: number, delta: number): void {
+        if (this.keyI.isDown) {
+            this.game.scene.game.scene.pause('Inventory');
+            this.scene.setVisible(false);
+            this.game.scene.game.scene.run('GameScene');
         }
     }
 
@@ -78,8 +77,4 @@ export default class InventoryUi implements Component {
         });
         this.inventory.hasItemsUpdate = false;
     }
-
-
-
-
 }

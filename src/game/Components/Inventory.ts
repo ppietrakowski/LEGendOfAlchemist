@@ -3,13 +3,13 @@ import Character from '../Entities/Character';
 import Item from './../Entities/Item'
 
 import Component from './Component'
-import InventoryUi from './InventoryUi'
+import InventoryUi from '../Scenes/InventoryUi'
+import Player from '../Entities/Player';
 
 export default class Inventory implements Component {
     items: Array<Item>;
     owner: Character;
     hasItemsUpdate: boolean = false;
-    ui: InventoryUi;
     keyI: Phaser.Input.Keyboard.Key;
 
     debugName(): string {
@@ -25,10 +25,11 @@ export default class Inventory implements Component {
 
         this.owner = character;
         this.items = [];
-        this.ui = new InventoryUi(this);
-        this.ui.start(character);
 
         this.keyI = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
+
+        this.ui.inventory = this;
+        
     }
 
     getItem(index: number): Item {
@@ -37,6 +38,19 @@ export default class Inventory implements Component {
 
     addItem(item: Item) {
         this.items.push(item);
+        let x = item.sprite.x;
+        let y = item.sprite.y;
+        let sprite = this.ui.add.sprite(x, y, item.sprite.texture.key);
+        item.sprite.destroy();
+        item.sprite = sprite;
+        item.sprite.setInteractive({ pixelPerfect: true});
+
+        item.sprite.once(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
+            console.log(item);
+            item.onUse(this.owner);
+            (this.owner as Player).inventory.deleteItem(item);
+        });
+        
         this.hasItemsUpdate = true;
         this.ui.addElement(item);
     }
@@ -53,8 +67,14 @@ export default class Inventory implements Component {
     }
 
     update(timeSinceLastFrame: number): void {
-        if (this.keyI.isDown)
-            this.ui.visible = !this.ui.visible;
-        this.ui.update(timeSinceLastFrame);
+        if (this.keyI.isDown) {
+            this.ui.game.scene.game.scene.run('Inventory');
+            this.ui.scene.setVisible(true);
+            this.ui.game.scene.game.scene.pause('GameScene');
+        } 
+    }
+
+    get ui(): InventoryUi {
+        return (this.owner.sprite.scene.game.scene.getScene('Inventory') as InventoryUi);
     }
 }

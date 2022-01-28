@@ -75,12 +75,6 @@ export default class Enemy extends Character {
         // add event to throw item in place of enemey
         ingredient.sprite.once(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, (pointer: Phaser.Input.Pointer) => {
             player.inventory.addItem(ingredient);
-            ingredient.sprite.setInteractive({ pixelPerfect: true });
-
-            ingredient.sprite.once(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
-                ingredient.onUse(player);
-                player.inventory.deleteItem(ingredient);
-            });
         });
 
         this.sprite.destroy();
