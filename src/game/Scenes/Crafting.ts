@@ -124,9 +124,10 @@ export default class Crafting extends InventoryBase {
             this.inventory.addItem(mixture);
 
             // delete rest of items
-            for (let item of this.items) {
-                if (item.item != null) {
-                    this.inventory.deleteItem(item.item);
+            for (let i = 0; i < this.items.length; i++) {
+                if (this.items[i].item != null) {
+                    this.inventory.deleteItem(this.items[i].item);
+                    this.items[i].item = null;
                 }
             }
         }
