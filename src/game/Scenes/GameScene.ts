@@ -58,7 +58,19 @@ export default class GameScene extends Phaser.Scene {
     private addEnemies() {
         this.enemies = [];
         for (let i = 0; i < 10; i++) {
-            this.enemies.push(new Enemy(`shark`, 120, this.physics.add.sprite(Math.random() * 960, Math.random() * 540, 'shark'), this.player));
+            let sprite = this.physics.add.sprite(0, 0, 'shark');
+            
+            
+
+            while (this.seaLayer.getTileAtWorldXY(sprite.x, sprite.y) != null) {
+                sprite.x = Math.round(Math.random() * 959 + 1);
+                sprite.y = Math.round(Math.random() * 539 + 1);
+
+            }
+
+            console.log(sprite.x + " " + sprite.y);
+
+            this.enemies.push(new Enemy(`shark`, 120, sprite, this.player));
             this.player.getComponent<PlayerCombat>('player-combat').addEnemy(this.enemies[i]);
 
             this.physics.add.collider(this.enemies[i].sprite, this.seaLayer);
@@ -76,7 +88,7 @@ export default class GameScene extends Phaser.Scene {
 
     private addPortals() {
         this.portals = [];
-        this.portals.push(new Portal(`1`, this.physics.add.sprite(450, 200, 'portal'), this.player, new Phaser.Math.Vector2(2500, 1500)));
+        this.portals.push(new Portal(`1`, this.physics.add.sprite(650, 200, 'portal'), this.player, new Phaser.Math.Vector2(2500, 1500)));
     }
 
     private updateEnemy(enemy: Enemy, deltaTime: number) {

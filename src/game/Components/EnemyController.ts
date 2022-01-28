@@ -12,8 +12,7 @@ enum AI_State {
     DuringMove,
     Chasing,
     Attack,
-    Aborted,
-    DuringReturning
+    Aborted
 }
 
 function getRandomVector(): Phaser.Math.Vector2 {
@@ -71,8 +70,6 @@ export default class EnemyController implements Component {
             this.onAttack(timeSinceLastFrame);
         else if (this.state === AI_State.Aborted)
             this.onAbort(timeSinceLastFrame);
-        else if (this.state === AI_State.DuringReturning)
-            this.onReturningToStart(timeSinceLastFrame);
     }
 
     private getNextState(): AI_State {
@@ -82,8 +79,6 @@ export default class EnemyController implements Component {
             state = AI_State.Attack;
         else if (this.isPlayerInRange())
             state = AI_State.Chasing;
-        else if (this.isReturningToStart())
-            state = AI_State.DuringReturning;
         else if (this.isPlayerOutOfRange() && this.state === AI_State.Chasing)
             state = AI_State.Aborted;
         else if (this.state === AI_State.DuringMove)
@@ -92,10 +87,6 @@ export default class EnemyController implements Component {
             state = AI_State.Roaming;
 
         return state;
-    }
-
-    private isReturningToStart() {
-        return this.state === AI_State.Aborted || this.state === AI_State.DuringReturning;
     }
 
     private getDamage(timeSinceLastFrame: number): number {
@@ -183,16 +174,10 @@ export default class EnemyController implements Component {
         // stops, if it chasing
         this.self.sprite.setVelocity(0, 0);
 
-        // moves back to spawnpoint
-        this.self.sprite.scene.physics.moveTo(this.self.sprite, this.spawnPoint.x, this.spawnPoint.y);
+        this.spawnPoint.x = this.self.sprite.x;
+        this.spawnPoint.y = this.self.sprite.y;
 
-        // just play move animation
-        this.self.sprite.anims.play(`${this.self.name}-front-run`, true);
-    }
-
-    private onReturningToStart(timeSinceLastFrame: number): void {
-        if (this.isNearSpawnpoint())
-            this.switchToRoaming();
+        this.switchToRoaming();
     }
 
     private onMoving(timeSinceLastFrame: number): void {
