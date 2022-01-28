@@ -181,7 +181,7 @@ export default class EnemyController implements Component {
     }
 
     private onMoving(timeSinceLastFrame: number): void {
-        if (this.self.isNear(this.endPos, 2))
+        if (this.self.isNear(this.endPos, 2) || !this.self.sprite.body.touching.none)
             this.switchToRoaming();
     }
 }

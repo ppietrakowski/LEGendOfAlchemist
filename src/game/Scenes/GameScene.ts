@@ -62,10 +62,9 @@ export default class GameScene extends Phaser.Scene {
             
             
 
-            while (this.seaLayer.getTileAtWorldXY(sprite.x, sprite.y) != null) {
-                sprite.x = Math.round(Math.random() * 959 + 1);
-                sprite.y = Math.round(Math.random() * 539 + 1);
-
+            while (this.seaLayer.getTileAtWorldXY(sprite.x, sprite.y) != null) {     
+                sprite.x = Math.round(Phaser.Math.Between(1, 4000));
+                sprite.y = Math.round(Phaser.Math.Between(1, 3000));
             }
 
             console.log(sprite.x + " " + sprite.y);
