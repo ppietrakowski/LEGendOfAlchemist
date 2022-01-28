@@ -1,11 +1,14 @@
 import Phaser from 'phaser'
 
+import InventoryBase from './InventoryBase';
+
 import Character from '../Entities/Character'
 import Item from '../Entities/Item';
 
 import Inventory from '../Components/Inventory'
 
-export default class InventoryUi extends Phaser.Scene {
+
+export default class InventoryUi extends InventoryBase {
     inventory: Inventory;
     background: Phaser.GameObjects.Sprite;
     container: Phaser.GameObjects.Container;
@@ -24,20 +27,8 @@ export default class InventoryUi extends Phaser.Scene {
         this.updatePosition();
     }
 
-    deleteChild(child: Phaser.GameObjects.Sprite): void {
-        this.container.each((ch: Phaser.GameObjects.Sprite) => { if (ch === child) this.container.remove(child); });
-        this.updatePosition();
-    }
-
     preload() {
-        this.container = this.add.container(50, 60);
-        this.container.setScrollFactor(0);
-
-        this.background = this.add.sprite(0, 60, 'inventory-background').setOrigin(0, 0);
-        this.container.add(this.background);
-
-        this.title = this.add.text(20, 60, 'Inventory');
-        this.container.add(this.title);
+        super.preload();
         this.keyI = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
     }
 
@@ -47,25 +38,5 @@ export default class InventoryUi extends Phaser.Scene {
             this.scene.setVisible(false);
             this.game.scene.game.scene.run('GameScene');
         }
-    }
-
-    updatePosition(): void {
-        let currentRow = 0;
-        let heigth = 65;
-
-        this.container.each((child: Phaser.GameObjects.GameObject) => {
-            if (child != this.background && child != this.title) {
-                let ch = child as Phaser.GameObjects.Sprite;
-                ch.x = 5 + 24 * currentRow;
-                ch.y = heigth;
-                ++currentRow;
-                if (currentRow === this.maxRow) {
-                    heigth += 16;
-                    currentRow = 0;
-                }
-            } else if (child === this.title)
-                heigth += 16;
-        });
-        this.inventory.hasItemsUpdate = false;
     }
 }
