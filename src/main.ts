@@ -35,7 +35,7 @@ class Game extends Phaser.Game {
             },
             pixelArt: true
         });
-        
+
         this.loadScenes();
     }
 
