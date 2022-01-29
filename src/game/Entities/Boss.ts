@@ -68,7 +68,7 @@ export default class Boss extends Enemy {
 
     makeDead(): void {
         let player = this.getComponent<EnemyController>('enemy-movement').target;
-        let teleportStone = new TeleportStone(null, player.sprite.scene.add.sprite(0, 0, 'teleport-stone'), this.teleportIndex);
+        let teleportStone = new TeleportStone(null, player.sprite.scene.add.sprite(this.sprite.x, this.sprite.y, 'teleport-stone'), this.teleportIndex);
         teleportStone.sprite.name = 'teleport-stone-' + this.teleportIndex;
         this.getComponent<HealthBar>('hp-bar').hide();
 
