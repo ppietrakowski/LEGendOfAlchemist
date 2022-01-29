@@ -33,7 +33,7 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image('craft-item', 'assets/buttons/craft.png')
 
         this.load.image('playerIcon', 'assets/characterIcon.png')
-        
+        this.load.image('logo', 'assets/game_icon.png');
         enemies.loadAllEnemies(this)
         items.loadItems(this)
     }
