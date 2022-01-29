@@ -3,6 +3,7 @@ import Phaser from 'phaser';
 import Player from '../Entities/Player';
 import Enemy from '../Entities/Enemy';
 import Portal from '../Entities/Portal';
+import Boss from '../Entities/Boss'
 
 import PlayerCombat from '../Components/PlayerCombat';
 import { getRandomEnemyKey } from '../Entities/Enemies';
@@ -21,9 +22,10 @@ export default class GameScene extends Phaser.Scene {
 
     constructor() {
         super('GameScene');
-    } 
+    }
 
     create(): void {
+        this.cameras.main.setZoom(0.75, 0.75)
         this.map = this.make.tilemap({ key: 'island' });
         this.tileset = this.map.addTilesetImage('textures', 'main-island');
         this.seaLayer = this.map.createLayer('sea', this.tileset, -100, -100);
@@ -33,6 +35,7 @@ export default class GameScene extends Phaser.Scene {
         this.addPortals();
         this.addEnemies();
         this.addCollision();
+
         this.keyC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
         this.keyTab = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TAB);
     }
@@ -71,12 +74,14 @@ export default class GameScene extends Phaser.Scene {
             let enemy = getRandomEnemyKey()
             let sprite = this.physics.add.sprite(0, 0, enemy);
 
-            while (this.seaLayer.getTileAtWorldXY(sprite.x, sprite.y) != null) {     
+            while (this.seaLayer.getTileAtWorldXY(sprite.x, sprite.y) != null) {
                 sprite.x = Math.round(Phaser.Math.Between(1, 4000));
                 sprite.y = Math.round(Phaser.Math.Between(1, 3000));
             }
 
-            this.enemies.push(new Enemy(enemy, 120, sprite, this.player));
+
+                this.enemies.push(new Enemy(enemy, 120, sprite, this.player));
+               
             this.player.getComponent<PlayerCombat>('player-combat').addEnemy(this.enemies[i]);
 
             this.physics.add.collider(this.enemies[i].sprite, this.seaLayer);
@@ -84,6 +89,10 @@ export default class GameScene extends Phaser.Scene {
                 this.physics.add.collider(this.enemies[i].sprite, portal.sprite);
             }
         }
+        let enemy = getRandomEnemyKey()
+        let sprite = this.physics.add.sprite(200, 200, enemy);
+        this.enemies.push(new Boss(enemy, 120, sprite, this.player, 0));
+        this.player.getComponent<PlayerCombat>('player-combat').addEnemy(this.enemies[this.enemies.length - 1]);
     }
 
     private addCollision() {
@@ -94,7 +103,7 @@ export default class GameScene extends Phaser.Scene {
 
     private addPortals() {
         this.portals = [];
-        this.portals.push(new Portal(`1`, this.physics.add.sprite(650, 200, 'portal'), this.player, new Phaser.Math.Vector2(2500, 1500)));
+        this.portals.push(new Portal(`1`, this.physics.add.sprite(650, 200, 'portal'), this.player, new Phaser.Math.Vector2(2500, 1500), 0));
     }
 
     private updateEnemy(enemy: Enemy, deltaTime: number) {

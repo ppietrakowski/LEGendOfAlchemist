@@ -43,16 +43,20 @@ export default class Inventory implements Component {
         let y = item.sprite.y;
         let sprite = this.ui.add.sprite(x, y, item.sprite.texture.key);
         item.sprite.destroy();
-        
+
         item.sprite = sprite;
-        item.sprite.setInteractive({ pixelPerfect: true, draggable: true});
+        if (item.sprite.name.search(/teleport-stone-\D*/) === -1) {
+            item.sprite.once(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
+                item.onUse(this.owner);
+                (this.owner as Player).inventory.deleteItem(item);
+            });
+        }
+
+        item.sprite.setInteractive({ pixelPerfect: true, draggable: true });
         item.sprite.name = sprite.texture.key + "-" + Math.round(sprite.x) + "-" + Math.round(sprite.y);
         this.crafting.addElement(item);
 
-        item.sprite.once(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
-            item.onUse(this.owner);
-            (this.owner as Player).inventory.deleteItem(item);
-        });
+
 
         this.hasItemsUpdate = true;
         this.ui.addElement(item);
@@ -60,9 +64,9 @@ export default class Inventory implements Component {
 
     deleteItem(item: Item) {
         for (let i = 0; i < this.items.length; i++) {
-            if (this.items[i] === item) {
+            if (this.items[i] === item && item.sprite.texture.key !== 'teleport-stone') {
                 this.crafting.deleteChild(item.sprite.name);
-                this.ui.deleteChild(item.sprite.name);               
+                this.ui.deleteChild(item.sprite.name);
                 item.sprite.destroy();
                 this.items.splice(i, 1);
             }
@@ -75,7 +79,7 @@ export default class Inventory implements Component {
             this.ui.game.scene.game.scene.run('Inventory');
             this.ui.scene.setVisible(true);
             this.ui.game.scene.game.scene.pause('GameScene');
-        } 
+        }
     }
 
     get ui(): InventoryUi {

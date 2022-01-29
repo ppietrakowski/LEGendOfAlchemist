@@ -24,7 +24,9 @@ export default class InventoryUi extends InventoryBase {
     addElement(item: Item): void {
         this.container.add(item.sprite);
         item.sprite.setScrollFactor(0);
-        this.addItemInfo(item.sprite, item.effect);
+        if (item.sprite.texture.key !== 'teleport-stone') {
+            this.addItemInfo(item.sprite, item.effect);
+        }
         this.updatePosition();
     }
 

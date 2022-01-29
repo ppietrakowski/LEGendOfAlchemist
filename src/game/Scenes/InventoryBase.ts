@@ -21,6 +21,7 @@ export default abstract class InventoryBase extends Phaser.Scene {
 
     deleteChild(child: string): void {
         this.container.each((ch: Phaser.GameObjects.Sprite) => { if (ch.name === child) this.container.remove(ch); });
+        this.itemInfo.setText('');
         this.updatePosition();
     }
 

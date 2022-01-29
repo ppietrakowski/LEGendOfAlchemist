@@ -94,5 +94,18 @@ export default class Player extends Character {
                 repeat: -1,
                 frameRate: 5
             });
+
+        
+    }
+
+    hasTeleportStone(index: number): boolean {
+        var hasFound = false;
+
+        for (let item of this.inventory.items) {
+            if (item.sprite.name === `teleport-stone-` + index)
+                hasFound = true;
+        }
+
+        return hasFound;
     }
 }
