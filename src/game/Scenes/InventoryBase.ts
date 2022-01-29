@@ -31,14 +31,14 @@ export default abstract class InventoryBase extends Phaser.Scene {
         this.background = this.add.sprite(0, 60, 'inventory-background').setOrigin(0, 0);
         this.container.add(this.background);
 
-        this.title = this.add.text(20, 60, 'Inventory', {fontFamily: 'pixellari'});
+        this.title = this.add.text(20, 60, 'Inventory', { fontFamily: 'pixellari' });
         this.container.add(this.title);
-        this.itemInfo = this.add.text(0, 0, '', {fontFamily: 'pixellari', padding: {bottom: 3, left: 3}, backgroundColor: '#111122'  });
+        this.itemInfo = this.add.text(0, 0, '', { fontFamily: 'pixellari', padding: { bottom: 3, left: 3 }, backgroundColor: '#111122' });
     }
 
     updatePosition() {
         let currentRow = 0;
-        let heigth = 65;
+        let heigth = 72;
 
         this.container.each((child: Phaser.GameObjects.GameObject) => {
             if (child != this.background && child != this.title) {
@@ -61,11 +61,11 @@ export default abstract class InventoryBase extends Phaser.Scene {
             this.itemInfo.setText(`hp: ${effect.deltaHp}\nstr: ${effect.deltaStrength}\nwis: ${effect.deltaWisdom}`);
             this.itemInfo.setPosition(sprite.x, sprite.y);
             this.itemInfo.setVisible(true);
-        } );
-        
+        });
+
         sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT, (pointer, evt) => {
             this.itemInfo.setVisible(false);
-        } );
+        });
     }
 
 }
