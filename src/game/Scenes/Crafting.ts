@@ -27,8 +27,13 @@ export default class Crafting extends InventoryBase {
     }
 
     preload(): void {
+        let image = this.add.image(600, 140, 'inventory-background');  
+        image.setScale(2, 1);
+        image.setFlip(true, true);
+        image.setScrollFactor(0);
         super.preload();
-        this.items = []       
+        this.items = []     
+        
     }
 
     create(): void {
@@ -48,7 +53,8 @@ export default class Crafting extends InventoryBase {
             gameobject.y = dragY;
         });
 
-        this.craft = new Button(this, 430, 430, 'craft-item', () => { this.onCraft() });
+        this.craft = new Button(this, 660, 180, 'craft-item', () => { this.onCraft() });
+        this.craft.setScale(0.25, 0.25);
     }
 
     update(time: number, delta: number): void {
