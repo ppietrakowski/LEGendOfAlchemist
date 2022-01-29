@@ -66,34 +66,36 @@ export default class Crafting extends InventoryBase {
         sprite.name = item.sprite.name;
         sprite.setInteractive({ pixelPerfect: true, draggable: true });
 
-        if (sprite.texture.key !== 'potion' && sprite.texture.key !== 'teleport-stone') {
-            sprite.on(Phaser.Input.Events.GAMEOBJECT_DRAG, (pointer: Phaser.Input.Pointer, dragX: number, dragY: number) => {
-                sprite.x = dragX;
-                sprite.y = dragY;
-            });
+        if (sprite.texture.key !== 'potion' && sprite.texture.key !== 'teleport-stone')
+            this.setupPickable(item, sprite);
 
-            sprite.on(Phaser.Input.Events.DRAG_END, (pointer: Phaser.Input.Pointer, dropped: boolean) => {
-                if (!dropped)
-                    this.updatePosition();
-            });
-
-            sprite.on(Phaser.Input.Events.GAMEOBJECT_DROP, (pointer: Phaser.Input.Pointer, dropZone: Phaser.GameObjects.Image) => {
-                if (dropZone.name.startsWith('item-bkg-') && !this.items.find((v) => v.backgroundImage.name === dropZone.name).item) {
-                    let i = new Phaser.Math.Vector2(dropZone.x - 45, (dropZone.y) / 1.6 - dropZone.originY);
-                    sprite.setPosition(i.x + sprite.width, i.y);
-                    this.items.find((v) => v.backgroundImage.name === dropZone.name).item = item;
-                    let e = this.mixEffects();
-                    this.potionInfo = `hp: ${e.deltaHp}\nstr: ${e.deltaStrength}\nwis: ${e.deltaWisdom}`;
-                    this.potion.setText(this.potionInfo);
-                }
-            })
-            this.addItemInfo(sprite, item.effect);
-        }
-
-        
         this.container.add(sprite);
         sprite.setScrollFactor(0);
         this.updatePosition();
+    }
+
+    setupPickable(item: Item, sprite: Phaser.GameObjects.Sprite): void {
+        sprite.on(Phaser.Input.Events.GAMEOBJECT_DRAG, (pointer: Phaser.Input.Pointer, dragX: number, dragY: number) => {
+            sprite.x = dragX;
+            sprite.y = dragY;
+        });
+
+        sprite.on(Phaser.Input.Events.DRAG_END, (pointer: Phaser.Input.Pointer, dropped: boolean) => {
+            if (!dropped)
+                this.updatePosition();
+        });
+
+        sprite.on(Phaser.Input.Events.GAMEOBJECT_DROP, (pointer: Phaser.Input.Pointer, dropZone: Phaser.GameObjects.Image) => {
+            if (dropZone.name.startsWith('item-bkg-') && !this.items.find((v) => v.backgroundImage.name === dropZone.name).item) {
+                let i = new Phaser.Math.Vector2(dropZone.x - 45, (dropZone.y) / 1.6 - dropZone.originY);
+                sprite.setPosition(i.x + sprite.width, i.y);
+                this.items.find((v) => v.backgroundImage.name === dropZone.name).item = item;
+                let e = this.mixEffects();
+                this.potionInfo = `hp: ${e.deltaHp}\nstr: ${e.deltaStrength}\nwis: ${e.deltaWisdom}`;
+                this.potion.setText(this.potionInfo);
+            }
+        })
+        this.addItemInfo(sprite, item.effect);
     }
 
     deleteChild(child: string): void {
