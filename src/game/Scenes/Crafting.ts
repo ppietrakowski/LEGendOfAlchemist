@@ -93,14 +93,16 @@ export default class Crafting extends InventoryBase {
     }
 
     moveObjectToField(dropZone: Phaser.GameObjects.Image, sprite: Phaser.GameObjects.Sprite, item: Item) {
-        let ingredientPos = new Phaser.Math.Vector2(dropZone.x - 45, (dropZone.y) / 1.6 - dropZone.originY);
-        sprite.setPosition(ingredientPos.x + sprite.width, ingredientPos.y);
-        this.items.find((v) => v.backgroundImage.name === dropZone.name).item = item;
-        
+        let field = this.getField(dropZone.name);
+        let ingredientPos = new Phaser.Math.Vector2(dropZone.x - 45 + sprite.width, (dropZone.y) / 1.6 - dropZone.originY);
+        sprite.setPosition(ingredientPos.x, ingredientPos.y);
+        field.item = item;
+
         let finalEffect = this.mixEffects();
         this.potionInfo = `hp: ${finalEffect.deltaHp}\nstr: ${finalEffect.deltaStrength}\nwis: ${finalEffect.deltaWisdom}`;
         this.potion.setText(this.potionInfo);
     }
+
 
     deleteChild(child: string): void {
         super.deleteChild(child);
