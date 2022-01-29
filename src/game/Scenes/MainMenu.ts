@@ -26,9 +26,10 @@ export default class MainMenu extends Phaser.Scene {
         this.theme = this.sound.add('menu-theme');
         this.theme.play({loop: true, delay: 0.25});
         this.add.image(0, 0, 'background').setOrigin(0, 0);
+        this.add.image(this.scale.width / 2, 60, 'logo');   
 
-        this.buttons.push(new Button(this, 960 / 2 - 30, 95 + 120, 'play', () => { onMainGameClicked(this); }));
-        this.buttons.push(new Button(this, 960 / 2 - 30, 95 + 255, 'credits', () => onCreditsClicked(this)));
+        this.buttons.push(new Button(this, 960 / 2 - 30, 125 + 120, 'play', () => { onMainGameClicked(this); }));
+        this.buttons.push(new Button(this, 960 / 2 - 30, 125 + 255, 'credits', () => onCreditsClicked(this)));
     }
 
 }
