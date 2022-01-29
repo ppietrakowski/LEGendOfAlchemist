@@ -42,22 +42,23 @@ export default class Crafting extends InventoryBase {
     create(): void {
         for (let i = 0; i < MaxItemsForCraft; i++) {
             let field = new Field(null, this.add.image(500 + i * 48, 120, 'item-background').setOrigin(0, 0));
-            field.backgroundImage.setInteractive({ dropZone: true, pixelPerfect: true });
-            field.backgroundImage.scaleX = 2;
-            field.backgroundImage.scaleY = 2;
-            field.backgroundImage.name = "item-bkg-" + i;
-            field.backgroundImage.setScrollFactor(0);
-
+            this.setupField(field, i);
             this.items.push(field)
         }
-
-
 
         this.craft = new Button(this, 660, 180, 'craft-item', () => { this.onCraft() });
         this.craft.setScale(0.25, 0.25);
     }
 
     update(time: number, delta: number): void {
+    }
+
+    setupField(field: Field, i: number): void {
+        field.backgroundImage.setInteractive({ dropZone: true, pixelPerfect: true });
+        field.backgroundImage.scaleX = 2;
+        field.backgroundImage.scaleY = 2;
+        field.backgroundImage.name = "item-bkg-" + i;
+        field.backgroundImage.setScrollFactor(0);
     }
 
     addElement(item: Item): void {
