@@ -5,6 +5,7 @@ import Enemy from '../Entities/Enemy';
 import Portal from '../Entities/Portal';
 
 import PlayerCombat from '../Components/PlayerCombat';
+import { getRandomEnemyKey } from '../Entities/Enemies';
 
 export default class GameScene extends Phaser.Scene {
 
@@ -58,8 +59,9 @@ export default class GameScene extends Phaser.Scene {
     private addEnemies() {
         this.enemies = [];
         for (let i = 0; i < 10; i++) {
-            let sprite = this.physics.add.sprite(0, 0, 'shark');
-            
+            let enemy = getRandomEnemyKey()
+            let sprite = this.physics.add.sprite(0, 0, enemy);
+
             
 
             while (this.seaLayer.getTileAtWorldXY(sprite.x, sprite.y) != null) {     
@@ -67,9 +69,7 @@ export default class GameScene extends Phaser.Scene {
                 sprite.y = Math.round(Phaser.Math.Between(1, 3000));
             }
 
-            console.log(sprite.x + " " + sprite.y);
-
-            this.enemies.push(new Enemy(`shark`, 120, sprite, this.player));
+            this.enemies.push(new Enemy(enemy, 120, sprite, this.player));
             this.player.getComponent<PlayerCombat>('player-combat').addEnemy(this.enemies[i]);
 
             this.physics.add.collider(this.enemies[i].sprite, this.seaLayer);
