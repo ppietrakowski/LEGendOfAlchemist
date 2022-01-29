@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import Effect from "../Components/Effect";
 import Inventory from '../Components/Inventory'
 import Item from "../Entities/Item";
+import TeleportStone from "../Entities/TeleportStone";
 
 export default abstract class InventoryBase extends Phaser.Scene {
     inventory: Inventory;
@@ -57,7 +58,7 @@ export default abstract class InventoryBase extends Phaser.Scene {
         this.inventory.hasItemsUpdate = false;
     }
 
-    addItemInfo(sprite: Phaser.GameObjects.Sprite, effect: Effect) {
+    addItemInfo(sprite: Phaser.GameObjects.Sprite, effect: Effect): void {
         sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER, (pointer, localX, localY, evt) => {
             this.itemInfo.setText(`hp: ${effect.deltaHp}\nstr: ${effect.deltaStrength}\nwis: ${effect.deltaWisdom}`);
             this.itemInfo.setPosition(sprite.x, sprite.y);
@@ -65,6 +66,19 @@ export default abstract class InventoryBase extends Phaser.Scene {
         });
 
         sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT, (pointer, evt) => {
+            this.itemInfo.setVisible(false);
+        });
+    }
+
+    addTeleportInfo(teleport: TeleportStone): void {
+        teleport.sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER, (pointer, localX, localY, evt) => {
+            
+            this.itemInfo.setText(`Allows for teleport\nin teleport number ${teleport.index}`);
+            this.itemInfo.setPosition(teleport.sprite.x, teleport.sprite.y);
+            this.itemInfo.setVisible(true);
+        });
+
+        teleport.sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT, (pointer, evt) => {
             this.itemInfo.setVisible(false);
         });
     }

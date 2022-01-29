@@ -25,22 +25,11 @@ export default class InventoryUi extends InventoryBase {
     addElement(item: Item): void {
         this.container.add(item.sprite);
         item.sprite.setScrollFactor(0);
-        if (item.sprite.texture.key !== 'teleport-stone') {
+        if (item.sprite.texture.key !== 'teleport-stone')
             this.addItemInfo(item.sprite, item.effect);
-        } else {
-            let teleport = item as TeleportStone;
-            item.sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER, (pointer, localX, localY, evt) => {
-                
-                this.itemInfo.setText(`Allows for teleport\nin teleport number ${teleport.index}`);
-                this.itemInfo.setPosition(item.sprite.x, item.sprite.y);
-                this.itemInfo.setVisible(true);
-            });
-
-            item.sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT, (pointer, evt) => {
-                this.itemInfo.setVisible(false);
-            });
-
-        }
+        else
+            this.addTeleportInfo(item as TeleportStone);
+        
         this.updatePosition();
     }
 
