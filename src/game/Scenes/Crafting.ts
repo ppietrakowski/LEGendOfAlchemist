@@ -152,20 +152,22 @@ export default class Crafting extends InventoryBase {
         return anyItem;
     }
 
+    deleteRestOfItems() {
+        for (let i = 0; i < this.items.length; i++) {
+            if (this.items[i].item != null) {
+                this.inventory.deleteItem(this.items[i].item);
+                this.items[i].item = null;
+            }
+        }
+    }
+
     onCraft(): void {
 
         if (this.hasAnyItemInArray()) {
             let mixture = new Potion(this.mixEffects(), this.add.sprite(0, 0, 'potion'));
             this.inventory.addItem(mixture);
 
-            // delete rest of items
-            for (let i = 0; i < this.items.length; i++) {
-                if (this.items[i].item != null) {
-                    this.inventory.deleteItem(this.items[i].item);
-                    this.items[i].item = null;
-                }
-            }
-
+            this.deleteRestOfItems();
             this.potion.setText('')
         }
 
