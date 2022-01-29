@@ -1,12 +1,12 @@
 # About game
 
 LEGend of the Alchemist
-
+Your 
 
 ## Controls:
 * arrows - for moving around with character
 * i - opens inventory
-* [click on enemy] - throws attack potion on the enemy
+* [click on enemy] - throws attack potion on the enemy, works only if you near enough (range scales with strength)
 * c - opens crafting menu
 
 ## Features
@@ -40,6 +40,7 @@ LEGend of the Alchemist
 * player-slap - public domain
 * menu music - Make a field Music
 * Pixellari - font Zacchary Dempsey-Plante
+
 ## build info
 First you need to have installed nodejs environment.
 Then you go to project directory and write:

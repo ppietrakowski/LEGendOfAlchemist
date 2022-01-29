@@ -71,8 +71,6 @@ export default class GameScene extends Phaser.Scene {
             let enemy = getRandomEnemyKey()
             let sprite = this.physics.add.sprite(0, 0, enemy);
 
-            
-
             while (this.seaLayer.getTileAtWorldXY(sprite.x, sprite.y) != null) {     
                 sprite.x = Math.round(Phaser.Math.Between(1, 4000));
                 sprite.y = Math.round(Phaser.Math.Between(1, 3000));
