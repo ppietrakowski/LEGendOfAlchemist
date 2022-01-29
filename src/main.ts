@@ -7,6 +7,7 @@ import DeadScene from './game/Scenes/DeadScene';
 import Crafting from './game/Scenes/Crafting'
 import InventoryUi from './game/Scenes/InventoryUi';
 import PreloadScene from './game/Scenes/PreloadScene'
+import CharacterInfo from './game/Scenes/CharacterInfo';
 
 class Game extends Phaser.Game {
 
@@ -47,6 +48,7 @@ class Game extends Phaser.Game {
         this.scene.add('GameScene', GameScene, false);
         this.scene.add('Inventory', InventoryUi, false);
         this.scene.add('Crafting', Crafting, false);
+        this.scene.add('CharacterInfo', CharacterInfo, false);
     }
 }
 

@@ -16,10 +16,12 @@ export default class GameScene extends Phaser.Scene {
     tileset: Phaser.Tilemaps.Tileset;
     seaLayer: Phaser.Tilemaps.TilemapLayer;
     keyC: Phaser.Input.Keyboard.Key;
+    keyTab: Phaser.Input.Keyboard.Key
+    enemyKilled = 0
 
     constructor() {
         super('GameScene');
-    }
+    } 
 
     create(): void {
         this.map = this.make.tilemap({ key: 'island' });
@@ -32,6 +34,7 @@ export default class GameScene extends Phaser.Scene {
         this.addEnemies();
         this.addCollision();
         this.keyC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
+        this.keyTab = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TAB);
     }
 
     update(time: number, delta: number): void {
@@ -39,6 +42,12 @@ export default class GameScene extends Phaser.Scene {
         if (this.keyC.isDown) {
             this.game.scene.run('Crafting');
             this.game.scene.getScene('Crafting').scene.setVisible(true);
+            this.game.scene.pause('GameScene');
+        }
+
+        if (this.keyTab.isDown) {
+            this.game.scene.run('CharacterInfo');
+            this.game.scene.getScene('CharacterInfo').scene.setVisible(true);
             this.game.scene.pause('GameScene');
         }
 
@@ -94,6 +103,7 @@ export default class GameScene extends Phaser.Scene {
         enemy.update(deltaTime / 1000);
 
         if (enemy.isDead()) {
+            this.enemyKilled++;
             enemy.makeDead();
             this.deleteEnemy(enemy);
         }
