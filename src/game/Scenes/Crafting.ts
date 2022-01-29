@@ -63,11 +63,9 @@ export default class Crafting extends InventoryBase {
     addElement(item: Item): void {
         let sprite = this.add.sprite(item.sprite.x, item.sprite.y, item.sprite.texture.key);
         sprite.name = item.sprite.name;
+        sprite.setInteractive({ pixelPerfect: true, draggable: true });
 
         if (sprite.texture.key !== 'potion') {
-
-            sprite.setInteractive({ pixelPerfect: true, draggable: true });
-
             sprite.on(Phaser.Input.Events.GAMEOBJECT_DRAG, (pointer: Phaser.Input.Pointer, dragX: number, dragY: number) => {
                 sprite.x = dragX;
                 sprite.y = dragY;
@@ -90,7 +88,7 @@ export default class Crafting extends InventoryBase {
             })
         }
 
-
+        this.addItemInfo(sprite, item.effect);
         this.container.add(sprite);
         sprite.setScrollFactor(0);
         this.updatePosition();

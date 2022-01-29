@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import Effect from "../Components/Effect";
 import Inventory from '../Components/Inventory'
 import Item from "../Entities/Item";
 
@@ -9,6 +10,7 @@ export default abstract class InventoryBase extends Phaser.Scene {
     maxRow: number = 5;
     title: Phaser.GameObjects.Text;
     keyI: Phaser.Input.Keyboard.Key;
+    itemInfo: Phaser.GameObjects.Text;
 
     constructor(name: string) {
         super(name);
@@ -31,6 +33,7 @@ export default abstract class InventoryBase extends Phaser.Scene {
 
         this.title = this.add.text(20, 60, 'Inventory', {fontFamily: 'pixellari'});
         this.container.add(this.title);
+        this.itemInfo = this.add.text(0, 0, '', {fontFamily: 'pixellari', padding: {bottom: 3, left: 3}, backgroundColor: '#111122'  });
     }
 
     updatePosition() {
@@ -51,6 +54,18 @@ export default abstract class InventoryBase extends Phaser.Scene {
                 heigth += 16;
         });
         this.inventory.hasItemsUpdate = false;
+    }
+
+    addItemInfo(sprite: Phaser.GameObjects.Sprite, effect: Effect) {
+        sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER, (pointer, localX, localY, evt) => {
+            this.itemInfo.setText(`hp: ${effect.deltaHp}\nstr: ${effect.deltaStrength}\nwis: ${effect.deltaWisdom}`);
+            this.itemInfo.setPosition(sprite.x, sprite.y);
+            this.itemInfo.setVisible(true);
+        } );
+        
+        sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT, (pointer, evt) => {
+            this.itemInfo.setVisible(false);
+        } );
     }
 
 }

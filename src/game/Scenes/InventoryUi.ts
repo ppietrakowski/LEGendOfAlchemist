@@ -13,7 +13,7 @@ export default class InventoryUi extends InventoryBase {
     background: Phaser.GameObjects.Sprite;
     container: Phaser.GameObjects.Container;
     maxRow: number = 5;
-    title: Phaser.GameObjects.Text;
+    title: Phaser.GameObjects.Text;   
     keyI: Phaser.Input.Keyboard.Key;
 
     constructor() {
@@ -24,6 +24,7 @@ export default class InventoryUi extends InventoryBase {
     addElement(item: Item): void {
         this.container.add(item.sprite);
         item.sprite.setScrollFactor(0);
+        this.addItemInfo(item.sprite, item.effect);
         this.updatePosition();
     }
 
