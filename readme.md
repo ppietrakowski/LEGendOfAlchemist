@@ -25,6 +25,7 @@ LEGend of the Alchemist
 * Make a field Music for sounds
 * Mike Koenig for sounds
 * Public domain
+* Zacchary Dempsey-Plante for Pixellari font
 
 ## authors
 * pawelp
@@ -38,7 +39,7 @@ LEGend of the Alchemist
 * player - michaldrozdz2000
 * player-slap - public domain
 * menu music - Make a field Music
-
+* Pixellari - font Zacchary Dempsey-Plante
 ## build info
 First you need to have installed nodejs environment.
 Then you go to project directory and write:
