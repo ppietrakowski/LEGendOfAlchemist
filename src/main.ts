@@ -36,6 +36,10 @@ class Game extends Phaser.Game {
             pixelArt: true
         });
         
+        this.loadScenes();
+    }
+
+    loadScenes(): void {
         this.scene.add('Preload', PreloadScene, true);
         this.scene.add('MainMenu', MainMenu, false);
         this.scene.add('Credits', Credits, false);
@@ -43,7 +47,6 @@ class Game extends Phaser.Game {
         this.scene.add('GameScene', GameScene, false);
         this.scene.add('Inventory', InventoryUi, false);
         this.scene.add('Crafting', Crafting, false);
-        
     }
 }
 

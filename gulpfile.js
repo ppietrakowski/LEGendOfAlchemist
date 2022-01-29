@@ -19,7 +19,7 @@ const paths = {
   pages: ["src/html/*.html", "src/html/*.ico"],
   assetsSrc: ["src/assets"],
   assetsDist: ["dist/assets"],
-  typescriptEntries: ["src/main.js"],
+  typescriptEntries: ["src/main.ts"],
   buildDir: 'dist/'
 };
 
