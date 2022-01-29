@@ -58,7 +58,7 @@ export default class GameScene extends Phaser.Scene {
 
     private addEnemies() {
         this.enemies = [];
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 100; i++) {
             let enemy = getRandomEnemyKey()
             let sprite = this.physics.add.sprite(0, 0, enemy);
 

@@ -54,18 +54,8 @@ export default class Inventory implements Component {
             (this.owner as Player).inventory.deleteItem(item);
         });
 
-        item.sprite.on(Phaser.Input.Events.DRAG_ENTER, (pointer : Phaser.Input.Pointer, gameObject: Phaser.GameObjects.GameObject, dropZone : Phaser.GameObjects.GameObject) => {
-            
-            if (dropZone.name.search(/item-bkg-\d/) != -1) {
-                let field = (this.owner.sprite.scene.game.scene.getScene('Crafting') as Crafting).getField(dropZone.name);
-                field.item = item;
-            }
-
-        });
-
         this.hasItemsUpdate = true;
         this.ui.addElement(item);
-        
     }
 
     deleteItem(item: Item) {

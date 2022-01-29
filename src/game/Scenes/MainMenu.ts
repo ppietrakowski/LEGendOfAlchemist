@@ -5,7 +5,8 @@ import Button from '../Entities/Button';
 
 function onMainGameClicked(self: MainMenu): void {
     self.theme.stop();
-    self.game.scene.switch('MainMenu', 'GameScene');
+    self.game.scene.stop('MainMenu');
+    self.game.scene.run('GameScene');
 }
 
 function onCreditsClicked(self: MainMenu): void {

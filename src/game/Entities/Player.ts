@@ -40,7 +40,9 @@ export default class Player extends Character {
 
     makeDead(): void {
         // for now just show dead screen
-        this.sprite.scene.game.scene.switch('GameScene', 'DeadScene');
+        this.sprite.scene.game.scene.run('DeadScene');
+        this.sprite.scene.game.scene.stop('GameScene');
+        
     }
 
     private addAnimations(): void {

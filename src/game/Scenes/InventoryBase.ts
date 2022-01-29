@@ -40,7 +40,7 @@ export default abstract class InventoryBase extends Phaser.Scene {
         this.container.each((child: Phaser.GameObjects.GameObject) => {
             if (child != this.background && child != this.title) {
                 let ch = child as Phaser.GameObjects.Sprite;
-                ch.x = 5 + 24 * currentRow;
+                ch.x = 10 + 24 * currentRow;
                 ch.y = heigth;
                 ++currentRow;
                 if (currentRow === this.maxRow) {
