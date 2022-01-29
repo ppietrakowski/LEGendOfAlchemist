@@ -86,16 +86,20 @@ export default class Crafting extends InventoryBase {
         });
 
         sprite.on(Phaser.Input.Events.GAMEOBJECT_DROP, (pointer: Phaser.Input.Pointer, dropZone: Phaser.GameObjects.Image) => {
-            if (dropZone.name.startsWith('item-bkg-') && !this.items.find((v) => v.backgroundImage.name === dropZone.name).item) {
-                let i = new Phaser.Math.Vector2(dropZone.x - 45, (dropZone.y) / 1.6 - dropZone.originY);
-                sprite.setPosition(i.x + sprite.width, i.y);
-                this.items.find((v) => v.backgroundImage.name === dropZone.name).item = item;
-                let e = this.mixEffects();
-                this.potionInfo = `hp: ${e.deltaHp}\nstr: ${e.deltaStrength}\nwis: ${e.deltaWisdom}`;
-                this.potion.setText(this.potionInfo);
-            }
+            if (dropZone.name.startsWith('item-bkg-') && !this.items.find((v) => v.backgroundImage.name === dropZone.name).item)
+                this.moveObjectToField(dropZone, sprite, item);
         })
         this.addItemInfo(sprite, item.effect);
+    }
+
+    moveObjectToField(dropZone: Phaser.GameObjects.Image, sprite: Phaser.GameObjects.Sprite, item: Item) {
+        let ingredientPos = new Phaser.Math.Vector2(dropZone.x - 45, (dropZone.y) / 1.6 - dropZone.originY);
+        sprite.setPosition(ingredientPos.x + sprite.width, ingredientPos.y);
+        this.items.find((v) => v.backgroundImage.name === dropZone.name).item = item;
+        
+        let finalEffect = this.mixEffects();
+        this.potionInfo = `hp: ${finalEffect.deltaHp}\nstr: ${finalEffect.deltaStrength}\nwis: ${finalEffect.deltaWisdom}`;
+        this.potion.setText(this.potionInfo);
     }
 
     deleteChild(child: string): void {
