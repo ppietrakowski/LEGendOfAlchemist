@@ -53,6 +53,11 @@ export default class Crafting extends InventoryBase {
             gameobject.y = dragY;
         });
 
+        this.input.on(Phaser.Input.Events.DRAG_END, (pointer: Phaser.Input.Pointer, gameobject: Phaser.GameObjects.Sprite, dropped: boolean) => {
+            if (!dropped)
+                this.updatePosition();
+        });
+
         this.craft = new Button(this, 660, 180, 'craft-item', () => { this.onCraft() });
         this.craft.setScale(0.25, 0.25);
     }
@@ -73,6 +78,7 @@ export default class Crafting extends InventoryBase {
                 this.items.find((v) => v.backgroundImage.name === dropZone.name).item = item;
             }
         })
+        
 
         this.container.add(sprite);
         sprite.setScrollFactor(0);
