@@ -21,8 +21,6 @@ export default class MainMenu extends Phaser.Scene {
         this.buttons = [];
     }
 
-    //TODO: background music
-
     create(): void {
         this.theme = this.sound.add('menu-theme');
         this.theme.play();
