@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 import * as items from '../Entities/Items'
 import * as enemies from '../Entities/Enemies'
+import {loadMusic} from '../Entities/Music'
 
 export default class PreloadScene extends Phaser.Scene {
 
@@ -34,6 +35,8 @@ export default class PreloadScene extends Phaser.Scene {
 
         this.load.image('playerIcon', 'assets/characterIcon.png')
         this.load.image('logo', 'assets/game_icon.png');
+
+        loadMusic(this);
         enemies.loadAllEnemies(this)
         items.loadItems(this)
     }
