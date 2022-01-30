@@ -39,40 +39,28 @@ export default class Inventory implements Component {
 
     addItem(item: Item) {
         this.items.push(item);
-        let x = item.sprite.x;
-        let y = item.sprite.y;
-        let sprite = this.ui.add.sprite(x, y, item.sprite.texture.key);
+
+        let sprite = this.ui.add.sprite(item.sprite.x, item.sprite.y, item.sprite.texture.key);
         item.sprite.destroy();
 
         item.sprite = sprite;
-        if (item.sprite.name.search(/teleport-stone-\D*/) === -1) {
-            item.sprite.once(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
-                item.onUse(this.owner);
-                (this.owner as Player).inventory.deleteItem(item);
-            });
-        }
+        this.setupItem(item);
 
-        item.sprite.setInteractive({ pixelPerfect: true, draggable: true });
         item.sprite.name = sprite.texture.key + "-" + Math.round(sprite.x) + "-" + Math.round(sprite.y);
+
         this.crafting.addElement(item);
-
-
-
-        this.hasItemsUpdate = true;
         this.ui.addElement(item);
     }
 
     deleteItem(item: Item) {
         for (let i = 0; i < this.items.length; i++) {
-            if (this.items[i] === item && item.sprite.texture.key !== 'teleport-stone') {
-                this.crafting.deleteChild(item.sprite.name);
-                this.ui.deleteChild(item.sprite.name);
-                item.sprite.destroy();
-                this.items.splice(i, 1);
-            }
+            if (this.items[i] === item && item.sprite.texture.key !== 'teleport-stone')
+                this.removeItem(item, i);
         }
         this.hasItemsUpdate = true;
     }
+
+   
 
     update(timeSinceLastFrame: number): void {
         if (this.keyI.isDown) {
@@ -88,5 +76,24 @@ export default class Inventory implements Component {
 
     get crafting(): Crafting {
         return (this.owner.sprite.scene.game.scene.getScene('Crafting') as Crafting)
+    }
+
+    private removeItem(item: Item, i: number): void {
+        this.crafting.deleteChild(item.sprite.name);
+        this.ui.deleteChild(item.sprite.name);
+        item.sprite.destroy();
+        this.items.splice(i, 1);
+    }
+
+    private setupItem(item: Item): void {
+        if (item.sprite.name.search(/teleport-stone-\D*/) === -1) {
+            item.sprite.once(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
+                item.onUse(this.owner);
+                (this.owner as Player).inventory.deleteItem(item);
+            });
+            item.sprite.setInteractive({ pixelPerfect: true, draggable: true });
+        } else {
+            item.sprite.setInteractive({ pixelPerfect: true});
+        }
     }
 }
