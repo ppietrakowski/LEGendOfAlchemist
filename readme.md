@@ -26,6 +26,7 @@ Your
 * Mike Koenig for sounds
 * Public domain
 * Zacchary Dempsey-Plante for Pixellari font
+* MoppySound for 8-bit music
 
 ## authors
 * pawelp
@@ -38,8 +39,9 @@ Your
 * cherries, orange, potion, red flower - michaldrozdz2000
 * player - michaldrozdz2000
 * player-slap - public domain
-* menu music - Make a field Music
+* roam1 - Make a field Music
 * Pixellari - font Zacchary Dempsey-Plante
+* roam2,menu music and attack - MoppySound
 
 ## build info
 First you need to have installed nodejs environment.

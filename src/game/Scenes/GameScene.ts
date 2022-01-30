@@ -32,9 +32,9 @@ export default class GameScene extends Phaser.Scene {
     create(): void {
         this.map = this.make.tilemap({ key: 'island' });
         this.tileset = this.map.addTilesetImage('textures', 'main-island');
-        this.seaLayer = this.map.createLayer('sea', this.tileset, -100, -100);
+        
         this.map.createLayer('island', this.tileset, -100, -100);
-
+        this.seaLayer = this.map.createLayer('sea', this.tileset, -100, -100);
         this.player = new Player(this, this.physics.add.sprite(220, 140, 'player'));
         this.addPortals();
         this.addEnemies();
@@ -142,8 +142,11 @@ export default class GameScene extends Phaser.Scene {
 
     private addCollision(): void {
         this.physics.add.collider(this.player.sprite, this.seaLayer);
-        this.seaLayer.setCollisionBetween(48, 51);
-        this.seaLayer.setCollisionBetween(56, 59);
+        this.seaLayer.setCollisionBetween(0, 2);
+        this.seaLayer.setCollisionBetween(5, 5);
+        this.seaLayer.setCollisionBetween(7, 7);
+        this.seaLayer.setCollisionBetween(10, 14);
+
     }
 
     private addPortals() {
