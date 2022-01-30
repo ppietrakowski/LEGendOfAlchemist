@@ -18,6 +18,8 @@ export default class GameScene extends Phaser.Scene {
     seaLayer: Phaser.Tilemaps.TilemapLayer;
     keyC: Phaser.Input.Keyboard.Key;
     keyTab: Phaser.Input.Keyboard.Key
+    music: Array<Phaser.Sound.BaseSound>
+    currentMusic: Phaser.Sound.BaseSound;
     enemyKilled = 0
 
     constructor() {
@@ -37,9 +39,29 @@ export default class GameScene extends Phaser.Scene {
 
         this.keyC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
         this.keyTab = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TAB);
+
+
+        this.music = [];
+        this.music.push(this.sound.add('roam2'))
+        this.music.push(this.sound.add('roam1'))
+        this.music.push(this.sound.add('attack'))
+
+        
+        this.currentMusic = this.music[0];
+        this.currentMusic.play();
     }
 
     update(time: number, delta: number): void {
+
+        if (!this.currentMusic.isPlaying) {
+            var i = this.music.findIndex((v) => v === this.currentMusic);
+            if (i === this.music.length - 1)
+                i = -1;
+
+            this.currentMusic = this.music[i + 1];
+            this.currentMusic.play({delay: 0.7});
+        }
+
         if (this.keyC.isDown)
             this.runCrafting();
 
