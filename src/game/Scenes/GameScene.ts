@@ -91,7 +91,7 @@ export default class GameScene extends Phaser.Scene {
         let enemy: Enemy;
         this.spawnEnemyAtGrassTile(sprite);
         
-        enemy = new Enemy(name, 120, sprite, this.player);
+        enemy = new Enemy(name, 140, sprite, this.player);
 
         this.player.getComponent<PlayerCombat>('player-combat').addEnemy(enemy);
 

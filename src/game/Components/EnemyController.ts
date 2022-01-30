@@ -94,7 +94,7 @@ export default class EnemyController implements Component {
     }
 
     private isPlayerNear(): boolean {
-        return this.self.isNearObject(this.target.sprite, 58);
+        return this.self.isNearObject(this.target.sprite, 67);
     }
 
     private isPlayerInRange(): boolean {
