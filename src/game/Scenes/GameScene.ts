@@ -25,7 +25,6 @@ export default class GameScene extends Phaser.Scene {
     }
 
     create(): void {
-        this.cameras.main.setZoom(0.75, 0.75)
         this.map = this.make.tilemap({ key: 'island' });
         this.tileset = this.map.addTilesetImage('textures', 'main-island');
         this.seaLayer = this.map.createLayer('sea', this.tileset, -100, -100);
@@ -75,7 +74,7 @@ export default class GameScene extends Phaser.Scene {
 
     private addEnemies() {
         this.enemies = [];
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < 50; i++) {
             let enemy = getRandomEnemyKey()
             let sprite = this.physics.add.sprite(0, 0, enemy);
 

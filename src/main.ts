@@ -20,14 +20,14 @@ class Game extends Phaser.Game {
             width: width,
             height: height,
             fps: {
-                min: 30,
+                min: 50,
                 target: 50
             },
             physics: {
                 default: 'arcade',
                 arcade: {
                     gravity: { y: 0 },
-                    debug: true
+                    debug: false
                 }
             },
             scale: {
