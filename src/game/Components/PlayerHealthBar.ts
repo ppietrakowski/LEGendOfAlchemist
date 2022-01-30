@@ -12,7 +12,7 @@ export default class PlayerHealthBar extends HealthBar {
 
     start(character: Character): void {
         this.text = character.sprite.scene.add.text(20, 20,
-             this.player.attributes.hp.toString(), {fontFamily: 'pixellari', color: '#000000',
+             this.player.attributes.hp.toString(), {fontFamily: 'pixellari', color: '#ffffff',
                backgroundColor: '#880000', fontSize: '16px'});
             
         this.text.setScrollFactor(0);

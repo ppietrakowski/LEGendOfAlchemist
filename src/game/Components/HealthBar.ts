@@ -33,7 +33,7 @@ export default class HealthBar implements Component {
         this.self = character;
         this.hpMax = this.self.attributes.hp;
         
-        this.text = character.sprite.scene.add.text(character.sprite.x, character.sprite.y - 2 * this.self.sprite.width, attributes.hp.toString(), {fontFamily: 'pixellari', color: '#000000', backgroundColor: '#880000'});
+        this.text = character.sprite.scene.add.text(character.sprite.x, character.sprite.y - 2 * this.self.sprite.width, attributes.hp.toString(), {fontFamily: 'pixellari', color: '#ffffff', backgroundColor: '#880000'});
         this.text.setVisible(false);
     }
 
