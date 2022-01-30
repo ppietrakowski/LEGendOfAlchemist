@@ -51,9 +51,12 @@ export default class EnemyController implements Component {
 
     start(character: Character): void {
         this.self = character as Enemy;
+        
         this.spawnPoint = new Phaser.Math.Vector2(character.sprite.x, character.sprite.y);
         this.self.sprite.setVelocity(0, 0);
+
         character.sprite.scene.physics.add.collider(character.sprite, this.target.sprite);
+
         this.hitSound = this.self.sprite.scene.sound.add('player-slap');
     }
 

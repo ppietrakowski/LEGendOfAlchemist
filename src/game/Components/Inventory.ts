@@ -60,8 +60,6 @@ export default class Inventory implements Component {
         this.hasItemsUpdate = true;
     }
 
-   
-
     update(timeSinceLastFrame: number): void {
         if (this.keyI.isDown) {
             this.ui.game.scene.game.scene.run('Inventory');
