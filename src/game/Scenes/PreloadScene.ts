@@ -15,7 +15,7 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image('sound-on', 'assets/buttons/sound_on.png')
         this.load.image('sound-off', 'assets/buttons/sound_off.png')
         this.load.image('background', 'assets/temp/background.png')
-        this.load.image('main-island', 'assets/tilemap/placeholder.png')
+        this.load.image('main-island', 'assets/tilemap/tileset.png')
         
         this.load.spritesheet('player', 'assets/player.png', { frameWidth: 32, frameHeight: 64 })
         this.load.tilemapTiledJSON('island', 'assets/tilemap/main-island.json')
