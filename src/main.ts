@@ -32,7 +32,7 @@ class Game extends Phaser.Game {
             },
             scale: {
                 mode: Phaser.Scale.ScaleModes.FIT,
-                autoCenter: Phaser.Scale.CENTER_BOTH
+                autoCenter: Phaser.Scale.CENTER_BOTH,
             },
             pixelArt: true
         });

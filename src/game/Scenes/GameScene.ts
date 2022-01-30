@@ -30,6 +30,7 @@ export default class GameScene extends Phaser.Scene {
     }
 
     create(): void {
+        this.cameras.main.setBounds(0, 0, 7168, 5120);
         this.map = this.make.tilemap({ key: 'island' });
         this.tileset = this.map.addTilesetImage('textures', 'main-island');
         
