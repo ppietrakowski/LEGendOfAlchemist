@@ -20,8 +20,8 @@ class Game extends Phaser.Game {
             width: width,
             height: height,
             fps: {
-                min: 50,
-                target: 50
+                min: 30,
+                target: 30
             },
             physics: {
                 default: 'arcade',
