@@ -16,8 +16,9 @@ export default class DeadScene extends Phaser.Scene {
     }
 
     create(): void {
-        this.add.text(120, 120, 'You failed to reach a boss');
-        this.back = new Button(this, 120, 400, 'back', onButtonPressed);
+        this.add.image(0, 0, 'background').setOrigin(0, 0).setTint(0xff0000);
+        this.add.text(this.scale.width / 2, this.scale.height / 2, 'You failed to reach the boss', {fontSize: '40px', fontFamily: 'pixellari', color: '#ff1155', stroke: '#fff', strokeThickness: 1}).setOrigin(0.5);
+        this.back = new Button(this, this.scale.width / 2, this.scale.height - 120, 'back', onButtonPressed);
     }
 
 }
