@@ -11,6 +11,9 @@ export default class PlayerCombat implements Component {
     player: Player;
     timeSinceLastFrame: number;
 
+    constructor() {
+    }
+
     debugName(): string {
         return 'player-combat';
     }
@@ -36,7 +39,7 @@ export default class PlayerCombat implements Component {
 
     onThrowAnything(enemy: Enemy) {
         let scene = enemy.sprite.scene;
-        if (this.player.isNearObject(enemy.sprite, 3 * this.player.attributes.strength)) {
+        if (this.player.isNearObject(enemy.sprite, 5 * this.player.attributes.strength) && !this.player.hasAttacked ) {
             let throwable = scene.add.image(this.player.sprite.x, this.player.sprite.y, 'potion');
 
             scene.sound.add('potion-throwed').play();
@@ -48,6 +51,7 @@ export default class PlayerCombat implements Component {
 
         let duration = 100 * Phaser.Math.Distance.Between(enemy.sprite.x, enemy.sprite.y, this.player.sprite.x, this.player.sprite.y) * this.timeSinceLastFrame;
         throwable.setRotation(Math.PI / 360)
+        this.player.hasAttacked = true;
         throwable.scene.tweens.add({
             targets: [throwable],
             ease: 'linear',
@@ -56,7 +60,9 @@ export default class PlayerCombat implements Component {
             y: enemy.sprite.y,
             onComplete: () => {
                 throwable.scene.sound.add('potion-hit').play();
-                enemy.attributes.addEffect(new Effect(100 * this.timeSinceLastFrame * -this.player.attributes.strength, 0, 0, 0.5)); throwable.destroy();
+                enemy.attributes.addEffect(new Effect(100 * this.timeSinceLastFrame * -this.player.attributes.strength, 0, 0, 0.5));
+                this.player.hasAttacked = false;
+                throwable.destroy();
             }
         });
     }

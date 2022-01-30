@@ -10,12 +10,14 @@ interface ComponentDictionary {
 export default abstract class Character {
     private components: ComponentDictionary;
     sprite: Phaser.Physics.Arcade.Sprite;
+    hasAttacked: boolean;
 
     constructor(sprite: Phaser.Physics.Arcade.Sprite) {
         this.components = {};
         this.sprite = sprite;
         sprite.setInteractive({pixelPerfect: true});
         this.addComponent(new Attribute(100, 20, 10));
+        this.hasAttacked = false;
     }
 
     addComponent(component: Component): void {
