@@ -11,6 +11,8 @@ export default class PreloadScene extends Phaser.Scene {
     preload() {
         this.load.image('play', 'assets/buttons/play.png')
         this.load.image('credits', 'assets/buttons/credits.png')
+        this.load.image('sound-on', 'assets/buttons/sound_on.png')
+        this.load.image('sound-off', 'assets/buttons/sound_off.png')
         this.load.image('background', 'assets/temp/background.png')
         this.load.image('main-island', 'assets/tilemap/placeholder.png')
         
