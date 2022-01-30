@@ -8,7 +8,8 @@ export const Items = [
     'orange',
     'red_flower',
     'potion',
-    'teleport-stone'
+    'teleport-stone',
+    'bush'
 ]
 
 /**
@@ -16,7 +17,7 @@ export const Items = [
  * @returns {number}
  */
 export function getRandomItemIndex(): number {
-    let index = Math.round( Math.random() * (Items.length - 2) );
+    let index = Math.round( Math.random() * (Items.length - 3) );
     return index;
 }
 

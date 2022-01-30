@@ -7,6 +7,9 @@ import Boss from '../Entities/Boss'
 
 import PlayerCombat from '../Components/PlayerCombat';
 import { getRandomEnemyKey } from '../Entities/Enemies';
+import Ingredient from '../Entities/Ingredient';
+import Effect from '../Components/Effect';
+import { getItemWithRandomEffect } from '../Entities/Items';
 
 export default class GameScene extends Phaser.Scene {
 
@@ -36,6 +39,8 @@ export default class GameScene extends Phaser.Scene {
         this.addPortals();
         this.addEnemies();
         this.addCollision();
+
+        this.putItems();
 
         this.keyC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
         this.keyTab = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TAB);
@@ -153,6 +158,37 @@ export default class GameScene extends Phaser.Scene {
             this.enemyKilled++;
             enemy.makeDead();
             this.deleteEnemy(enemy);
+        }
+    }
+
+    private putItems(): void {
+
+        // add 100 items 
+        for (let i = 0; i < 100; i++) {
+            let sprite = this.add.sprite(0, 0, 'bush');
+            while (this.seaLayer.getTileAtWorldXY(sprite.x, sprite.y) != null) {
+                sprite.x = Math.round(Phaser.Math.Between(1, 4000));
+                sprite.y = Math.round(Phaser.Math.Between(1, 3000));
+            }
+            sprite.setInteractive({pixelPerfect: true});
+            
+            sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, (pointer: Phaser.Input.Pointer) => {
+                var item = getItemWithRandomEffect(0, 0, this);
+                var text = this.add.text(sprite.x, sprite.y, 'You have received ' + item.sprite.texture.key);
+
+                sprite.destroy(true);
+
+                this.tweens.add({
+                    targets: [text],
+                    y: '-= 100',
+                    duration: 400,
+                    ease: 'linear',
+                    onComplete: () => {
+                        this.player.inventory.addItem(item)
+                        text.destroy();
+                    }
+                })        
+            });
         }
     }
 }
