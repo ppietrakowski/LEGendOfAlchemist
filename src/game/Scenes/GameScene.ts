@@ -41,24 +41,29 @@ export default class GameScene extends Phaser.Scene {
     }
 
     update(time: number, delta: number): void {
+        if (this.keyC.isDown)
+            this.runCrafting();
 
-        if (this.keyC.isDown) {
-            this.game.scene.run('Crafting');
-            this.game.scene.getScene('Crafting').scene.setVisible(true);
-            this.game.scene.pause('GameScene');
-        }
-
-        if (this.keyTab.isDown) {
-            this.game.scene.run('CharacterInfo');
-            this.game.scene.getScene('CharacterInfo').scene.setVisible(true);
-            this.game.scene.pause('GameScene');
-        }
+        if (this.keyTab.isDown)
+            this.runInventory();
 
         this.player.update(delta / 1000);
         for (let i of this.enemies)
             this.updateEnemy(i, delta);
         if (this.player.isDead())
             this.player.makeDead();
+    }
+
+    private runCrafting() {
+        this.game.scene.run('Crafting');
+        this.game.scene.getScene('Crafting').scene.setVisible(true);
+        this.game.scene.pause('GameScene');
+    }
+
+    private runInventory(): void {
+        this.game.scene.run('CharacterInfo');
+        this.game.scene.getScene('CharacterInfo').scene.setVisible(true);
+        this.game.scene.pause('GameScene');
     }
 
     private deleteEnemy(enemy: Enemy) {
@@ -74,28 +79,42 @@ export default class GameScene extends Phaser.Scene {
             let enemy = getRandomEnemyKey()
             let sprite = this.physics.add.sprite(0, 0, enemy);
 
-            while (this.seaLayer.getTileAtWorldXY(sprite.x, sprite.y) != null) {
-                sprite.x = Math.round(Phaser.Math.Between(1, 4000));
-                sprite.y = Math.round(Phaser.Math.Between(1, 3000));
-            }
-
-
-                this.enemies.push(new Enemy(enemy, 120, sprite, this.player));
-               
-            this.player.getComponent<PlayerCombat>('player-combat').addEnemy(this.enemies[i]);
-
-            this.physics.add.collider(this.enemies[i].sprite, this.seaLayer);
-            for (let portal of this.portals) {
-                this.physics.add.collider(this.enemies[i].sprite, portal.sprite);
-            }
+            this.setupEnemy(sprite, enemy)
         }
+
         let enemy = getRandomEnemyKey()
         let sprite = this.physics.add.sprite(200, 200, enemy);
         this.enemies.push(new Boss(enemy, 120, sprite, this.player, 0));
         this.player.getComponent<PlayerCombat>('player-combat').addEnemy(this.enemies[this.enemies.length - 1]);
     }
 
-    private addCollision() {
+    private setupEnemy(sprite: Phaser.Physics.Arcade.Sprite, name: string): void {
+        let enemy: Enemy;
+        this.spawnEnemyAtGrassTile(sprite);
+        
+        enemy = new Enemy(name, 120, sprite, this.player);
+
+        this.player.getComponent<PlayerCombat>('player-combat').addEnemy(enemy);
+
+        this.addCollisionWithPortal(enemy.sprite);
+        this.enemies.push(enemy);
+    }
+
+    private spawnEnemyAtGrassTile(sprite: Phaser.Physics.Arcade.Sprite): void {
+        while (this.seaLayer.getTileAtWorldXY(sprite.x, sprite.y) != null) {
+            sprite.x = Math.round(Phaser.Math.Between(1, 4000));
+            sprite.y = Math.round(Phaser.Math.Between(1, 3000));
+        }
+    }
+
+    private addCollisionWithPortal(sprite: Phaser.Physics.Arcade.Sprite): void {
+        this.physics.add.collider(sprite, this.seaLayer);
+        for (let portal of this.portals) {
+            this.physics.add.collider(sprite, portal.sprite);
+        }
+    }
+
+    private addCollision(): void {
         this.physics.add.collider(this.player.sprite, this.seaLayer);
         this.seaLayer.setCollisionBetween(48, 51);
         this.seaLayer.setCollisionBetween(56, 59);

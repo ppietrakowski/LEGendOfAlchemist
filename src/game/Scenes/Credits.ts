@@ -6,7 +6,7 @@ function onBack(this: Phaser.GameObjects.Sprite): void {
     this.scene.game.scene.switch('Credits', 'MainMenu');
 }
 
-//TODO: background music
+
 export default class Credits extends Phaser.Scene {
     private text: string;
     private back: Button;
