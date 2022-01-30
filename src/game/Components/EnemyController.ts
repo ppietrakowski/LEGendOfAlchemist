@@ -30,7 +30,6 @@ export default class EnemyController implements Component {
     target: Player;
     self: Enemy;
     state: AI_State;
-    spawnPoint: Phaser.Math.Vector2;
     endPos: Phaser.Math.Vector2;
     maxRange: number;
     hitSound: Phaser.Sound.BaseSound;
@@ -51,10 +50,8 @@ export default class EnemyController implements Component {
 
     start(character: Character): void {
         this.self = character as Enemy;
-        
-        this.spawnPoint = new Phaser.Math.Vector2(character.sprite.x, character.sprite.y);
         this.self.sprite.setVelocity(0, 0);
-
+        this.endPos = new Phaser.Math.Vector2(character.sprite.x, character.sprite.y);
         character.sprite.scene.physics.add.collider(character.sprite, this.target.sprite);
 
         this.hitSound = this.self.sprite.scene.sound.add('player-slap');
@@ -93,11 +90,11 @@ export default class EnemyController implements Component {
     }
 
     private getDamage(timeSinceLastFrame: number): number {
-        return -timeSinceLastFrame * this.self.attributes.strength;
+        return -timeSinceLastFrame * 8 * this.self.attributes.strength;
     }
 
     private isPlayerNear(): boolean {
-        return this.self.isNearObject(this.target.sprite, 49);
+        return this.self.isNearObject(this.target.sprite, 58);
     }
 
     private isPlayerInRange(): boolean {
@@ -106,10 +103,6 @@ export default class EnemyController implements Component {
 
     private isPlayerOutOfRange(): boolean {
         return this.self.isNearObject(this.target.sprite, this.maxRange + 100);
-    }
-
-    private isNearSpawnpoint(): boolean {
-        return this.self.isNear(this.spawnPoint, 1);
     }
 
     private switchToRoaming(): void {
@@ -149,7 +142,7 @@ export default class EnemyController implements Component {
     // TODO proper movement
     private onRoam(timeSinceLastFrame: number): void {
         this.self.sprite.setVelocity(0, 0);
-        this.endPos = getRoamingPosition(this.spawnPoint);
+        this.endPos = getRoamingPosition(this.endPos);
 
         this.state = AI_State.DuringMove;
 
@@ -161,11 +154,11 @@ export default class EnemyController implements Component {
         // stops after chasing
         this.self.sprite.setVelocity(0, 0);
 
-        // just attack
-        this.target.attributes.addEffect(new Effect(this.getDamage(timeSinceLastFrame), 0, 0, 0.25));
-        
-        if (!this.hitSound.isPlaying)
+        if (!this.hitSound.isPlaying) {
             this.hitSound.play();
+            // just attack
+            this.target.attributes.addEffect(new Effect(this.getDamage(timeSinceLastFrame), 0, 0, 1));
+        }
     }
 
     private onChase(timeSinceLastFrame: number): void {
@@ -176,10 +169,6 @@ export default class EnemyController implements Component {
     private onAbort(timeSinceLastFrame: number): void {
         // stops, if it chasing
         this.self.sprite.setVelocity(0, 0);
-
-        this.spawnPoint.x = this.self.sprite.x;
-        this.spawnPoint.y = this.self.sprite.y;
-
         this.switchToRoaming();
     }
 
