@@ -163,13 +163,8 @@ export default class Crafting extends InventoryBase {
 
     onCraft(): void {
 
-        if (this.hasAnyItemInArray()) {
-            let mixture = new Potion(this.mixEffects(), this.add.sprite(0, 0, 'potion'));
-            this.inventory.addItem(mixture);
-
-            this.deleteRestOfItems();
-            this.potion.setText('')
-        }
+        if (this.hasAnyItemInArray())
+            this.createPotion();
 
         // for now just get back to gamescene
         this.game.scene.pause('Crafting', () => {
@@ -178,5 +173,13 @@ export default class Crafting extends InventoryBase {
 
         this.scene.setVisible(false);
         this.game.scene.run('GameScene');
+    }
+
+    private createPotion(): void {
+        let mixture = new Potion(this.mixEffects(), this.add.sprite(0, 0, 'potion'));
+        this.inventory.addItem(mixture);
+
+        this.deleteRestOfItems();
+        this.potion.setText('')
     }
 }
