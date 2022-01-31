@@ -37,7 +37,7 @@ export default class GameScene extends Phaser.Scene {
 
         this.map.createLayer('island', this.tileset, -100, -100);
         this.seaLayer = this.map.createLayer('sea', this.tileset, -100, -100);
-        this.player = new Player(this, this.physics.add.sprite(95 * 32, 61 * 32, 'player'));
+        this.player = new Player(this, this.physics.add.sprite(19 * 32, 14 * 32, 'player'));
         this.addPortals();
         this.addEnemies();
         this.addCollision();
@@ -233,7 +233,7 @@ export default class GameScene extends Phaser.Scene {
     }
 
     throwAway(sprite: Phaser.GameObjects.Sprite) {
-        let item = getItemWithRandomEffect(0, 0, this);
+        let item = getItemWithRandomEffect(-10, -10, this);
         let text = this.add.text(sprite.x, sprite.y, 'You have received ' + item.sprite.texture.key);
 
         this.tweens.add({
@@ -242,7 +242,7 @@ export default class GameScene extends Phaser.Scene {
             duration: 500,
             ease: 'linear',
             onComplete: () => {
-                this.player.inventory.addItem(item)
+                this.player.inventory.addItem(item);
                 text.destroy();
             }
         })

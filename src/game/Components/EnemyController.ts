@@ -21,7 +21,7 @@ function getRandomVector(): Phaser.Math.Vector2 {
 
 function getRoamingPosition(startPos: Phaser.Math.Vector2): Phaser.Math.Vector2 {
     let v = getRandomVector();
-    let range = Phaser.Math.Between(10, 70);
+    let range = Phaser.Math.Between(2, 70);
 
     return new Phaser.Math.Vector2(startPos.x + v.x * range, startPos.y + v.y * range);
 }

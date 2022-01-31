@@ -107,12 +107,12 @@ export default class Inventory implements Component {
     }
 
     private setupItem(item: Item): void {
-        if (item.sprite.name.search(/teleport-stone-\D*/) === -1) {
+        if (item.sprite.texture.key !== 'teleport-stone') {
             item.sprite.once(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
                 item.onUse(this.owner);
                 (this.owner as Player).inventory.deleteItem(item);
             });
-            item.sprite.setInteractive({ pixelPerfect: true, draggable: true });
+            item.sprite.setInteractive({ pixelPerfect: true });
         } else {
             item.sprite.setInteractive({ pixelPerfect: true });
         }

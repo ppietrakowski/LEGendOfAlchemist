@@ -40,10 +40,14 @@ export function loadItems(scene: Phaser.Scene): void {
  */
 export function getItemWithRandomEffect(x: number, y: number, scene: Phaser.Scene): Item {
     let index = getRandomItemIndex();
-    let hp = Math.ceil(Math.random() * (10 + 10) - 10);
-    let strength = Math.ceil(Math.random() * (10 + 10) - 10);
-    let wisdom = Math.ceil(Math.random() * (10 + 10) - 10);
-    let time = Math.floor(Math.random() * (2 + 1) - 1);
+    let hp = Math.ceil(Math.random() * (10 + 4) - 4);
+    let strength = Math.ceil(Math.random() * (10 + 4) - 4);
+    let wisdom = Math.ceil(Math.random() * (10 + 4) - 4);
+    let time = 0;
+
+    while (time === 0) {
+        time = Math.floor(Math.random() * (2 + 1) - 1)
+    }
 
     return new Ingredient(new Effect(hp, strength, wisdom, time), scene.add.sprite(x, y, Items[index]).setOrigin(0, 0));
 }
