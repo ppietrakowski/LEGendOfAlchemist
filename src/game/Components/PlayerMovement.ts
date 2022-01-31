@@ -48,8 +48,6 @@ export default class PlayerMovement implements Component {
         }
         else
             this.onMovement(this.onStayAnimation, 0, 0);
-
-        console.log(this.character.sprite.x + " " + this.character.sprite.y);
     }
 
     private onMovement(frameName: string, velX: number, velY: number) {
