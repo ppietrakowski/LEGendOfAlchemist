@@ -176,6 +176,10 @@ export default class EnemyController implements Component {
         if (this.self.isNear(this.endPos, 1.5))
             this.switchToRoaming();
         else if (this.self.sprite.body.checkCollision.down || this.self.sprite.body.checkCollision.left || this.self.sprite.body.checkCollision.right || this.self.sprite.body.checkCollision.up)
+        {
+            this.self.sprite.body.velocity.x *= -1;
+            this.self.sprite.body.velocity.y *= -1;
             this.switchToRoaming();
+        }
     }
 }

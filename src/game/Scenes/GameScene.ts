@@ -187,7 +187,7 @@ export default class GameScene extends Phaser.Scene {
         this.seaLayer.setCollisionBetween(8, 8);
         this.seaLayer.setCollisionBetween(10, 15);
         this.seaLayer.setCollisionBetween(16, 23);
-        this.seaLayer.setCollisionBetween(29, 30);
+        this.seaLayer.setCollisionBetween(29, 31);
 
     }
 
