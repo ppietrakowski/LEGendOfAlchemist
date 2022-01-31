@@ -94,7 +94,7 @@ export default class Crafting extends InventoryBase {
 
     moveObjectToField(dropZone: Phaser.GameObjects.Image, sprite: Phaser.GameObjects.Sprite, item: Item) {
         let field = this.getField(dropZone.name);
-        let ingredientPos = new Phaser.Math.Vector2(dropZone.x - 45 + sprite.width, (dropZone.y) / 1.6 - dropZone.originY);
+        let ingredientPos = new Phaser.Math.Vector2(dropZone.x - 45 + sprite.width / 2, (dropZone.y) / 1.6 - dropZone.originY - 5);
         sprite.setPosition(ingredientPos.x, ingredientPos.y);
         field.item = item;
 
@@ -165,11 +165,10 @@ export default class Crafting extends InventoryBase {
 
         if (this.hasAnyItemInArray())
             this.createPotion();
+        this.updatePosition();
 
         // for now just get back to gamescene
-        this.game.scene.pause('Crafting', () => {
-            this.updatePosition();
-        });
+        this.game.scene.pause('Crafting');
 
         this.scene.setVisible(false);
         this.game.scene.run('GameScene');
