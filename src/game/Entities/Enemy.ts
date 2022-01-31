@@ -31,7 +31,7 @@ export default class Enemy extends Character {
         this.getComponent<HealthBar>('hp-bar').hide();
 
         // add event to throw item in place of enemey
-        ingredient.sprite.once(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, (pointer: Phaser.Input.Pointer) => {
+        ingredient.sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, (pointer: Phaser.Input.Pointer) => {
             player.inventory.addItem(ingredient);
         });
 

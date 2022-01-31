@@ -33,7 +33,7 @@ export default class GameScene extends Phaser.Scene {
         this.cameras.main.setBounds(0, 0, 7168, 5120);
         this.map = this.make.tilemap({ key: 'island' });
         this.tileset = this.map.addTilesetImage('textures', 'main-island');
-        
+
         this.map.createLayer('island', this.tileset, -100, -100);
         this.seaLayer = this.map.createLayer('sea', this.tileset, -100, -100);
         this.player = new Player(this, this.physics.add.sprite(220, 140, 'player'));
@@ -52,7 +52,7 @@ export default class GameScene extends Phaser.Scene {
         this.music.push(this.sound.add('roam1'))
         this.music.push(this.sound.add('attack'))
 
-        
+
         this.currentMusic = this.music[0];
         this.currentMusic.play();
     }
@@ -65,7 +65,7 @@ export default class GameScene extends Phaser.Scene {
                 i = -1;
 
             this.currentMusic = this.music[i + 1];
-            this.currentMusic.play({delay: 0.7});
+            this.currentMusic.play({ delay: 0.7 });
         }
 
         if (this.keyC.isDown)
@@ -118,7 +118,7 @@ export default class GameScene extends Phaser.Scene {
     private setupEnemy(sprite: Phaser.Physics.Arcade.Sprite, name: string): void {
         let enemy: Enemy;
         this.spawnEnemyAtGrassTile(sprite);
-        
+
         enemy = new Enemy(name, 140, sprite, this.player);
 
         this.player.getComponent<PlayerCombat>('player-combat').addEnemy(enemy);
@@ -174,24 +174,27 @@ export default class GameScene extends Phaser.Scene {
                 sprite.x = Math.round(Phaser.Math.Between(1, 4000));
                 sprite.y = Math.round(Phaser.Math.Between(1, 3000));
             }
-            sprite.setInteractive({pixelPerfect: true});
-            
+            sprite.setInteractive({ pixelPerfect: true });
+
             sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, (pointer: Phaser.Input.Pointer) => {
-                var item = getItemWithRandomEffect(0, 0, this);
-                var text = this.add.text(sprite.x, sprite.y, 'You have received ' + item.sprite.texture.key);
 
-                sprite.destroy(true);
+                if (this.player.inventory.hasFreeSpace()) {
+                    let item = getItemWithRandomEffect(0, 0, this);
+                    let text = this.add.text(sprite.x, sprite.y, 'You have received ' + item.sprite.texture.key);
 
-                this.tweens.add({
-                    targets: [text],
-                    y: '-= 100',
-                    duration: 400,
-                    ease: 'linear',
-                    onComplete: () => {
-                        this.player.inventory.addItem(item)
-                        text.destroy();
-                    }
-                })        
+                    this.tweens.add({
+                        targets: [text],
+                        y: '-= 100',
+                        duration: 500,
+                        ease: 'linear',
+                        onComplete: () => {
+                            this.player.inventory.addItem(item)
+                            text.destroy();
+                        }
+                    })
+                    sprite.destroy(true);
+                } else
+                    this.player.inventory.showCannotGatherInfo();
             });
         }
     }

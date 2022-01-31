@@ -48,10 +48,13 @@ export default class PlayerCombat implements Component {
     }
 
     throw(throwable: Phaser.GameObjects.Image, enemy: Enemy) {
+        let duration = 100 * 
+            Phaser.Math.Distance.Between(enemy.sprite.x, enemy.sprite.y, this.player.sprite.x, this.player.sprite.y) * this.timeSinceLastFrame;
 
-        let duration = 100 * Phaser.Math.Distance.Between(enemy.sprite.x, enemy.sprite.y, this.player.sprite.x, this.player.sprite.y) * this.timeSinceLastFrame;
         throwable.setRotation(Math.PI / 360)
+
         this.player.hasAttacked = true;
+        
         throwable.scene.tweens.add({
             targets: [throwable],
             ease: 'linear',

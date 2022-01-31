@@ -26,7 +26,7 @@ export default class Player extends Character {
         sprite.setScrollFactor(1);
 
         sprite.scene.cameras.main.startFollow(sprite, true, 0.08, 0.08);
-        
+
         this.start();
     }
 
@@ -49,7 +49,6 @@ export default class Player extends Character {
         this.gameScene.currentMusic.stop();
 
         this.sprite.scene.game.scene.stop('GameScene');
-        
     }
 
     private addAnimations(): void {
@@ -101,8 +100,6 @@ export default class Player extends Character {
                 repeat: -1,
                 frameRate: 5
             });
-
-        
     }
 
     hasTeleportStone(index: number): boolean {

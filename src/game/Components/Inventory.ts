@@ -38,6 +38,26 @@ export default class Inventory implements Component {
     }
 
     addItem(item: Item) {
+
+        if (this.hasFreeSpace()) {
+            this.addOnFreeSpace(item);
+        } else
+            this.showCannotGatherInfo();
+    }
+
+    showCannotGatherInfo(): void {
+        let scene = this.owner.sprite.scene;
+        let text = scene.add.text(this.owner.sprite.x, this.owner.sprite.y, 'I cannot gather more items !');
+
+        scene.tweens.add({
+            targets: [text],
+            y: '-=100',
+            duration: 500,
+            onComplete: () => text.destroy() 
+        })
+    }
+
+    private addOnFreeSpace(item: Item) {
         this.items.push(item);
 
         let sprite = this.ui.add.sprite(item.sprite.x, item.sprite.y, item.sprite.texture.key);
@@ -50,6 +70,9 @@ export default class Inventory implements Component {
 
         this.crafting.addElement(item);
         this.ui.addElement(item);
+    }
+    hasFreeSpace(): boolean {
+        return this.items.length < 25;
     }
 
     deleteItem(item: Item) {
@@ -91,7 +114,7 @@ export default class Inventory implements Component {
             });
             item.sprite.setInteractive({ pixelPerfect: true, draggable: true });
         } else {
-            item.sprite.setInteractive({ pixelPerfect: true});
+            item.sprite.setInteractive({ pixelPerfect: true });
         }
     }
 }
