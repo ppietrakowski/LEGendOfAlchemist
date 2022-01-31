@@ -163,12 +163,15 @@ export default class GameScene extends Phaser.Scene {
 
     private addPortals() {
         this.portals = [];
-        this.portals.push(new Portal(`1`, this.physics.add.sprite(650, 200, 'portal'), this.player, new Phaser.Math.Vector2(183 * 32, 5 * 32 + 90), 0));
-        this.portals.push(new Portal(`1`, this.physics.add.sprite(183 * 32, 5 * 32, 'portal'), this.player, new Phaser.Math.Vector2(580, 200), 0));
 
-        this.portals.push(new Portal(`2`, this.physics.add.sprite(188 * 32, 69 * 32, 'portal'), this.player, new Phaser.Math.Vector2(159 * 32, 123 * 32 + 90), 0));
-        this.portals.push(new Portal(`2`, this.physics.add.sprite(159 * 32, 123 * 32, 'portal'), this.player, new Phaser.Math.Vector2(188 * 32, 69 * 32 + 90), 0));
-        
+        this.addPortal(42, 18, 183, 5, 0);
+        this.addPortal(188, 69, 159, 123, 0);
+        this.addPortal(51, 108, 81, 70, 0);
+    }
+
+    private addPortal(tile1X: number, tile1Y: number, tile2X: number, tile2Y: number, stoneNo: number) {
+        this.portals.push(new Portal('1', this.physics.add.sprite(tile1X * 32, tile1Y * 32, 'portal'), this.player, new Phaser.Math.Vector2(tile2X * 32, tile2Y * 32 + 90), stoneNo));
+        this.portals.push(new Portal(`2`, this.physics.add.sprite(tile2X * 32, tile2Y * 32, 'portal'), this.player, new Phaser.Math.Vector2(tile1X * 32, tile1Y * 32 + 90), stoneNo));
     }
 
     private updateEnemy(enemy: Enemy, deltaTime: number) {
