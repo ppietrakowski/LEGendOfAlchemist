@@ -106,7 +106,7 @@ export default class GameScene extends Phaser.Scene {
             let enemy = getRandomEnemyKey()
             let sprite = this.physics.add.sprite(0, 0, enemy);
 
-            this.setupEnemy(sprite, enemy)
+            this.setupEnemy(sprite, enemy, i % 4);
         }
 
         let enemy = getRandomEnemyKey()
@@ -115,9 +115,9 @@ export default class GameScene extends Phaser.Scene {
         this.player.getComponent<PlayerCombat>('player-combat').addEnemy(this.enemies[this.enemies.length - 1]);
     }
 
-    private setupEnemy(sprite: Phaser.Physics.Arcade.Sprite, name: string): void {
+    private setupEnemy(sprite: Phaser.Physics.Arcade.Sprite, name: string, isle: number): void {
         let enemy: Enemy;
-        this.spawnEnemyAtGrassTile(sprite);
+        this.spawnEnemyAtGrassTile(isle, sprite);
 
         enemy = new Enemy(name, 140, sprite, this.player);
 
@@ -127,10 +127,21 @@ export default class GameScene extends Phaser.Scene {
         this.enemies.push(enemy);
     }
 
-    private spawnEnemyAtGrassTile(sprite: Phaser.Physics.Arcade.Sprite): void {
-        while (this.seaLayer.getTileAtWorldXY(sprite.x, sprite.y) != null) {
-            sprite.x = Math.round(Phaser.Math.Between(1, 7168));
-            sprite.y = Math.round(Phaser.Math.Between(1, 5120));
+    private spawnEnemyAtGrassTile(isle: number, sprite: Phaser.Physics.Arcade.Sprite): void {
+        while (this.seaLayer.getTileAtWorldXY(Math.round(sprite.x), Math.round(sprite.y)) != null) {
+            if (isle === 0) {
+                sprite.x = Math.round(Phaser.Math.Between(9, 68)) * 32;
+                sprite.y = Math.round(Phaser.Math.Between(6, 53)) * 32;
+            } else if (isle === 1) {
+                sprite.x = Math.round(Phaser.Math.Between(132, 213)) * 32;
+                sprite.y = Math.round(Phaser.Math.Between(33, 80)) * 32;
+            } else if (isle === 2) {
+                sprite.x = Math.round(Phaser.Math.Between(12, 144)) * 32;
+                sprite.y = Math.round(Phaser.Math.Between(111, 155)) * 32;
+            } else {
+                sprite.x = Math.round(Phaser.Math.Between(66, 115)) * 32;
+                sprite.y = Math.round(Phaser.Math.Between(59, 68)) * 32;
+            }
         }
     }
 
@@ -152,8 +163,12 @@ export default class GameScene extends Phaser.Scene {
 
     private addPortals() {
         this.portals = [];
-        this.portals.push(new Portal(`1`, this.physics.add.sprite(650, 200, 'portal'), this.player, new Phaser.Math.Vector2(2700, 1500), 0));
-        this.portals.push(new Portal(`1`, this.physics.add.sprite(2790, 1550, 'portal'), this.player, new Phaser.Math.Vector2(580, 200), 0));
+        this.portals.push(new Portal(`1`, this.physics.add.sprite(650, 200, 'portal'), this.player, new Phaser.Math.Vector2(183 * 32, 5 * 32 + 90), 0));
+        this.portals.push(new Portal(`1`, this.physics.add.sprite(183 * 32, 5 * 32, 'portal'), this.player, new Phaser.Math.Vector2(580, 200), 0));
+
+        this.portals.push(new Portal(`2`, this.physics.add.sprite(188 * 32, 69 * 32, 'portal'), this.player, new Phaser.Math.Vector2(159 * 32, 123 * 32 + 90), 0));
+        this.portals.push(new Portal(`2`, this.physics.add.sprite(159 * 32, 123 * 32, 'portal'), this.player, new Phaser.Math.Vector2(188 * 32, 69 * 32 + 90), 0));
+        
     }
 
     private updateEnemy(enemy: Enemy, deltaTime: number) {
