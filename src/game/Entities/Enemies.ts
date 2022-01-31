@@ -3,7 +3,8 @@ import Phaser from 'phaser'
 
 export const Enemies = [
     "shark",
-    "hawk"
+    "hawk",
+    "turtle"
 ];
 
 export function addEnemyAnimation(enemy: Phaser.Physics.Arcade.Sprite, enemyName: string) {
@@ -14,14 +15,14 @@ export function addEnemyAnimation(enemy: Phaser.Physics.Arcade.Sprite, enemyName
         {
             key: frameName + '-stay',
             frames: anims.generateFrameNumbers(frameName, { start: 0, end: 0 }),
-            frameRate: 5
+            frameRate: 4
         });
 
     anims.create(
         {
             key: frameName + '-front-run',
             frames: anims.generateFrameNumbers(frameName, { start: 0, end: 3 }),
-            frameRate: 5
+            frameRate: 4
         });
 
     anims.create(
@@ -29,7 +30,7 @@ export function addEnemyAnimation(enemy: Phaser.Physics.Arcade.Sprite, enemyName
             key: frameName + '-right-run',
             frames: anims.generateFrameNumbers(frameName, { start: 8, end: 11 }),
             repeat: -1,
-            frameRate: 5
+            frameRate: 4
         });
 
     anims.create(
@@ -37,7 +38,7 @@ export function addEnemyAnimation(enemy: Phaser.Physics.Arcade.Sprite, enemyName
             key: frameName + '-left-run',
             frames: anims.generateFrameNumbers(frameName, { start: 12, end: 15 }),
             repeat: -1,
-            frameRate: 5
+            frameRate: 4
         });
 
     anims.create(
@@ -45,7 +46,7 @@ export function addEnemyAnimation(enemy: Phaser.Physics.Arcade.Sprite, enemyName
             key: frameName + '-back-run',
             frames: anims.generateFrameNumbers(frameName, { start: 4, end: 7 }),
             repeat: -1,
-            frameRate: 5
+            frameRate: 4
         });
 }
 

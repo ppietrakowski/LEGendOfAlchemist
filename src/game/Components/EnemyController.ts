@@ -61,7 +61,7 @@ export default class EnemyController implements Component {
         this.state = this.getNextState();
 
         if (this.state === AI_State.DuringMove)
-            this.onMoving(timeSinceLastFrame);
+            this.onMoving(timeSinceLastFrame)
         if (this.state === AI_State.Roaming)
             this.onRoam(timeSinceLastFrame);
         else if (this.state === AI_State.Chasing)
@@ -108,7 +108,6 @@ export default class EnemyController implements Component {
     private switchToRoaming(): void {
         this.self.sprite.setVelocity(0, 0);
         this.state = AI_State.Roaming;
-        this.self.sprite.anims.play(`${this.self.name}-stay`, true);
     }
 
     private onMoveUpOrDown(vel: Phaser.Math.Vector2): void {
@@ -146,8 +145,9 @@ export default class EnemyController implements Component {
 
         this.state = AI_State.DuringMove;
 
-        this.playMoveAnim();
+        
         this.self.sprite.scene.physics.moveTo(this.self.sprite, this.endPos.x, this.endPos.y);
+        this.playMoveAnim();
     }
 
     private onAttack(timeSinceLastFrame: number): void {
@@ -173,8 +173,9 @@ export default class EnemyController implements Component {
     }
 
     private onMoving(timeSinceLastFrame: number): void {
-        if (this.self.isNear(this.endPos, 1.5))
+        if (this.self.isNear(this.endPos, 1.5)) {
             this.switchToRoaming();
+        }
         else if (this.self.sprite.body.checkCollision.down || this.self.sprite.body.checkCollision.left || this.self.sprite.body.checkCollision.right || this.self.sprite.body.checkCollision.up)
         {
             this.self.sprite.body.velocity.x *= -1;
