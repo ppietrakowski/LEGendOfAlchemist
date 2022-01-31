@@ -21,6 +21,7 @@ const MaxItemsForCraft = 4;
 export default class Crafting extends InventoryBase {
     items: Array<Field>
     craft: Button
+    back: Button
     potionInfo: string;
     potion: Phaser.GameObjects.Text;
 
@@ -30,13 +31,13 @@ export default class Crafting extends InventoryBase {
 
     preload(): void {
         let image = this.add.image(600, 140, 'inventory-background');
-        image.setScale(2, 1);
+        image.setScale(2, 1.5);
         image.setFlip(true, true);
         image.setScrollFactor(0);
         super.preload();
         this.items = []
         this.potionInfo = "";
-        this.potion = this.add.text(500, 145, '', { fontFamily: 'pixellari' });
+        this.potion = this.add.text(500, 158, '', { fontFamily: 'pixellari' });
     }
 
     create(): void {
@@ -48,6 +49,9 @@ export default class Crafting extends InventoryBase {
 
         this.craft = new Button(this, 660, 180, 'craft-item', () => { this.onCraft() });
         this.craft.setScale(0.25, 0.25);
+
+        this.back = new Button(this, 660, 205, 'exit', () => { this.onClose() });
+        this.back.setScale(0.25, 0.25);
     }
 
     update(time: number, delta: number): void {
@@ -165,6 +169,17 @@ export default class Crafting extends InventoryBase {
 
         if (this.hasAnyItemInArray())
             this.createPotion();
+
+        // for now just get back to gamescene
+        this.game.scene.pause('Crafting', () => {
+            this.updatePosition();
+        });
+
+        this.scene.setVisible(false);
+        this.game.scene.run('GameScene');
+    }
+
+    onClose(): void {
 
         // for now just get back to gamescene
         this.game.scene.pause('Crafting', () => {
