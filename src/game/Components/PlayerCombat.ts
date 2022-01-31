@@ -39,7 +39,7 @@ export default class PlayerCombat implements Component {
 
     onThrowAnything(enemy: Enemy) {
         let scene = enemy.sprite.scene;
-        if (this.player.isNearObject(enemy.sprite, 5 * this.player.attributes.strength) && !this.player.hasAttacked ) {
+        if (this.player.isNearObject(enemy.sprite, 3 * this.player.attributes.strength) && !this.player.hasAttacked) {
             let throwable = scene.add.image(this.player.sprite.x, this.player.sprite.y, 'potion');
 
             scene.sound.add('potion-throwed').play();
@@ -48,13 +48,13 @@ export default class PlayerCombat implements Component {
     }
 
     throw(throwable: Phaser.GameObjects.Image, enemy: Enemy) {
-        let duration = 100 * 
+        let duration = 100 *
             Phaser.Math.Distance.Between(enemy.sprite.x, enemy.sprite.y, this.player.sprite.x, this.player.sprite.y) * this.timeSinceLastFrame;
 
         throwable.setRotation(Math.PI / 360)
 
         this.player.hasAttacked = true;
-        
+
         throwable.scene.tweens.add({
             targets: [throwable],
             ease: 'linear',
