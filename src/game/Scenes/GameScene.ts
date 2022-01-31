@@ -129,8 +129,8 @@ export default class GameScene extends Phaser.Scene {
 
     private spawnEnemyAtGrassTile(sprite: Phaser.Physics.Arcade.Sprite): void {
         while (this.seaLayer.getTileAtWorldXY(sprite.x, sprite.y) != null) {
-            sprite.x = Math.round(Phaser.Math.Between(1, 4000));
-            sprite.y = Math.round(Phaser.Math.Between(1, 3000));
+            sprite.x = Math.round(Phaser.Math.Between(1, 7168));
+            sprite.y = Math.round(Phaser.Math.Between(1, 5120));
         }
     }
 
