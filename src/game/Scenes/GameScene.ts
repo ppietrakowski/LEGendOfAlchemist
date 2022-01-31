@@ -197,7 +197,7 @@ export default class GameScene extends Phaser.Scene {
 
         this.addPortal(50, 61, 183, 5, 0);
         this.addPortal(134, 64, 159, 123, 1);
-        this.addPortal(51, 108, 81, 70, 2);
+        this.addPortal(51, 108, 79, 65, 2);
     }
 
     private addPortal(tile1X: number, tile1Y: number, tile2X: number, tile2Y: number, stoneNo: number) {
