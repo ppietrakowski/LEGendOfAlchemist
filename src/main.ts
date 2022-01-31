@@ -8,6 +8,7 @@ import Crafting from './game/Scenes/Crafting'
 import InventoryUi from './game/Scenes/InventoryUi';
 import PreloadScene from './game/Scenes/PreloadScene'
 import CharacterInfo from './game/Scenes/CharacterInfo';
+import WinScene from './game/Scenes/WinScene';
 
 class Game extends Phaser.Game {
 
@@ -49,6 +50,7 @@ class Game extends Phaser.Game {
         this.scene.add('Inventory', InventoryUi, false);
         this.scene.add('Crafting', Crafting, false);
         this.scene.add('CharacterInfo', CharacterInfo, false);
+        this.scene.add('WinScene', WinScene, false);
     }
 }
 

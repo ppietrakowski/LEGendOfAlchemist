@@ -10,6 +10,7 @@ import { getRandomEnemyKey } from '../Entities/Enemies';
 import Ingredient from '../Entities/Ingredient';
 import Effect from '../Components/Effect';
 import { getItemWithRandomEffect } from '../Entities/Items';
+import UltraBoss from '../Entities/UltraBoss'
 
 export default class GameScene extends Phaser.Scene {
 
@@ -36,7 +37,7 @@ export default class GameScene extends Phaser.Scene {
 
         this.map.createLayer('island', this.tileset, -100, -100);
         this.seaLayer = this.map.createLayer('sea', this.tileset, -100, -100);
-        this.player = new Player(this, this.physics.add.sprite(220, 140, 'player'));
+        this.player = new Player(this, this.physics.add.sprite(95 * 32, 61 * 32, 'player'));
         this.addPortals();
         this.addEnemies();
         this.addCollision();
@@ -111,12 +112,16 @@ export default class GameScene extends Phaser.Scene {
         this.addBoss(43 * 32, 52 * 32, 0);
         this.addBoss(161 * 32, 69 * 32, 1);
         this.addBoss(116 * 32, 107 * 32, 2);
+        this.addBoss(104 * 32, 61 * 32, -1, true);
     }
 
-    private addBoss(posX: number, posY: number, index: number) {
+    private addBoss(posX: number, posY: number, index: number, superboss: boolean = false) {
         let enemy = getRandomEnemyKey()
         let sprite = this.physics.add.sprite(posX, posY, enemy);
-        this.enemies.push(new Boss(enemy, 120, sprite, this.player, index));
+        if (!superboss)
+            this.enemies.push(new Boss(enemy, 120, sprite, this.player, index));
+        else
+            this.enemies.push(new UltraBoss(enemy, 120, sprite, this.player));
         this.player.getComponent<PlayerCombat>('player-combat').addEnemy(this.enemies[this.enemies.length - 1]);
         this.addCollisionWithPortal(sprite);
     }
