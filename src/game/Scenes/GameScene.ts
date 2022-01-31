@@ -54,6 +54,7 @@ export default class GameScene extends Phaser.Scene {
         this.music.push(this.sound.add('attack'))
 
 
+        this.scene.scene.children.bringToTop(this.player.sprite);
         this.currentMusic = this.music[0];
         this.currentMusic.play();
     }

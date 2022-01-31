@@ -38,6 +38,7 @@ export default class PreloadScene extends Phaser.Scene {
 
         this.load.image('playerIcon', 'assets/characterIcon.png')
         this.load.image('logo', 'assets/game_icon.png');
+        this.load.audio('portal-sound', 'assets/sounds/Teleport.wav');
 
         loadMusic(this);
         enemies.loadAllEnemies(this)
