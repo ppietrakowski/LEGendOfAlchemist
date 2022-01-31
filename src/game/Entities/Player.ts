@@ -58,14 +58,14 @@ export default class Player extends Character {
                 key: 'front',
                 frames: anims.generateFrameNumbers('player', { start: 0, end: 0 }),
                 repeat: -1,
-                frameRate: 5
+                frameRate: 4
             });
 
         anims.create(
             {
                 key: 'front-run',
                 frames: anims.generateFrameNumbers('player', { start: 0, end: 3 }),
-                frameRate: 5
+                frameRate: 4
             });
 
 
@@ -74,7 +74,7 @@ export default class Player extends Character {
                 key: 'back',
                 frames: anims.generateFrameNumbers('player', { start: 4, end: 4 }),
                 repeat: -1,
-                frameRate: 5
+                frameRate: 4
             });
 
         anims.create(
@@ -82,7 +82,7 @@ export default class Player extends Character {
                 key: 'back-run',
                 frames: anims.generateFrameNumbers('player', { start: 4, end: 7 }),
                 repeat: -1,
-                frameRate: 5
+                frameRate: 4
             });
 
         anims.create(
@@ -90,7 +90,7 @@ export default class Player extends Character {
                 key: 'left-run',
                 frames: anims.generateFrameNumbers('player', { start: 12, end: 15 }),
                 repeat: -1,
-                frameRate: 5
+                frameRate: 4
             });
 
         anims.create(
@@ -98,7 +98,7 @@ export default class Player extends Character {
                 key: 'right-run',
                 frames: anims.generateFrameNumbers('player', { start: 8, end: 11 }),
                 repeat: -1,
-                frameRate: 5
+                frameRate: 4
             });
     }
 
