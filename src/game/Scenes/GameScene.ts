@@ -108,11 +108,17 @@ export default class GameScene extends Phaser.Scene {
 
             this.setupEnemy(sprite, enemy, i % 4);
         }
+        this.addBoss(43 * 32, 52 * 32, 0);
+        this.addBoss(161 * 32, 69 * 32, 1);
+        this.addBoss(116 * 32, 107 * 32, 2);
+    }
 
+    private addBoss(posX: number, posY: number, index: number) {
         let enemy = getRandomEnemyKey()
-        let sprite = this.physics.add.sprite(200, 200, enemy);
-        this.enemies.push(new Boss(enemy, 120, sprite, this.player, 0));
+        let sprite = this.physics.add.sprite(posX, posY, enemy);
+        this.enemies.push(new Boss(enemy, 120, sprite, this.player, index));
         this.player.getComponent<PlayerCombat>('player-combat').addEnemy(this.enemies[this.enemies.length - 1]);
+        this.addCollisionWithPortal(sprite);
     }
 
     private setupEnemy(sprite: Phaser.Physics.Arcade.Sprite, name: string, isle: number): void {
@@ -145,6 +151,24 @@ export default class GameScene extends Phaser.Scene {
         }
     }
 
+    private spawnAtGrassTile(isle: number, sprite: Phaser.GameObjects.Sprite): void {
+        while (this.seaLayer.getTileAtWorldXY(Math.round(sprite.x), Math.round(sprite.y)) != null) {
+            if (isle === 0) {
+                sprite.x = Math.round(Phaser.Math.Between(9, 68)) * 32;
+                sprite.y = Math.round(Phaser.Math.Between(6, 53)) * 32;
+            } else if (isle === 1) {
+                sprite.x = Math.round(Phaser.Math.Between(132, 213)) * 32;
+                sprite.y = Math.round(Phaser.Math.Between(33, 80)) * 32;
+            } else if (isle === 2) {
+                sprite.x = Math.round(Phaser.Math.Between(12, 144)) * 32;
+                sprite.y = Math.round(Phaser.Math.Between(111, 155)) * 32;
+            } else {
+                sprite.x = Math.round(Phaser.Math.Between(66, 115)) * 32;
+                sprite.y = Math.round(Phaser.Math.Between(59, 68)) * 32;
+            }
+        }
+    }
+
     private addCollisionWithPortal(sprite: Phaser.Physics.Arcade.Sprite): void {
         this.physics.add.collider(sprite, this.seaLayer);
         for (let portal of this.portals) {
@@ -154,24 +178,25 @@ export default class GameScene extends Phaser.Scene {
 
     private addCollision(): void {
         this.physics.add.collider(this.player.sprite, this.seaLayer);
-        this.seaLayer.setCollisionBetween(0, 2);
-        this.seaLayer.setCollisionBetween(5, 5);
-        this.seaLayer.setCollisionBetween(7, 7);
-        this.seaLayer.setCollisionBetween(10, 14);
+        this.seaLayer.setCollisionBetween(0, 7);
+        this.seaLayer.setCollisionBetween(8, 8);
+        this.seaLayer.setCollisionBetween(10, 15);
+        this.seaLayer.setCollisionBetween(16, 23);
+        this.seaLayer.setCollisionBetween(29, 30);
 
     }
 
     private addPortals() {
         this.portals = [];
 
-        this.addPortal(42, 18, 183, 5, 0);
-        this.addPortal(188, 69, 159, 123, 0);
-        this.addPortal(51, 108, 81, 70, 0);
+        this.addPortal(50, 61, 183, 5, 0);
+        this.addPortal(134, 64, 159, 123, 1);
+        this.addPortal(51, 108, 81, 70, 2);
     }
 
     private addPortal(tile1X: number, tile1Y: number, tile2X: number, tile2Y: number, stoneNo: number) {
-        this.portals.push(new Portal('1', this.physics.add.sprite(tile1X * 32, tile1Y * 32, 'portal'), this.player, new Phaser.Math.Vector2(tile2X * 32, tile2Y * 32 + 90), stoneNo));
-        this.portals.push(new Portal(`2`, this.physics.add.sprite(tile2X * 32, tile2Y * 32, 'portal'), this.player, new Phaser.Math.Vector2(tile1X * 32, tile1Y * 32 + 90), stoneNo));
+        this.portals.push(new Portal('1', this.physics.add.sprite(tile1X * 32, tile1Y * 32, 'portal'), this.player, new Phaser.Math.Vector2(tile2X * 32 - 90, tile2Y * 32 ), stoneNo));
+        this.portals.push(new Portal(`2`, this.physics.add.sprite(tile2X * 32, tile2Y * 32, 'portal'), this.player, new Phaser.Math.Vector2(tile1X * 32 - 90, tile1Y * 32), stoneNo));
     }
 
     private updateEnemy(enemy: Enemy, deltaTime: number) {
@@ -189,10 +214,7 @@ export default class GameScene extends Phaser.Scene {
         // add 100 items 
         for (let i = 0; i < 100; i++) {
             let sprite = this.add.sprite(0, 0, 'bush');
-            while (this.seaLayer.getTileAtWorldXY(sprite.x, sprite.y) != null) {
-                sprite.x = Math.round(Phaser.Math.Between(1, 4000));
-                sprite.y = Math.round(Phaser.Math.Between(1, 3000));
-            }
+            this.spawnAtGrassTile(i % 4, sprite);
             sprite.setInteractive({ pixelPerfect: true });
 
             sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, (pointer: Phaser.Input.Pointer) => {

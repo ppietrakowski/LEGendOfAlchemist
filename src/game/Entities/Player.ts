@@ -18,7 +18,7 @@ export default class Player extends Character {
         this.gameScene = scene;
 
         this.addComponent(new Attribute(100, 50, 10));
-        this.addComponent(new PlayerMovement(new Phaser.Math.Vector2(150, 150)));
+        this.addComponent(new PlayerMovement(new Phaser.Math.Vector2(190, 190)));
         this.addComponent(new PlayerHealthBar(this));
         this.addComponent(new PlayerCombat());
         this.addComponent(new Inventory());
