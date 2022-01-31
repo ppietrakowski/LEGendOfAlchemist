@@ -179,23 +179,27 @@ export default class GameScene extends Phaser.Scene {
             sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, (pointer: Phaser.Input.Pointer) => {
 
                 if (this.player.inventory.hasFreeSpace()) {
-                    let item = getItemWithRandomEffect(0, 0, this);
-                    let text = this.add.text(sprite.x, sprite.y, 'You have received ' + item.sprite.texture.key);
-
-                    this.tweens.add({
-                        targets: [text],
-                        y: '-= 100',
-                        duration: 500,
-                        ease: 'linear',
-                        onComplete: () => {
-                            this.player.inventory.addItem(item)
-                            text.destroy();
-                        }
-                    })
-                    sprite.destroy(true);
+                    this.throwAway(sprite);
                 } else
                     this.player.inventory.showCannotGatherInfo();
             });
         }
+    }
+
+    throwAway(sprite: Phaser.GameObjects.Sprite) {
+        let item = getItemWithRandomEffect(0, 0, this);
+        let text = this.add.text(sprite.x, sprite.y, 'You have received ' + item.sprite.texture.key);
+
+        this.tweens.add({
+            targets: [text],
+            y: '-= 100',
+            duration: 500,
+            ease: 'linear',
+            onComplete: () => {
+                this.player.inventory.addItem(item)
+                text.destroy();
+            }
+        })
+        sprite.destroy(true);
     }
 }
