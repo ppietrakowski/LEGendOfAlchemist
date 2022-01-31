@@ -32,7 +32,8 @@ export default class Credits extends Phaser.Scene {
         * Zacchary Dempsey-Plante for Pixellari font
         * MoppySound for 8-bit music
         * michaldrozdz2000 - cherries, orange, potion, red flower, player
-        * MoppySound - roam2,menu music and attack        
+        * MoppySound - roam2,menu music and attack   
+        * Wiktoria Pietrakowska - tree, house tileset     
         `;
     }
 

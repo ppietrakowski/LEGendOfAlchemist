@@ -27,6 +27,8 @@ Your
 * Public domain
 * Zacchary Dempsey-Plante for Pixellari font
 * MoppySound for 8-bit music
+* Wiktoria Pietrakowska - tree, house tileset
+
 
 ## authors
 * pawelp
@@ -42,6 +44,7 @@ Your
 * roam1 - Make a field Music
 * Pixellari - font Zacchary Dempsey-Plante
 * roam2,menu music and attack - MoppySound
+* tree, house - Wiktoria Pietrakowska
 
 ## build info
 First you need to have installed nodejs environment.
