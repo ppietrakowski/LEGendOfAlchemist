@@ -50,6 +50,14 @@ export default class MainMenu extends Phaser.Scene {
         this.playing = true
         this.music_button = new Button(this, this.scale.width - 70, this.scale.height - 70, 'sound-on', () => onSoundClicked(this))
         this.buttons.push(this.music_button);
+
+        let text = `
+        Use arrows to move around
+        Press C to open Craft Menu
+        Press I to open Inventory
+        Click on enemies to attack them
+        `
+        this.add.text(-20, 400, text, { fontFamily: 'pixellari', fontSize: '20px', color: '#000000', stroke: '#fff', strokeThickness: 1 });
     }
 
 }
