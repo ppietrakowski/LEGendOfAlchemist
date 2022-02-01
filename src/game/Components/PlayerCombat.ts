@@ -39,7 +39,7 @@ export default class PlayerCombat implements Component {
 
     onThrowAnything(enemy: Enemy) {
         let scene = enemy.sprite.scene;
-        if (this.player.isNearObject(enemy.sprite, 3 * this.player.attributes.strength) && !this.player.hasAttacked) {
+        if (this.player.isNearObject(enemy.sprite, 5 * this.player.attributes.strength) && !this.player.hasAttacked) {
             let throwable = scene.add.image(this.player.sprite.x, this.player.sprite.y, 'potion');
 
             scene.sound.add('potion-throwed').play();
