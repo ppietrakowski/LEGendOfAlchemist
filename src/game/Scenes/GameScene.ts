@@ -1,18 +1,11 @@
 import Phaser from 'phaser';
 
 import Player from '../Entities/Player';
-import Enemy from '../Entities/Enemy';
 import Portal from '../Entities/Portal';
-import Boss from '../Entities/Boss'
 
-import PlayerCombat from '../Components/PlayerCombat';
-import { getRandomEnemyKey } from '../Entities/Enemies';
-import Ingredient from '../Entities/Ingredient';
-import Effect from '../Components/Effect';
 import { getItemWithRandomEffect } from '../Entities/Items';
-import UltraBoss from '../Entities/UltraBoss'
-import {GameBaseScene} from './GameBaseScene'
-import { runAndPause, spawnAtTile, spawnGameobjectAtTile } from './SceneUtils';
+import { GameBaseScene } from './GameBaseScene'
+import { runAndPause, spawnGameobjectAtTile } from './SceneUtils';
 
 export default class GameScene extends GameBaseScene {
 
@@ -52,25 +45,32 @@ export default class GameScene extends GameBaseScene {
 
     update(time: number, delta: number): void {
 
-        if (!this.currentMusic.isPlaying) {
-            var i = this.music.findIndex((v) => v === this.currentMusic);
-            if (i === this.music.length - 1)
-                i = -1;
+        if (!this.currentMusic.isPlaying)
+            this.playNextMusic();
 
-            this.currentMusic = this.music[i + 1];
-            this.currentMusic.play({ delay: 0.7 });
-        }
-
-        if (this.keyC.isDown)
-            runAndPause(this.game, 'Crafting', 'GameScene');
-
-        if (this.keyTab.isDown)
-            runAndPause(this.game, 'CharacterInfo', 'GameScene');
+        this.handleKeyEvents();
 
         this.player.update(delta / 1000);
         super.update(time, delta);
         if (this.player.isDead())
             this.player.makeDead();
+    }
+
+    private playNextMusic(): void {
+        let i = this.music.findIndex((v) => v === this.currentMusic);
+        if (i === this.music.length - 1)
+            i = -1;
+
+        this.currentMusic = this.music[i + 1];
+        this.currentMusic.play({ delay: 0.7 });
+    }
+
+    private handleKeyEvents(): void {
+        if (this.keyC.isDown)
+            runAndPause(this.game, 'Crafting', 'GameScene');
+
+        if (this.keyTab.isDown)
+            runAndPause(this.game, 'CharacterInfo', 'GameScene');
     }
 
     protected addBoss(player: Player, posX: number, posY: number, index: number, superboss: boolean = false) {
@@ -101,7 +101,7 @@ export default class GameScene extends GameBaseScene {
     }
 
     private addPortal(tile1X: number, tile1Y: number, tile2X: number, tile2Y: number, stoneNo: number) {
-        this.portals.push(new Portal('1', this.physics.add.sprite(tile1X * 32, tile1Y * 32, 'portal'), this.player, new Phaser.Math.Vector2(tile2X * 32 - 90, tile2Y * 32 ), stoneNo));
+        this.portals.push(new Portal('1', this.physics.add.sprite(tile1X * 32, tile1Y * 32, 'portal'), this.player, new Phaser.Math.Vector2(tile2X * 32 - 90, tile2Y * 32), stoneNo));
         this.portals.push(new Portal(`2`, this.physics.add.sprite(tile2X * 32, tile2Y * 32, 'portal'), this.player, new Phaser.Math.Vector2(tile1X * 32 - 90, tile1Y * 32), stoneNo));
     }
 
