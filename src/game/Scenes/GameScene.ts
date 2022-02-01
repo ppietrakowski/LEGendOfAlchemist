@@ -12,7 +12,7 @@ import Effect from '../Components/Effect';
 import { getItemWithRandomEffect } from '../Entities/Items';
 import UltraBoss from '../Entities/UltraBoss'
 import {GameBaseScene} from './GameBaseScene'
-import { spawnAtTile, spawnGameobjectAtTile } from './SceneUtils';
+import { runAndPause, spawnAtTile, spawnGameobjectAtTile } from './SceneUtils';
 
 export default class GameScene extends GameBaseScene {
 
@@ -62,10 +62,10 @@ export default class GameScene extends GameBaseScene {
         }
 
         if (this.keyC.isDown)
-            this.runCrafting();
+            runAndPause(this.game, 'Crafting', 'GameScene');
 
         if (this.keyTab.isDown)
-            this.runInventory();
+            runAndPause(this.game, 'CharacterInfo', 'GameScene');
 
         this.player.update(delta / 1000);
         super.update(time, delta);
@@ -73,49 +73,20 @@ export default class GameScene extends GameBaseScene {
             this.player.makeDead();
     }
 
-    private runCrafting() {
-        this.game.scene.run('Crafting');
-        this.game.scene.getScene('Crafting').scene.setVisible(true);
-        this.game.scene.pause('GameScene');
-    }
-
-    private runInventory(): void {
-        this.game.scene.run('CharacterInfo');
-        this.game.scene.getScene('CharacterInfo').scene.setVisible(true);
-        this.game.scene.pause('GameScene');
-    }
-
     protected addBoss(player: Player, posX: number, posY: number, index: number, superboss: boolean = false) {
         super.addBoss(player, posX, posY, index, superboss);
         this.addCollisionWithPortal(this.enemies[this.enemies.length - 1].sprite);
+        this.physics.add.collider(this.enemies[this.enemies.length - 1].sprite, this.seaLayer);
     }
 
     protected setupEnemy(player: Player, sprite: Phaser.Physics.Arcade.Sprite, name: string, isle: number): void {
         super.setupEnemy(player, sprite, name, isle);
         this.addCollisionWithPortal(this.enemies[this.enemies.length - 1].sprite);
+        this.physics.add.collider(sprite, this.seaLayer);
     }
 
-
-    private spawnAtGrassTile(isle: number, sprite: Phaser.GameObjects.Sprite): void {
-        while (this.seaLayer.getTileAtWorldXY(Math.round(sprite.x), Math.round(sprite.y)) != null) {
-            if (isle === 0) {
-                sprite.x = Math.round(Phaser.Math.Between(9, 68)) * 32;
-                sprite.y = Math.round(Phaser.Math.Between(6, 53)) * 32;
-            } else if (isle === 1) {
-                sprite.x = Math.round(Phaser.Math.Between(132, 213)) * 32;
-                sprite.y = Math.round(Phaser.Math.Between(33, 80)) * 32;
-            } else if (isle === 2) {
-                sprite.x = Math.round(Phaser.Math.Between(12, 144)) * 32;
-                sprite.y = Math.round(Phaser.Math.Between(111, 155)) * 32;
-            } else {
-                sprite.x = Math.round(Phaser.Math.Between(66, 115)) * 32;
-                sprite.y = Math.round(Phaser.Math.Between(59, 68)) * 32;
-            }
-        }
-    }
 
     private addCollisionWithPortal(sprite: Phaser.Physics.Arcade.Sprite): void {
-        this.physics.add.collider(sprite, this.seaLayer);
         for (let portal of this.portals) {
             this.physics.add.collider(sprite, portal.sprite);
         }

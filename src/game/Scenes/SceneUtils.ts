@@ -19,7 +19,7 @@ function getXandY(isle: number): object {
     return pos;
 }
 
-export function spawnAtTile(sprite: Phaser.Physics.Arcade.Sprite, isle: number, excludingLayer: Phaser.Tilemaps.TilemapLayer) {
+export function spawnAtTile(sprite: Phaser.Physics.Arcade.Sprite, isle: number, excludingLayer: Phaser.Tilemaps.TilemapLayer): void {
     while (excludingLayer.getTileAtWorldXY(Math.round(sprite.x), Math.round(sprite.y)) != null) {
         let pos = getXandY(isle);
         sprite.x = pos["x"];
@@ -36,3 +36,8 @@ export function spawnGameobjectAtTile(isle: number, sprite: Phaser.GameObjects.S
     }
 }
 
+export function runAndPause(game: Phaser.Game, sceneToRun: string, sceneToPause: string): void {
+    game.scene.run(sceneToRun);
+    game.scene.getScene(sceneToRun).scene.setVisible(true);
+    game.scene.pause(sceneToPause);
+}
