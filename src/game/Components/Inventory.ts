@@ -1,11 +1,11 @@
 
 import Character from '../Entities/Character';
-import Item from './../Entities/Item'
-
-import Component from './Component'
-import InventoryUi from '../Scenes/InventoryUi'
 import Player from '../Entities/Player';
 import Crafting from '../Scenes/Crafting';
+import InventoryUi from '../Scenes/InventoryUi';
+import Item from './../Entities/Item';
+import Component from './Component';
+
 
 export default class Inventory implements Component {
     items: Array<Item>;
@@ -53,7 +53,7 @@ export default class Inventory implements Component {
             targets: [text],
             y: '-=100',
             duration: 500,
-            onComplete: () => text.destroy() 
+            onComplete: () => text.destroy()
         })
     }
 

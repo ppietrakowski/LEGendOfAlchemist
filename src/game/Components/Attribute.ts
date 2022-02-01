@@ -1,7 +1,7 @@
+import Character from '../Entities/Character';
 import Component from './Component';
 import Effect from './Effect';
 
-import Character from '../Entities/Character';
 
 export default class Attribute implements Component {
     hp: number;

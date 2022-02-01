@@ -1,14 +1,14 @@
 import Phaser from 'phaser';
-
-import MainMenu from './game/Scenes/MainMenu'
-import Credits from './game/Scenes/Credits'
-import GameScene from './game/Scenes/GameScene'
-import DeadScene from './game/Scenes/DeadScene';
-import Crafting from './game/Scenes/Crafting'
-import InventoryUi from './game/Scenes/InventoryUi';
-import PreloadScene from './game/Scenes/PreloadScene'
 import CharacterInfo from './game/Scenes/CharacterInfo';
+import Crafting from './game/Scenes/Crafting';
+import Credits from './game/Scenes/Credits';
+import DeadScene from './game/Scenes/DeadScene';
+import GameScene from './game/Scenes/GameScene';
+import InventoryUi from './game/Scenes/InventoryUi';
+import MainMenu from './game/Scenes/MainMenu';
+import PreloadScene from './game/Scenes/PreloadScene';
 import WinScene from './game/Scenes/WinScene';
+
 
 class Game extends Phaser.Game {
 

@@ -1,7 +1,7 @@
+import Effect from "../Components/Effect";
 import Ingredient from "./Ingredient";
 import Item from "./Item";
 
-import Effect from "../Components/Effect";
 
 export const Items = [
     'cherries',
@@ -17,7 +17,7 @@ export const Items = [
  * @returns {number}
  */
 export function getRandomItemIndex(): number {
-    let index = Math.round( Math.random() * (Items.length - 3) );
+    let index = Math.round(Math.random() * (Items.length - 3));
     return index;
 }
 

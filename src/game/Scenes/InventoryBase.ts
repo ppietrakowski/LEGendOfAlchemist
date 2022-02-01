@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import Effect from "../Components/Effect";
-import Inventory from '../Components/Inventory'
+import Inventory from '../Components/Inventory';
 import Item from "../Entities/Item";
 import TeleportStone from "../Entities/TeleportStone";
 

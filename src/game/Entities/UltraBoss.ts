@@ -1,6 +1,6 @@
 
 import EnemyController from '../Components/EnemyController';
-import Boss from './Boss'
+import Boss from './Boss';
 import Player from './Player';
 
 export default class UltraBoss extends Boss {
@@ -14,7 +14,7 @@ export default class UltraBoss extends Boss {
     makeDead(): void {
         var gameScene = this.getComponent<EnemyController>('enemy-movement').target.gameScene;
 
-           // for now just show dead screen
+        // for now just show dead screen
         this.sprite.scene.game.scene.run('WinScene');
 
         gameScene.currentMusic.stop();

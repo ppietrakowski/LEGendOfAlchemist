@@ -1,7 +1,7 @@
 import Character from '../Entities/Character';
 import Player from '../Entities/Player';
-
 import Component from './Component';
+
 
 export default class PlayerMovement implements Component {
     private input: Phaser.Types.Input.Keyboard.CursorKeys;

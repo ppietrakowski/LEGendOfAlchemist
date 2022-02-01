@@ -1,10 +1,10 @@
 import Phaser from 'phaser';
 import Effect from '../Components/Effect';
-import Inventory from '../Components/Inventory';
 import Button from '../Entities/Button';
 import Item from '../Entities/Item';
+import Potion from '../Entities/Potion';
 import InventoryBase from './InventoryBase';
-import Potion from '../Entities/Potion'
+
 
 class Field {
     item: Item

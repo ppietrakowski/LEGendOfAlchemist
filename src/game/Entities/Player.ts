@@ -1,14 +1,12 @@
 import Phaser from 'phaser'
-
+import Attribute from '../Components/Attribute'
+import Inventory from '../Components/Inventory'
+import PlayerCombat from '../Components/PlayerCombat'
+import PlayerHealthBar from '../Components/PlayerHealthBar'
+import PlayerMovement from '../Components/PlayerMovement'
 import GameScene from '../Scenes/GameScene'
-
 import Character from './Character'
 
-import PlayerMovement from '../Components/PlayerMovement'
-import Attribute from '../Components/Attribute'
-import PlayerHealthBar from '../Components/PlayerHealthBar'
-import PlayerCombat from '../Components/PlayerCombat'
-import Inventory from '../Components/Inventory'
 
 export default class Player extends Character {
     gameScene: GameScene;
@@ -33,7 +31,7 @@ export default class Player extends Character {
     get inventory(): Inventory {
         return this.getComponent<Inventory>('inventory');
     }
-    
+
     get combat(): PlayerCombat {
         return this.getComponent<PlayerCombat>('player-combat') as PlayerCombat;
     }
@@ -55,7 +53,7 @@ export default class Player extends Character {
         this.sprite.scene.game.scene.stop('GameScene');
     }
 
-    
+
 
     hasTeleportStone(index: number): boolean {
         var hasFound = false;

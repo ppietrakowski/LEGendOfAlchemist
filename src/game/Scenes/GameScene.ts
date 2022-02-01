@@ -1,11 +1,11 @@
 import Phaser from 'phaser';
-
+import { getItemWithRandomEffect } from '../Entities/Items';
 import Player from '../Entities/Player';
 import Portal from '../Entities/Portal';
-
-import { getItemWithRandomEffect } from '../Entities/Items';
-import { GameBaseScene } from './GameBaseScene'
+import { GameBaseScene } from './GameBaseScene';
 import { runAndPause, spawnGameobjectAtTile } from './SceneUtils';
+
+
 
 export default class GameScene extends GameBaseScene {
 

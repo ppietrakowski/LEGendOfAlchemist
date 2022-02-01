@@ -1,17 +1,11 @@
 import Phaser from 'phaser';
-
-import Player from '../Entities/Player';
-import Enemy from '../Entities/Enemy';
-import Portal from '../Entities/Portal';
-import Boss from '../Entities/Boss'
-
-import PlayerCombat from '../Components/PlayerCombat';
+import Boss from '../Entities/Boss';
 import { getRandomEnemyKey } from '../Entities/Enemies';
-import Ingredient from '../Entities/Ingredient';
-import Effect from '../Components/Effect';
-import { getItemWithRandomEffect } from '../Entities/Items';
-import UltraBoss from '../Entities/UltraBoss'
-import {spawnAtTile} from './SceneUtils'
+import Enemy from '../Entities/Enemy';
+import Player from '../Entities/Player';
+import UltraBoss from '../Entities/UltraBoss';
+import { spawnAtTile } from './SceneUtils';
+
 
 export abstract class GameBaseScene extends Phaser.Scene {
     enemies: Array<Enemy>;

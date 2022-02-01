@@ -1,9 +1,8 @@
-import Phaser from 'phaser'
-
-import Player from './Player';
-import Enemy from './Enemy';
-import HealthBar from '../Components/HealthBar';
+import Phaser from 'phaser';
 import EnemyController from '../Components/EnemyController';
+import HealthBar from '../Components/HealthBar';
+import Enemy from './Enemy';
+import Player from './Player';
 import TeleportStone from './TeleportStone';
 
 

@@ -1,7 +1,6 @@
-
 import Phaser from 'phaser';
-
 import Button from '../Entities/Button';
+
 
 function onMainGameClicked(self: MainMenu): void {
     self.theme.stop();

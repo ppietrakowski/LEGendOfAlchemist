@@ -1,6 +1,6 @@
+import Character from '../Entities/Character';
 import Component from './Component';
 
-import Character from '../Entities/Character';
 
 export default class Effect implements Component {
     deltaHp: number;

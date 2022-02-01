@@ -1,4 +1,5 @@
-import Phaser from 'phaser'
+import Phaser from 'phaser';
+
 
 export const Music = [
     "roam1",

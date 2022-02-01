@@ -1,11 +1,10 @@
 import Phaser from 'phaser';
-
+import Character from '../Entities/Character';
+import Enemy from '../Entities/Enemy';
+import Player from '../Entities/Player';
 import Component from './Component';
 import Effect from './Effect';
 
-import Character from '../Entities/Character';
-import Enemy from '../Entities/Enemy';
-import Player from '../Entities/Player'
 
 enum AI_State {
     Roaming,
@@ -145,7 +144,7 @@ export default class EnemyController implements Component {
 
         this.state = AI_State.DuringMove;
 
-        
+
         this.self.sprite.scene.physics.moveTo(this.self.sprite, this.endPos.x, this.endPos.y);
         this.playMoveAnim();
     }
@@ -176,8 +175,7 @@ export default class EnemyController implements Component {
         if (this.self.isNear(this.endPos, 1.5)) {
             this.switchToRoaming();
         }
-        else if (this.self.sprite.body.checkCollision.down || this.self.sprite.body.checkCollision.left || this.self.sprite.body.checkCollision.right || this.self.sprite.body.checkCollision.up)
-        {
+        else if (this.self.sprite.body.checkCollision.down || this.self.sprite.body.checkCollision.left || this.self.sprite.body.checkCollision.right || this.self.sprite.body.checkCollision.up) {
             this.self.sprite.body.velocity.x *= -1;
             this.self.sprite.body.velocity.y *= -1;
             this.switchToRoaming();

@@ -1,4 +1,3 @@
-
 import Phaser from "phaser";
 
 function getXandY(isle: number): object {

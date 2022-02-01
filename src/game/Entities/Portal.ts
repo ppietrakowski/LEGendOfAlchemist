@@ -1,6 +1,6 @@
-import Phaser, { Physics } from 'phaser'
-
+import Phaser from 'phaser';
 import Player from './Player';
+
 
 export default class Portal {
     name: string;

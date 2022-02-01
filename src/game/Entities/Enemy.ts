@@ -1,13 +1,12 @@
-import Phaser from 'phaser'
-
-import Character from './Character'
-import Player from './Player';
-import { getItemWithRandomEffect } from './Items'
-import Ingredient from './Ingredient';
-
+import Phaser from 'phaser';
 import EnemyController from '../Components/EnemyController';
 import HealthBar from '../Components/HealthBar';
+import Character from './Character';
 import { addEnemyAnimation } from './Enemies';
+import Ingredient from './Ingredient';
+import { getItemWithRandomEffect } from './Items';
+import Player from './Player';
+
 
 export default class Enemy extends Character {
     name: string;

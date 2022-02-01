@@ -1,5 +1,4 @@
-import Phaser from 'phaser'
-
+import Phaser from 'phaser';
 import Button from '../Entities/Button';
 import MainMenu from './MainMenu';
 

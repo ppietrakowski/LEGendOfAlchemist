@@ -1,8 +1,8 @@
 import { Scene } from "phaser";
 import Button from "../Entities/Button";
-
-import Player from '../Entities/Player'
+import Player from '../Entities/Player';
 import GameScene from "./GameScene";
+
 
 function onBack(self: CharacterInfo) {
     self.game.scene.stop('CharacterInfo');

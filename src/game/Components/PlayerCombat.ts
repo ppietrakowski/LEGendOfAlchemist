@@ -1,11 +1,10 @@
 import Phaser from 'phaser'
-
+import Character from '../Entities/Character'
+import Enemy from '../Entities/Enemy'
+import Player from '../Entities/Player'
 import Component from './Component'
 import Effect from './Effect'
 
-import Character from '../Entities/Character'
-import Player from '../Entities/Player'
-import Enemy from '../Entities/Enemy'
 
 export default class PlayerCombat implements Component {
     player: Player;

@@ -1,5 +1,6 @@
 import Character from '../Entities/Character';
 
+
 export default interface Component {
     /**
      * A name available to show debug info about objects

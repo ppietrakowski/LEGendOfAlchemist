@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
-
 import Attribute from "../Components/Attribute";
 import Component from "../Components/Component";
+
 
 interface ComponentDictionary {
     [key: string]: Component
@@ -15,9 +15,9 @@ export default abstract class Character {
     constructor(sprite: Phaser.Physics.Arcade.Sprite) {
         this.components = {};
         this.sprite = sprite;
-        sprite.setInteractive({pixelPerfect: true});
+        sprite.setInteractive({ pixelPerfect: true });
         this.addComponent(new Attribute(100, 20, 10));
-        
+
         this.hasAttacked = false;
     }
 

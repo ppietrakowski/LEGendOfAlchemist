@@ -1,11 +1,10 @@
 import Phaser from 'phaser';
-
 import Button from '../Entities/Button';
+
 
 function onBack(this: Phaser.GameObjects.Sprite): void {
     this.scene.game.scene.switch('Credits', 'MainMenu');
 }
-
 
 export default class Credits extends Phaser.Scene {
     private text: string;
