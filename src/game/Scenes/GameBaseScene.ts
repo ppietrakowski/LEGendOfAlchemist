@@ -11,24 +11,7 @@ import Ingredient from '../Entities/Ingredient';
 import Effect from '../Components/Effect';
 import { getItemWithRandomEffect } from '../Entities/Items';
 import UltraBoss from '../Entities/UltraBoss'
-
-export function spawnAtGrassTile(sprite: Phaser.Physics.Arcade.Sprite, isle: number, layer: Phaser.Tilemaps.TilemapLayer) {
-    while (layer.getTileAtWorldXY(Math.round(sprite.x), Math.round(sprite.y)) != null) {
-        if (isle === 0) {
-            sprite.x = Math.round(Phaser.Math.Between(9, 68)) * 32;
-            sprite.y = Math.round(Phaser.Math.Between(6, 53)) * 32;
-        } else if (isle === 1) {
-            sprite.x = Math.round(Phaser.Math.Between(132, 213)) * 32;
-            sprite.y = Math.round(Phaser.Math.Between(33, 80)) * 32;
-        } else if (isle === 2) {
-            sprite.x = Math.round(Phaser.Math.Between(12, 144)) * 32;
-            sprite.y = Math.round(Phaser.Math.Between(111, 155)) * 32;
-        } else {
-            sprite.x = Math.round(Phaser.Math.Between(66, 115)) * 32;
-            sprite.y = Math.round(Phaser.Math.Between(59, 68)) * 32;
-        }
-    }
-}
+import {spawnAtTile} from './SceneUtils'
 
 export abstract class GameBaseScene extends Phaser.Scene {
     enemies: Array<Enemy>;
@@ -53,12 +36,10 @@ export abstract class GameBaseScene extends Phaser.Scene {
     }
 
     update(time: number, delta: number): void {
-
         for (let i of this.enemies)
             this.updateEnemy(i, delta);     
     }
     
-
     protected addEnemies(player: Player) {
         this.enemies = [];
         for (let i = 0; i < 50; i++) {
@@ -86,7 +67,7 @@ export abstract class GameBaseScene extends Phaser.Scene {
 
     protected setupEnemy(player: Player, sprite: Phaser.Physics.Arcade.Sprite, name: string, isle: number): void {
         let enemy: Enemy;
-        spawnAtGrassTile(sprite, isle, this.seaLayer);
+        spawnAtTile(sprite, isle, this.seaLayer);
 
         enemy = new Enemy(name, 140, sprite, player);
 

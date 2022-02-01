@@ -11,7 +11,7 @@ import Ingredient from '../Entities/Ingredient';
 import Effect from '../Components/Effect';
 import { getItemWithRandomEffect } from '../Entities/Items';
 import UltraBoss from '../Entities/UltraBoss'
-import {spawnAtGrassTile, GameBaseScene} from './GameBaseScene'
+import {GameBaseScene} from './GameBaseScene'
 
 export default class GameScene extends GameBaseScene {
 
@@ -138,7 +138,7 @@ export default class GameScene extends GameBaseScene {
         // add 100 items 
         for (let i = 0; i < 100; i++) {
             let sprite = this.add.sprite(0, 0, 'bush');
-            this.spawnAtGrassTile(i % 4, sprite);
+            //this.spawnAtGrassTile(i % 4, sprite);
             sprite.setInteractive({ pixelPerfect: true });
 
             sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, (pointer: Phaser.Input.Pointer) => {
