@@ -33,6 +33,10 @@ export default class Player extends Character {
     get inventory(): Inventory {
         return this.getComponent<Inventory>('inventory');
     }
+    
+    get combat(): PlayerCombat {
+        return this.getComponent<PlayerCombat>('player-combat') as PlayerCombat;
+    }
 
     start(): void {
         this.addAnimations();
@@ -49,6 +53,19 @@ export default class Player extends Character {
         this.gameScene.currentMusic.stop();
 
         this.sprite.scene.game.scene.stop('GameScene');
+    }
+
+    
+
+    hasTeleportStone(index: number): boolean {
+        var hasFound = false;
+
+        for (let item of this.inventory.items) {
+            if (item.sprite.name === `teleport-stone-` + index)
+                hasFound = true;
+        }
+
+        return hasFound;
     }
 
     private addAnimations(): void {
@@ -100,16 +117,5 @@ export default class Player extends Character {
                 repeat: -1,
                 frameRate: 4
             });
-    }
-
-    hasTeleportStone(index: number): boolean {
-        var hasFound = false;
-
-        for (let item of this.inventory.items) {
-            if (item.sprite.name === `teleport-stone-` + index)
-                hasFound = true;
-        }
-
-        return hasFound;
     }
 }

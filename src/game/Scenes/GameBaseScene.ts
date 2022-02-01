@@ -81,6 +81,7 @@ export abstract class GameBaseScene extends Phaser.Scene {
             this.enemies.push(new Boss(enemy, 120, sprite, player, index));
         else
             this.enemies.push(new UltraBoss(enemy, 120, sprite, player));
+        player.combat.addEnemy(this.enemies[this.enemies.length - 1]);
     }
 
     protected setupEnemy(player: Player, sprite: Phaser.Physics.Arcade.Sprite, name: string, isle: number): void {
@@ -89,7 +90,7 @@ export abstract class GameBaseScene extends Phaser.Scene {
 
         enemy = new Enemy(name, 140, sprite, player);
 
-        player.getComponent<PlayerCombat>('player-combat').addEnemy(enemy);
+        player.combat.addEnemy(enemy);
         this.enemies.push(enemy);
     }
 

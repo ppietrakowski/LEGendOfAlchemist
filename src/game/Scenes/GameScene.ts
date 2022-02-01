@@ -86,7 +86,6 @@ export default class GameScene extends GameBaseScene {
 
     protected addBoss(player: Player, posX: number, posY: number, index: number, superboss: boolean = false) {
         super.addBoss(player, posX, posY, index, superboss);
-        player.getComponent<PlayerCombat>('player-combat').addEnemy(this.enemies[this.enemies.length - 1]);
         this.addCollisionWithPortal(this.enemies[this.enemies.length - 1].sprite);
     }
 
