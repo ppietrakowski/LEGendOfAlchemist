@@ -6,7 +6,7 @@ import PlayerHealthBar from '../Components/PlayerHealthBar'
 import PlayerMovement from '../Components/PlayerMovement'
 import GameScene from '../Scenes/GameScene'
 import Character from './Character'
-import { addAnimation } from './Enemies'
+import { addAnimation, generateFrame } from './Enemies'
 
 
 export default class Player extends Character {
@@ -39,7 +39,7 @@ export default class Player extends Character {
 
     start(): void {
         this.addAnimations();
-        this.sprite.anims.play('front', false);
+        this.sprite.anims.play('player-front', false);
 
         this.sprite.scaleX = 1.5;
         this.sprite.scaleY = 1.5;
@@ -72,20 +72,7 @@ export default class Player extends Character {
 
         addAnimation(this.sprite, 'player');
 
-        anims.create(
-            {
-                key: 'front',
-                frames: anims.generateFrameNumbers('player', { start: 0, end: 0 }),
-                repeat: -1,
-                frameRate: 4
-            });
-
-        anims.create(
-            {
-                key: 'back',
-                frames: anims.generateFrameNumbers('player', { start: 4, end: 4 }),
-                repeat: -1,
-                frameRate: 4
-            });
+        generateFrame(this.sprite.anims, 'player', 'front', 0, 0).repeat = -1;
+        generateFrame(this.sprite.anims, 'player', 'back', 4, 4).repeat = -1;
     }
 }

@@ -7,47 +7,26 @@ export const Enemies = [
     "turtle"
 ];
 
+export function generateFrame(anims: Phaser.Animations.AnimationState, frameName: string, animName: string, start: number, end: number): Phaser.Animations.Animation {
+    let frame = anims.create(
+        {
+            key: `${frameName}-${animName}`,
+            frames: anims.generateFrameNumbers(frameName, { start: start, end: end }),
+            frameRate: 4
+        });
+    return frame === false ? null : frame;
+}
+
 export function addAnimation(target: Phaser.Physics.Arcade.Sprite, textureName: string) {
     let frameName = textureName;
     let anims = target.anims;
 
-    anims.create(
-        {
-            key: frameName + '-stay',
-            frames: anims.generateFrameNumbers(frameName, { start: 0, end: 0 }),
-            frameRate: 4
-        });
+    generateFrame(anims, frameName, 'stay', 0, 0);
 
-    anims.create(
-        {
-            key: frameName + '-front-run',
-            frames: anims.generateFrameNumbers(frameName, { start: 0, end: 3 }),
-            frameRate: 4
-        });
-
-    anims.create(
-        {
-            key: frameName + '-right-run',
-            frames: anims.generateFrameNumbers(frameName, { start: 8, end: 11 }),
-            repeat: -1,
-            frameRate: 4
-        });
-
-    anims.create(
-        {
-            key: frameName + '-left-run',
-            frames: anims.generateFrameNumbers(frameName, { start: 12, end: 15 }),
-            repeat: -1,
-            frameRate: 4
-        });
-
-    anims.create(
-        {
-            key: frameName + '-back-run',
-            frames: anims.generateFrameNumbers(frameName, { start: 4, end: 7 }),
-            repeat: -1,
-            frameRate: 4
-        });
+    generateFrame(anims, frameName, 'front-run', 0, 3).repeat = -1;
+    generateFrame(anims, frameName, 'right-run', 8, 11).repeat = -1;
+    generateFrame(anims, frameName, 'left-run', 12, 15).repeat = -1;
+    generateFrame(anims, frameName, 'back-run', 4, 7).repeat = -1;
 }
 
 export function loadAllEnemies(scene: Phaser.Scene): void {
