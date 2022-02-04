@@ -12,7 +12,7 @@ export default class UltraBoss extends Boss {
 
 
     makeDead(): void {
-        var gameScene = this.getComponent<EnemyController>('enemy-movement').target.gameScene;
+        let gameScene = this.getComponent<EnemyController>('enemy-movement').target.gameScene;
 
         // for now just show dead screen
         this.sprite.scene.game.scene.run('WinScene');

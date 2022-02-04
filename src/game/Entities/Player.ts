@@ -57,7 +57,7 @@ export default class Player extends Character {
 
 
     hasTeleportStone(index: number): boolean {
-        var hasFound = false;
+        let hasFound = false;
 
         for (let item of this.inventory.items) {
             if (item.sprite.name === `teleport-stone-` + index)
@@ -72,7 +72,7 @@ export default class Player extends Character {
 
         addAnimation(this.sprite, 'player');
 
-        generateFrame(this.sprite.anims, 'player', 'front', 0, 0).repeat = -1;
-        generateFrame(this.sprite.anims, 'player', 'back', 4, 4).repeat = -1;
+        generateFrame(anims, 'player', 'front', 0, 0).repeat = -1;
+        generateFrame(anims, 'player', 'back', 4, 4).repeat = -1;
     }
 }
