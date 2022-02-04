@@ -23,6 +23,7 @@ export default class GameScene extends GameBaseScene {
     create(): void {
         super.create();
         this.player = new Player(this, this.physics.add.sprite(19 * 32, 14 * 32, 'player'));
+        this.physics.add.collider(this.player.sprite, this.seaLayer);
         this.addPortals();
         this.addCollisionWithPortal(this.player.sprite);
         this.addEnemies(this.player);
