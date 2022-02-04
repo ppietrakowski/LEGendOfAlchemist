@@ -40,3 +40,16 @@ export function runAndPause(game: Phaser.Game, sceneToRun: string, sceneToPause:
     game.scene.getScene(sceneToRun).scene.setVisible(true);
     game.scene.pause(sceneToPause);
 }
+
+export function addInformationText(scene: Phaser.Scene, x: number, y: number, text: string, onComplete: Function): Phaser.GameObjects.Text {
+    let informationText = scene.add.text(x, y, text);
+
+    scene.tweens.add({
+        targets: [informationText],
+        y: '-= 100',
+        duration: 500,
+        ease: 'linear',
+        onComplete: () => onComplete(informationText)
+    })
+    return informationText;
+}

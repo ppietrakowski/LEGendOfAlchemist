@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { addInformationText } from '../Scenes/SceneUtils';
 import Player from './Player';
 
 
@@ -14,27 +15,24 @@ export default class Portal {
         this.sprite = sprite;
 
         this.teleportSound = sprite.scene.sound.add('portal-sound');
-        this.sprite.scene.physics.add.overlap(this.sprite, this.player.sprite, () => {
-            if (player.hasTeleportStone(portalNo)) {
-                this.teleportSound.play();
-                player.sprite.setX(endPoint.x);
-                player.sprite.setY(endPoint.y);
-            } else if (this.text === null) {
-                this.text = this.player.sprite.scene.add.text(player.sprite.x, player.sprite.y, 'Cannot go any futher without teleporting stone ' + portalNo);
-
-                this.player.sprite.scene.tweens.add({
-                    targets: [this.text],
-                    y: '-= 100',
-                    duration: 500,
-                    ease: 'linear',
-                    onComplete: () => {
-                        this.text.destroy();
-                        this.text = null;
-                    }
-                })
-            }
-        });
+        this.addOverlap(portalNo, endPoint);
         sprite.setInteractive();
         sprite.body.pushable = false;
     }
+
+    addOverlap(portalNo: number, endPoint: Phaser.Math.Vector2) {
+        this.sprite.scene.physics.add.overlap(this.sprite, this.player.sprite, () => {
+            if (this.player.hasTeleportStone(portalNo)) {
+                this.teleportSound.play();
+                this.player.sprite.setX(endPoint.x);
+                this.player.sprite.setY(endPoint.y);
+            } else if (this.text === null) {
+                this.text = addInformationText(this.player.gameScene,this. player.sprite.x, this.player.sprite.y,
+                    `Cannot go any futher without teleporting stone  ${portalNo}`,
+                    (txt: Phaser.GameObjects.GameObject) => { txt.destroy(); this.text = null; }
+                );
+            }
+        });
+    }
+
 }

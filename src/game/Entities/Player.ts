@@ -54,8 +54,6 @@ export default class Player extends Character {
         this.sprite.scene.game.scene.stop('GameScene');
     }
 
-
-
     hasTeleportStone(index: number): boolean {
         let hasFound = false;
 
