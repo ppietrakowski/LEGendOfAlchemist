@@ -3,7 +3,7 @@ import { getItemWithRandomEffect } from '../Entities/Items';
 import Player from '../Entities/Player';
 import Portal from '../Entities/Portal';
 import { GameBaseScene } from './GameBaseScene';
-import { runAndPause, spawnGameobjectAtTile } from './SceneUtils';
+import { addInformationText, runAndPause, spawnGameobjectAtTile } from './SceneUtils';
 
 
 
@@ -125,18 +125,8 @@ export default class GameScene extends GameBaseScene {
 
     throwAway(sprite: Phaser.GameObjects.Sprite) {
         let item = getItemWithRandomEffect(-10, -10, this);
-        let text = this.add.text(sprite.x, sprite.y, 'You have received ' + item.sprite.texture.key);
-
-        this.tweens.add({
-            targets: [text],
-            y: '-= 100',
-            duration: 500,
-            ease: 'linear',
-            onComplete: () => {
-                this.player.inventory.addItem(item);
-                text.destroy();
-            }
-        })
+        addInformationText(this, sprite.x, sprite.y, `You have received ${item.sprite.texture.key}`, 
+            (text: Phaser.GameObjects.GameObject) => {text.destroy(); this.player.inventory.addItem(item)});
         sprite.destroy(true);
     }
 }
