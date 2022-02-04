@@ -3,6 +3,7 @@ import Character from '../Entities/Character';
 import Player from '../Entities/Player';
 import Crafting from '../Scenes/Crafting';
 import InventoryUi from '../Scenes/InventoryUi';
+import { addInformationText } from '../Scenes/SceneUtils';
 import Item from './../Entities/Item';
 import Component from './Component';
 
@@ -47,14 +48,7 @@ export default class Inventory implements Component {
 
     showCannotGatherInfo(): void {
         let scene = this.owner.sprite.scene;
-        let text = scene.add.text(this.owner.sprite.x, this.owner.sprite.y, 'I cannot gather more items !');
-
-        scene.tweens.add({
-            targets: [text],
-            y: '-=100',
-            duration: 500,
-            onComplete: () => text.destroy()
-        })
+        addInformationText(scene, this.owner.sprite.x, this.owner.sprite.y, 'I don\'t have enough space to gather this item', (text: Phaser.GameObjects.GameObject) => text.destroy());
     }
 
     private addOnFreeSpace(item: Item) {
