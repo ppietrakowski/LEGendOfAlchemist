@@ -6,6 +6,7 @@ import PlayerHealthBar from '../Components/PlayerHealthBar'
 import PlayerMovement from '../Components/PlayerMovement'
 import GameScene from '../Scenes/GameScene'
 import Character from './Character'
+import { addAnimation } from './Enemies'
 
 
 export default class Player extends Character {
@@ -68,6 +69,9 @@ export default class Player extends Character {
 
     private addAnimations(): void {
         let anims = this.sprite.anims;
+
+        addAnimation(this.sprite, 'player');
+
         anims.create(
             {
                 key: 'front',
@@ -78,40 +82,8 @@ export default class Player extends Character {
 
         anims.create(
             {
-                key: 'front-run',
-                frames: anims.generateFrameNumbers('player', { start: 0, end: 3 }),
-                frameRate: 4
-            });
-
-
-        anims.create(
-            {
                 key: 'back',
                 frames: anims.generateFrameNumbers('player', { start: 4, end: 4 }),
-                repeat: -1,
-                frameRate: 4
-            });
-
-        anims.create(
-            {
-                key: 'back-run',
-                frames: anims.generateFrameNumbers('player', { start: 4, end: 7 }),
-                repeat: -1,
-                frameRate: 4
-            });
-
-        anims.create(
-            {
-                key: 'left-run',
-                frames: anims.generateFrameNumbers('player', { start: 12, end: 15 }),
-                repeat: -1,
-                frameRate: 4
-            });
-
-        anims.create(
-            {
-                key: 'right-run',
-                frames: anims.generateFrameNumbers('player', { start: 8, end: 11 }),
                 repeat: -1,
                 frameRate: 4
             });

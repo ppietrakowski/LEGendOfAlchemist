@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import EnemyController from '../Components/EnemyController';
 import HealthBar from '../Components/HealthBar';
 import Character from './Character';
-import { addEnemyAnimation } from './Enemies';
+import { addAnimation } from './Enemies';
 import Ingredient from './Ingredient';
 import { getItemWithRandomEffect } from './Items';
 import Player from './Player';
@@ -17,7 +17,7 @@ export default class Enemy extends Character {
         this.start(sprite.scene);
         this.addComponent(new EnemyController(player, maxRange));
         this.addComponent(new HealthBar(player, 100));
-        addEnemyAnimation(this.sprite, name);
+        addAnimation(this.sprite, name);
     }
 
     start(scene: Phaser.Scene): void {

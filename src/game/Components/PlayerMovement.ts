@@ -33,17 +33,17 @@ export default class PlayerMovement implements Component {
         timeSinceLastFrame *= 50;
 
         if (this.input.down.isDown) {
-            this.onMovement('front-run', 0, this.speed.y * timeSinceLastFrame);
+            this.onMovement('player-front-run', 0, this.speed.y * timeSinceLastFrame);
             this.onStayAnimation = 'front';
         } else if (this.input.up.isDown) {
-            this.onMovement('back-run', 0, -this.speed.y * timeSinceLastFrame);
+            this.onMovement('player-back-run', 0, -this.speed.y * timeSinceLastFrame);
             this.onStayAnimation = 'back';
         } else if (this.input.left.isDown) {
-            this.onMovement('left-run', -this.speed.x * timeSinceLastFrame, 0);
+            this.onMovement('player-left-run', -this.speed.x * timeSinceLastFrame, 0);
             this.onStayAnimation = 'front';
         }
         else if (this.input.right.isDown) {
-            this.onMovement('right-run', this.speed.x * timeSinceLastFrame, 0);
+            this.onMovement('player-right-run', this.speed.x * timeSinceLastFrame, 0);
             this.onStayAnimation = 'front';
         }
         else

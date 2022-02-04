@@ -7,9 +7,9 @@ export const Enemies = [
     "turtle"
 ];
 
-export function addEnemyAnimation(enemy: Phaser.Physics.Arcade.Sprite, enemyName: string) {
-    let frameName = enemyName;
-    let anims = enemy.anims;
+export function addAnimation(target: Phaser.Physics.Arcade.Sprite, textureName: string) {
+    let frameName = textureName;
+    let anims = target.anims;
 
     anims.create(
         {
