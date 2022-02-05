@@ -7,7 +7,7 @@ const images = [
     { key: 'play', src: 'buttons/play.png' },
     { key: 'credits', src: 'buttons/credits.png' },
     { key: 'sound-on', src: 'buttons/sound_on.png' },
-    { key: 'sound-on', src: 'buttons/sound_on.png' },
+    { key: 'sound-off', src: 'buttons/sound_off.png' },
     { key: 'back', src: 'buttons/back.png' },
     { key: 'exit', src: 'buttons/exit.png' },
     { key: 'craft-item', src: 'buttons/craft.png' },
