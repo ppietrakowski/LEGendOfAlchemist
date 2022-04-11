@@ -39,9 +39,9 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.audio('potion-hit', 'assets/sounds/potion-hit.wav')
         this.load.audio('potion-throwed', 'assets/sounds/throw.wav')
         this.load.audio('menu-theme', 'assets/sounds/menu-theme.mp3')
-        this.load.audio('portal-sound', 'assets/sounds/Teleport.wav');
+        this.load.audio('portal-sound', 'assets/sounds/Teleport.wav')
 
-        loadMusic(this);
+        loadMusic(this)
         enemies.loadAllEnemies(this)
         items.loadItems(this)
 

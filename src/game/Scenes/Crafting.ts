@@ -146,15 +146,7 @@ export default class Crafting extends InventoryBase {
     }
 
     hasAnyItemInArray(): boolean {
-        let anyItem = false
-        for (let item of this.items) {
-            if (item.item != null) {
-                anyItem = true
-                break
-            }
-        }
-
-        return anyItem
+        return this.items.findIndex((value) => value != null) !== -1
     }
 
     deleteRestOfItems() {
