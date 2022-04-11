@@ -1,9 +1,9 @@
-import Phaser from 'phaser';
-import Character from '../Entities/Character';
-import Enemy from '../Entities/Enemy';
-import Player from '../Entities/Player';
-import Component from './Component';
-import Effect from './Effect';
+import Phaser from 'phaser'
+import Character from '../Entities/Character'
+import Enemy from '../Entities/Enemy'
+import Player from '../Entities/Player'
+import Component from './Component'
+import Effect from './Effect'
 
 
 enum AI_State {
@@ -15,26 +15,26 @@ enum AI_State {
 }
 
 function getRandomVector(): Phaser.Math.Vector2 {
-    return new Phaser.Math.Vector2(Phaser.Math.Between(-1, 1), Phaser.Math.Between(-1, 1)).normalize();
+    return new Phaser.Math.Vector2(Phaser.Math.Between(-1, 1), Phaser.Math.Between(-1, 1)).normalize()
 }
 
 function getRoamingPosition(startPos: Phaser.Math.Vector2): Phaser.Math.Vector2 {
-    let v = getRandomVector();
-    let range = Phaser.Math.Between(2, 70);
+    let v = getRandomVector()
+    let range = Phaser.Math.Between(2, 70)
 
-    return new Phaser.Math.Vector2(startPos.x + v.x * range, startPos.y + v.y * range);
+    return new Phaser.Math.Vector2(startPos.x + v.x * range, startPos.y + v.y * range)
 }
 
 /**
  * TODO split behaviours to separate classes - pawelp
  */
 export default class EnemyController implements Component {
-    target: Player;
-    self: Enemy;
-    state: AI_State;
-    endPos: Phaser.Math.Vector2;
-    maxRange: number;
-    hitSound: Phaser.Sound.BaseSound;
+    target: Player
+    self: Enemy
+    state: AI_State
+    endPos: Phaser.Math.Vector2
+    maxRange: number
+    hitSound: Phaser.Sound.BaseSound
 
     constructor(target: Player, maxRange: number) {
         this.target = target

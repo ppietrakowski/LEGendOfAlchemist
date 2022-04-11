@@ -1,104 +1,103 @@
-import Phaser from 'phaser';
-import { getItemWithRandomEffect } from '../Entities/Items';
-import Player from '../Entities/Player';
-import Portal from '../Entities/Portal';
-import { GameBaseScene } from './GameBaseScene';
-import { addInformationText, runAndPause, spawnGameobjectAtTile } from './SceneUtils';
+import Phaser from 'phaser'
+import { getItemWithRandomEffect } from '../Entities/Items'
+import Player from '../Entities/Player'
+import Portal from '../Entities/Portal'
+import { GameBaseScene } from './GameBaseScene'
+import { addInformationText, runAndPause, spawnGameobjectAtTile } from './SceneUtils'
 
 
 
 export default class GameScene extends GameBaseScene {
 
-    player: Player;
-    portals: Array<Portal>;
-    keyC: Phaser.Input.Keyboard.Key;
+    player: Player
+    portals: Array<Portal>
+    keyC: Phaser.Input.Keyboard.Key
     keyTab: Phaser.Input.Keyboard.Key
     music: Array<Phaser.Sound.BaseSound>
-    currentMusic: Phaser.Sound.BaseSound;
+    currentMusic: Phaser.Sound.BaseSound
 
     constructor() {
         super('GameScene');
     }
 
     create(): void {
-        super.create();
-        this.player = new Player(this, 19 * 32, 14 * 32, 'player', 'front');
-        this.physics.add.collider(this.player, this.seaLayer);
-        this.addPortals();
-        this.addCollisionWithPortal(this.player);
-        this.addEnemies(this.player);
+        super.create()
+        this.player = new Player(this, 19 * 32, 14 * 32, 'player', 'front')
+        this.physics.add.collider(this.player, this.seaLayer)
+        this.addPortals()
+        this.addCollisionWithPortal(this.player)
+        this.addEnemies(this.player)
 
-        this.putItems();
+        this.putItems()
 
-        this.keyC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
-        this.keyTab = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TAB);
+        this.keyC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C)
+        this.keyTab = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TAB)
 
-        this.music = [];
+        this.music = []
         this.music.push(this.sound.add('roam2'))
         this.music.push(this.sound.add('roam1'))
         this.music.push(this.sound.add('attack'))
 
 
-        this.scene.scene.children.bringToTop(this.player);
-        this.currentMusic = this.music[0];
-        this.currentMusic.play();
+        this.scene.scene.children.bringToTop(this.player)
+        this.currentMusic = this.music[0]
+        this.currentMusic.play()
     }
 
     update(time: number, delta: number): void {
 
         if (!this.currentMusic.isPlaying)
-            this.playNextMusic();
+            this.playNextMusic()
 
-        this.handleKeyEvents();
+        this.handleKeyEvents()
 
-        this.player.update(delta / 1000);
-        super.update(time, delta);
+        this.player.update(delta / 1000)
+        super.update(time, delta)
         if (this.player.isDead())
-            this.player.makeDead();
+            this.player.makeDead()
     }
 
     private playNextMusic(): void {
-        let i = this.music.findIndex((v) => v === this.currentMusic);
+        let i = this.music.findIndex((v) => v === this.currentMusic)
         if (i === this.music.length - 1)
-            i = -1;
+            i = -1
 
-        this.currentMusic = this.music[i + 1];
-        this.currentMusic.play({ delay: 0.7 });
+        this.currentMusic = this.music[i + 1]
+        this.currentMusic.play({ delay: 0.7 })
     }
 
     private handleKeyEvents(): void {
         if (this.keyC.isDown)
-            runAndPause(this.game, 'Crafting', 'GameScene');
+            runAndPause(this.game, 'Crafting', 'GameScene')
 
         if (this.keyTab.isDown)
-            runAndPause(this.game, 'CharacterInfo', 'GameScene');
+            runAndPause(this.game, 'CharacterInfo', 'GameScene')
     }
 
     protected addBoss(player: Player, posX: number, posY: number, index: number, superboss: boolean = false) {
-        super.addBoss(player, posX, posY, index, superboss);
-        this.addCollisionWithPortal(this.enemies[this.enemies.length - 1]);
-        this.physics.add.collider(this.enemies[this.enemies.length - 1], this.seaLayer);
+        super.addBoss(player, posX, posY, index, superboss)
+        this.addCollisionWithPortal(this.enemies[this.enemies.length - 1])
+        this.physics.add.collider(this.enemies[this.enemies.length - 1], this.seaLayer)
     }
 
     protected addEnemy(player: Player, name: string, isle: number): void {
-        super.addEnemy(player, name, isle);
-        this.addCollisionWithPortal(this.enemies[this.enemies.length - 1]);
-        this.physics.add.collider(this.enemies[this.enemies.length - 1], this.seaLayer);
+        super.addEnemy(player, name, isle)
+        this.addCollisionWithPortal(this.enemies[this.enemies.length - 1])
+        this.physics.add.collider(this.enemies[this.enemies.length - 1], this.seaLayer)
     }
 
 
     private addCollisionWithPortal(sprite: Phaser.Physics.Arcade.Sprite): void {
-        for (let portal of this.portals) {
-            this.physics.add.collider(sprite, portal.sprite);
-        }
+        for (let portal of this.portals)
+            this.physics.add.collider(sprite, portal.sprite)
     }
 
     private addPortals() {
-        this.portals = [];
+        this.portals = []
 
-        this.addPortal(50, 61, 183, 5, 0);
-        this.addPortal(134, 64, 159, 123, 1);
-        this.addPortal(51, 108, 79, 65, 2);
+        this.addPortal(50, 61, 183, 5, 0)
+        this.addPortal(134, 64, 159, 123, 1)
+        this.addPortal(51, 108, 79, 65, 2)
     }
 
     private addPortal(tile1X: number, tile1Y: number, tile2X: number, tile2Y: number, stoneNo: number) {
@@ -125,9 +124,9 @@ export default class GameScene extends GameBaseScene {
     }
 
     throwAway(sprite: Phaser.GameObjects.Sprite) {
-        let item = getItemWithRandomEffect(-10, -10, this);
+        let item = getItemWithRandomEffect(-10, -10, this)
         addInformationText(this, sprite.x, sprite.y, `You have received ${item.sprite.texture.key}`, 
-            (text: Phaser.GameObjects.GameObject) => {text.destroy(); this.player.inventory.addItem(item)});
-        sprite.destroy(true);
+            (text: Phaser.GameObjects.GameObject) => {text.destroy(); this.player.inventory.addItem(item)})
+        sprite.destroy(true)
     }
 }

@@ -1,21 +1,21 @@
-import Phaser from 'phaser';
-import Boss from '../Entities/Boss';
-import { getRandomEnemyKey } from '../Entities/Enemies';
-import Enemy from '../Entities/Enemy';
-import Player from '../Entities/Player';
-import UltraBoss from '../Entities/UltraBoss';
-import { spawnAtTile } from './SceneUtils';
+import Phaser from 'phaser'
+import Boss from '../Entities/Boss'
+import { getRandomEnemyKey } from '../Entities/Enemies'
+import Enemy from '../Entities/Enemy'
+import Player from '../Entities/Player'
+import UltraBoss from '../Entities/UltraBoss'
+import { spawnAtTile } from './SceneUtils'
 import * as enemies from '../Entities/Enemies'
 
 export abstract class GameBaseScene extends Phaser.Scene {
-    enemies: Array<Enemy>;
-    map: Phaser.Tilemaps.Tilemap;
-    tileset: Phaser.Tilemaps.Tileset;
-    seaLayer: Phaser.Tilemaps.TilemapLayer;
+    enemies: Array<Enemy>
+    map: Phaser.Tilemaps.Tilemap
+    tileset: Phaser.Tilemaps.Tileset
+    seaLayer: Phaser.Tilemaps.TilemapLayer
     enemyKilled = 0
 
     constructor(key: string) {
-        super(key);
+        super(key)
     }
 
     preload() {
@@ -24,24 +24,24 @@ export abstract class GameBaseScene extends Phaser.Scene {
             enemies.addAnimation(this.anims, enemy)
         }
 
-        enemies.generateFrame(this.anims, 'player', 'front', 0, 0).repeat = -1;
-        enemies.generateFrame(this.anims, 'player', 'back', 4, 4).repeat = -1;
+        enemies.generateFrame(this.anims, 'player', 'front', 0, 0).repeat = -1
+        enemies.generateFrame(this.anims, 'player', 'back', 4, 4).repeat = -1
     }
 
     create(): void {
         this.cameras.main.setBounds(0, 0, 7168, 5120);
-        this.map = this.make.tilemap({ key: 'island' });
-        this.tileset = this.map.addTilesetImage('textures', 'main-island');
+        this.map = this.make.tilemap({ key: 'island' })
+        this.tileset = this.map.addTilesetImage('textures', 'main-island')
 
-        this.map.createLayer('island', this.tileset, -100, -100);
-        this.seaLayer = this.map.createLayer('sea', this.tileset, -100, -100);
+        this.map.createLayer('island', this.tileset, -100, -100)
+        this.seaLayer = this.map.createLayer('sea', this.tileset, -100, -100)
 
-        this.addCollisionWithSeaLayer();
+        this.addCollisionWithSeaLayer()
     }
 
     update(time: number, delta: number): void {
         for (let i of this.enemies)
-            this.updateEnemy(i, delta);     
+            this.updateEnemy(i, delta)
     }
     
     protected addEnemies(player: Player) {
@@ -49,7 +49,7 @@ export abstract class GameBaseScene extends Phaser.Scene {
         const MaxNormalEnemies = 50
 
         for (let i = 0; i < MaxNormalEnemies; i++)
-            this.addEnemy(player, getRandomEnemyKey(), i % 4);
+            this.addEnemy(player, getRandomEnemyKey(), i % 4)
 
         this.addBoss(player, 43 * 32, 52 * 32, 0)
         this.addBoss(player, 161 * 32, 69 * 32, 1)
@@ -71,15 +71,15 @@ export abstract class GameBaseScene extends Phaser.Scene {
     }
 
     protected addEnemy(player: Player, name: string, isle: number): void {
-        let enemy = new Enemy(this, 0, 0, name, name + 'stay', name, 140, player);
-        spawnAtTile(enemy, isle, this.seaLayer);
+        let enemy = new Enemy(this, 0, 0, name, name + 'stay', name, 140, player)
+        spawnAtTile(enemy, isle, this.seaLayer)
 
-        player.combat.addEnemy(enemy);
-        this.enemies.push(enemy);
+        player.combat.addEnemy(enemy)
+        this.enemies.push(enemy)
     }
 
     protected updateEnemy(enemy: Enemy, deltaTime: number): void {
-        enemy.update(deltaTime / 1000);
+        enemy.update(deltaTime / 1000)
 
         if (enemy.isDead()) {
             this.enemyKilled++

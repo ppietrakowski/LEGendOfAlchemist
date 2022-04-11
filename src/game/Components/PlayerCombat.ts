@@ -7,48 +7,48 @@ import Effect from './Effect'
 
 
 export default class PlayerCombat implements Component {
-    player: Player;
-    timeSinceLastFrame: number;
+    player: Player
+    timeSinceLastFrame: number
 
     constructor() {
     }
 
     getName(): string {
-        return 'player-combat';
+        return 'player-combat'
     }
 
     start(character: Character): void {
-        this.player = character as Player;
-        this.timeSinceLastFrame = 0;
+        this.player = character as Player
+        this.timeSinceLastFrame = 0
     }
 
     addEnemy(enemy: Enemy): void {
         enemy.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, (pointer: Phaser.Input.Pointer) => {
-            this.onThrowAnything(enemy);
+            this.onThrowAnything(enemy)
         });
     }
 
     update(timeSinceLastFrame: number): void {
-        this.timeSinceLastFrame = timeSinceLastFrame;
+        this.timeSinceLastFrame = timeSinceLastFrame
     }
 
     onThrowAnything(enemy: Enemy) {
-        let scene = enemy.scene;
+        let scene = enemy.scene
         if (this.player.isNearObject(enemy, 5 * this.player.attributes.strength) && !this.player.hasAttacked) {
-            let throwable = scene.add.image(this.player.x, this.player.y, 'potion');
+            let throwable = scene.add.image(this.player.x, this.player.y, 'potion')
 
-            scene.sound.add('potion-throwed').play();
-            this.throw(throwable, enemy);
+            scene.sound.add('potion-throwed').play()
+            this.throw(throwable, enemy)
         }
     }
 
     throw(throwable: Phaser.GameObjects.Image, enemy: Enemy) {
         let duration = 100 *
-            Phaser.Math.Distance.Between(enemy.x, enemy.y, this.player.x, this.player.y) * this.timeSinceLastFrame;
+            Phaser.Math.Distance.Between(enemy.x, enemy.y, this.player.x, this.player.y) * this.timeSinceLastFrame
 
         throwable.setRotation(Math.PI / 360)
 
-        this.player.hasAttacked = true;
+        this.player.hasAttacked = true
 
         throwable.scene.tweens.add({
             targets: [throwable],
@@ -57,10 +57,10 @@ export default class PlayerCombat implements Component {
             x: enemy.x,
             y: enemy.y,
             onComplete: () => {
-                throwable.scene.sound.add('potion-hit').play();
-                enemy.attributes.addEffect(new Effect(24 * this.timeSinceLastFrame * -this.player.attributes.strength, 0, 0, 0.5));
-                this.player.hasAttacked = false;
-                throwable.destroy();
+                throwable.scene.sound.add('potion-hit').play()
+                enemy.attributes.addEffect(new Effect(24 * this.timeSinceLastFrame * -this.player.attributes.strength, 0, 0, 0.5))
+                this.player.hasAttacked = false
+                throwable.destroy()
             }
         });
     }

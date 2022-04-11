@@ -1,17 +1,17 @@
-import Phaser from 'phaser';
-import Button from '../Entities/Button';
+import Phaser from 'phaser'
+import Button from '../Entities/Button'
 
 
 function onBack(this: Phaser.GameObjects.Sprite): void {
-    this.scene.game.scene.switch('Credits', 'MainMenu');
+    this.scene.game.scene.switch('Credits', 'MainMenu')
 }
 
 export default class Credits extends Phaser.Scene {
-    private text: string;
-    private back: Button;
+    private text: string
+    private back: Button
 
     constructor() {
-        super('Credits');
+        super('Credits')
     }
 
     preload(): void {
@@ -33,14 +33,14 @@ export default class Credits extends Phaser.Scene {
         * michaldrozdz2000 - cherries, orange, potion, red flower, player
         * MoppySound - roam2,menu music and attack   
         * Wiktoria Pietrakowska - tree, house tileset     
-        `;
+        `
     }
 
     create(): void {
-        this.add.image(0, 0, 'background').setOrigin(0, 0);
-        this.add.text(50, 50, this.text, { fontFamily: 'pixellari', fontSize: '20px', color: '#111155', stroke: '#fff', strokeThickness: 1 });
-        this.back = new Button(this, 185, 500, 'back', onBack);
-        this.back.scaleX = 0.5;
-        this.back.scaleY = 0.5;
+        this.add.image(0, 0, 'background').setOrigin(0, 0)
+        this.add.text(50, 50, this.text, { fontFamily: 'pixellari', fontSize: '20px', color: '#111155', stroke: '#fff', strokeThickness: 1 })
+        this.back = new Button(this, 185, 500, 'back', onBack)
+        this.back.scaleX = 0.5
+        this.back.scaleY = 0.5
     }
 }

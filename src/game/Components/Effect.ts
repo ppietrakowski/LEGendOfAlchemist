@@ -1,5 +1,5 @@
-import Character from '../Entities/Character';
-import Component from './Component';
+import Character from '../Entities/Character'
+import Component from './Component'
 
 
 export default class Effect implements Component {
@@ -36,6 +36,6 @@ export default class Effect implements Component {
     }
 
     public hasTimePassed(): boolean {
-        return this.timePassed >= this.duration;
+        return this.timePassed >= this.duration
     }
 }
