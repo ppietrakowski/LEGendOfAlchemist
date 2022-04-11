@@ -3,11 +3,6 @@ import Character from '../Entities/Character';
 
 export default interface Component {
     /**
-     * A name available to show debug info about objects
-     */
-    debugName(): string;
-
-    /**
      * A unique name of the component
      */
     getName(): string;

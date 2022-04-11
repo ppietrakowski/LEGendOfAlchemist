@@ -39,21 +39,20 @@ export default class EnemyController implements Component {
         this.maxRange = maxRange;
     }
 
-    debugName(): string {
-        return 'Enemy Movement';
-    }
-
     getName(): string {
         return 'enemy-movement';
     }
 
     start(character: Character): void {
         this.self = character as Enemy;
-        this.self.sprite.setVelocity(0, 0);
-        this.endPos = new Phaser.Math.Vector2(character.sprite.x, character.sprite.y);
-        character.sprite.scene.physics.add.collider(character.sprite, this.target.sprite);
+        console.log(this.self)
 
-        this.hitSound = this.self.sprite.scene.sound.add('player-slap');
+        this.self.setVelocityX(0)
+        this.self.setVelocityY(0)
+        this.endPos = new Phaser.Math.Vector2(character.x, character.y);
+        character.scene.physics.add.collider(character, this.target);
+
+        this.hitSound = this.self.scene.sound.add('player-slap');
     }
 
     update(timeSinceLastFrame: number): void {
@@ -93,43 +92,43 @@ export default class EnemyController implements Component {
     }
 
     private isPlayerNear(): boolean {
-        return this.self.isNearObject(this.target.sprite, 67);
+        return this.self.isNearObject(this.target, 67);
     }
 
     private isPlayerInRange(): boolean {
-        return this.self.isNearObject(this.target.sprite, this.maxRange);
+        return this.self.isNearObject(this.target, this.maxRange);
     }
 
     private isPlayerOutOfRange(): boolean {
-        return this.self.isNearObject(this.target.sprite, this.maxRange + 100);
+        return this.self.isNearObject(this.target, this.maxRange + 100);
     }
 
     private switchToRoaming(): void {
-        this.self.sprite.setVelocity(0, 0);
+        this.self.setVelocity(0, 0);
         this.state = AI_State.Roaming;
     }
 
     private onMoveUpOrDown(vel: Phaser.Math.Vector2): void {
         if (vel.y < 0)
-            this.self.sprite.anims.play(`${this.self.name}-back-run`, true);
+            this.self.anims.play(`${this.self.name}-back-run`, true);
         else
-            this.self.sprite.anims.play(`${this.self.name}-front-run`, true);
+            this.self.anims.play(`${this.self.name}-front-run`, true);
     }
 
     private onDirected(condition: boolean, vel: Phaser.Math.Vector2, animName: string): void {
         // left
         if (condition)
-            this.self.sprite.anims.play(animName, true);
+            this.self.anims.play(animName, true);
         else
             this.onMoveUpOrDown(vel);
     }
 
     private isDirectedInRightSide(): boolean {
-        return this.self.sprite.body.velocity.x > 0;
+        return this.self.body.velocity.x > 0;
     }
 
     private playMoveAnim(): void {
-        let vel = this.self.sprite.body.velocity;
+        let vel = this.self.body.velocity;
 
         if (this.isDirectedInRightSide())
             this.onDirected(vel.x > Math.abs(vel.y), vel, `${this.self.name}-right-run`);
@@ -139,19 +138,19 @@ export default class EnemyController implements Component {
 
     // TODO proper movement
     private onRoam(timeSinceLastFrame: number): void {
-        this.self.sprite.setVelocity(0, 0);
+        this.self.setVelocity(0, 0);
         this.endPos = getRoamingPosition(this.endPos);
 
         this.state = AI_State.DuringMove;
 
 
-        this.self.sprite.scene.physics.moveTo(this.self.sprite, this.endPos.x, this.endPos.y);
+        this.self.scene.physics.moveTo(this.self, this.endPos.x, this.endPos.y);
         this.playMoveAnim();
     }
 
     private onAttack(timeSinceLastFrame: number): void {
         // stops after chasing
-        this.self.sprite.setVelocity(0, 0);
+        this.self.setVelocity(0, 0);
 
         if (!this.hitSound.isPlaying) {
             this.hitSound.play();
@@ -161,13 +160,13 @@ export default class EnemyController implements Component {
     }
 
     private onChase(timeSinceLastFrame: number): void {
-        this.self.sprite.scene.physics.moveToObject(this.self.sprite, this.target.sprite, 40);
+        this.self.scene.physics.moveToObject(this.self, this.target, 40);
         this.playMoveAnim();
     }
 
     private onAbort(timeSinceLastFrame: number): void {
         // stops, if it chasing
-        this.self.sprite.setVelocity(0, 0);
+        this.self.setVelocity(0, 0);
         this.switchToRoaming();
     }
 
@@ -175,9 +174,9 @@ export default class EnemyController implements Component {
         if (this.self.isNear(this.endPos, 1.5)) {
             this.switchToRoaming();
         }
-        else if (this.self.sprite.body.checkCollision.down || this.self.sprite.body.checkCollision.left || this.self.sprite.body.checkCollision.right || this.self.sprite.body.checkCollision.up) {
-            this.self.sprite.body.velocity.x *= -1;
-            this.self.sprite.body.velocity.y *= -1;
+        else if (this.self.body.checkCollision.down || this.self.body.checkCollision.left || this.self.body.checkCollision.right || this.self.body.checkCollision.up) {
+            this.self.body.velocity.x *= -1;
+            this.self.body.velocity.y *= -1;
             this.switchToRoaming();
         }
     }

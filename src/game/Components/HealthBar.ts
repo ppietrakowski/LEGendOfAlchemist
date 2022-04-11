@@ -17,10 +17,6 @@ export default class HealthBar implements Component {
         this.range = range;
     }
 
-    debugName(): string {
-        return 'HP-BAR'
-    }
-
     getName(): string {
         return 'hp-bar'
     }
@@ -31,14 +27,14 @@ export default class HealthBar implements Component {
         this.self = character;
         this.hpMax = this.self.attributes.hp;
 
-        this.text = character.sprite.scene.add.text(character.sprite.x, character.sprite.y - 2 * this.self.sprite.width, attributes.hp.toString(), { fontFamily: 'pixellari', color: '#ffffff', backgroundColor: '#880000' });
+        this.text = character.scene.add.text(character.x, character.y - 2 * this.self.width, attributes.hp.toString(), { fontFamily: 'pixellari', color: '#ffffff', backgroundColor: '#880000' });
         this.text.setVisible(false);
     }
 
     update(timeSinceLastFrame: number): void {
         this.updateHealthOnIncrease();
 
-        if (this.self.isNearObject(this.player.sprite, this.range))
+        if (this.self.isNearObject(this.player, this.range))
             this.show();
         else
             this.hide();
@@ -46,7 +42,7 @@ export default class HealthBar implements Component {
 
     private show(): void {
         this.text.setVisible(true);
-        this.text.setPosition(this.self.sprite.x, this.self.sprite.y - 1.5 * this.self.sprite.width);
+        this.text.setPosition(this.self.x, this.self.y - 1.5 * this.self.width);
         this.text.setText(Math.round(this.self.attributes.hp).toString() + "/" + Math.round(this.hpMax));
     }
 

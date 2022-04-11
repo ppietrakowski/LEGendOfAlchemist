@@ -14,16 +14,12 @@ export default class Inventory implements Component {
     hasItemsUpdate: boolean = false;
     keyI: Phaser.Input.Keyboard.Key;
 
-    debugName(): string {
-        return this.getName();
-    }
-
     getName(): string {
         return 'inventory';
     }
 
     start(character: Character): void {
-        let keyboard = character.sprite.scene.input.keyboard;
+        let keyboard = character.scene.input.keyboard;
 
         this.owner = character;
         this.items = [];
@@ -47,8 +43,8 @@ export default class Inventory implements Component {
     }
 
     showCannotGatherInfo(): void {
-        let scene = this.owner.sprite.scene;
-        addInformationText(scene, this.owner.sprite.x, this.owner.sprite.y, 'I don\'t have enough space to gather this item', (text: Phaser.GameObjects.GameObject) => text.destroy());
+        let scene = this.owner.scene;
+        addInformationText(scene, this.owner.x, this.owner.y, 'I don\'t have enough space to gather this item', (text: Phaser.GameObjects.GameObject) => text.destroy());
     }
 
     private addOnFreeSpace(item: Item) {
@@ -86,11 +82,11 @@ export default class Inventory implements Component {
     }
 
     get ui(): InventoryUi {
-        return (this.owner.sprite.scene.game.scene.getScene('Inventory') as InventoryUi);
+        return (this.owner.scene.game.scene.getScene('Inventory') as InventoryUi);
     }
 
     get crafting(): Crafting {
-        return (this.owner.sprite.scene.game.scene.getScene('Crafting') as Crafting)
+        return (this.owner.scene.game.scene.getScene('Crafting') as Crafting)
     }
 
     private removeItem(item: Item, i: number): void {

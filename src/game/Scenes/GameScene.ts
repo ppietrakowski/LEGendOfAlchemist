@@ -22,10 +22,10 @@ export default class GameScene extends GameBaseScene {
 
     create(): void {
         super.create();
-        this.player = new Player(this, this.physics.add.sprite(19 * 32, 14 * 32, 'player'));
-        this.physics.add.collider(this.player.sprite, this.seaLayer);
+        this.player = new Player(this, 19 * 32, 14 * 32, 'player', 'front');
+        this.physics.add.collider(this.player, this.seaLayer);
         this.addPortals();
-        this.addCollisionWithPortal(this.player.sprite);
+        this.addCollisionWithPortal(this.player);
         this.addEnemies(this.player);
 
         this.putItems();
@@ -39,7 +39,7 @@ export default class GameScene extends GameBaseScene {
         this.music.push(this.sound.add('attack'))
 
 
-        this.scene.scene.children.bringToTop(this.player.sprite);
+        this.scene.scene.children.bringToTop(this.player);
         this.currentMusic = this.music[0];
         this.currentMusic.play();
     }
@@ -76,14 +76,14 @@ export default class GameScene extends GameBaseScene {
 
     protected addBoss(player: Player, posX: number, posY: number, index: number, superboss: boolean = false) {
         super.addBoss(player, posX, posY, index, superboss);
-        this.addCollisionWithPortal(this.enemies[this.enemies.length - 1].sprite);
-        this.physics.add.collider(this.enemies[this.enemies.length - 1].sprite, this.seaLayer);
+        this.addCollisionWithPortal(this.enemies[this.enemies.length - 1]);
+        this.physics.add.collider(this.enemies[this.enemies.length - 1], this.seaLayer);
     }
 
-    protected setupEnemy(player: Player, sprite: Phaser.Physics.Arcade.Sprite, name: string, isle: number): void {
-        super.setupEnemy(player, sprite, name, isle);
-        this.addCollisionWithPortal(this.enemies[this.enemies.length - 1].sprite);
-        this.physics.add.collider(sprite, this.seaLayer);
+    protected setupEnemy(player: Player, name: string, isle: number): void {
+        super.setupEnemy(player, name, isle);
+        this.addCollisionWithPortal(this.enemies[this.enemies.length - 1]);
+        this.physics.add.collider(this.enemies[this.enemies.length - 1], this.seaLayer);
     }
 
 

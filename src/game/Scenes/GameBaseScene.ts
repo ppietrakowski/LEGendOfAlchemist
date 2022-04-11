@@ -5,7 +5,7 @@ import Enemy from '../Entities/Enemy';
 import Player from '../Entities/Player';
 import UltraBoss from '../Entities/UltraBoss';
 import { spawnAtTile } from './SceneUtils';
-
+import * as enemies from '../Entities/Enemies'
 
 export abstract class GameBaseScene extends Phaser.Scene {
     enemies: Array<Enemy>;
@@ -16,6 +16,16 @@ export abstract class GameBaseScene extends Phaser.Scene {
 
     constructor(key: string) {
         super(key);
+    }
+
+    preload() {
+        enemies.addAnimation(this.anims, 'player')
+        for (let enemy of enemies.Enemies) {
+            enemies.addAnimation(this.anims, enemy)
+        }
+
+        enemies.generateFrame(this.anims, 'player', 'front', 0, 0).repeat = -1;
+        enemies.generateFrame(this.anims, 'player', 'back', 4, 4).repeat = -1;
     }
 
     create(): void {
@@ -38,9 +48,7 @@ export abstract class GameBaseScene extends Phaser.Scene {
         this.enemies = [];
         for (let i = 0; i < 50; i++) {
             let enemy = getRandomEnemyKey()
-            let sprite = this.physics.add.sprite(0, 0, enemy);
-
-            this.setupEnemy(player, sprite, enemy, i % 4);
+            this.setupEnemy(player, enemy, i % 4);
         }
 
         this.addBoss(player, 43 * 32, 52 * 32, 0);
@@ -51,19 +59,16 @@ export abstract class GameBaseScene extends Phaser.Scene {
 
     protected addBoss(player: Player, posX: number, posY: number, index: number, superboss: boolean = false) {
         let enemy = getRandomEnemyKey()
-        let sprite = this.physics.add.sprite(posX, posY, enemy);
         if (!superboss)
-            this.enemies.push(new Boss(enemy, 120, sprite, player, index));
+            this.enemies.push(new Boss(this, posX, posY, enemy, enemy + '-stay', enemy, 120, player, index))
         else
-            this.enemies.push(new UltraBoss(enemy, 120, sprite, player));
+            this.enemies.push(new UltraBoss(this, posX, posY, enemy, enemy + 'stay', enemy, 120, player))
         player.combat.addEnemy(this.enemies[this.enemies.length - 1]);
     }
 
-    protected setupEnemy(player: Player, sprite: Phaser.Physics.Arcade.Sprite, name: string, isle: number): void {
-        let enemy: Enemy;
-        spawnAtTile(sprite, isle, this.seaLayer);
-
-        enemy = new Enemy(name, 140, sprite, player);
+    protected setupEnemy(player: Player, name: string, isle: number): void {
+        let enemy = new Enemy(this, 0, 0, name, name + 'stay', name, 140, player);
+        spawnAtTile(enemy, isle, this.seaLayer);
 
         player.combat.addEnemy(enemy);
         this.enemies.push(enemy);

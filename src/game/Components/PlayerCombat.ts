@@ -13,10 +13,6 @@ export default class PlayerCombat implements Component {
     constructor() {
     }
 
-    debugName(): string {
-        return 'player-combat';
-    }
-
     getName(): string {
         return 'player-combat';
     }
@@ -27,7 +23,7 @@ export default class PlayerCombat implements Component {
     }
 
     addEnemy(enemy: Enemy): void {
-        enemy.sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, (pointer: Phaser.Input.Pointer) => {
+        enemy.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, (pointer: Phaser.Input.Pointer) => {
             this.onThrowAnything(enemy);
         });
     }
@@ -37,9 +33,9 @@ export default class PlayerCombat implements Component {
     }
 
     onThrowAnything(enemy: Enemy) {
-        let scene = enemy.sprite.scene;
-        if (this.player.isNearObject(enemy.sprite, 5 * this.player.attributes.strength) && !this.player.hasAttacked) {
-            let throwable = scene.add.image(this.player.sprite.x, this.player.sprite.y, 'potion');
+        let scene = enemy.scene;
+        if (this.player.isNearObject(enemy, 5 * this.player.attributes.strength) && !this.player.hasAttacked) {
+            let throwable = scene.add.image(this.player.x, this.player.y, 'potion');
 
             scene.sound.add('potion-throwed').play();
             this.throw(throwable, enemy);
@@ -48,7 +44,7 @@ export default class PlayerCombat implements Component {
 
     throw(throwable: Phaser.GameObjects.Image, enemy: Enemy) {
         let duration = 100 *
-            Phaser.Math.Distance.Between(enemy.sprite.x, enemy.sprite.y, this.player.sprite.x, this.player.sprite.y) * this.timeSinceLastFrame;
+            Phaser.Math.Distance.Between(enemy.x, enemy.y, this.player.x, this.player.y) * this.timeSinceLastFrame;
 
         throwable.setRotation(Math.PI / 360)
 
@@ -58,8 +54,8 @@ export default class PlayerCombat implements Component {
             targets: [throwable],
             ease: 'linear',
             duration: duration,
-            x: enemy.sprite.x,
-            y: enemy.sprite.y,
+            x: enemy.x,
+            y: enemy.y,
             onComplete: () => {
                 throwable.scene.sound.add('potion-hit').play();
                 enemy.attributes.addEffect(new Effect(24 * this.timeSinceLastFrame * -this.player.attributes.strength, 0, 0, 0.5));

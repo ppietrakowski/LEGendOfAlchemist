@@ -12,8 +12,8 @@ import { addAnimation, generateFrame } from './Enemies'
 export default class Player extends Character {
     gameScene: GameScene;
 
-    constructor(scene: GameScene, sprite: Phaser.Physics.Arcade.Sprite) {
-        super(sprite);
+    constructor(scene: GameScene, x: number, y: number, texture: string | Phaser.Textures.Texture, frame: string | number) {
+        super(scene, x, y, texture, frame)
         this.gameScene = scene;
 
         this.addComponent(new Attribute(100, 50, 10));
@@ -22,9 +22,9 @@ export default class Player extends Character {
         this.addComponent(new PlayerCombat());
         this.addComponent(new Inventory());
 
-        sprite.setScrollFactor(1);
+        this.setScrollFactor(1);
 
-        sprite.scene.cameras.main.startFollow(sprite, true, 0.08, 0.08);
+        this.scene.cameras.main.startFollow(this, true, 0.08, 0.08);
 
         this.start();
     }
@@ -38,20 +38,19 @@ export default class Player extends Character {
     }
 
     start(): void {
-        this.addAnimations();
-        this.sprite.anims.play('player-front', false);
+        this.anims.play('player-front', false);
 
-        this.sprite.scaleX = 1.5;
-        this.sprite.scaleY = 1.5;
+        this.scaleX = 1.5;
+        this.scaleY = 1.5;
     }
 
     makeDead(): void {
         // for now just show dead screen
-        this.sprite.scene.game.scene.run('DeadScene');
+        this.scene.game.scene.run('DeadScene');
 
         this.gameScene.currentMusic.stop();
 
-        this.sprite.scene.game.scene.stop('GameScene');
+        this.scene.game.scene.stop('GameScene');
     }
 
     hasTeleportStone(index: number): boolean {
@@ -63,14 +62,5 @@ export default class Player extends Character {
         }
 
         return hasFound;
-    }
-
-    private addAnimations(): void {
-        let anims = this.sprite.anims;
-
-        addAnimation(this.sprite, 'player');
-
-        generateFrame(anims, 'player', 'front', 0, 0).repeat = -1;
-        generateFrame(anims, 'player', 'back', 4, 4).repeat = -1;
     }
 }

@@ -18,10 +18,6 @@ export default class Effect implements Component {
         this.duration = duration;
     }
 
-    debugName(): string {
-        return `Effect\{dHp: ${this.deltaHp}, dStrength: ${this.deltaStrength}, dWisdom: ${this.deltaWisdom}, duration: ${this.duration} \}`;
-    }
-
     getName(): string {
         return 'Effect';
     }

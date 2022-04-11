@@ -21,18 +21,17 @@ export default class Portal {
     }
 
     addOverlap(portalNo: number, endPoint: Phaser.Math.Vector2) {
-        this.sprite.scene.physics.add.overlap(this.sprite, this.player.sprite, () => {
+        this.sprite.scene.physics.add.overlap(this.sprite, this.player, () => {
             if (this.player.hasTeleportStone(portalNo)) {
                 this.teleportSound.play();
-                this.player.sprite.setX(endPoint.x);
-                this.player.sprite.setY(endPoint.y);
+                this.player.setX(endPoint.x);
+                this.player.setY(endPoint.y);
             } else if (this.text === null) {
-                this.text = addInformationText(this.player.gameScene,this. player.sprite.x, this.player.sprite.y,
+                this.text = addInformationText(this.player.gameScene,this. player.x, this.player.y,
                     `Cannot go any futher without teleporting stone  ${portalNo}`,
                     (txt: Phaser.GameObjects.GameObject) => { txt.destroy(); this.text = null; }
                 );
             }
         });
     }
-
 }

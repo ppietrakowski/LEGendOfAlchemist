@@ -9,15 +9,13 @@ import Player from './Player';
 
 
 export default class Enemy extends Character {
-    name: string;
-
-    constructor(name: string, maxRange: number, sprite: Phaser.Physics.Arcade.Sprite, player: Player) {
-        super(sprite);
+    constructor(scene: Phaser.Scene, x: number, y: number, texture: string | Phaser.Textures.Texture, frame: string | number, name: string, maxRange: number, player: Player) {
+        console.log(player)
+        super(scene, x, y, texture, frame)
         this.name = name;
-        this.start(sprite.scene);
+        this.start(scene);
         this.addComponent(new EnemyController(player, maxRange));
         this.addComponent(new HealthBar(player, 100));
-        addAnimation(this.sprite, name);
     }
 
     start(scene: Phaser.Scene): void {
@@ -25,7 +23,7 @@ export default class Enemy extends Character {
 
     makeDead(): void {
         let player = this.getComponent<EnemyController>('enemy-movement').target;
-        let ingredient: Ingredient = getItemWithRandomEffect(this.sprite.x, this.sprite.y, this.sprite.scene);
+        let ingredient: Ingredient = getItemWithRandomEffect(this.x, this.y, this.scene);
 
         this.getComponent<HealthBar>('hp-bar').hide();
 
@@ -34,6 +32,6 @@ export default class Enemy extends Character {
             player.inventory.addItem(ingredient);
         });
 
-        this.sprite.destroy();
+        this.destroy();
     }
 }

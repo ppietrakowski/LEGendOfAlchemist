@@ -13,16 +13,12 @@ export default class PlayerMovement implements Component {
         this.speed = speed;
     }
 
-    debugName(): string {
-        return 'player-movement';
-    }
-
     getName(): string {
         return 'movement';
     }
 
     start(character: Character): void {
-        let keyboard = character.sprite.scene.input.keyboard;
+        let keyboard = character.scene.input.keyboard;
 
         this.onStayAnimation = 'player-front';
         this.character = character as Player;
@@ -51,7 +47,7 @@ export default class PlayerMovement implements Component {
     }
 
     private onMovement(frameName: string, velX: number, velY: number) {
-        let sprite = this.character.sprite;
+        let sprite = this.character;
         sprite.anims.play(frameName, true);
         sprite.setVelocity(velX, velY);
     }

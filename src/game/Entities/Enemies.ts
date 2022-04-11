@@ -7,7 +7,7 @@ export const Enemies = [
     "turtle"
 ];
 
-export function generateFrame(anims: Phaser.Animations.AnimationState, frameName: string, animName: string, start: number, end: number): Phaser.Animations.Animation {
+export function generateFrame(anims: Phaser.Animations.AnimationManager, frameName: string, animName: string, start: number, end: number): Phaser.Animations.Animation {
     let frame = anims.create(
         {
             key: `${frameName}-${animName}`,
@@ -17,9 +17,8 @@ export function generateFrame(anims: Phaser.Animations.AnimationState, frameName
     return frame === false ? null : frame;
 }
 
-export function addAnimation(target: Phaser.Physics.Arcade.Sprite, textureName: string) {
+export function addAnimation(anims: Phaser.Animations.AnimationManager, textureName: string) {
     let frameName = textureName;
-    let anims = target.anims;
 
     generateFrame(anims, frameName, 'stay', 0, 0);
 

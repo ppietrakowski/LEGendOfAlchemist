@@ -44,6 +44,8 @@ export default class PreloadScene extends Phaser.Scene {
         loadMusic(this);
         enemies.loadAllEnemies(this)
         items.loadItems(this)
+
+        
     }
 
     async loadAllUi() {

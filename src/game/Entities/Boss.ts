@@ -10,11 +10,11 @@ export default class Boss extends Enemy {
     name: string;
     teleportIndex: number;
 
-    constructor(name: string, maxRange: number, sprite: Phaser.Physics.Arcade.Sprite, player: Player, teleportIndex: number) {
-        super(name, maxRange, sprite, player);
+    constructor(scene: Phaser.Scene, x: number, y: number, texture: string | Phaser.Textures.Texture, frame: string | number, name: string, maxRange: number, player: Player, teleportIndex: number) {
+        super(scene, x, y, texture, frame, name, maxRange, player)
         this.attributes.hp *= 5.2;
         this.attributes.strength *= 5.2;
-        this.sprite.setScale(1.5, 1.5);
+        this.setScale(1.5, 1.5);
         this.teleportIndex = teleportIndex;
     }
 
@@ -23,7 +23,7 @@ export default class Boss extends Enemy {
 
     makeDead(): void {
         let player = this.getComponent<EnemyController>('enemy-movement').target;
-        let teleportStone = new TeleportStone(null, player.sprite.scene.add.sprite(this.sprite.x, this.sprite.y, 'teleport-stone'), this.teleportIndex);
+        let teleportStone = new TeleportStone(null, player.scene.add.sprite(this.x, this.y, 'teleport-stone'), this.teleportIndex);
         teleportStone.sprite.name = 'teleport-stone-' + this.teleportIndex;
         this.getComponent<HealthBar>('hp-bar').hide();
 
@@ -33,6 +33,6 @@ export default class Boss extends Enemy {
             teleportStone.sprite.name = 'teleport-stone-' + this.teleportIndex;
         });
 
-        this.sprite.destroy();
+        this.destroy();
     }
 }
