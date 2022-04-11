@@ -9,7 +9,6 @@ interface ComponentDictionary {
 
 export default abstract class Character extends Phaser.Physics.Arcade.Sprite {
     private components: ComponentDictionary;
-    //sprite: Phaser.Physics.Arcade.Sprite;
     hasAttacked: boolean;
 
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string | Phaser.Textures.Texture, frame: string | number) {
@@ -55,7 +54,7 @@ export default abstract class Character extends Phaser.Physics.Arcade.Sprite {
         return Phaser.Math.Distance.Between(point.x, point.y, this.x, this.y) <= maxTolerance;
     }
 
-    isNearObject(gameobject: Phaser.GameObjects.Sprite, maxTolerance: number = 1): boolean {
+    isNearObject(gameobject: Phaser.GameObjects.Sprite, maxTolerance: number = 30): boolean {
         return Phaser.Math.Distance.Between(gameobject.x, gameobject.y, this.x, this.y) <= maxTolerance;
     }
 }

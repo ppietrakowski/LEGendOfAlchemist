@@ -45,24 +45,28 @@ export abstract class GameBaseScene extends Phaser.Scene {
     }
     
     protected addEnemies(player: Player) {
-        this.enemies = [];
-        for (let i = 0; i < 50; i++) {
-            let enemy = getRandomEnemyKey()
-            this.setupEnemy(player, enemy, i % 4);
-        }
+        this.enemies = []
+        const MaxNormalEnemies = 50
 
-        this.addBoss(player, 43 * 32, 52 * 32, 0);
-        this.addBoss(player, 161 * 32, 69 * 32, 1);
-        this.addBoss(player, 116 * 32, 107 * 32, 2);
-        this.addBoss(player, 104 * 32, 61 * 32, -1, true);
+        for (let i = 0; i < MaxNormalEnemies; i++)
+            this.setupEnemy(player, getRandomEnemyKey(), i % 4);
+
+        this.addBoss(player, 43 * 32, 52 * 32, 0)
+        this.addBoss(player, 161 * 32, 69 * 32, 1)
+        this.addBoss(player, 116 * 32, 107 * 32, 2)
+        this.addBoss(player, 104 * 32, 61 * 32, -1, true)
     }
 
     protected addBoss(player: Player, posX: number, posY: number, index: number, superboss: boolean = false) {
-        let enemy = getRandomEnemyKey()
+        let enemyName = getRandomEnemyKey()
+        const enemyStartAnimation = enemyName + '-stay'
+
         if (!superboss)
-            this.enemies.push(new Boss(this, posX, posY, enemy, enemy + '-stay', enemy, 120, player, index))
+            this.enemies.push(new Boss(this, posX, posY, enemyName, enemyStartAnimation, enemyName, 120, player, index))
         else
-            this.enemies.push(new UltraBoss(this, posX, posY, enemy, enemy + 'stay', enemy, 120, player))
+            this.enemies.push(new UltraBoss(this, posX, posY, enemyName, enemyStartAnimation, enemyName, 120, player))
+        
+        // last enemy -> enemies.length - 1
         player.combat.addEnemy(this.enemies[this.enemies.length - 1]);
     }
 
@@ -78,24 +82,26 @@ export abstract class GameBaseScene extends Phaser.Scene {
         enemy.update(deltaTime / 1000);
 
         if (enemy.isDead()) {
-            this.enemyKilled++;
-            enemy.makeDead();
-            this.deleteEnemy(enemy);
+            this.enemyKilled++
+            enemy.makeDead()
+            this.deleteEnemy(enemy)
         }
     }
 
     protected deleteEnemy(enemy: Enemy) {
-        for (let i = 0; i < this.enemies.length; i++) {
-            if (this.enemies[i] === enemy)
-                this.enemies.splice(i, 1);
-        }
+        this.enemies = this.enemies.filter(value => value !== enemy)
     }
 
+
     protected addCollisionWithSeaLayer(): void {
-        this.seaLayer.setCollisionBetween(0, 7);
-        this.seaLayer.setCollisionBetween(8, 8);
-        this.seaLayer.setCollisionBetween(10, 15);
-        this.seaLayer.setCollisionBetween(16, 23);
-        this.seaLayer.setCollisionBetween(29, 31);
+
+        const Sea = [0, 7]
+        const Houses = [10, 15]
+
+        this.seaLayer.setCollisionBetween(Sea[0], Sea[1])
+        this.seaLayer.setCollisionBetween(8, 8)
+        this.seaLayer.setCollisionBetween(Houses[0], Houses[1])
+        this.seaLayer.setCollisionBetween(16, 23)
+        this.seaLayer.setCollisionBetween(29, 31)
     }
 }
