@@ -49,7 +49,7 @@ export abstract class GameBaseScene extends Phaser.Scene {
         const MaxNormalEnemies = 50
 
         for (let i = 0; i < MaxNormalEnemies; i++)
-            this.setupEnemy(player, getRandomEnemyKey(), i % 4);
+            this.addEnemy(player, getRandomEnemyKey(), i % 4);
 
         this.addBoss(player, 43 * 32, 52 * 32, 0)
         this.addBoss(player, 161 * 32, 69 * 32, 1)
@@ -70,7 +70,7 @@ export abstract class GameBaseScene extends Phaser.Scene {
         player.combat.addEnemy(this.enemies[this.enemies.length - 1]);
     }
 
-    protected setupEnemy(player: Player, name: string, isle: number): void {
+    protected addEnemy(player: Player, name: string, isle: number): void {
         let enemy = new Enemy(this, 0, 0, name, name + 'stay', name, 140, player);
         spawnAtTile(enemy, isle, this.seaLayer);
 
@@ -91,7 +91,6 @@ export abstract class GameBaseScene extends Phaser.Scene {
     protected deleteEnemy(enemy: Enemy) {
         this.enemies = this.enemies.filter(value => value !== enemy)
     }
-
 
     protected addCollisionWithSeaLayer(): void {
 

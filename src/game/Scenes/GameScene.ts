@@ -80,8 +80,8 @@ export default class GameScene extends GameBaseScene {
         this.physics.add.collider(this.enemies[this.enemies.length - 1], this.seaLayer);
     }
 
-    protected setupEnemy(player: Player, name: string, isle: number): void {
-        super.setupEnemy(player, name, isle);
+    protected addEnemy(player: Player, name: string, isle: number): void {
+        super.addEnemy(player, name, isle);
         this.addCollisionWithPortal(this.enemies[this.enemies.length - 1]);
         this.physics.add.collider(this.enemies[this.enemies.length - 1], this.seaLayer);
     }
