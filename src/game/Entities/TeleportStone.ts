@@ -11,6 +11,6 @@ export default class TeleportStone extends Item {
         this.index = index
     }
 
-    onUse(character: Character): void {
+    onUse(_character: Character): void {
     }
 }

@@ -8,7 +8,7 @@ import { spawnAtTile } from './SceneUtils'
 import * as enemies from '../Entities/Enemies'
 
 export abstract class GameBaseScene extends Phaser.Scene {
-    enemies: Array<Enemy>
+    enemies: Enemy[]
     map: Phaser.Tilemaps.Tilemap
     tileset: Phaser.Tilemaps.Tileset
     seaLayer: Phaser.Tilemaps.TilemapLayer
@@ -43,7 +43,7 @@ export abstract class GameBaseScene extends Phaser.Scene {
         for (let i of this.enemies)
             this.updateEnemy(i, delta)
     }
-    
+
     protected addEnemies(player: Player) {
         this.enemies = []
         const MaxNormalEnemies = 50
@@ -65,7 +65,7 @@ export abstract class GameBaseScene extends Phaser.Scene {
             this.enemies.push(new Boss(this, posX, posY, enemyName, enemyStartAnimation, enemyName, 120, player, index))
         else
             this.enemies.push(new UltraBoss(this, posX, posY, enemyName, enemyStartAnimation, enemyName, 120, player))
-        
+
         // last enemy -> enemies.length - 1
         player.combat.addEnemy(this.enemies[this.enemies.length - 1]);
     }

@@ -13,6 +13,7 @@ export default class Portal {
     constructor(name: string, sprite: Phaser.Physics.Arcade.Sprite, player: Player, endPoint: Phaser.Math.Vector2, portalNo: number) {
         this.player = player
         this.sprite = sprite
+        this.name = name
 
         this.teleportSound = sprite.scene.sound.add('portal-sound')
         this.addOverlap(portalNo, endPoint);

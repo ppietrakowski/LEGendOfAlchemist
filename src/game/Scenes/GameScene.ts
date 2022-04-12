@@ -109,24 +109,24 @@ export default class GameScene extends GameBaseScene {
 
         // add 100 items 
         for (let i = 0; i < 100; i++) {
-            let sprite = this.add.sprite(0, 0, 'bush');
-            spawnGameobjectAtTile(i % 4, sprite, this.seaLayer);
-            sprite.setInteractive({ pixelPerfect: true });
+            let sprite = this.add.sprite(0, 0, 'bush')
+            spawnGameobjectAtTile(i % 4, sprite, this.seaLayer)
+            sprite.setInteractive({ pixelPerfect: true })
 
-            sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, (pointer: Phaser.Input.Pointer) => {
+            sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
 
-                if (this.player.inventory.hasFreeSpace()) {
-                    this.throwAway(sprite);
-                } else
-                    this.player.inventory.showCannotGatherInfo();
+                if (this.player.inventory.hasFreeSpace())
+                    this.throwAway(sprite)
+                else
+                    this.player.inventory.showCannotGatherInfo()
             });
         }
     }
 
     throwAway(sprite: Phaser.GameObjects.Sprite) {
         let item = getItemWithRandomEffect(-10, -10, this)
-        addInformationText(this, sprite.x, sprite.y, `You have received ${item.sprite.texture.key}`, 
-            (text: Phaser.GameObjects.GameObject) => {text.destroy(); this.player.inventory.addItem(item)})
+        addInformationText(this, sprite.x, sprite.y, `You have received ${item.sprite.texture.key}`,
+            (text: Phaser.GameObjects.GameObject) => { text.destroy(); this.player.inventory.addItem(item) })
         sprite.destroy(true)
     }
 }

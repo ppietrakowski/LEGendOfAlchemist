@@ -42,7 +42,7 @@ export default class PreloadScene extends Phaser.Scene {
 
         loadMusic(this)
         enemies.loadAllEnemies(this)
-        items.loadItems(this)  
+        items.loadItems(this)
     }
 
     async loadAllUi() {
@@ -59,6 +59,6 @@ export default class PreloadScene extends Phaser.Scene {
     }
 
     create() {
-       this.loadAllUi().then(() => this.game.scene.run('MainMenu'))
+        this.loadAllUi().then(() => this.game.scene.run('MainMenu'))
     }
 }
