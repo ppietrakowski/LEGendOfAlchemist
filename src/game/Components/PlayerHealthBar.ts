@@ -19,7 +19,7 @@ export default class PlayerHealthBar extends HealthBar {
         this.self = this.player
     }
     
-    update(timeSinceLastFrame: number): void {
+    update(_timeSinceLastFrame: number): void {
         let hpText = Math.round(this.player.attributes.hp) + "/" + Math.round(this.hpMax)
         this.updateHealthOnIncrease()
         this.text.setText(hpText)

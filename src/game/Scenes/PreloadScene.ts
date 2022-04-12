@@ -31,9 +31,8 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.spritesheet('player', 'assets/player.png', { frameWidth: 32, frameHeight: 64 })
         this.load.tilemapTiledJSON('island', 'assets/tilemap/main-island.json')
 
-        for (let i of images) {
+        for (let i of images)
             this.load.image(i.key, `assets/${i.src}`)
-        }
 
         this.load.audio('player-slap', 'assets/sounds/player-slap.wav')
         this.load.audio('potion-hit', 'assets/sounds/potion-hit.wav')
@@ -43,9 +42,7 @@ export default class PreloadScene extends Phaser.Scene {
 
         loadMusic(this)
         enemies.loadAllEnemies(this)
-        items.loadItems(this)
-
-        
+        items.loadItems(this)  
     }
 
     async loadAllUi() {

@@ -8,7 +8,7 @@ export default class Attribute implements Component {
     strength: number
     wisdom: number
     character: Character
-    private effects: Array<Effect>
+    private effects: Effect[]
 
     constructor(hp: number, strength: number, wisdom: number) {
         this.hp = hp
@@ -48,9 +48,6 @@ export default class Attribute implements Component {
     }
 
     private deleteEffect(effect: Effect): void {
-        for (let i = 0; i < this.effects.length; i++) {
-            if (this.effects[i] === effect)
-                this.effects.splice(i, 1)
-        }
+        this.effects = this.effects.filter(value => value !== effect)
     }
 }

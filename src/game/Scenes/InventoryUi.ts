@@ -20,12 +20,11 @@ export default class InventoryUi extends InventoryBase {
     addElement(item: Item): void {
         this.container.add(item.sprite)
         item.sprite.setScrollFactor(0)
-        if (item.sprite.texture.key !== 'teleport-stone') {
+        if (item.sprite.texture.key !== 'teleport-stone')
             this.addItemInfo(item.sprite, item.effect)
-        }
         else
             this.addTeleportInfo(item as TeleportStone)
-        
+
         this.updatePosition()
     }
 

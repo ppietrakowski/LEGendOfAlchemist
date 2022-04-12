@@ -10,10 +10,10 @@ import { addInformationText, runAndPause, spawnGameobjectAtTile } from './SceneU
 export default class GameScene extends GameBaseScene {
 
     player: Player
-    portals: Array<Portal>
+    portals: Portal[]
     keyC: Phaser.Input.Keyboard.Key
     keyTab: Phaser.Input.Keyboard.Key
-    music: Array<Phaser.Sound.BaseSound>
+    music: Phaser.Sound.BaseSound[]
     currentMusic: Phaser.Sound.BaseSound
 
     constructor() {

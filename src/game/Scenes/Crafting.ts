@@ -19,7 +19,7 @@ class Field {
 const MaxItemsForCraft = 4
 
 export default class Crafting extends InventoryBase {
-    items: Array<Field>
+    items: Field[]
     craft: Button
     back: Button
     potionInfo: string

@@ -41,11 +41,14 @@ export default abstract class InventoryBase extends Phaser.Scene {
     updatePosition() {
         let currentRow = 0
         let heigth = 72
+        const margin = 10
+        const offset = 24
+        const marginBetweenTwoElements = 16
 
         this.container.each((child: Phaser.GameObjects.GameObject) => {
             if (child != this.background && child != this.title) {
                 let ch = child as Phaser.GameObjects.Sprite
-                ch.x = 10 + 24 * currentRow
+                ch.x = margin + offset * currentRow
                 ch.y = heigth
                 ++currentRow
                 if (currentRow === this.maxRow) {
@@ -53,33 +56,33 @@ export default abstract class InventoryBase extends Phaser.Scene {
                     currentRow = 0
                 }
             } else if (child === this.title)
-                heigth += 16
+                heigth += marginBetweenTwoElements
         })
 
         this.inventory.hasItemsUpdate = false
     }
 
     addItemInfo(sprite: Phaser.GameObjects.Sprite, effect: Effect): void {
-        sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER, (pointer, localX, localY, evt) => {
-            this.itemInfo.setText(`hp: ${effect.deltaHp}\nstr: ${effect.deltaStrength}\nwis: ${effect.deltaWisdom}`);
-            this.itemInfo.setPosition(sprite.x, sprite.y);
-            this.itemInfo.setVisible(true);
+        sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER, () => {
+            this.itemInfo.setText(`hp: ${effect.deltaHp}\nstr: ${effect.deltaStrength}\nwis: ${effect.deltaWisdom}`)
+            this.itemInfo.setPosition(sprite.x, sprite.y)
+            this.itemInfo.setVisible(true)
         })
 
-        sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT, (pointer, evt) => {
-            this.itemInfo.setVisible(false);
+        sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT, () => {
+            this.itemInfo.setVisible(false)
         })
     }
 
     addTeleportInfo(teleport: TeleportStone): void {
-        teleport.sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER, (pointer, localX, localY, evt) => {
+        teleport.sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER, () => {
             
             this.itemInfo.setText(`Allows for teleport\nin teleport number ${teleport.index}`)
             this.itemInfo.setPosition(teleport.sprite.x, teleport.sprite.y)
             this.itemInfo.setVisible(true)
         })
 
-        teleport.sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT, (pointer, evt) => {
+        teleport.sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT, () => {
             this.itemInfo.setVisible(false)
         })
     }

@@ -24,7 +24,7 @@ function onSoundClicked(self: MainMenu): void {
 }
 
 export default class MainMenu extends Phaser.Scene {
-    private buttons: Array<Button>
+    private buttons: Button[]
     theme: Phaser.Sound.BaseSound
     music_button: Button
 

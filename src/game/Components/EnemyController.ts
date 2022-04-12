@@ -61,15 +61,15 @@ export default class EnemyController implements Component {
         this.state = this.getNextState()
 
         if (this.state === AI_State.DuringMove)
-            this.onMoving(timeSinceLastFrame)
+            this.onMoving()
         if (this.state === AI_State.Roaming)
-            this.onRoam(timeSinceLastFrame)
+            this.onRoam()
         else if (this.state === AI_State.Chasing)
-            this.onChase(timeSinceLastFrame)
+            this.onChase()
         else if (this.state === AI_State.Attack)
             this.onAttack(timeSinceLastFrame)
         else if (this.state === AI_State.Aborted)
-            this.onAbort(timeSinceLastFrame)
+            this.onAbort()
     }
 
     private getNextState(): AI_State {
@@ -139,7 +139,7 @@ export default class EnemyController implements Component {
     }
 
     // TODO proper movement
-    private onRoam(timeSinceLastFrame: number): void {
+    private onRoam(): void {
         this.self.setVelocity(0, 0)
         this.endPos = getRoamingPosition(this.endPos)
 
@@ -161,18 +161,18 @@ export default class EnemyController implements Component {
         }
     }
 
-    private onChase(timeSinceLastFrame: number): void {
+    private onChase(): void {
         this.self.scene.physics.moveToObject(this.self, this.target, 40)
         this.playMoveAnim()
     }
 
-    private onAbort(timeSinceLastFrame: number): void {
+    private onAbort(): void {
         // stops, if it chasing
         this.self.setVelocity(0, 0)
         this.switchToRoaming()
     }
 
-    private onMoving(timeSinceLastFrame: number): void {
+    private onMoving(): void {
         if (this.self.isNear(this.endPos, 1.5)) {
             this.switchToRoaming()
         }

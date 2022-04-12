@@ -9,7 +9,7 @@ import Component from './Component'
 
 
 export default class Inventory implements Component {
-    items: Array<Item>
+    items: Item[]
     owner: Character
     hasItemsUpdate: boolean = false
     keyI: Phaser.Input.Keyboard.Key
@@ -26,6 +26,7 @@ export default class Inventory implements Component {
 
         this.keyI = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I)
 
+        // use this as inventory when clicked I and when crafting
         this.ui.inventory = this
         this.crafting.inventory = this
     }
@@ -103,9 +104,8 @@ export default class Inventory implements Component {
                 item.onUse(this.owner);
                 (this.owner as Player).inventory.deleteItem(item)
             });
-            item.sprite.setInteractive({ pixelPerfect: true })
-        } else {
-            item.sprite.setInteractive({ pixelPerfect: true })
         }
+
+        item.sprite.setInteractive({ pixelPerfect: true })
     }
 }
