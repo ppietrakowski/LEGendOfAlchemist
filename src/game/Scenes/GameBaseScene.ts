@@ -6,12 +6,16 @@ import Player from '../Entities/Player'
 import UltraBoss from '../Entities/UltraBoss'
 import { spawnAtTile } from './SceneUtils'
 import * as enemies from '../Entities/Enemies'
+import EnemyFactory from '../Entities/EnemyFactory'
+import GameScene from './GameScene'
 
 export abstract class GameBaseScene extends Phaser.Scene {
     enemies: Enemy[]
     map: Phaser.Tilemaps.Tilemap
     tileset: Phaser.Tilemaps.Tileset
     seaLayer: Phaser.Tilemaps.TilemapLayer
+    enemyFactory: EnemyFactory
+    player: Player
     enemyKilled = 0
 
     constructor(key: string) {
@@ -35,7 +39,9 @@ export abstract class GameBaseScene extends Phaser.Scene {
 
         this.map.createLayer('island', this.tileset, -100, -100)
         this.seaLayer = this.map.createLayer('sea', this.tileset, -100, -100)
+        this.player = new Player(this, 19 * 32, 14 * 32, 'player', 'front')
 
+        this.enemyFactory = new EnemyFactory(this, this.player, this.seaLayer)
         this.addCollisionWithSeaLayer()
     }
 
@@ -49,12 +55,12 @@ export abstract class GameBaseScene extends Phaser.Scene {
         const MaxNormalEnemies = 50
 
         for (let i = 0; i < MaxNormalEnemies; i++)
-            this.addEnemy(player, getRandomEnemyKey(), i % 4)
+            this.enemies.push(this.enemyFactory.getRandomEnemy(i % 4))
 
-        this.addBoss(player, 43 * 32, 52 * 32, 0)
-        this.addBoss(player, 161 * 32, 69 * 32, 1)
-        this.addBoss(player, 116 * 32, 107 * 32, 2)
-        this.addBoss(player, 104 * 32, 61 * 32, -1, true)
+        this.enemies.push(this.enemyFactory.getBoss(43, 52, 0))
+        this.enemies.push(this.enemyFactory.getBoss(161, 69, 1))
+        this.enemies.push(this.enemyFactory.getBoss(116, 107, 2))
+        this.enemies.push(this.enemyFactory.getBoss(104, 61, -1, true))
     }
 
     protected addBoss(player: Player, posX: number, posY: number, index: number, superboss: boolean = false) {

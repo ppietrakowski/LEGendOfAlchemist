@@ -24,7 +24,7 @@ export default class InventoryUi extends InventoryBase {
             this.addItemInfo(item.sprite, item.effect)
         else
             this.addTeleportInfo(item as TeleportStone)
-
+        
         this.updatePosition()
     }
 
@@ -33,7 +33,7 @@ export default class InventoryUi extends InventoryBase {
         this.keyI = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I)
     }
 
-    update(time: number, delta: number): void {
+    update(_time: number, _delta: number): void {
         if (this.keyI.isDown) {
             this.game.scene.game.scene.pause('Inventory')
             this.scene.setVisible(false)

@@ -5,7 +5,7 @@ export const Music = [
     "roam1",
     "roam2",
     "attack"
-]
+];
 
 export function loadMusic(scene: Phaser.Scene): void {
     for (let i of Music)

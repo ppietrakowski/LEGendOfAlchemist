@@ -76,7 +76,7 @@ export default abstract class InventoryBase extends Phaser.Scene {
 
     addTeleportInfo(teleport: TeleportStone): void {
         teleport.sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER, () => {
-            
+
             this.itemInfo.setText(`Allows for teleport\nin teleport number ${teleport.index}`)
             this.itemInfo.setPosition(teleport.sprite.x, teleport.sprite.y)
             this.itemInfo.setVisible(true)

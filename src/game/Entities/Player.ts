@@ -4,14 +4,15 @@ import Inventory from '../Components/Inventory'
 import PlayerCombat from '../Components/PlayerCombat'
 import PlayerHealthBar from '../Components/PlayerHealthBar'
 import PlayerMovement from '../Components/PlayerMovement'
+import { GameBaseScene } from '../Scenes/GameBaseScene'
 import GameScene from '../Scenes/GameScene'
 import Character from './Character'
 
 
 export default class Player extends Character {
-    gameScene: GameScene
+    gameScene: GameBaseScene
 
-    constructor(scene: GameScene, x: number, y: number, texture: string | Phaser.Textures.Texture, frame: string | number) {
+    constructor(scene: GameBaseScene, x: number, y: number, texture: string | Phaser.Textures.Texture, frame: string | number) {
         super(scene, x, y, texture, frame)
         this.gameScene = scene
 
@@ -46,9 +47,6 @@ export default class Player extends Character {
     makeDead(): void {
         // for now just show dead screen
         this.scene.game.scene.run('DeadScene')
-
-        this.gameScene.currentMusic.stop()
-
         this.scene.game.scene.stop('GameScene')
     }
 

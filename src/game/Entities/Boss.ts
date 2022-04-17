@@ -19,7 +19,7 @@ export default class Boss extends Enemy {
         this.teleportIndex = teleportIndex
     }
 
-    start(scene: Phaser.Scene): void {
+    start(_scene: Phaser.Scene): void {
     }
 
     makeDead(): void {
@@ -29,7 +29,7 @@ export default class Boss extends Enemy {
         this.getComponent<HealthBar>('hp-bar').hide()
 
         // add event to throw item in place of enemey
-        teleportStone.sprite.once(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, (pointer: Phaser.Input.Pointer) => {
+        teleportStone.sprite.once(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
             player.inventory.addItem(teleportStone)
             teleportStone.sprite.name = 'teleport-stone-' + this.teleportIndex
         });
