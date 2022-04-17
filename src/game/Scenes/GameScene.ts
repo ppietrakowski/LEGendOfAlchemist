@@ -8,8 +8,6 @@ import { addInformationText, runAndPause, spawnGameobjectAtTile } from './SceneU
 
 
 export default class GameScene extends GameBaseScene {
-
-    player: Player
     portals: Portal[]
     keyC: Phaser.Input.Keyboard.Key
     keyTab: Phaser.Input.Keyboard.Key
@@ -22,7 +20,7 @@ export default class GameScene extends GameBaseScene {
 
     create(): void {
         super.create()
-        this.player = new Player(this, 19 * 32, 14 * 32, 'player', 'front')
+        
         this.physics.add.collider(this.player, this.seaLayer)
         this.addPortals()
         this.addCollisionWithPortal(this.player)
