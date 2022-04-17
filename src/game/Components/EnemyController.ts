@@ -155,7 +155,7 @@ export default class EnemyController implements Component {
         this.self.setVelocity(0, 0)
 
         if (!this.hitSound.isPlaying) {
-            this.hitSound.play({volume: 0.3})
+            this.hitSound.play({volume: 0.2})
             // just attack
             this.target.attributes.addEffect(new Effect(this.getDamage(timeSinceLastFrame), 0, 0, 1))
         }
