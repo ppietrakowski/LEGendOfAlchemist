@@ -40,7 +40,7 @@ export default class GameScene extends GameBaseScene {
 
         this.scene.scene.children.bringToTop(this.player)
         this.currentMusic = this.music[0]
-        this.currentMusic.play()
+        this.currentMusic.play({volume: 0.2})
 
         this.addEnemies()
     }
