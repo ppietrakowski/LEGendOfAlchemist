@@ -6,7 +6,7 @@ export default interface Component {
      * A unique name of the component
      */
     getName(): string
-    
+
     /**
      * A method called on adding component to class
      * @param character a gameobject that this component belongs to

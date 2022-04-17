@@ -28,8 +28,6 @@ export default class PreloadScene extends Phaser.Scene {
     }
 
     preload() {
-
-        
         this.load.spritesheet('player', 'assets/player.png', { frameWidth: 32, frameHeight: 64 })
         this.load.tilemapTiledJSON('island', 'assets/tilemap/main-island.json')
 
@@ -64,7 +62,5 @@ export default class PreloadScene extends Phaser.Scene {
         this.loadAllUi()
         this.game.scene.add('MainMenu', new MainMenu())
         this.game.scene.run('MainMenu')
-
-    
     }
 }

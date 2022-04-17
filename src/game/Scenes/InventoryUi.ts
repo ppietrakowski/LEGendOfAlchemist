@@ -24,7 +24,7 @@ export default class InventoryUi extends InventoryBase {
             this.addItemInfo(item.sprite, item.effect)
         else
             this.addTeleportInfo(item as TeleportStone)
-        
+
         this.updatePosition()
     }
 

@@ -35,7 +35,7 @@ export abstract class GameBaseScene extends Phaser.Scene {
         this.map.createLayer('island', this.tileset, -100, -100)
         this.seaLayer = this.map.createLayer('sea', this.tileset, -100, -100)
         this.player = new Player(this, 19 * 32, 14 * 32, 'player')
-        
+
         this.enemyFactory = new EnemyFactory(this, this.player, this.seaLayer)
         this.addCollisionWithSeaLayer()
     }

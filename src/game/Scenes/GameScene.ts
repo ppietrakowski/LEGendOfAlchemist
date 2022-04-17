@@ -20,10 +20,10 @@ export default class GameScene extends GameBaseScene {
     preload(): void {
         super.preload()
     }
-    
+
     create(): void {
         super.create()
-        
+
         this.physics.add.collider(this.player, this.seaLayer)
         this.addPortals()
         this.addCollisionWithPortal(this.player)

@@ -4,7 +4,7 @@ import Button from '../Entities/Button'
 
 function onMainGameClicked(self: MainMenu): void {
     self.onExit()
-    
+
     self.game.scene.stop('MainMenu')
     self.game.scene.run('GameScene')
 }

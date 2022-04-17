@@ -28,7 +28,7 @@ export default class Portal {
                 this.player.setX(endPoint.x)
                 this.player.setY(endPoint.y)
             } else if (this.text === null) {
-                this.text = addInformationText(this.player.gameScene,this. player.x, this.player.y,
+                this.text = addInformationText(this.player.gameScene, this.player.x, this.player.y,
                     `Cannot go any futher without teleporting stone  ${portalNo}`,
                     (txt: Phaser.GameObjects.GameObject) => { txt.destroy(); this.text = null }
                 );

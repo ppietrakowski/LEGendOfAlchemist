@@ -14,7 +14,7 @@ export function generateFrame(anims: Phaser.Animations.AnimationManager, frameNa
             frames: anims.generateFrameNumbers(frameName, { start: start, end: end }),
             frameRate: 4
         })
-    
+
     return frame === false ? null : frame
 }
 

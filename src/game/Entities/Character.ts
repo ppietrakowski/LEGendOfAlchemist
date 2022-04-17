@@ -16,10 +16,10 @@ export default abstract class Character extends Phaser.Physics.Arcade.Sprite {
         this.components = {}
         this.setInteractive({ pixelPerfect: true })
         this.addComponent(new Attribute(100, 20, 10))
-        
+
         scene.physics.add.existing(this)
         scene.add.existing(this)
-        
+
         this.hasAttacked = false
     }
 
