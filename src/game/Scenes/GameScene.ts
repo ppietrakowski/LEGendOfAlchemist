@@ -1,6 +1,5 @@
 import Phaser from 'phaser'
 import { getItemWithRandomEffect } from '../Entities/Items'
-import Player from '../Entities/Player'
 import Portal from '../Entities/Portal'
 import { GameBaseScene } from './GameBaseScene'
 import { addInformationText, runAndPause, spawnGameobjectAtTile } from './SceneUtils'

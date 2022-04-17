@@ -4,7 +4,6 @@ import Button from '../Entities/Button'
 
 function onMainGameClicked(self: MainMenu): void {
     self.onExit()
-    console.log("Wtf to się wogóle wyłącza");
     
     self.game.scene.stop('MainMenu')
     self.game.scene.run('GameScene')
@@ -37,7 +36,7 @@ export default class MainMenu extends Phaser.Scene {
 
     create(): void {
         this.theme = this.sound.add('menu-theme')
-        this.theme.play({ loop: true, delay: 0.25 })
+        this.theme.play({ loop: true, delay: 0.25, volume: 0.4 })
         this.add.image(0, 0, 'background').setOrigin(0, 0)
         this.add.image(this.scale.width / 2, 100, 'logo')
 

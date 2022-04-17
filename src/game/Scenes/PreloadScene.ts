@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 import * as enemies from '../Entities/Enemies'
 import * as items from '../Entities/Items'
 import { loadMusic } from '../Entities/Music'
+import MainMenu from './MainMenu'
 
 const images = [
     { key: 'play', src: 'buttons/play.png' },
@@ -61,6 +62,9 @@ export default class PreloadScene extends Phaser.Scene {
 
     create() {
         this.loadAllUi()
+        this.game.scene.add('MainMenu', new MainMenu())
         this.game.scene.run('MainMenu')
+
+    
     }
 }

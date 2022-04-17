@@ -4,7 +4,7 @@ import MainMenu from "./MainMenu"
 
 function onButtonPressed(this: Phaser.GameObjects.Sprite): void {
     this.scene.game.scene.switch('WinScene', 'MainMenu');
-    (this.scene.game.scene.getScene('MainMenu') as MainMenu).theme.play()
+    //(this.scene.game.scene.getScene('MainMenu') as MainMenu).theme.play()
 }
 
 export default class WinScene extends Phaser.Scene {

@@ -1,13 +1,8 @@
 import Phaser from 'phaser'
-import Boss from '../Entities/Boss'
-import { getRandomEnemyKey } from '../Entities/Enemies'
 import Enemy from '../Entities/Enemy'
 import Player from '../Entities/Player'
-import UltraBoss from '../Entities/UltraBoss'
-import { spawnAtTile } from './SceneUtils'
 import * as enemies from '../Entities/Enemies'
 import EnemyFactory from '../Entities/EnemyFactory'
-import GameScene from './GameScene'
 
 export abstract class GameBaseScene extends Phaser.Scene {
     enemies: Enemy[]
@@ -45,7 +40,7 @@ export abstract class GameBaseScene extends Phaser.Scene {
         this.addCollisionWithSeaLayer()
     }
 
-    update(time: number, delta: number): void {
+    update(_time: number, delta: number): void {
         for (let i of this.enemies)
             this.updateEnemy(i, delta)
     }

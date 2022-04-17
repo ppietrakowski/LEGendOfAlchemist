@@ -42,7 +42,6 @@ class Game extends Phaser.Game {
 
     loadScenes(): void {
         this.scene.add('Preload', PreloadScene, true)
-        this.scene.add('MainMenu', MainMenu, false)
         this.scene.add('Credits', Credits, false)
         this.scene.add('DeadScene', DeadScene, false)
         this.scene.add('GameScene', GameScene, false)
