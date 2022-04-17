@@ -12,8 +12,8 @@ import Character from './Character'
 export default class Player extends Character {
     gameScene: GameBaseScene
 
-    constructor(scene: GameBaseScene, x: number, y: number, texture: string | Phaser.Textures.Texture, frame: string | number) {
-        super(scene, x, y, texture, frame)
+    constructor(scene: GameBaseScene, x: number, y: number, texture: string | Phaser.Textures.Texture) {
+        super(scene, x, y, texture, 0)
         this.gameScene = scene
 
         this.addComponent(new Attribute(100, 50, 10))

@@ -18,7 +18,7 @@ export default class EnemyFactory {
     }
 
     getEnemy(textureName: string, isleNo: number): Enemy {
-        let enemy = new Enemy(this.scene, 0, 0, textureName, `${textureName}-stay`, textureName, 140, this.player)
+        let enemy = new Enemy(this.scene, 0, 0, textureName, textureName, 140, this.player)
 
         spawnAtTile(enemy, isleNo, this.seaLayer)
 
@@ -33,13 +33,12 @@ export default class EnemyFactory {
 
     getBoss(tileX: number, tileY: number, portalNo: number, wantUltraBoss=false): Boss {
         let enemyName = getRandomEnemyKey()
-        const enemyStartAnimation = `${enemyName}-stay`
         let boss: Boss
 
         if (wantUltraBoss)
-            boss = new UltraBoss(this.scene, tileX * 32, tileY * 32, enemyName, enemyStartAnimation, enemyName, 140, this.player)
+            boss = new UltraBoss(this.scene, tileX * 32, tileY * 32, enemyName, enemyName, 140, this.player)
         else
-            boss = new Boss(this.scene, tileX * 32, tileY * 32, enemyName, enemyStartAnimation, enemyName, 140, this.player, portalNo)
+            boss = new Boss(this.scene, tileX * 32, tileY * 32, enemyName, enemyName, 140, this.player, portalNo)
 
         this.player.combat.addEnemy(boss)
         

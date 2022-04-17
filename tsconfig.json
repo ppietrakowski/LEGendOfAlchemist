@@ -1,10 +1,10 @@
 {
-  "files": ["./src/main.ts", "./src/game/**/*.js", "./src/game/**/*.ts"],
+  "files": ["src/main.ts"],
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
 
     /* Projects */
-    "target": "ES6",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
+    "target": "ES5",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
     
     /* Modules */
     "rootDirs": ["./src/game", "./src"],                                  /* Specify the root folder within your source files. */

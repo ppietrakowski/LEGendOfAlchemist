@@ -3,7 +3,9 @@ import Button from '../Entities/Button'
 
 
 function onMainGameClicked(self: MainMenu): void {
-    self.theme.stop()
+    self.onExit()
+    console.log("Wtf to się wogóle wyłącza");
+    
     self.game.scene.stop('MainMenu')
     self.game.scene.run('GameScene')
 }
@@ -52,6 +54,10 @@ export default class MainMenu extends Phaser.Scene {
         `
 
         this.add.text(-20, 400, text, { fontFamily: 'pixellari', fontSize: '20px', color: '#000000', stroke: '#fff', strokeThickness: 1 })
+    }
+
+    onExit(): void {
+        this.theme.destroy()
     }
 
 }

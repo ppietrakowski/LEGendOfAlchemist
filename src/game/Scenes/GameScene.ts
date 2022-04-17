@@ -18,14 +18,16 @@ export default class GameScene extends GameBaseScene {
         super('GameScene');
     }
 
+    preload(): void {
+        super.preload()
+    }
+    
     create(): void {
         super.create()
         
         this.physics.add.collider(this.player, this.seaLayer)
         this.addPortals()
         this.addCollisionWithPortal(this.player)
-        this.addEnemies(this.player)
-
         this.putItems()
 
         this.keyC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C)
@@ -40,6 +42,8 @@ export default class GameScene extends GameBaseScene {
         this.scene.scene.children.bringToTop(this.player)
         this.currentMusic = this.music[0]
         this.currentMusic.play()
+
+        this.addEnemies()
     }
 
     update(time: number, delta: number): void {
@@ -72,14 +76,14 @@ export default class GameScene extends GameBaseScene {
             runAndPause(this.game, 'CharacterInfo', 'GameScene')
     }
 
-    protected addBoss(player: Player, posX: number, posY: number, index: number, superboss: boolean = false) {
-        super.addBoss(player, posX, posY, index, superboss)
+    protected addBoss(posX: number, posY: number, index: number, superboss: boolean = false) {
+        super.addBoss(posX, posY, index, superboss)
         this.addCollisionWithPortal(this.enemies[this.enemies.length - 1])
         this.physics.add.collider(this.enemies[this.enemies.length - 1], this.seaLayer)
     }
 
-    protected addEnemy(player: Player, name: string, isle: number): void {
-        super.addEnemy(player, name, isle)
+    protected addEnemy(i: number): void {
+        super.addEnemy(i)
         this.addCollisionWithPortal(this.enemies[this.enemies.length - 1])
         this.physics.add.collider(this.enemies[this.enemies.length - 1], this.seaLayer)
     }

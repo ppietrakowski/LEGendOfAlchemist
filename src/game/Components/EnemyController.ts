@@ -177,8 +177,6 @@ export default class EnemyController implements Component {
             this.switchToRoaming()
         }
         else if (this.self.body.checkCollision.down || this.self.body.checkCollision.left || this.self.body.checkCollision.right || this.self.body.checkCollision.up) {
-            this.self.body.velocity.x *= -1
-            this.self.body.velocity.y *= -1
             this.switchToRoaming()
         }
     }

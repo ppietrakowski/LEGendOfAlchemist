@@ -10,8 +10,8 @@ export default class Boss extends Enemy {
     name: string
     teleportIndex: number
 
-    constructor(scene: Phaser.Scene, x: number, y: number, texture: string | Phaser.Textures.Texture, frame: string | number, name: string, maxRange: number, player: Player, teleportIndex: number) {
-        super(scene, x, y, texture, frame, name, maxRange, player)
+    constructor(scene: Phaser.Scene, x: number, y: number, texture: string | Phaser.Textures.Texture, name: string, maxRange: number, player: Player, teleportIndex: number) {
+        super(scene, x, y, texture, name, maxRange, player)
         // make it significant tougher than default enemy
         this.attributes.hp *= 5.2
         this.attributes.strength *= 5.2

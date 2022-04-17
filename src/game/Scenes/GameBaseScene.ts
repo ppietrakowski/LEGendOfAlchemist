@@ -39,8 +39,8 @@ export abstract class GameBaseScene extends Phaser.Scene {
 
         this.map.createLayer('island', this.tileset, -100, -100)
         this.seaLayer = this.map.createLayer('sea', this.tileset, -100, -100)
-        this.player = new Player(this, 19 * 32, 14 * 32, 'player', 'front')
-
+        this.player = new Player(this, 19 * 32, 14 * 32, 'player')
+        
         this.enemyFactory = new EnemyFactory(this, this.player, this.seaLayer)
         this.addCollisionWithSeaLayer()
     }
@@ -50,12 +50,12 @@ export abstract class GameBaseScene extends Phaser.Scene {
             this.updateEnemy(i, delta)
     }
 
-    protected addEnemies(player: Player) {
+    protected addEnemies() {
         this.enemies = []
         const MaxNormalEnemies = 50
 
         for (let i = 0; i < MaxNormalEnemies; i++)
-            this.enemies.push(this.enemyFactory.getRandomEnemy(i % 4))
+            this.addEnemy(i)
 
         this.enemies.push(this.enemyFactory.getBoss(43, 52, 0))
         this.enemies.push(this.enemyFactory.getBoss(161, 69, 1))
@@ -63,24 +63,15 @@ export abstract class GameBaseScene extends Phaser.Scene {
         this.enemies.push(this.enemyFactory.getBoss(104, 61, -1, true))
     }
 
-    protected addBoss(player: Player, posX: number, posY: number, index: number, superboss: boolean = false) {
-        let enemyName = getRandomEnemyKey()
-        const enemyStartAnimation = enemyName + '-stay'
-
+    protected addBoss(posX: number, posY: number, index: number, superboss: boolean = false) {
         if (!superboss)
-            this.enemies.push(new Boss(this, posX, posY, enemyName, enemyStartAnimation, enemyName, 120, player, index))
+            this.enemies.push(this.enemyFactory.getBoss(posX, posY, index, false))
         else
-            this.enemies.push(new UltraBoss(this, posX, posY, enemyName, enemyStartAnimation, enemyName, 120, player))
-
-        // last enemy -> enemies.length - 1
-        player.combat.addEnemy(this.enemies[this.enemies.length - 1]);
+            this.enemies.push(this.enemyFactory.getBoss(posX, posY, index, true))
     }
 
-    protected addEnemy(player: Player, name: string, isle: number): void {
-        let enemy = new Enemy(this, 0, 0, name, name + 'stay', name, 140, player)
-        spawnAtTile(enemy, isle, this.seaLayer)
-
-        player.combat.addEnemy(enemy)
+    protected addEnemy(i: number): void {
+        let enemy = this.enemyFactory.getRandomEnemy(i % 4)
         this.enemies.push(enemy)
     }
 
