@@ -4,11 +4,8 @@ import Phaser from 'phaser'
  * TODO this can just be a dom element
  */
 export default class Button extends Phaser.GameObjects.Sprite {
-    private onClick: Function
-
-    constructor(scene: Phaser.Scene, x: number, y: number, texture: string | Phaser.Textures.Texture, onClick: Function) {
+    constructor(scene: Phaser.Scene, x: number, y: number, texture: string | Phaser.Textures.Texture, private onClick: Function) {
         super(scene, x, y, texture)
-        this.onClick = onClick
 
         this.setInteractive({ pixelPerfect: true })
         this.addEvents()

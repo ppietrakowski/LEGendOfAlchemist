@@ -7,9 +7,8 @@ export default class PlayerMovement implements Component {
     private input: Phaser.Types.Input.Keyboard.CursorKeys
     private character: Player
     private onStayAnimation: string
-    private speed: Phaser.Math.Vector2
 
-    constructor(speed: Phaser.Math.Vector2) {
+    constructor(private speed: Phaser.Math.Vector2) {
         this.speed = speed
     }
 
@@ -47,8 +46,8 @@ export default class PlayerMovement implements Component {
     }
 
     private onMovement(frameName: string, velX: number, velY: number) {
-        let sprite = this.character
-        sprite.anims.play(frameName, true)
-        sprite.setVelocity(velX, velY)
+        let {character} = this
+        character.anims.play(frameName, true)
+        character.setVelocity(velX, velY)
     }
 }

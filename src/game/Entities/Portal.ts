@@ -4,17 +4,10 @@ import Player from './Player'
 
 
 export default class Portal {
-    name: string
-    player: Player
-    sprite: Phaser.Physics.Arcade.Sprite
     teleportSound: Phaser.Sound.BaseSound
     text: Phaser.GameObjects.Text = null
 
-    constructor(name: string, sprite: Phaser.Physics.Arcade.Sprite, player: Player, endPoint: Phaser.Math.Vector2, portalNo: number) {
-        this.player = player
-        this.sprite = sprite
-        this.name = name
-
+    constructor(public name: string, public sprite: Phaser.Physics.Arcade.Sprite, public player: Player, endPoint: Phaser.Math.Vector2, portalNo: number) {
         this.teleportSound = sprite.scene.sound.add('portal-sound')
         this.addOverlap(portalNo, endPoint);
         sprite.setInteractive()

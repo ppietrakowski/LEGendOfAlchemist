@@ -35,9 +35,8 @@ export default abstract class Character extends Phaser.Physics.Arcade.Sprite {
     abstract start(scene: Phaser.Scene): void
 
     update(timePassedSinceLastFrame: number): void {
-        for (let i in this.components) {
+        for (let i in this.components)
             this.components[i].update(timePassedSinceLastFrame)
-        }
     }
 
     get attributes(): Attribute {

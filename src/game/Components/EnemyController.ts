@@ -29,17 +29,13 @@ function getRoamingPosition(startPos: Phaser.Math.Vector2): Phaser.Math.Vector2 
  * TODO split behaviours to separate classes - pawelp
  */
 export default class EnemyController implements Component {
-    target: Player
     self: Enemy
     state: AI_State
     endPos: Phaser.Math.Vector2
-    maxRange: number
     hitSound: Phaser.Sound.BaseSound
 
-    constructor(target: Player, maxRange: number) {
-        this.target = target
+    constructor(public target: Player, public maxRange: number) {
         this.state = AI_State.Roaming
-        this.maxRange = maxRange
     }
 
     getName(): string {

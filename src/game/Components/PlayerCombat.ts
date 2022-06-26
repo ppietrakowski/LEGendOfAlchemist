@@ -10,9 +10,6 @@ export default class PlayerCombat implements Component {
     player: Player
     timeSinceLastFrame: number
 
-    constructor() {
-    }
-
     getName(): string {
         return 'player-combat'
     }

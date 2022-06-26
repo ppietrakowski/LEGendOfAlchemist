@@ -16,7 +16,7 @@ export default class Enemy extends Character {
         this.addComponent(new HealthBar(player, 100))
     }
 
-    start(scene: Phaser.Scene): void {
+    start(_scene: Phaser.Scene): void {
     }
 
     makeDead(): void {

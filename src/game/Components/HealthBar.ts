@@ -22,7 +22,7 @@ export default class HealthBar implements Component {
     }
 
     start(character: Character): void {
-        let attributes = character.attributes
+        let {attributes} = character
 
         this.self = character
         this.hpMax = this.self.attributes.hp

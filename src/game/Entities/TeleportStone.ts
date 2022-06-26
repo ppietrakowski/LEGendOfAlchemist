@@ -4,11 +4,8 @@ import Item from "./Item"
 
 
 export default class TeleportStone extends Item {
-
-    index: number
-    constructor(effect: Effect, sprite: Phaser.GameObjects.Sprite, index: number) {
+    constructor(effect: Effect, sprite: Phaser.GameObjects.Sprite, public index: number) {
         super(effect, sprite)
-        this.index = index
     }
 
     onUse(_character: Character): void {

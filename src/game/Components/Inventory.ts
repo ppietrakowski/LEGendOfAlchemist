@@ -44,7 +44,7 @@ export default class Inventory implements Component {
     }
 
     showCannotGatherInfo(): void {
-        let scene = this.owner.scene
+        let {scene} = this.owner
         addInformationText(scene, this.owner.x, this.owner.y, 'I don\'t have enough space to gather this item', (text: Phaser.GameObjects.GameObject) => text.destroy())
     }
 
@@ -75,7 +75,7 @@ export default class Inventory implements Component {
         this.hasItemsUpdate = true
     }
 
-    update(timeSinceLastFrame: number): void {
+    update(_timeSinceLastFrame: number): void {
         if (this.keyI.isDown) {
             this.ui.game.scene.game.scene.run('Inventory')
             this.ui.scene.setVisible(true)

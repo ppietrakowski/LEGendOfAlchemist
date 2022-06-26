@@ -19,9 +19,8 @@ export abstract class GameBaseScene extends Phaser.Scene {
 
     preload() {
         enemies.addAnimation(this.anims, 'player')
-        for (let enemy of enemies.Enemies) {
+        for (let enemy of enemies.Enemies)
             enemies.addAnimation(this.anims, enemy)
-        }
 
         enemies.generateFrame(this.anims, 'player', 'front', 0, 0).repeat = -1
         enemies.generateFrame(this.anims, 'player', 'back', 4, 4).repeat = -1

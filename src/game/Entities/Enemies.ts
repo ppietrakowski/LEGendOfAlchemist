@@ -7,11 +7,11 @@ export const Enemies = [
     "turtle"
 ];
 
-export function generateFrame(anims: Phaser.Animations.AnimationManager, frameName: string, animName: string, start: number, end: number): Phaser.Animations.Animation {
+export function generateFrame(anims: Phaser.Animations.AnimationManager, textureName: string, animName: string, start: number, end: number): Phaser.Animations.Animation {
     let frame = anims.create(
         {
-            key: `${frameName}-${animName}`,
-            frames: anims.generateFrameNumbers(frameName, { start: start, end: end }),
+            key: `${textureName}-${animName}`,
+            frames: anims.generateFrameNumbers(textureName, { start: start, end: end }),
             frameRate: 4
         })
 
@@ -19,14 +19,12 @@ export function generateFrame(anims: Phaser.Animations.AnimationManager, frameNa
 }
 
 export function addAnimation(anims: Phaser.Animations.AnimationManager, textureName: string) {
-    let frameName = textureName
+    generateFrame(anims, textureName, 'stay', 0, 0)
 
-    generateFrame(anims, frameName, 'stay', 0, 0)
-
-    generateFrame(anims, frameName, 'front-run', 0, 3).repeat = -1
-    generateFrame(anims, frameName, 'right-run', 8, 11).repeat = -1
-    generateFrame(anims, frameName, 'left-run', 12, 15).repeat = -1
-    generateFrame(anims, frameName, 'back-run', 4, 7).repeat = -1
+    generateFrame(anims, textureName, 'front-run', 0, 3).repeat = -1
+    generateFrame(anims, textureName, 'right-run', 8, 11).repeat = -1
+    generateFrame(anims, textureName, 'left-run', 12, 15).repeat = -1
+    generateFrame(anims, textureName, 'back-run', 4, 7).repeat = -1
 }
 
 export function loadAllEnemies(scene: Phaser.Scene): void {

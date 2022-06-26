@@ -4,16 +4,10 @@ import Effect from './Effect'
 
 
 export default class Attribute implements Component {
-    hp: number
-    strength: number
-    wisdom: number
     character: Character
     private effects: Effect[]
 
-    constructor(hp: number, strength: number, wisdom: number) {
-        this.hp = hp
-        this.strength = strength
-        this.wisdom = wisdom
+    constructor(public hp: number, public strength: number, public wisdom: number) {
         this.effects = []
     }
 

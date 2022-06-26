@@ -3,19 +3,11 @@ import Component from './Component'
 
 
 export default class Effect implements Component {
-    deltaHp: number
-    deltaStrength: number
-    deltaWisdom: number
     character: Character
     private timePassed: number
-    readonly duration: number
 
-    constructor(deltaHp: number, deltaStrength: number, deltaWisdom: number, duration: number) {
-        this.deltaHp = deltaHp
-        this.deltaStrength = deltaStrength
-        this.deltaWisdom = deltaWisdom
+    constructor(public deltaHp: number, public deltaStrength: number, public deltaWisdom: number, public readonly duration: number) {
         this.timePassed = 0
-        this.duration = duration
     }
 
     getName(): string {
@@ -28,11 +20,11 @@ export default class Effect implements Component {
 
     update(timeSinceLastFrame: number): void {
         this.timePassed += timeSinceLastFrame
-        let atrributes = this.character.attributes
+        let {attributes} = this.character
 
-        atrributes.hp += this.deltaHp * timeSinceLastFrame
-        atrributes.wisdom += this.deltaWisdom * timeSinceLastFrame
-        atrributes.strength += this.deltaStrength * timeSinceLastFrame
+        attributes.hp += this.deltaHp * timeSinceLastFrame
+        attributes.wisdom += this.deltaWisdom * timeSinceLastFrame
+        attributes.strength += this.deltaStrength * timeSinceLastFrame
     }
 
     public hasTimePassed(): boolean {

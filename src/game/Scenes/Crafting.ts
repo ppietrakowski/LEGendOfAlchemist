@@ -7,12 +7,8 @@ import InventoryBase from './InventoryBase'
 
 
 class Field {
-    item: Item
-    backgroundImage: Phaser.GameObjects.Image
 
-    constructor(item: Item, backgroundImage: Phaser.GameObjects.Image) {
-        this.item = item;
-        this.backgroundImage = backgroundImage;
+    constructor(public item: Item, public backgroundImage: Phaser.GameObjects.Image) {
     }
 }
 
@@ -54,7 +50,7 @@ export default class Crafting extends InventoryBase {
         this.back.setScale(0.25, 0.25)
     }
 
-    update(time: number, delta: number): void {
+    update(_time: number, _delta: number): void {
     }
 
     setupField(field: Field, i: number): void {

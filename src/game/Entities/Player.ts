@@ -5,16 +5,12 @@ import PlayerCombat from '../Components/PlayerCombat'
 import PlayerHealthBar from '../Components/PlayerHealthBar'
 import PlayerMovement from '../Components/PlayerMovement'
 import { GameBaseScene } from '../Scenes/GameBaseScene'
-import GameScene from '../Scenes/GameScene'
 import Character from './Character'
 
 
 export default class Player extends Character {
-    gameScene: GameBaseScene
-
-    constructor(scene: GameBaseScene, x: number, y: number, texture: string | Phaser.Textures.Texture) {
-        super(scene, x, y, texture, 0)
-        this.gameScene = scene
+    constructor(public gameScene: GameBaseScene, x: number, y: number, texture: string | Phaser.Textures.Texture) {
+        super(gameScene, x, y, texture, 0)
 
         this.addComponent(new Attribute(100, 50, 10))
         this.addComponent(new PlayerMovement(new Phaser.Math.Vector2(190, 190)))

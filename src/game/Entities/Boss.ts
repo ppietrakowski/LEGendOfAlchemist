@@ -8,15 +8,13 @@ import TeleportStone from './TeleportStone'
 
 export default class Boss extends Enemy {
     name: string
-    teleportIndex: number
 
-    constructor(scene: Phaser.Scene, x: number, y: number, texture: string | Phaser.Textures.Texture, name: string, maxRange: number, player: Player, teleportIndex: number) {
+    constructor(scene: Phaser.Scene, x: number, y: number, texture: string | Phaser.Textures.Texture, name: string, maxRange: number, player: Player, public readonly teleportIndex: number) {
         super(scene, x, y, texture, name, maxRange, player)
         // make it significant tougher than default enemy
         this.attributes.hp *= 5.2
         this.attributes.strength *= 5.2
         this.setScale(1.5, 1.5)
-        this.teleportIndex = teleportIndex
     }
 
     start(_scene: Phaser.Scene): void {
