@@ -3,7 +3,9 @@ import Button from '../Entities/Button'
 import MainMenu from './MainMenu'
 
 function onButtonPressed(this: Phaser.GameObjects.Sprite): void {
-    this.scene.game.scene.switch('DeadScene', 'MainMenu');
+    let {scene} = this.scene.game
+
+    scene.switch('DeadScene', 'MainMenu');
     //(this.scene.game.scene.getScene('MainMenu') as MainMenu).theme.play()
 }
 

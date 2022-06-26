@@ -4,9 +4,9 @@ import EnemyController from './../EnemyController'
 
 export abstract class EnemyState {
 
-    protected owner: Character
+    protected readonly owner: Character
 
-    constructor (protected controller: EnemyController) {
+    constructor (protected readonly controller: EnemyController) {
         this.owner = controller.self
     }
 
@@ -16,7 +16,7 @@ export abstract class EnemyState {
     update(_deltaTime: number) {}
 
     protected playMoveAnim(): void {
-        let {velocity} = {velocity: this.owner.body.velocity}
+        let {velocity} = this.owner.body
 
         if (this.isDirectedInRightSide())
             this.directedInLeftOrRight(velocity.x > Math.abs(velocity.y), velocity, `${this.owner.name}-right-run`)

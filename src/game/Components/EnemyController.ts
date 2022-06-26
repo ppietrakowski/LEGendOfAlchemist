@@ -6,6 +6,7 @@ import Component from './Component'
 import Effect from './Effect'
 
 import {EnemyState} from './AI/EnemyState'
+import {RoamState} from './AI/RoamState'
 
 enum AI_State {
     Roaming,
@@ -51,6 +52,10 @@ export default class EnemyController implements Component {
         this.self.setVelocityY(0)
         this.endPos = new Phaser.Math.Vector2(character.x, character.y)
         character.scene.physics.add.collider(character, this.target)
+
+
+        this.currentState = new RoamState(this);
+        this.currentState.stateStarted()
 
         this.hitSound = this.self.scene.sound.add('player-slap')
     }

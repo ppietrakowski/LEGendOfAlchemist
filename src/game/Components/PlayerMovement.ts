@@ -17,7 +17,7 @@ export default class PlayerMovement implements Component {
     }
 
     start(character: Character): void {
-        let keyboard = character.scene.input.keyboard
+        let {keyboard} = character.scene.input
 
         this.onStayAnimation = 'player-front'
         this.character = character as Player

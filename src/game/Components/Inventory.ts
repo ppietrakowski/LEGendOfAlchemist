@@ -19,7 +19,7 @@ export default class Inventory implements Component {
     }
 
     start(character: Character): void {
-        let keyboard = character.scene.input.keyboard
+        let {keyboard} = character.scene.input
 
         this.owner = character
         this.items = []
