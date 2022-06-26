@@ -5,6 +5,7 @@ import Player from '../Entities/Player'
 import Component from './Component'
 import Effect from './Effect'
 
+import {EnemyState} from './AI/EnemyState'
 
 enum AI_State {
     Roaming,
@@ -33,6 +34,7 @@ export default class EnemyController implements Component {
     state: AI_State
     endPos: Phaser.Math.Vector2
     hitSound: Phaser.Sound.BaseSound
+    currentState: EnemyState
 
     constructor(public target: Player, public maxRange: number) {
         this.state = AI_State.Roaming
@@ -56,6 +58,9 @@ export default class EnemyController implements Component {
     update(timeSinceLastFrame: number): void {
         this.state = this.getNextState()
 
+        this.currentState.update(timeSinceLastFrame)
+
+        /*
         if (this.state === AI_State.DuringMove)
             this.onMoving()
         if (this.state === AI_State.Roaming)
@@ -66,6 +71,14 @@ export default class EnemyController implements Component {
             this.onAttack(timeSinceLastFrame)
         else if (this.state === AI_State.Aborted)
             this.onAbort()
+
+        */
+    }
+
+    switchToNewState(state: EnemyState) {
+        this.currentState.stateClosed()
+        this.currentState = state
+        state.stateStarted()
     }
 
     private getNextState(): AI_State {
@@ -106,34 +119,8 @@ export default class EnemyController implements Component {
         this.state = AI_State.Roaming
     }
 
-    private onMoveUpOrDown(vel: Phaser.Math.Vector2): void {
-        if (vel.y < 0)
-            this.self.anims.play(`${this.self.name}-back-run`, true)
-        else
-            this.self.anims.play(`${this.self.name}-front-run`, true)
-    }
 
-    private onDirected(condition: boolean, vel: Phaser.Math.Vector2, animName: string): void {
-        // left
-        if (condition)
-            this.self.anims.play(animName, true)
-        else
-            this.onMoveUpOrDown(vel)
-    }
-
-    private isDirectedInRightSide(): boolean {
-        return this.self.body.velocity.x > 0
-    }
-
-    private playMoveAnim(): void {
-        let vel = this.self.body.velocity
-
-        if (this.isDirectedInRightSide())
-            this.onDirected(vel.x > Math.abs(vel.y), vel, `${this.self.name}-right-run`)
-        else
-            this.onDirected(Math.abs(vel.x) > Math.abs(vel.y), vel, `${this.self.name}-left-run`)
-    }
-
+    /*
     // TODO proper movement
     private onRoam(): void {
         this.self.setVelocity(0, 0)
@@ -176,4 +163,5 @@ export default class EnemyController implements Component {
             this.switchToRoaming()
         }
     }
+    */
 }
