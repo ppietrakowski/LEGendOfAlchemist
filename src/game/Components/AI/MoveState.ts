@@ -6,7 +6,6 @@ export class MoveState extends EnemyState {
     constructor (controller: EnemyController, private readonly endPosition: Phaser.Math.Vector2) {
         super(controller)
 
-        this.owner.once(Phaser.Physics.Arcade.Events.TILE_COLLIDE, () => this.controller.switchToNewState(new RoamState(this.controller)), this)
     }
     
     stateStarted(): void {
@@ -18,6 +17,11 @@ export class MoveState extends EnemyState {
     }
 
     private isNearTarget(): boolean {
-        return this.owner.isNear(this.endPosition, 1.5)
+        return this.owner.isNear(this.endPosition, 1.5) || !this.owner.body.blocked.none
+    }
+
+    private collided() {
+        this.owner.setVelocity(0, 0)
+        this.controller.switchToNewState(new RoamState(this.controller))
     }
 }
