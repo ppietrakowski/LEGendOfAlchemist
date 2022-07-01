@@ -13,11 +13,11 @@ export class MoveState extends EnemyState {
 
     update(_deltaTime: number): void {
         if (this.isNearTarget())
-            this.controller.switchToNewState(new RoamState(this.controller))
+            this.collided()
     }
 
     private isNearTarget(): boolean {
-        return this.owner.isNear(this.endPosition, 1.5) || !this.owner.body.blocked.none
+        return this.owner.isNear(this.endPosition, 1.5) || !this.owner.body.blocked.none || !this.owner.body.touching.none
     }
 
     private collided() {
