@@ -36,6 +36,8 @@ export default abstract class InventoryBase extends Phaser.Scene {
         this.title = this.add.text(20, 60, 'Inventory', { fontFamily: 'pixellari' })
         this.container.add(this.title)
         this.itemInfo = this.add.text(0, 0, '', { fontFamily: 'pixellari', padding: { bottom: 3, left: 3 }, backgroundColor: '#111122' })
+
+        this.keyI = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I)
     }
 
     updatePosition() {

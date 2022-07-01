@@ -134,9 +134,9 @@ export default class Crafting extends InventoryBase {
                 this.sumEffect(effect, item.item.effect)
         }
 
-        effect.deltaHp *= Math.round(1 + this.inventory.owner.attributes.wisdom.value / 100)
-        effect.deltaWisdom *= Math.round(1 + this.inventory.owner.attributes.wisdom.value / 100)
-        effect.deltaStrength *= Math.round(1 + this.inventory.owner.attributes.wisdom.value / 100)
+        effect.deltaHp *= Math.round(1 + this.inventory.currentOwner.attributes.wisdom.value / 100)
+        effect.deltaWisdom *= Math.round(1 + this.inventory.currentOwner.attributes.wisdom.value / 100)
+        effect.deltaStrength *= Math.round(1 + this.inventory.currentOwner.attributes.wisdom.value / 100)
 
         return effect
     }

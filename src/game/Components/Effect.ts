@@ -3,7 +3,7 @@ import Component from './Component'
 
 
 export default class Effect extends Phaser.Events.EventEmitter implements Component {
-    character: Character
+    private character: Character
     private timePassed: number
 
     static EffectEnded = 'Ended'

@@ -4,6 +4,7 @@ import Player from '../Entities/Player'
 import * as enemies from '../Entities/Enemies'
 import EnemyFactory from '../Entities/EnemyFactory'
 import Attribute from '../Components/Attribute'
+import { addInformationText } from './SceneUtils'
 
 export abstract class GameBaseScene extends Phaser.Scene {
     enemies: Enemy[]
@@ -56,6 +57,9 @@ export abstract class GameBaseScene extends Phaser.Scene {
         this.enemies.push(this.enemyFactory.getBoss(161, 69, 1))
         this.enemies.push(this.enemyFactory.getBoss(116, 107, 2))
         this.enemies.push(this.enemyFactory.getBoss(104, 61, -1, true))
+    }
+    showCannotGatherInfo(): void {
+        addInformationText(this, this.player.x, this.player.y, 'I don\'t have enough space to gather this item', (text: Phaser.GameObjects.GameObject) => text.destroy())
     }
 
     protected addBoss(posX: number, posY: number, index: number, superboss: boolean = false) {

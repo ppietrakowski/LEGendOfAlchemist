@@ -7,12 +7,13 @@ import Component from './Component'
 
 
 export default class HealthBar implements Component {
-    hpMax: number
+    protected hpMax: number
+    private range: number
 
-    self: Character
-    text: Phaser.GameObjects.Text
-    player: Player
-    range: number
+    protected self: Character
+    protected text: Phaser.GameObjects.Text
+    protected player: Player
+    
 
     constructor(player: Player, range: number) {
         this.player = player

@@ -8,28 +8,30 @@ import Item from './../Entities/Item'
 import Component from './Component'
 
 
-export default class Inventory implements Component {
-    items: Item[]
-    owner: Character
+export default class Inventory extends Phaser.Events.EventEmitter implements Component {
+    private items: Item[]
+    private owner: Character
     hasItemsUpdate: boolean = false
-    keyI: Phaser.Input.Keyboard.Key
+   
+
+    static readonly InventoryFull = "InventoryFull"
+    static readonly AddedItem = "AddedItem"
+
+    constructor() {
+        super()
+    }
 
     getName(): string {
         return 'inventory'
     }
+
+    get currentOwner(): Character { return this.owner }
 
     start(character: Character): void {
         let { keyboard } = character.scene.input
 
         this.owner = character
         this.items = []
-
-        this.keyI = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I)
-        this.keyI.on(Phaser.Input.Keyboard.Events.DOWN, () => {
-            this.ui.game.scene.game.scene.run('Inventory')
-            this.ui.scene.setVisible(true)
-            this.ui.game.scene.game.scene.pause('GameScene')
-        })
 
         // use this as inventory when clicked I and when crafting
         this.ui.inventory = this
@@ -40,18 +42,17 @@ export default class Inventory implements Component {
         return this.items[index]
     }
 
+    hasItem(name: string): boolean { return this.items.findIndex(value => value.sprite.name === name) != -1 }
+
     addItem(item: Item) {
 
         if (this.hasFreeSpace())
             this.addOnFreeSpace(item)
         else
-            this.showCannotGatherInfo()
+            this.emit(Inventory.InventoryFull)
     }
 
-    showCannotGatherInfo(): void {
-        let { scene } = this.owner
-        addInformationText(scene, this.owner.x, this.owner.y, 'I don\'t have enough space to gather this item', (text: Phaser.GameObjects.GameObject) => text.destroy())
-    }
+
 
     private addOnFreeSpace(item: Item) {
         this.items.push(item)
@@ -66,6 +67,8 @@ export default class Inventory implements Component {
 
         this.crafting.addElement(item)
         this.ui.addElement(item)
+
+        this.emit(Inventory.AddedItem)
     }
 
     hasFreeSpace(): boolean {
@@ -101,8 +104,10 @@ export default class Inventory implements Component {
     private setupItem(item: Item): void {
         if (item.sprite.texture.key !== 'teleport-stone') {
             item.sprite.once(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
+                let inventory = this.owner.getComponent<Inventory>('inventory')
+
                 item.onUse(this.owner);
-                (this.owner as Player).inventory.deleteItem(item)
+                inventory.deleteItem(item)
             });
         }
 

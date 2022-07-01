@@ -25,6 +25,7 @@ export default class Player extends Character {
         this.start()
 
         this.attributes.on(Attribute.CharacterDead, this.makeDead, this)
+        this.inventory.addListener(Inventory.InventoryFull, gameScene.showCannotGatherInfo, gameScene)
     }
 
     get inventory(): Inventory {
@@ -49,6 +50,6 @@ export default class Player extends Character {
     }
 
     hasTeleportStone(index: number): boolean {
-        return this.inventory.items.findIndex((value) => value.sprite.name == `teleport-stone-` + index) != -1;
+        return this.inventory.hasItem(`teleport-stone-` + index);
     }
 }

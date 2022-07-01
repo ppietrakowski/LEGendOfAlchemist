@@ -16,26 +16,15 @@ enum AI_State {
     Aborted
 }
 
-function getRandomVector(): Phaser.Math.Vector2 {
-    return new Phaser.Math.Vector2(Phaser.Math.Between(-1, 1), Phaser.Math.Between(-1, 1)).normalize()
-}
-
-function getRoamingPosition(startPos: Phaser.Math.Vector2): Phaser.Math.Vector2 {
-    let v = getRandomVector()
-    let range = Phaser.Math.Between(2, 70)
-
-    return new Phaser.Math.Vector2(startPos.x + v.x * range, startPos.y + v.y * range)
-}
-
 /**
  * TODO split behaviours to separate classes - pawelp
  */
 export default class EnemyController implements Component {
-    self: Enemy
-    state: AI_State
-    endPos: Phaser.Math.Vector2
-    hitSound: Phaser.Sound.BaseSound
-    currentState: EnemyState
+    private self: Enemy
+    private state: AI_State
+    private endPos: Phaser.Math.Vector2
+    private hitSound: Phaser.Sound.BaseSound
+    private currentState: EnemyState
 
     constructor(public target: Player, public maxRange: number) {
         this.state = AI_State.Roaming
@@ -54,7 +43,7 @@ export default class EnemyController implements Component {
         character.scene.physics.add.collider(character, this.target)
 
 
-        this.currentState = new RoamState(this);
+        this.currentState = new RoamState(this, this.self);
         this.currentState.stateStarted()
 
         this.hitSound = this.self.scene.sound.add('player-slap')

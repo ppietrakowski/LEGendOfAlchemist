@@ -2,7 +2,9 @@ import Phaser from 'phaser'
 import { getItemWithRandomEffect } from '../Entities/Items'
 import Portal from '../Entities/Portal'
 import { GameBaseScene } from './GameBaseScene'
+import InventoryUi from './InventoryUi'
 import { addInformationText, runAndPause, spawnGameobjectAtTile } from './SceneUtils'
+
 
 
 
@@ -12,6 +14,7 @@ export default class GameScene extends GameBaseScene {
     keyTab: Phaser.Input.Keyboard.Key
     music: Phaser.Sound.BaseSound[]
     currentMusic: Phaser.Sound.BaseSound
+    private keyI: Phaser.Input.Keyboard.Key
 
     constructor() {
         super('GameScene');
@@ -43,6 +46,18 @@ export default class GameScene extends GameBaseScene {
         this.currentMusic.play({volume: 0.2})
 
         this.addEnemies()
+
+        this.keyI = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I)
+        
+        this.keyI.on(Phaser.Input.Keyboard.Events.DOWN, () => {
+            this.game.scene.game.scene.run('Inventory')
+            this.player.scene.game.scene.getScene('Inventory').scene.setVisible(true)
+            this.game.scene.game.scene.pause('GameScene')
+        })
+
+        this.game.events.on(InventoryUi.InventoryClosed, () => {
+            this.scene.resume(this.scene.key)
+        })
     }
 
     update(time: number, delta: number): void {
@@ -104,6 +119,8 @@ export default class GameScene extends GameBaseScene {
         this.portals.push(new Portal(`2`, this.physics.add.sprite(tile2X * 32, tile2Y * 32, 'portal'), this.player, new Phaser.Math.Vector2(tile1X * 32 - 90, tile1Y * 32), stoneNo));
     }
 
+    
+
     private putItems(): void {
 
         // add 100 items 
@@ -117,7 +134,7 @@ export default class GameScene extends GameBaseScene {
                 if (this.player.inventory.hasFreeSpace())
                     this.throwAway(sprite)
                 else
-                    this.player.inventory.showCannotGatherInfo()
+                    this.showCannotGatherInfo()
             });
         }
     }

@@ -3,11 +3,7 @@ import Character from '../../Entities/Character'
 import EnemyController from './../EnemyController'
 
 export abstract class EnemyState {
-
-    protected readonly owner: Character
-
-    constructor (protected readonly controller: EnemyController) {
-        this.owner = controller.self
+    constructor (protected readonly controller: EnemyController, protected readonly owner: Character) {
     }
 
     abstract stateStarted(): void

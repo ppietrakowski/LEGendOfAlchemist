@@ -4,7 +4,7 @@ import Effect from './Effect'
 import ChangeableAttribute from '../ChangeableAttribute'
 
 export default class Attribute extends Phaser.Events.EventEmitter implements Component {
-    character: Character
+    private character: Character
     private effects: Effect[]
 
     static CharacterDead = 'Dead'

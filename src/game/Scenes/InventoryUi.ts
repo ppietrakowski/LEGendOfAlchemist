@@ -12,6 +12,8 @@ export default class InventoryUi extends InventoryBase {
     title: Phaser.GameObjects.Text
     keyI: Phaser.Input.Keyboard.Key
 
+    static readonly InventoryClosed = "InventoryClosed"
+
     constructor() {
         super('Inventory')
         this.inventory = null
@@ -26,15 +28,16 @@ export default class InventoryUi extends InventoryBase {
             this.addTeleportInfo(item as TeleportStone)
 
         this.updatePosition()
+
+
     }
 
     preload() {
         super.preload()
-        this.keyI = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I)
         this.keyI.on(Phaser.Input.Keyboard.Events.DOWN, () => {
-            this.game.scene.game.scene.pause('Inventory')
             this.scene.setVisible(false)
-            this.game.scene.game.scene.run('GameScene')
+            this.scene.pause(this.scene.key)
+            this.game.events.emit("InventoryClosed")
         })
     }
 }
