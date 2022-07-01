@@ -3,43 +3,33 @@ import Phaser from 'phaser'
 import Effect from '../Components/Effect'
 import TeleportStone from '../Entities/TeleportStone'
 import InventoryBase from './InventoryBase'
-import InventoryUi from './InventoryUi'
+
+const margin = 10
+const offset = 24
+const marginBetweenTwoElements = 16
 
 export default class InventoryContainer extends Phaser.GameObjects.Container {
 
     private readonly maxRow: number = 5
     private itemInfo: Phaser.GameObjects.Text
+    private currentRow = 0
+    private heigth = 72
 
     constructor(scene: Phaser.Scene, x: number, y: number,
-            private readonly background: Phaser.GameObjects.GameObject,
-            private readonly title: Phaser.GameObjects.GameObject, ...children: Phaser.GameObjects.GameObject[]) {
+        private readonly background: Phaser.GameObjects.GameObject,
+        private readonly title: Phaser.GameObjects.GameObject, ...children: Phaser.GameObjects.GameObject[]) {
         super(scene, x, y, children)
 
         this.scene.add.existing(this)
-        this.itemInfo = this.scene.add.text(0, 0, '',  { fontFamily: 'pixellari', padding: { bottom: 3, left: 3 }, backgroundColor: '#111122' })
+        this.itemInfo = this.scene.add.text(0, 0, '', { fontFamily: 'pixellari', padding: { bottom: 3, left: 3 }, backgroundColor: '#111122' })
         this.scene.game.events.on(InventoryBase.InventoryClosed, () => this.itemInfo.setVisible(false))
     }
 
     public updatePosition() {
-        let currentRow = 0
-        let heigth = 72
-        const margin = 10
-        const offset = 24
-        const marginBetweenTwoElements = 16
+        this.currentRow = 0
+        this.heigth = 72
 
-        this.each((child: Phaser.GameObjects.GameObject) => {
-            if (child != this.background && child != this.title) {
-                let ch = child as Phaser.GameObjects.Sprite
-                ch.x = margin + offset * currentRow
-                ch.y = heigth
-                ++currentRow
-                if (currentRow === this.maxRow) {
-                    heigth += 16
-                    currentRow = 0
-                }
-            } else if (child === this.title)
-                heigth += marginBetweenTwoElements
-        })
+        this.each(this.buildInventorySlot, this)
     }
 
     public deleteChild(child: string) {
@@ -71,5 +61,19 @@ export default class InventoryContainer extends Phaser.GameObjects.Container {
         teleport.sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT, () => {
             this.itemInfo.setVisible(false)
         })
+    }
+
+    private buildInventorySlot(child: Phaser.GameObjects.GameObject) {
+        if (child != this.background && child != this.title) {
+            let ch = child as Phaser.GameObjects.Sprite
+            ch.x = margin + offset * this.currentRow
+            ch.y = this.heigth
+            ++this.currentRow
+            if (this.currentRow === this.maxRow) {
+                this.heigth += 16
+                this.currentRow = 0
+            }
+        } else if (child === this.title)
+            this.heigth += marginBetweenTwoElements
     }
 }
