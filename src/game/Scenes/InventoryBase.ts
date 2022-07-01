@@ -1,92 +1,70 @@
 import Phaser from "phaser"
 import Effect from "../Components/Effect"
 import Inventory from '../Components/Inventory'
+import Character from "../Entities/Character"
 import Item from "../Entities/Item"
 import TeleportStone from "../Entities/TeleportStone"
+import InventoryContainer from './InventoryContainer'
 
 export default abstract class InventoryBase extends Phaser.Scene {
-    inventory: Inventory
-    background: Phaser.GameObjects.Sprite
-    container: Phaser.GameObjects.Container
-    maxRow: number = 5
-    title: Phaser.GameObjects.Text
-    keyI: Phaser.Input.Keyboard.Key
-    itemInfo: Phaser.GameObjects.Text
-
-    constructor(name: string) {
-        super(name)
-        this.inventory = null
+    protected inventory: Inventory
+    protected container: InventoryContainer
+    static readonly InventoryClosed = "InventoryClosed"
+    
+    constructor(key: string) {
+        super({ key })
     }
 
-    abstract addElement(item: Item): void
+    addElement(item: Item): void {
+        let sprite = item.sprite
+        item.sprite = this.add.sprite(item.sprite.x, item.sprite.y, item.sprite.texture.key)
+        sprite.destroy()
+
+        item.sprite.name = sprite.texture.key + "-" + Math.round(sprite.x) + "-" + Math.round(sprite.y)
+    }
 
     deleteChild(child: string): void {
-        this.container.each((ch: Phaser.GameObjects.Sprite) => { if (ch.name === child) this.container.remove(ch); })
-        this.itemInfo.setText('')
-        this.updatePosition()
+        this.container.deleteChild(child)
     }
 
     preload(): void {
-        this.container = this.add.container(50, 60)
+        this.container = new InventoryContainer(this, 50, 60, this.add.sprite(0, 60, 'inventory-background').setOrigin(0, 0), this.add.text(20, 60, 'Inventory', { fontFamily: 'pixellari' }))
+
         this.container.setScrollFactor(0)
 
-        this.background = this.add.sprite(0, 60, 'inventory-background').setOrigin(0, 0)
-        this.container.add(this.background)
-
-        this.title = this.add.text(20, 60, 'Inventory', { fontFamily: 'pixellari' })
-        this.container.add(this.title)
-        this.itemInfo = this.add.text(0, 0, '', { fontFamily: 'pixellari', padding: { bottom: 3, left: 3 }, backgroundColor: '#111122' })
-
-        this.keyI = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I)
+        this.game.events.on(Inventory.InventoryStart, this.assignInventory, this)
     }
 
-    updatePosition() {
-        let currentRow = 0
-        let heigth = 72
-        const margin = 10
-        const offset = 24
-        const marginBetweenTwoElements = 16
+    private assignInventory(inventoryEvent: { inventory: Inventory, owner: Character }) {
 
-        this.container.each((child: Phaser.GameObjects.GameObject) => {
-            if (child != this.background && child != this.title) {
-                let ch = child as Phaser.GameObjects.Sprite
-                ch.x = margin + offset * currentRow
-                ch.y = heigth
-                ++currentRow
-                if (currentRow === this.maxRow) {
-                    heigth += 16
-                    currentRow = 0
-                }
-            } else if (child === this.title)
-                heigth += marginBetweenTwoElements
-        })
-
-        this.inventory.hasItemsUpdate = false
+        if (inventoryEvent.owner.name === 'player') {
+            this.inventory = inventoryEvent.inventory
+            this.inventory.on(Inventory.AddedItem, this.addElement, this)
+            this.inventory.on(Inventory.InventoryFull, () => console.log("Inventory full !"))
+            this.game.events.off(Inventory.InventoryStart, this.assignInventory)
+        }
     }
 
-    addItemInfo(sprite: Phaser.GameObjects.Sprite, effect: Effect): void {
-        sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER, () => {
-            this.itemInfo.setText(`hp: ${effect.deltaHp}\nstr: ${effect.deltaStrength}\nwis: ${effect.deltaWisdom}`)
-            this.itemInfo.setPosition(sprite.x, sprite.y)
-            this.itemInfo.setVisible(true)
-        })
-
-        sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT, () => {
-            this.itemInfo.setVisible(false)
-        })
+    protected addItemInfo(sprite: Phaser.GameObjects.Sprite, effect: Effect): void {
+        this.container.addItemInfo(sprite, effect)
     }
 
-    addTeleportInfo(teleport: TeleportStone): void {
-        teleport.sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER, () => {
-
-            this.itemInfo.setText(`Allows for teleport\nin teleport number ${teleport.index}`)
-            this.itemInfo.setPosition(teleport.sprite.x, teleport.sprite.y)
-            this.itemInfo.setVisible(true)
-        })
-
-        teleport.sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT, () => {
-            this.itemInfo.setVisible(false)
-        })
+    protected addTeleportInfo(teleport: TeleportStone): void {
+        this.container.addTeleportInfo(teleport)
     }
 
+    protected setupItem(item: Item): void {
+        let owner = this.inventory.currentOwner
+
+        if (item.sprite.texture.key !== 'teleport-stone') {
+            item.sprite.once(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
+                let inventory = owner.getComponent<Inventory>('inventory')
+
+                item.used(owner)
+                inventory.deleteItem(item)
+            });
+        }
+
+        item.sprite.setInteractive({ pixelPerfect: true })
+    }
 }

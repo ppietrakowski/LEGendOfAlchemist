@@ -4,7 +4,7 @@ import MainMenu from "./MainMenu"
 
 export default class WinScene extends Phaser.Scene {
 
-    back: Button
+    private back: Button
 
     constructor() {
         super('WinScene')
@@ -17,7 +17,7 @@ export default class WinScene extends Phaser.Scene {
         this.back.addClickListener(this.onButtonPressed, this)
     }
 
-    onButtonPressed(this: Phaser.GameObjects.Sprite): void {
+    private onButtonPressed(this: Phaser.GameObjects.Sprite): void {
         this.scene.game.scene.switch('WinScene', 'MainMenu');
     }
 }

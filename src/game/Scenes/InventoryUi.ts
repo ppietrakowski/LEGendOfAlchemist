@@ -5,21 +5,17 @@ import TeleportStone from '../Entities/TeleportStone'
 import InventoryBase from './InventoryBase'
 
 export default class InventoryUi extends InventoryBase {
-    inventory: Inventory
-    background: Phaser.GameObjects.Sprite
-    container: Phaser.GameObjects.Container
-    maxRow: number = 5
-    title: Phaser.GameObjects.Text
-    keyI: Phaser.Input.Keyboard.Key
+    
 
-    static readonly InventoryClosed = "InventoryClosed"
+    private keyI: Phaser.Input.Keyboard.Key
 
     constructor() {
         super('Inventory')
-        this.inventory = null
     }
 
     addElement(item: Item): void {
+        super.addElement(item)
+
         this.container.add(item.sprite)
         item.sprite.setScrollFactor(0)
         if (item.sprite.texture.key !== 'teleport-stone')
@@ -27,17 +23,20 @@ export default class InventoryUi extends InventoryBase {
         else
             this.addTeleportInfo(item as TeleportStone)
 
-        this.updatePosition()
-
-
+        this.setupItem(item)
+        this.container.updatePosition()
     }
 
     preload() {
         super.preload()
+        this.keyI = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I)
+
         this.keyI.on(Phaser.Input.Keyboard.Events.DOWN, () => {
             this.scene.setVisible(false)
             this.scene.pause(this.scene.key)
-            this.game.events.emit("InventoryClosed")
+            this.game.events.emit(InventoryUi.InventoryClosed)
         })
     }
+
+   
 }

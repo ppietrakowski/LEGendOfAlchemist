@@ -4,8 +4,8 @@ import Player from './Player'
 
 
 export default class Portal {
-    teleportSound: Phaser.Sound.BaseSound
-    text: Phaser.GameObjects.Text = null
+    private teleportSound: Phaser.Sound.BaseSound
+    private text: Phaser.GameObjects.Text = null
 
     constructor(public name: string, public sprite: Phaser.Physics.Arcade.Sprite, public player: Player, endPoint: Phaser.Math.Vector2, portalNo: number) {
         this.teleportSound = sprite.scene.sound.add('portal-sound')

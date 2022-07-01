@@ -6,20 +6,20 @@ import Potion from '../Entities/Potion'
 import InventoryBase from './InventoryBase'
 
 
-class Field {
-
-    constructor(public item: Item, public backgroundImage: Phaser.GameObjects.Image) {
-    }
+interface Field {
+    item: Item
+    backgroundImage: Phaser.GameObjects.Image
 }
 
-const MaxItemsForCraft = 4
-
 export default class Crafting extends InventoryBase {
-    items: Field[]
-    craft: Button
-    back: Button
-    potionInfo: string
-    potion: Phaser.GameObjects.Text
+
+    private static readonly MaxItemsForCraft = 4
+
+    private items: Field[]
+    private craft: Button
+    private back: Button
+    private potionInfo: string
+    private potion: Phaser.GameObjects.Text
 
     constructor() {
         super('Crafting')
@@ -37,13 +37,13 @@ export default class Crafting extends InventoryBase {
     }
 
     create(): void {
-        for (let i = 0; i < MaxItemsForCraft; i++) {
-            let field = new Field(null, this.add.image(500 + i * 48, 120, 'item-background').setOrigin(0, 0))
+        for (let i = 0; i < Crafting.MaxItemsForCraft; i++) {
+            let field = { item: null, backgroundImage: this.add.image(500 + i * 48, 120, 'item-background').setOrigin(0, 0) }
             this.setupField(field, i)
             this.items.push(field)
         }
 
-        let image =  this.add.sprite(660, 180, 'craft-item')
+        let image = this.add.sprite(660, 180, 'craft-item')
 
         this.craft = new Button(image)
         this.craft.addClickListener(this.onCraft, this)
@@ -59,13 +59,7 @@ export default class Crafting extends InventoryBase {
     update(_time: number, _delta: number): void {
     }
 
-    setupField(field: Field, i: number): void {
-        field.backgroundImage.setInteractive({ dropZone: true, pixelPerfect: true })
-        field.backgroundImage.scaleX = 2
-        field.backgroundImage.scaleY = 2
-        field.backgroundImage.name = "item-bkg-" + i
-        field.backgroundImage.setScrollFactor(0)
-    }
+
 
     addElement(item: Item): void {
         let sprite = this.add.sprite(item.sprite.x, item.sprite.y, item.sprite.texture.key)
@@ -77,10 +71,24 @@ export default class Crafting extends InventoryBase {
 
         this.container.add(sprite)
         sprite.setScrollFactor(0)
-        this.updatePosition()
+        this.container.updatePosition()
     }
 
-    setupPickable(item: Item, sprite: Phaser.GameObjects.Sprite): void {
+    deleteChild(child: string): void {
+        super.deleteChild(child)
+        this.scene.scene.children.getByName(child).destroy()
+        this.container.updatePosition()
+    }
+
+    private setupField(field: Field, i: number): void {
+        field.backgroundImage.setInteractive({ dropZone: true, pixelPerfect: true })
+        field.backgroundImage.scaleX = 2
+        field.backgroundImage.scaleY = 2
+        field.backgroundImage.name = "item-bkg-" + i
+        field.backgroundImage.setScrollFactor(0)
+    }
+
+    private setupPickable(item: Item, sprite: Phaser.GameObjects.Sprite): void {
         sprite.on(Phaser.Input.Events.GAMEOBJECT_DRAG, (pointer: Phaser.Input.Pointer, dragX: number, dragY: number) => {
             sprite.x = dragX
             sprite.y = dragY
@@ -88,7 +96,7 @@ export default class Crafting extends InventoryBase {
 
         sprite.on(Phaser.Input.Events.DRAG_END, (pointer: Phaser.Input.Pointer, dropped: boolean) => {
             if (!dropped)
-                this.updatePosition()
+                this.container.updatePosition()
         });
 
         sprite.on(Phaser.Input.Events.GAMEOBJECT_DROP, (pointer: Phaser.Input.Pointer, dropZone: Phaser.GameObjects.Image) => {
@@ -98,7 +106,7 @@ export default class Crafting extends InventoryBase {
         this.addItemInfo(sprite, item.effect)
     }
 
-    moveObjectToField(dropZone: Phaser.GameObjects.Image, sprite: Phaser.GameObjects.Sprite, item: Item) {
+    private moveObjectToField(dropZone: Phaser.GameObjects.Image, sprite: Phaser.GameObjects.Sprite, item: Item) {
         let field = this.getField(dropZone.name)
         let ingredientPos = new Phaser.Math.Vector2(dropZone.x - 45 + sprite.width / 2, (dropZone.y) / 1.6 - dropZone.originY - 5)
         sprite.setPosition(ingredientPos.x, ingredientPos.y)
@@ -109,14 +117,7 @@ export default class Crafting extends InventoryBase {
         this.potion.setText(this.potionInfo)
     }
 
-
-    deleteChild(child: string): void {
-        super.deleteChild(child)
-        this.scene.scene.children.getByName(child).destroy()
-        this.updatePosition()
-    }
-
-    getField(bkgname: String): Field {
+    private getField(bkgname: String): Field {
         for (let i of this.items) {
             if (i.backgroundImage.name === bkgname)
                 return i
@@ -125,8 +126,7 @@ export default class Crafting extends InventoryBase {
         return null;
     }
 
-
-    mixEffects(): Effect {
+    private mixEffects(): Effect {
         let effect = new Effect(0, 0, 0, Math.round(Math.random() * (4 - 1) + 1))
 
         for (let item of this.items) {
@@ -141,17 +141,17 @@ export default class Crafting extends InventoryBase {
         return effect
     }
 
-    sumEffect(effect: Effect, itemEffect: Effect): void {
+    private sumEffect(effect: Effect, itemEffect: Effect): void {
         effect.deltaHp += itemEffect.deltaHp
         effect.deltaStrength += itemEffect.deltaStrength
         effect.deltaWisdom += itemEffect.deltaWisdom
     }
 
-    hasAnyItemInArray(): boolean {
+    private hasAnyItemInArray(): boolean {
         return this.items.findIndex((value) => value != null) !== -1
     }
 
-    deleteRestOfItems() {
+    private deleteRestOfItems() {
         for (let i = 0; i < this.items.length; i++) {
             if (this.items[i].item != null) {
                 this.inventory.deleteItem(this.items[i].item)
@@ -160,11 +160,11 @@ export default class Crafting extends InventoryBase {
         }
     }
 
-    onCraft(): void {
+    private onCraft(): void {
 
         if (this.hasAnyItemInArray())
             this.createPotion()
-        this.updatePosition()
+        this.container.updatePosition()
 
         // for now just get back to gamescene
         this.game.scene.pause('Crafting')
@@ -173,11 +173,11 @@ export default class Crafting extends InventoryBase {
         this.game.scene.run('GameScene')
     }
 
-    onClose(): void {
+    private onClose(): void {
 
         // for now just get back to gamescene
         this.game.scene.pause('Crafting', () => {
-            this.updatePosition()
+            this.container.updatePosition()
         });
 
         this.scene.setVisible(false)

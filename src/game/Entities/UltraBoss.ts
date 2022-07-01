@@ -12,7 +12,7 @@ export default class UltraBoss extends Boss {
     }
 
 
-    killed(): void {
+    protected killed(): void {
         let {sound} = this.scene
         
         // for now just show dead screen

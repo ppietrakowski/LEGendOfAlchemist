@@ -8,8 +8,6 @@ import TeleportStone from './TeleportStone'
 
 
 export default class Boss extends Enemy {
-    name: string
-
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string | Phaser.Textures.Texture, name: string, maxRange: number, player: Player, public readonly teleportIndex: number) {
         super(scene, x, y, texture, name, maxRange, player)
         // make it significant tougher than default enemy
@@ -21,7 +19,7 @@ export default class Boss extends Enemy {
     start(_scene: Phaser.Scene): void {
     }
 
-    killed(): void {
+    protected killed(): void {
         let player = this.getComponent<EnemyController>('enemy-movement').target
         let teleportStone = new TeleportStone(null, player.scene.add.sprite(this.x, this.y, 'teleport-stone'), this.teleportIndex)
         teleportStone.sprite.name = 'teleport-stone-' + this.teleportIndex

@@ -6,8 +6,8 @@ import Button from '../Entities/Button'
 
 export default class MainMenu extends Phaser.Scene {
     private buttons: Button[]
-    theme: Phaser.Sound.BaseSound
-    music_button: Button
+    private theme: Phaser.Sound.BaseSound
+    private music_button: Button
 
     constructor() {
         super('MainMenu')

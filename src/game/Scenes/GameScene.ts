@@ -119,8 +119,6 @@ export default class GameScene extends GameBaseScene {
         this.portals.push(new Portal(`2`, this.physics.add.sprite(tile2X * 32, tile2Y * 32, 'portal'), this.player, new Phaser.Math.Vector2(tile1X * 32 - 90, tile1Y * 32), stoneNo));
     }
 
-    
-
     private putItems(): void {
 
         // add 100 items 
@@ -130,7 +128,6 @@ export default class GameScene extends GameBaseScene {
             sprite.setInteractive({ pixelPerfect: true })
 
             sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
-
                 if (this.player.inventory.hasFreeSpace())
                     this.throwAway(sprite)
                 else
@@ -139,8 +136,9 @@ export default class GameScene extends GameBaseScene {
         }
     }
 
-    throwAway(sprite: Phaser.GameObjects.Sprite) {
+    private throwAway(sprite: Phaser.GameObjects.Sprite) {
         let item = getItemWithRandomEffect(-10, -10, this)
+        
         addInformationText(this, sprite.x, sprite.y, `You have received ${item.sprite.texture.key}`,
             (text: Phaser.GameObjects.GameObject) => { text.destroy(); this.player.inventory.addItem(item) })
         sprite.destroy(true)

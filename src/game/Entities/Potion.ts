@@ -9,7 +9,7 @@ export default class Potion extends Item {
         this.sprite.setInteractive({ pixelPerfect: true })
     }
 
-    onUse(character: Character): void {
+    used(character: Character): void {
         character.attributes.addEffect(this.effect)
         this.sprite.destroy()
     }

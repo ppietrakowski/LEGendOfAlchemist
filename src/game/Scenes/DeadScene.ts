@@ -20,6 +20,5 @@ export default class DeadScene extends Phaser.Scene {
         let {scene} = this.scene.game
     
         scene.switch('DeadScene', 'MainMenu');
-        //(this.scene.game.scene.getScene('MainMenu') as MainMenu).theme.play()
     }
 }

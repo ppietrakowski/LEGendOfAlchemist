@@ -9,7 +9,6 @@ interface ComponentDictionary {
 
 export default abstract class Character extends Phaser.Physics.Arcade.Sprite {
     protected components: ComponentDictionary
-    hasAttacked: boolean
 
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string | Phaser.Textures.Texture, frame: string | number) {
         super(scene, x, y, texture, frame)
@@ -19,8 +18,6 @@ export default abstract class Character extends Phaser.Physics.Arcade.Sprite {
 
         scene.physics.add.existing(this)
         scene.add.existing(this)
-
-        this.hasAttacked = false
     }
 
     addComponent(component: Component): void {

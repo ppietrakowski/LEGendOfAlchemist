@@ -23,7 +23,7 @@ export default class Enemy extends Character {
     start(_scene: Phaser.Scene): void {
     }
 
-    killed(): void {
+    protected killed(): void {
         let player = this.getComponent<EnemyController>('enemy-movement').target
         let ingredient = getItemWithRandomEffect(this.x, this.y, player.scene) as Ingredient
 

@@ -11,6 +11,7 @@ import Character from './Character'
 export default class Player extends Character {
     constructor(public gameScene: GameBaseScene, x: number, y: number, texture: string | Phaser.Textures.Texture) {
         super(gameScene, x, y, texture, 0)
+        this.setName('player')
 
         this.addComponent(new Attribute(100, 50, 10))
         this.addComponent(new PlayerMovement(new Phaser.Math.Vector2(190, 190)))

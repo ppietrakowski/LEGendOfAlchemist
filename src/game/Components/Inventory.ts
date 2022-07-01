@@ -1,9 +1,5 @@
 
 import Character from '../Entities/Character'
-import Player from '../Entities/Player'
-import Crafting from '../Scenes/Crafting'
-import InventoryUi from '../Scenes/InventoryUi'
-import { addInformationText } from '../Scenes/SceneUtils'
 import Item from './../Entities/Item'
 import Component from './Component'
 
@@ -13,9 +9,13 @@ export default class Inventory extends Phaser.Events.EventEmitter implements Com
     private owner: Character
     hasItemsUpdate: boolean = false
    
-
+    /*
+     * Inventory event handlers name
+     */
     static readonly InventoryFull = "InventoryFull"
     static readonly AddedItem = "AddedItem"
+    static readonly InventoryStart = "InventoryStart"
+    static readonly DeletedItem = "DeletedItem"
 
     constructor() {
         super()
@@ -28,14 +28,10 @@ export default class Inventory extends Phaser.Events.EventEmitter implements Com
     get currentOwner(): Character { return this.owner }
 
     start(character: Character): void {
-        let { keyboard } = character.scene.input
-
         this.owner = character
         this.items = []
 
-        // use this as inventory when clicked I and when crafting
-        this.ui.inventory = this
-        this.crafting.inventory = this
+        character.scene.game.events.emit(Inventory.InventoryStart, { inventory: this, owner: this.owner })
     }
 
     getItem(index: number): Item {
@@ -52,23 +48,9 @@ export default class Inventory extends Phaser.Events.EventEmitter implements Com
             this.emit(Inventory.InventoryFull)
     }
 
-
-
     private addOnFreeSpace(item: Item) {
         this.items.push(item)
-
-        let sprite = this.ui.add.sprite(item.sprite.x, item.sprite.y, item.sprite.texture.key)
-        item.sprite.destroy()
-
-        item.sprite = sprite
-        this.setupItem(item)
-
-        item.sprite.name = sprite.texture.key + "-" + Math.round(sprite.x) + "-" + Math.round(sprite.y)
-
-        this.crafting.addElement(item)
-        this.ui.addElement(item)
-
-        this.emit(Inventory.AddedItem)
+        this.emit(Inventory.AddedItem, item)
     }
 
     hasFreeSpace(): boolean {
@@ -86,31 +68,8 @@ export default class Inventory extends Phaser.Events.EventEmitter implements Com
     update(_timeSinceLastFrame: number): void {
     }
 
-    get ui(): InventoryUi {
-        return (this.owner.scene.game.scene.getScene('Inventory') as InventoryUi)
-    }
-
-    get crafting(): Crafting {
-        return (this.owner.scene.game.scene.getScene('Crafting') as Crafting)
-    }
-
     private removeItem(item: Item, i: number): void {
-        this.crafting.deleteChild(item.sprite.name)
-        this.ui.deleteChild(item.sprite.name)
-        item.sprite.destroy()
+        this.emit(Inventory.DeletedItem, item)
         this.items.splice(i, 1)
-    }
-
-    private setupItem(item: Item): void {
-        if (item.sprite.texture.key !== 'teleport-stone') {
-            item.sprite.once(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
-                let inventory = this.owner.getComponent<Inventory>('inventory')
-
-                item.onUse(this.owner);
-                inventory.deleteItem(item)
-            });
-        }
-
-        item.sprite.setInteractive({ pixelPerfect: true })
     }
 }

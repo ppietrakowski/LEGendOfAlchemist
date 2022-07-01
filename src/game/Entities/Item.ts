@@ -11,5 +11,5 @@ export default abstract class Item {
         sprite.setInteractive({ pixelPerfect: true })
     }
 
-    abstract onUse(character: Character): void
+    abstract used(character: Character): void
 }

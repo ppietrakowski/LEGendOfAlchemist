@@ -7,8 +7,9 @@ import Effect from './Effect'
 
 
 export default class PlayerCombat implements Component {
-    player: Player
-    timeSinceLastFrame: number
+    private player: Player
+    private deltaTime: number
+    private attacked: boolean
 
     getName(): string {
         return 'player-combat'
@@ -16,7 +17,8 @@ export default class PlayerCombat implements Component {
 
     start(character: Character): void {
         this.player = character as Player
-        this.timeSinceLastFrame = 0
+        this.deltaTime = 0
+        this.attacked = false
     }
 
     addEnemy(enemy: Enemy): void {
@@ -26,12 +28,12 @@ export default class PlayerCombat implements Component {
     }
 
     update(timeSinceLastFrame: number): void {
-        this.timeSinceLastFrame = timeSinceLastFrame
+        this.deltaTime = timeSinceLastFrame
     }
 
     onThrowAnything(enemy: Enemy) {
         let { scene } = enemy
-        if (this.player.isNearObject(enemy, 5 * this.player.attributes.strength.value) && !this.player.hasAttacked) {
+        if (this.player.isNearObject(enemy, 5 * this.player.attributes.strength.value) && !this.attacked) {
             let throwable = scene.add.image(this.player.x, this.player.y, 'potion')
 
             scene.sound.add('potion-throwed').play()
@@ -41,11 +43,11 @@ export default class PlayerCombat implements Component {
 
     throw(throwable: Phaser.GameObjects.Image, enemy: Enemy) {
         let duration = 100 *
-            Phaser.Math.Distance.Between(enemy.x, enemy.y, this.player.x, this.player.y) * this.timeSinceLastFrame
+            Phaser.Math.Distance.Between(enemy.x, enemy.y, this.player.x, this.player.y) * this.deltaTime
 
         throwable.setRotation(Math.PI / 360)
 
-        this.player.hasAttacked = true
+        this.attacked = true
 
         throwable.scene.tweens.add({
             targets: [throwable],
@@ -55,8 +57,8 @@ export default class PlayerCombat implements Component {
             y: enemy.y,
             onComplete: () => {
                 throwable.scene.sound.add('potion-hit').play()
-                enemy.attributes.addEffect(new Effect(24 * this.timeSinceLastFrame * -this.player.attributes.strength, 0, 0, 0.5))
-                this.player.hasAttacked = false
+                enemy.attributes.addEffect(new Effect(24 * this.deltaTime * -this.player.attributes.strength, 0, 0, 0.5))
+                this.attacked = false
                 throwable.destroy()
             }
         });

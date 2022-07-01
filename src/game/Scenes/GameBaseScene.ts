@@ -7,13 +7,15 @@ import Attribute from '../Components/Attribute'
 import { addInformationText } from './SceneUtils'
 
 export abstract class GameBaseScene extends Phaser.Scene {
-    enemies: Enemy[]
-    map: Phaser.Tilemaps.Tilemap
-    tileset: Phaser.Tilemaps.Tileset
-    seaLayer: Phaser.Tilemaps.TilemapLayer
-    enemyFactory: EnemyFactory
-    player: Player
-    enemyKilled = 0
+    protected enemies: Enemy[]
+    protected map: Phaser.Tilemaps.Tilemap
+    protected tileset: Phaser.Tilemaps.Tileset
+    protected seaLayer: Phaser.Tilemaps.TilemapLayer
+    protected enemyFactory: EnemyFactory
+    protected player: Player
+    protected enemyKilled = 0
+
+    get killStatistics() { return this.enemyKilled }
 
     constructor(key: string) {
         super(key)

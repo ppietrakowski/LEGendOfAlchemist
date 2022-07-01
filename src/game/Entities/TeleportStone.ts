@@ -8,6 +8,6 @@ export default class TeleportStone extends Item {
         super(effect, sprite)
     }
 
-    onUse(_character: Character): void {
+    used(_character: Character): void {
     }
 }
