@@ -33,6 +33,8 @@ export default class HealthBar implements Component {
         this.text.setVisible(false)
 
         this.addHealthChangedListener()
+
+        character.on(Phaser.GameObjects.Events.DESTROY, () => this.text.destroy(), this)
     }
 
     update(_timeSinceLastFrame: number): void {
@@ -47,13 +49,13 @@ export default class HealthBar implements Component {
         this.text.setPosition(this.self.x, this.self.y - 1.5 * this.self.width)
     }
 
-    healthUpdated(): void {
+    private healthUpdated(): void {
         if (this.self.attributes.hp.value >= this.hpMax)
             this.hpMax = this.self.attributes.hp.value
         this.text.setText(Math.round(this.self.attributes.hp.value).toString() + "/" + Math.round(this.hpMax))
     }
 
-    hide(): void {
+    private hide(): void {
         this.text.setVisible(false)
     }
 

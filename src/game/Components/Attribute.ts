@@ -23,10 +23,6 @@ export default class Attribute extends Phaser.Events.EventEmitter implements Com
         this.effects = []
     }
 
-    debugName(): string {
-        return 'atrributes'
-    }
-
     getName(): string {
         return 'attributes'
     }
@@ -39,7 +35,6 @@ export default class Attribute extends Phaser.Events.EventEmitter implements Com
         for (let effect of this.effects)
             effect.update(timeSinceLastFrame)
 
-        
         if (!this.isAlive())
             this.emit(Attribute.CharacterDead, this)
     }
@@ -51,7 +46,7 @@ export default class Attribute extends Phaser.Events.EventEmitter implements Com
         this.effects.push(effect)
     }
 
-    isAlive(): boolean {
+    private isAlive(): boolean {
         return this.hp.value >= 0
     }
 

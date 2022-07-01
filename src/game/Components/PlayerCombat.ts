@@ -30,7 +30,7 @@ export default class PlayerCombat implements Component {
     }
 
     onThrowAnything(enemy: Enemy) {
-        let {scene} = enemy
+        let { scene } = enemy
         if (this.player.isNearObject(enemy, 5 * this.player.attributes.strength.value) && !this.player.hasAttacked) {
             let throwable = scene.add.image(this.player.x, this.player.y, 'potion')
 

@@ -5,8 +5,8 @@ import Player from '../Entities/Player'
 import Component from './Component'
 import Effect from './Effect'
 
-import {EnemyState} from './AI/EnemyState'
-import {RoamState} from './AI/RoamState'
+import { EnemyState } from './AI/EnemyState'
+import { RoamState } from './AI/RoamState'
 
 enum AI_State {
     Roaming,
@@ -58,7 +58,6 @@ export default class EnemyController implements Component {
         this.currentState.stateStarted()
 
         this.hitSound = this.self.scene.sound.add('player-slap')
-        console.log(character)
     }
 
     update(timeSinceLastFrame: number): void {
@@ -88,10 +87,6 @@ export default class EnemyController implements Component {
             state = AI_State.Roaming
 
         return state
-    }
-
-    private getDamage(timeSinceLastFrame: number): number {
-        return -timeSinceLastFrame * 8 * this.self.attributes.strength.value
     }
 
     private isPlayerNear(): boolean {

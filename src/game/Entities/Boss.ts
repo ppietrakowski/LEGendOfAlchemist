@@ -16,18 +16,15 @@ export default class Boss extends Enemy {
         this.attributes.hp.value *= 5.2
         this.attributes.strength.value *= 5.2
         this.setScale(1.5, 1.5)
-
-        this.attributes.on(Attribute.CharacterDead, this.makeDead, this)
     }
 
     start(_scene: Phaser.Scene): void {
     }
 
-    makeDead(): void {
+    killed(): void {
         let player = this.getComponent<EnemyController>('enemy-movement').target
         let teleportStone = new TeleportStone(null, player.scene.add.sprite(this.x, this.y, 'teleport-stone'), this.teleportIndex)
         teleportStone.sprite.name = 'teleport-stone-' + this.teleportIndex
-        this.getComponent<HealthBar>('hp-bar').hide()
 
         // add event to throw item in place of enemey
         teleportStone.sprite.once(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {

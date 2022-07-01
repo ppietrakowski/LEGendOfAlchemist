@@ -43,11 +43,17 @@ export default class Crafting extends InventoryBase {
             this.items.push(field)
         }
 
-        this.craft = new Button(this, 660, 180, 'craft-item', () => { this.onCraft() })
-        this.craft.setScale(0.25, 0.25)
+        let image =  this.add.sprite(660, 180, 'craft-item')
 
-        this.back = new Button(this, 660, 205, 'exit', () => { this.onClose() })
-        this.back.setScale(0.25, 0.25)
+        this.craft = new Button(image)
+        this.craft.addClickListener(this.onCraft, this)
+        image.setScale(0.25, 0.25)
+
+        image = this.add.sprite(660, 205, 'exit')
+
+        this.back = new Button(image)
+        this.back.addClickListener(this.onClose, this)
+        image.setScale(0.25, 0.25)
     }
 
     update(_time: number, _delta: number): void {

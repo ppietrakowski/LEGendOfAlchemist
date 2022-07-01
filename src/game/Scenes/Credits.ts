@@ -2,10 +2,6 @@ import Phaser from 'phaser'
 import Button from '../Entities/Button'
 
 
-function onBack(this: Phaser.GameObjects.Sprite): void {
-    this.scene.game.scene.switch('Credits', 'MainMenu')
-}
-
 export default class Credits extends Phaser.Scene {
     private text: string
     private back: Button
@@ -39,8 +35,15 @@ export default class Credits extends Phaser.Scene {
     create(): void {
         this.add.image(0, 0, 'background').setOrigin(0, 0)
         this.add.text(50, 50, this.text, { fontFamily: 'pixellari', fontSize: '20px', color: '#111155', stroke: '#fff', strokeThickness: 1 })
-        this.back = new Button(this, 185, 500, 'back', onBack)
-        this.back.scaleX = 0.5
-        this.back.scaleY = 0.5
+        let sprite = this.add.sprite(185, 500, 'back')
+        this.back = new Button(sprite)
+        this.back.addClickListener(this.onBack, this)
+        sprite.scaleX = 0.5
+        sprite.scaleY = 0.5
     }
+
+    private onBack(): void {
+        this.game.scene.switch('Credits', 'MainMenu')
+    }
+
 }

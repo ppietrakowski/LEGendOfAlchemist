@@ -31,13 +31,10 @@ export default class InventoryUi extends InventoryBase {
     preload() {
         super.preload()
         this.keyI = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I)
-    }
-
-    update(_time: number, _delta: number): void {
-        if (this.keyI.isDown) {
+        this.keyI.on(Phaser.Input.Keyboard.Events.DOWN, () => {
             this.game.scene.game.scene.pause('Inventory')
             this.scene.setVisible(false)
             this.game.scene.game.scene.run('GameScene')
-        }
+        })
     }
 }

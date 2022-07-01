@@ -69,10 +69,7 @@ export abstract class GameBaseScene extends Phaser.Scene {
         let enemy = this.enemyFactory.getRandomEnemy(i % 4)
         this.enemies.push(enemy)
         enemy.attributes.on(Attribute.CharacterDead, () => {
-            console.log("dead !")
-            
             this.enemyKilled++
-            enemy.makeDead()
             this.deleteEnemy(enemy)
         }, this)
     }

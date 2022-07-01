@@ -2,27 +2,7 @@ import Phaser from 'phaser'
 import Button from '../Entities/Button'
 
 
-function onMainGameClicked(self: MainMenu): void {
-    self.onExit()
 
-    self.game.scene.stop('MainMenu')
-    self.game.scene.run('GameScene')
-}
-
-function onCreditsClicked(self: MainMenu): void {
-    self.game.scene.switch('MainMenu', 'Credits')
-}
-
-function onSoundClicked(self: MainMenu): void {
-    if (self.theme.isPlaying && !self.theme.isPaused) {
-        self.theme.stop()
-        self.music_button.setTexture('sound-off')
-    } else {
-        self.theme.play({ loop: true, delay: 0.25 })
-
-        self.music_button.setTexture('sound-on')
-    }
-}
 
 export default class MainMenu extends Phaser.Scene {
     private buttons: Button[]
@@ -40,10 +20,14 @@ export default class MainMenu extends Phaser.Scene {
         this.add.image(0, 0, 'background').setOrigin(0, 0)
         this.add.image(this.scale.width / 2, 100, 'logo')
 
-        this.buttons.push(new Button(this, this.scale.width / 2, 125 + 120, 'play', () => onMainGameClicked(this)))
-        this.buttons.push(new Button(this, this.scale.width / 2, 125 + 255, 'credits', () => onCreditsClicked(this)))
-        this.music_button = new Button(this, this.scale.width - 70, this.scale.height - 70, 'sound-on', () => onSoundClicked(this))
+        this.buttons.push(new Button(this.add.sprite(this.scale.width / 2, 125 + 120, 'play')))
+        this.buttons.push(new Button(this.add.sprite(this.scale.width / 2, 125 + 255, 'credits')))
+        this.music_button = new Button(this.add.sprite(this.scale.width - 70, this.scale.height - 70, 'sound-on'))
         this.buttons.push(this.music_button)
+
+        this.buttons[0].addClickListener(this.onMainGameClicked, this)
+        this.buttons[1].addClickListener(this.onCreditsClicked, this)
+        this.buttons[2].addClickListener(this.onSoundClicked, this)
 
         let text = `
         Use arrows to move around
@@ -53,6 +37,29 @@ export default class MainMenu extends Phaser.Scene {
         `
 
         this.add.text(-20, 400, text, { fontFamily: 'pixellari', fontSize: '20px', color: '#000000', stroke: '#fff', strokeThickness: 1 })
+    }
+
+    onMainGameClicked(): void {
+        this.onExit()
+
+        this.game.scene.stop('MainMenu')
+        this.game.scene.run('GameScene')
+    }
+
+    onCreditsClicked(): void {
+        this.game.scene.switch('MainMenu', 'Credits')
+    }
+
+    onSoundClicked(): void {
+        if (this.theme.isPlaying && !this.theme.isPaused) {
+            this.theme.stop()
+            this.music_button.setNewImage(this.add.sprite(this.scale.width - 70, this.scale.height - 70, 'sound-off'))
+        } else {
+            this.theme.play({ loop: true, delay: 0.25 })
+            this.music_button.setNewImage(this.add.sprite(this.scale.width - 70, this.scale.height - 70, 'sound-on'))
+        }
+
+        this.music_button.addClickListener(this.onSoundClicked, this)
     }
 
     onExit(): void {

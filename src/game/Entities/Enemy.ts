@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import Attribute from '../Components/Attribute'
 import EnemyController from '../Components/EnemyController'
 import HealthBar from '../Components/HealthBar'
 import Character from './Character'
@@ -14,21 +15,20 @@ export default class Enemy extends Character {
         this.start(scene)
         this.addComponent(new EnemyController(player, maxRange))
         this.addComponent(new HealthBar(player, 100))
+
+
+        this.attributes.on(Attribute.CharacterDead, this.killed, this)
     }
 
     start(_scene: Phaser.Scene): void {
     }
 
-    makeDead(): void {
+    killed(): void {
         let player = this.getComponent<EnemyController>('enemy-movement').target
-        let ingredient = getItemWithRandomEffect(this.x, this.y, this.scene) as Ingredient
-
-        this.getComponent<HealthBar>('hp-bar').hide()
+        let ingredient = getItemWithRandomEffect(this.x, this.y, player.scene) as Ingredient
 
         // add event to throw item in place of enemy
-        ingredient.sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, (pointer: Phaser.Input.Pointer) => {
-            player.inventory.addItem(ingredient)
-        });
+        ingredient.sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, (pointer: Phaser.Input.Pointer) => player.inventory.addItem(ingredient));
 
         this.destroy(true)
     }

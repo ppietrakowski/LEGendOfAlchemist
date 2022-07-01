@@ -39,6 +39,11 @@ export default class CharacterInfo extends Scene {
         this.container.add(this.add.text(10, 140, `strength: ${Math.round(this.player.attributes.strength.value)}`))
         this.container.add(this.add.text(10, 160, `wisdom: ${Math.round(this.player.attributes.wisdom.value)}`))
         this.container.add(this.add.text(10, 180, `killed monsters: ${(this.game.scene.getScene('GameScene') as GameScene).enemyKilled}`))
-        this.container.add(new Button(this, 60, 220, 'back', () => onBack(this)).setScale(0.25, 0.25))
+
+        let image = this.add.sprite(60, 220, 'back')
+        let button = new Button(image)
+        button.addClickListener(onBack, this)
+
+        this.container.add(image.setScale(0.25, 0.25))
     }
 }

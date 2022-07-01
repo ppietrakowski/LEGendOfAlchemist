@@ -19,12 +19,17 @@ export default class Inventory implements Component {
     }
 
     start(character: Character): void {
-        let {keyboard} = character.scene.input
+        let { keyboard } = character.scene.input
 
         this.owner = character
         this.items = []
 
         this.keyI = keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I)
+        this.keyI.on(Phaser.Input.Keyboard.Events.DOWN, () => {
+            this.ui.game.scene.game.scene.run('Inventory')
+            this.ui.scene.setVisible(true)
+            this.ui.game.scene.game.scene.pause('GameScene')
+        })
 
         // use this as inventory when clicked I and when crafting
         this.ui.inventory = this
@@ -37,14 +42,14 @@ export default class Inventory implements Component {
 
     addItem(item: Item) {
 
-        if (this.hasFreeSpace()) {
+        if (this.hasFreeSpace())
             this.addOnFreeSpace(item)
-        } else
+        else
             this.showCannotGatherInfo()
     }
 
     showCannotGatherInfo(): void {
-        let {scene} = this.owner
+        let { scene } = this.owner
         addInformationText(scene, this.owner.x, this.owner.y, 'I don\'t have enough space to gather this item', (text: Phaser.GameObjects.GameObject) => text.destroy())
     }
 
@@ -76,11 +81,6 @@ export default class Inventory implements Component {
     }
 
     update(_timeSinceLastFrame: number): void {
-        if (this.keyI.isDown) {
-            this.ui.game.scene.game.scene.run('Inventory')
-            this.ui.scene.setVisible(true)
-            this.ui.game.scene.game.scene.pause('GameScene')
-        }
     }
 
     get ui(): InventoryUi {
