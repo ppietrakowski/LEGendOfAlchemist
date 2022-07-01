@@ -30,6 +30,6 @@ export default class Enemy extends Character {
             player.inventory.addItem(ingredient)
         });
 
-        this.destroy()
+        this.destroy(true)
     }
 }

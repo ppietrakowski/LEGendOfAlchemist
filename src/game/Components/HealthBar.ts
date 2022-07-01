@@ -1,6 +1,8 @@
 import Phaser from 'phaser'
+import ChangeableAttribute from '../ChangeableAttribute'
 import Character from '../Entities/Character'
 import Player from '../Entities/Player'
+import Attribute from './Attribute'
 import Component from './Component'
 
 
@@ -22,18 +24,18 @@ export default class HealthBar implements Component {
     }
 
     start(character: Character): void {
-        let {attributes} = character
+        let { attributes } = character
 
         this.self = character
-        this.hpMax = this.self.attributes.hp
+        this.hpMax = this.self.attributes.hp.value
 
-        this.text = character.scene.add.text(character.x, character.y - 2 * this.self.width, attributes.hp.toString(), { fontFamily: 'pixellari', color: '#ffffff', backgroundColor: '#880000' })
+        this.text = character.scene.add.text(character.x, character.y - 2 * this.self.width, attributes.hp.value.toString(), { fontFamily: 'pixellari', color: '#ffffff', backgroundColor: '#880000' })
         this.text.setVisible(false)
+
+        this.addHealthChangedListener()
     }
 
-    update(timeSinceLastFrame: number): void {
-        this.updateHealthOnIncrease()
-
+    update(_timeSinceLastFrame: number): void {
         if (this.self.isNearObject(this.player, this.range))
             this.show()
         else
@@ -43,15 +45,20 @@ export default class HealthBar implements Component {
     private show(): void {
         this.text.setVisible(true)
         this.text.setPosition(this.self.x, this.self.y - 1.5 * this.self.width)
-        this.text.setText(Math.round(this.self.attributes.hp).toString() + "/" + Math.round(this.hpMax))
     }
 
-    updateHealthOnIncrease(): void {
-        if (this.self.attributes.hp >= this.hpMax)
-            this.hpMax = this.self.attributes.hp
+    healthUpdated(): void {
+        if (this.self.attributes.hp.value >= this.hpMax)
+            this.hpMax = this.self.attributes.hp.value
+        this.text.setText(Math.round(this.self.attributes.hp.value).toString() + "/" + Math.round(this.hpMax))
     }
 
     hide(): void {
         this.text.setVisible(false)
+    }
+
+    protected addHealthChangedListener() {
+        let { attributes } = this.self
+        attributes.hp.addListener(ChangeableAttribute.AttributeChanged, this.healthUpdated, this)
     }
 }

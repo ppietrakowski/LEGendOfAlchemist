@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import Attribute from '../Components/Attribute'
 import EnemyController from '../Components/EnemyController'
 import HealthBar from '../Components/HealthBar'
 import Enemy from './Enemy'
@@ -12,9 +13,11 @@ export default class Boss extends Enemy {
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string | Phaser.Textures.Texture, name: string, maxRange: number, player: Player, public readonly teleportIndex: number) {
         super(scene, x, y, texture, name, maxRange, player)
         // make it significant tougher than default enemy
-        this.attributes.hp *= 5.2
-        this.attributes.strength *= 5.2
+        this.attributes.hp.value *= 5.2
+        this.attributes.strength.value *= 5.2
         this.setScale(1.5, 1.5)
+
+        this.attributes.on(Attribute.CharacterDead, this.makeDead, this)
     }
 
     start(_scene: Phaser.Scene): void {

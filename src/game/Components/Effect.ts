@@ -2,11 +2,14 @@ import Character from '../Entities/Character'
 import Component from './Component'
 
 
-export default class Effect implements Component {
+export default class Effect extends Phaser.Events.EventEmitter implements Component {
     character: Character
     private timePassed: number
 
+    static EffectEnded = 'Ended'
+
     constructor(public deltaHp: number, public deltaStrength: number, public deltaWisdom: number, public readonly duration: number) {
+        super()
         this.timePassed = 0
     }
 
@@ -22,12 +25,15 @@ export default class Effect implements Component {
         this.timePassed += timeSinceLastFrame
         let {attributes} = this.character
 
-        attributes.hp += this.deltaHp * timeSinceLastFrame
-        attributes.wisdom += this.deltaWisdom * timeSinceLastFrame
-        attributes.strength += this.deltaStrength * timeSinceLastFrame
+        attributes.hp.value += this.deltaHp * timeSinceLastFrame
+        attributes.wisdom.value += this.deltaWisdom * timeSinceLastFrame
+        attributes.strength.value += this.deltaStrength * timeSinceLastFrame
+
+        if (this.hasTimePassed())
+            this.emit(Effect.EffectEnded, this)
     }
 
-    public hasTimePassed(): boolean {
+    private hasTimePassed(): boolean {
         return this.timePassed >= this.duration
     }
 }

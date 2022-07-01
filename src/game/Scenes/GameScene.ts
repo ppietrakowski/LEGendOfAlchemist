@@ -54,8 +54,6 @@ export default class GameScene extends GameBaseScene {
 
         this.player.update(delta / 1000)
         super.update(time, delta)
-        if (this.player.isDead())
-            this.player.makeDead()
     }
 
     private playNextMusic(): void {

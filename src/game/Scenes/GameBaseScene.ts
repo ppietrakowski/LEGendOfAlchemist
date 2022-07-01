@@ -3,6 +3,7 @@ import Enemy from '../Entities/Enemy'
 import Player from '../Entities/Player'
 import * as enemies from '../Entities/Enemies'
 import EnemyFactory from '../Entities/EnemyFactory'
+import Attribute from '../Components/Attribute'
 
 export abstract class GameBaseScene extends Phaser.Scene {
     enemies: Enemy[]
@@ -67,16 +68,17 @@ export abstract class GameBaseScene extends Phaser.Scene {
     protected addEnemy(i: number): void {
         let enemy = this.enemyFactory.getRandomEnemy(i % 4)
         this.enemies.push(enemy)
+        enemy.attributes.on(Attribute.CharacterDead, () => {
+            console.log("dead !")
+            
+            this.enemyKilled++
+            enemy.makeDead()
+            this.deleteEnemy(enemy)
+        }, this)
     }
 
     protected updateEnemy(enemy: Enemy, deltaTime: number): void {
         enemy.update(deltaTime / 1000)
-
-        if (enemy.isDead()) {
-            this.enemyKilled++
-            enemy.makeDead()
-            this.deleteEnemy(enemy)
-        }
     }
 
     protected deleteEnemy(enemy: Enemy) {

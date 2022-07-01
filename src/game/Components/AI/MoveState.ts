@@ -5,13 +5,15 @@ import { RoamState } from "./RoamState";
 export class MoveState extends EnemyState {
     constructor (controller: EnemyController, private readonly endPosition: Phaser.Math.Vector2) {
         super(controller)
+
+        this.owner.once(Phaser.Physics.Arcade.Events.TILE_COLLIDE, () => this.controller.switchToNewState(new RoamState(this.controller)), this)
     }
     
     stateStarted(): void {
     }    
 
     update(_deltaTime: number): void {
-        if (this.isNearTarget() || !this.owner.body.touching.none)
+        if (this.isNearTarget())
             this.controller.switchToNewState(new RoamState(this.controller))
     }
 

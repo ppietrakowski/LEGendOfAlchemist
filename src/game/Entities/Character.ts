@@ -8,7 +8,7 @@ interface ComponentDictionary {
 }
 
 export default abstract class Character extends Phaser.Physics.Arcade.Sprite {
-    private components: ComponentDictionary
+    protected components: ComponentDictionary
     hasAttacked: boolean
 
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string | Phaser.Textures.Texture, frame: string | number) {
@@ -41,12 +41,6 @@ export default abstract class Character extends Phaser.Physics.Arcade.Sprite {
 
     get attributes(): Attribute {
         return this.getComponent<Attribute>('attributes')
-    }
-
-    abstract makeDead(): void
-
-    isDead(): boolean {
-        return !this.attributes.isAlive()
     }
 
     isNear(point: Phaser.Math.Vector2, maxTolerance: number = 1): boolean {

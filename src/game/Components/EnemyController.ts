@@ -58,26 +58,13 @@ export default class EnemyController implements Component {
         this.currentState.stateStarted()
 
         this.hitSound = this.self.scene.sound.add('player-slap')
+        console.log(character)
     }
 
     update(timeSinceLastFrame: number): void {
         this.state = this.getNextState()
 
         this.currentState.update(timeSinceLastFrame)
-
-        /*
-        if (this.state === AI_State.DuringMove)
-            this.onMoving()
-        if (this.state === AI_State.Roaming)
-            this.onRoam()
-        else if (this.state === AI_State.Chasing)
-            this.onChase()
-        else if (this.state === AI_State.Attack)
-            this.onAttack(timeSinceLastFrame)
-        else if (this.state === AI_State.Aborted)
-            this.onAbort()
-
-        */
     }
 
     switchToNewState(state: EnemyState) {
@@ -104,7 +91,7 @@ export default class EnemyController implements Component {
     }
 
     private getDamage(timeSinceLastFrame: number): number {
-        return -timeSinceLastFrame * 8 * this.self.attributes.strength
+        return -timeSinceLastFrame * 8 * this.self.attributes.strength.value
     }
 
     private isPlayerNear(): boolean {

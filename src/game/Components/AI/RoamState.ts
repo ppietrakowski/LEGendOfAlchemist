@@ -30,7 +30,5 @@ export class RoamState extends EnemyState {
         this.playMoveAnim()
 
         this.controller.switchToNewState(new MoveState(this.controller, this.endPosition))
-
-        console.log(`Switching to move state`)
     }
 }

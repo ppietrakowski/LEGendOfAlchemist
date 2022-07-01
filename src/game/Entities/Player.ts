@@ -23,6 +23,8 @@ export default class Player extends Character {
         this.scene.cameras.main.startFollow(this, true, 0.08, 0.08)
 
         this.start()
+
+        this.attributes.on(Attribute.CharacterDead, this.makeDead, this)
     }
 
     get inventory(): Inventory {
