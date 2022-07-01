@@ -81,7 +81,7 @@ export abstract class GameBaseScene extends Phaser.Scene {
     }
 
     protected updateEnemy(enemy: Enemy, deltaTime: number): void {
-        enemy.update(deltaTime / 1000)
+        enemy.update(deltaTime)
     }
 
     protected deleteEnemy(enemy: Enemy) {

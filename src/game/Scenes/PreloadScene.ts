@@ -49,12 +49,7 @@ export default class PreloadScene extends Phaser.Scene {
         this.game.scene.run('Inventory')
         this.game.scene.getScene('Inventory').scene.setVisible(false)
 
-        this.game.scene.run('Crafting')
-        this.game.scene.getScene('Crafting').scene.setVisible(false)
-
-
         this.game.scene.pause('Inventory')
-        this.game.scene.pause('Crafting')
         this.game.scene.run('MainMenu')
     }
 

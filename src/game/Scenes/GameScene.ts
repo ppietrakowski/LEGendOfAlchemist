@@ -1,19 +1,15 @@
 import Phaser from 'phaser'
-import { getItemWithRandomEffect } from '../Entities/Items'
 import Portal from '../Entities/Portal'
 import { GameBaseScene } from './GameBaseScene'
 import InventoryUi from './InventoryUi'
-import { addInformationText, runAndPause, spawnGameobjectAtTile } from './SceneUtils'
 
-
+import BushSpawner from './BushSpawner'
 
 
 export default class GameScene extends GameBaseScene {
-    portals: Portal[]
-    keyC: Phaser.Input.Keyboard.Key
-    keyTab: Phaser.Input.Keyboard.Key
-    music: Phaser.Sound.BaseSound[]
-    currentMusic: Phaser.Sound.BaseSound
+    private portals: Portal[]
+    private music: Phaser.Sound.BaseSound[]
+    private currentMusic: Phaser.Sound.BaseSound
     private keyI: Phaser.Input.Keyboard.Key
 
     constructor() {
@@ -32,23 +28,13 @@ export default class GameScene extends GameBaseScene {
         this.addCollisionWithPortal(this.player)
         this.putItems()
 
-        this.keyC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C)
-        this.keyTab = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TAB)
-
-        this.music = []
-        this.music.push(this.sound.add('roam2'))
-        this.music.push(this.sound.add('roam1'))
-        this.music.push(this.sound.add('attack'))
-
-
-        this.scene.scene.children.bringToTop(this.player)
-        this.currentMusic = this.music[0]
-        this.currentMusic.play({volume: 0.2})
+        this.children.bringToTop(this.player)
+        this.initializeMusic()
 
         this.addEnemies()
 
         this.keyI = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I)
-        
+
         this.keyI.on(Phaser.Input.Keyboard.Events.DOWN, () => {
             this.game.scene.game.scene.run('Inventory')
             this.player.scene.game.scene.getScene('Inventory').scene.setVisible(true)
@@ -60,15 +46,23 @@ export default class GameScene extends GameBaseScene {
         })
     }
 
+    private initializeMusic() {
+        this.music = [this.sound.add('roam2'), this.sound.add('roam1'), this.sound.add('attack')]
+
+        this.currentMusic = this.music[0]
+
+        this.currentMusic.on(Phaser.Sound.Events.STOP, this.playNextMusic, this)
+        this.currentMusic.play({ volume: 0.2 })
+    }
+
     update(time: number, delta: number): void {
+        /* Scale it to seconds */
+        delta *= 0.001
 
-        if (!this.currentMusic.isPlaying)
-            this.playNextMusic()
-
-        this.handleKeyEvents()
-
-        this.player.update(delta / 1000)
+        this.player.update(delta)
         super.update(time, delta)
+
+        console.log(1 / delta)
     }
 
     private playNextMusic(): void {
@@ -78,14 +72,6 @@ export default class GameScene extends GameBaseScene {
 
         this.currentMusic = this.music[i + 1]
         this.currentMusic.play({ delay: 0.7 })
-    }
-
-    private handleKeyEvents(): void {
-        if (this.keyC.isDown)
-            runAndPause(this.game, 'Crafting', 'GameScene')
-
-        if (this.keyTab.isDown)
-            runAndPause(this.game, 'CharacterInfo', 'GameScene')
     }
 
     protected addBoss(posX: number, posY: number, index: number, superboss: boolean = false) {
@@ -120,27 +106,7 @@ export default class GameScene extends GameBaseScene {
     }
 
     private putItems(): void {
-
-        // add 100 items 
-        for (let i = 0; i < 100; i++) {
-            let sprite = this.add.sprite(0, 0, 'bush')
-            spawnGameobjectAtTile(i % 4, sprite, this.seaLayer)
-            sprite.setInteractive({ pixelPerfect: true })
-
-            sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
-                if (this.player.inventory.hasFreeSpace())
-                    this.throwAway(sprite)
-                else
-                    this.showCannotGatherInfo()
-            });
-        }
-    }
-
-    private throwAway(sprite: Phaser.GameObjects.Sprite) {
-        let item = getItemWithRandomEffect(-10, -10, this)
-        
-        addInformationText(this, sprite.x, sprite.y, `You have received ${item.sprite.texture.key}`,
-            (text: Phaser.GameObjects.GameObject) => { text.destroy(); this.player.inventory.addItem(item) })
-        sprite.destroy(true)
+        const spawner = new BushSpawner(this, 100)
+        spawner.putItems(this.seaLayer)
     }
 }

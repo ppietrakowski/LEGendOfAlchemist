@@ -1,6 +1,4 @@
 import Phaser from 'phaser'
-import CharacterInfo from './game/Scenes/CharacterInfo'
-import Crafting from './game/Scenes/Crafting'
 import Credits from './game/Scenes/Credits'
 import DeadScene from './game/Scenes/DeadScene'
 import GameScene from './game/Scenes/GameScene'
@@ -34,7 +32,7 @@ class Game extends Phaser.Game {
             dom: {
                 createContainer: true
             },
-            pixelArt: true
+            pixelArt: true,
         })
 
         this.loadScenes()
@@ -46,8 +44,6 @@ class Game extends Phaser.Game {
         this.scene.add('DeadScene', DeadScene, false)
         this.scene.add('GameScene', GameScene, false)
         this.scene.add('Inventory', InventoryUi, false)
-        this.scene.add('Crafting', Crafting, false)
-        this.scene.add('CharacterInfo', CharacterInfo, false)
         this.scene.add('WinScene', WinScene, false)
     }
 }
