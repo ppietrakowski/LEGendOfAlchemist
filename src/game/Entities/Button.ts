@@ -26,8 +26,6 @@ export default class Button extends Phaser.Events.EventEmitter {
     }
 
     setNewImage(image: Phaser.GameObjects.Sprite) {
-        console.log("New button listener");
-        
         this.image.destroy()
         this.removeAllListeners(Button.Hover)
             .removeAllListeners(Button.UnHover)
