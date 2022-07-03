@@ -15,12 +15,12 @@ export default class ChangeableAttribute<T> extends Phaser.Events.EventEmitter {
      */
     static AttributeChanged = 'Changed'
 
-    constructor(protected property: T) { super() }
+    constructor(protected _property: T) { super() }
 
-    get value(): T { return this.property }
+    get value(): T { return this._property }
     set value(newValue: T) { 
-        let temp = this.property
-        this.property = newValue
-        this.emit(ChangeableAttribute.AttributeChanged, temp)
+        let temp = this._property
+        this._property = newValue
+        this.emit(ChangeableAttribute.AttributeChanged, this._property)
     }
 }

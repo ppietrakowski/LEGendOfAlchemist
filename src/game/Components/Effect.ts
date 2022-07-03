@@ -14,16 +14,16 @@ export default class Effect extends Phaser.Events.EventEmitter {
     }
 
     addTo(character: GameObject) {
-        character.scene.events.on(Phaser.Scenes.Events.UPDATE, this.update, this)
         this.attributes = character.attributes
     }
 
     update(_time: number, deltaTime: number): void {
-        this.timePassed += deltaTime * 0.01
+        deltaTime *= 0.01
+        this.timePassed += deltaTime
 
-        this.attributes.hp.value += this.deltaHp * deltaTime
-        this.attributes.wisdom.value += this.deltaWisdom * deltaTime
-        this.attributes.strength.value += this.deltaStrength * deltaTime
+        this.attributes.hp.value = this.attributes.hp.value + this.deltaHp * deltaTime
+        this.attributes.wisdom.value = this.attributes.wisdom.value + this.deltaWisdom * deltaTime
+        this.attributes.strength.value = this.attributes.strength.value + this.deltaStrength * deltaTime
 
         if (this.hasTimePassed())
             this.emit(Effect.EFFECT_ENDED, this)

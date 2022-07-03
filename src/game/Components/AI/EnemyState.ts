@@ -1,15 +1,18 @@
 
 import GameObject from '../../Entities/GameObject'
-import EnemyController from './../EnemyController'
+import Controller from '../Controller'
+import {AI_State} from './AI_State'
 
 export abstract class EnemyState {
-    constructor (protected readonly controller: EnemyController, protected readonly owner: GameObject) {
+    constructor (protected readonly controller: Controller, protected readonly owner: GameObject) {
     }
 
     abstract stateStarted(): void
     stateClosed(): void {}
 
     update(_deltaTime: number) {}
+
+    abstract getState(): AI_State
 
     protected playMoveAnim(): void {
         let {velocity} = this.owner.body

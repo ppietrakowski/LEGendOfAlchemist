@@ -1,8 +1,10 @@
 
 import GameObject from "../../Entities/GameObject";
+import Controller from "../Controller";
 import EnemyController from "../EnemyController";
 import { EnemyState } from "./EnemyState";
 import { MoveState } from "./MoveState";
+import {AI_State} from './AI_State'
 
 export function getRandomVector(): Phaser.Math.Vector2 {
     return new Phaser.Math.Vector2(Phaser.Math.Between(-1, 1), Phaser.Math.Between(-1, 1)).normalize()
@@ -16,10 +18,13 @@ export function getRoamingPosition(startPos: Phaser.Math.Vector2): Phaser.Math.V
 }
 
 export class RoamState extends EnemyState {
+    getState(): AI_State {
+        return AI_State.Roaming
+    }
 
     private readonly endPosition: Phaser.Math.Vector2
 
-    constructor(controller: EnemyController, owner: GameObject) {
+    constructor(controller: Controller, owner: GameObject) {
         super(controller, owner)
         this.endPosition = getRoamingPosition(this.owner.body.position)
     }

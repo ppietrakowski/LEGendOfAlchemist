@@ -24,6 +24,7 @@ export default class Attribute extends Phaser.Events.EventEmitter implements Com
         this.effects = []
 
         addToUpdateList(character.scene, this.update, this)
+        this.hp.on(ChangeableAttribute.AttributeChanged, this.checkIsAlive, this)
     }
 
     getName(): string {
@@ -31,8 +32,8 @@ export default class Attribute extends Phaser.Events.EventEmitter implements Com
     }
 
     update(_time: number, _deltaTime: number): void {
-        if (!this.isAlive())
-            this.emit(Attribute.CHARACTER_DEAD, this)
+        for (const effect of this.effects)
+            effect.update(_time, _deltaTime)
     }
 
     addEffect(effect: Effect): void {
@@ -40,6 +41,11 @@ export default class Attribute extends Phaser.Events.EventEmitter implements Com
 
         effect.on(Effect.EFFECT_ENDED, this.deleteEffect, this)
         this.effects.push(effect)
+    }
+
+    private checkIsAlive(): void {
+        if (!this.isAlive())
+            this.emit(Attribute.CHARACTER_DEAD, this)
     }
 
     private isAlive(): boolean {
