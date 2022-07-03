@@ -1,5 +1,5 @@
 import Effect from "../Components/Effect"
-import Character from "./Character"
+import GameObject from "./GameObject"
 import Item from "./Item"
 
 
@@ -8,6 +8,6 @@ export default class TeleportStone extends Item {
         super(effect, sprite)
     }
 
-    used(_character: Character): void {
+    used(_character: GameObject): void {
     }
 }

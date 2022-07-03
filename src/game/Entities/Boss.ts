@@ -20,8 +20,8 @@ export default class Boss extends Enemy {
     }
 
     protected killed(): void {
-        let player = this.getComponent<EnemyController>('enemy-movement').target
-        let teleportStone = new TeleportStone(null, player.scene.add.image(this.x, this.y, 'teleport-stone'), this.teleportIndex)
+        const player = this.getComponent<EnemyController>('enemy-movement').player
+        const teleportStone = new TeleportStone(null, player.scene.add.image(this.x, this.y, 'teleport-stone'), this.teleportIndex)
         teleportStone.image.name = 'teleport-stone-' + this.teleportIndex
 
         // add event to throw item in place of enemey

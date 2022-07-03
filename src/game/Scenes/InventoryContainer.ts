@@ -10,7 +10,8 @@ const marginBetweenTwoElements = 16
 
 export default class InventoryContainer extends Phaser.GameObjects.Container {
     private readonly maxRow: number = 5
-    private itemInfo: Phaser.GameObjects.Text
+    private readonly itemInfo: Phaser.GameObjects.Text
+
     private currentRow = 0
     private heigth = 72
 
@@ -21,7 +22,7 @@ export default class InventoryContainer extends Phaser.GameObjects.Container {
 
         this.scene.add.existing(this)
         this.itemInfo = this.scene.add.text(0, 0, '', { fontFamily: 'pixellari', padding: { bottom: 3, left: 3 }, backgroundColor: '#111122' })
-        this.scene.game.events.on(InventoryBase.InventoryClosed, () => this.itemInfo.setVisible(false))
+        this.scene.game.events.on(InventoryBase.INVENTORY_CLOSED, () => this.itemInfo.setVisible(false))
     }
 
     public updatePosition() {

@@ -1,9 +1,8 @@
 import Phaser from 'phaser'
 import Button from '../Entities/Button'
-import MainMenu from './MainMenu'
 
 export default class DeadScene extends Phaser.Scene {
-    back: Button;
+    private back: Button;
 
     constructor() {
         super('DeadScene')
@@ -16,8 +15,8 @@ export default class DeadScene extends Phaser.Scene {
         this.back.addClickListener(this.onButtonPressed, this)
     }
 
-    onButtonPressed(this: Phaser.GameObjects.Sprite): void {
-        let {scene} = this.scene.game
+    private onButtonPressed(): void {
+        const {scene} = this.game
     
         scene.switch('DeadScene', 'MainMenu');
     }

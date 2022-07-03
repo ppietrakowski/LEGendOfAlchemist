@@ -17,7 +17,7 @@ export default class InventoryUi extends InventoryBase {
         this.keyI.on(Phaser.Input.Keyboard.Events.DOWN, () => {
             this.scene.setVisible(false)
             this.scene.pause(this.scene.key)
-            this.game.events.emit(InventoryUi.InventoryClosed)
+            this.game.events.emit(InventoryUi.INVENTORY_CLOSED)
         })
     }
 
@@ -26,6 +26,7 @@ export default class InventoryUi extends InventoryBase {
 
         this.container.add(item.image)
         item.image.setScrollFactor(0)
+
         if (item.image.texture.key !== 'teleport-stone')
             this.container.addItemInfo(item.image, item.effect)
         else

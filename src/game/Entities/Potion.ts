@@ -1,5 +1,5 @@
 import Effect from "../Components/Effect"
-import Character from "./Character"
+import GameObject from "./GameObject"
 import Item from "./Item"
 
 
@@ -9,7 +9,7 @@ export default class Potion extends Item {
         this.image.setInteractive({ pixelPerfect: true })
     }
 
-    used(character: Character): void {
+    used(character: GameObject): void {
         character.attributes.addEffect(this.effect)
         this.image.destroy()
     }

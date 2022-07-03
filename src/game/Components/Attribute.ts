@@ -1,19 +1,19 @@
-import Character from '../Entities/Character'
-import Component from './Component'
+import GameObject from '../Entities/GameObject'
+import {Component, addToUpdateList} from './Component'
 import Effect from './Effect'
 import ChangeableAttribute from '../ChangeableAttribute'
 
 export default class Attribute extends Phaser.Events.EventEmitter implements Component {
-    private readonly character: Character
+    private readonly character: GameObject
     private effects: Effect[]
 
-    static readonly CharacterDead = 'Dead'
+    static readonly CHARACTER_DEAD = 'Dead'
 
     readonly hp: ChangeableAttribute<number>
     readonly strength: ChangeableAttribute<number>
     readonly wisdom: ChangeableAttribute<number>
 
-    constructor(character: Character, hp: number, strength: number, wisdom: number) {
+    constructor(character: GameObject, hp: number, strength: number, wisdom: number) {
         super()
 
         this.hp = new ChangeableAttribute(hp)
@@ -23,7 +23,7 @@ export default class Attribute extends Phaser.Events.EventEmitter implements Com
         this.character = character
         this.effects = []
 
-        character.scene.events.on(Phaser.Scenes.Events.UPDATE, this.update, this)
+        addToUpdateList(character.scene, this.update, this)
     }
 
     getName(): string {
@@ -32,13 +32,13 @@ export default class Attribute extends Phaser.Events.EventEmitter implements Com
 
     update(_time: number, _deltaTime: number): void {
         if (!this.isAlive())
-            this.emit(Attribute.CharacterDead, this)
+            this.emit(Attribute.CHARACTER_DEAD, this)
     }
 
     addEffect(effect: Effect): void {
-        effect.start(this.character)
+        effect.addTo(this.character)
 
-        effect.on(Effect.EffectEnded, this.deleteEffect, this)
+        effect.on(Effect.EFFECT_ENDED, this.deleteEffect, this)
         this.effects.push(effect)
     }
 

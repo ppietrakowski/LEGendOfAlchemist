@@ -9,12 +9,15 @@ import DefaultMusicPlayer from '../DefaultMusicPlayer'
 import MusicPlayer from '../MusicPlayer'
 
 export default class GameScene extends GameBaseScene {
-    private portals: Portal[]
+    private readonly portals: Portal[]
+    private readonly musicPlayer: MusicPlayer
+
     private keyI: Phaser.Input.Keyboard.Key
-    private readonly musicPlayer: MusicPlayer = new DefaultMusicPlayer()
 
     constructor() {
         super('GameScene')
+        this.portals = []
+        this.musicPlayer = new DefaultMusicPlayer()
     }
 
     create(): void {
@@ -24,7 +27,7 @@ export default class GameScene extends GameBaseScene {
 
         this.addKeyListener()
 
-        this.game.events.on(InventoryUi.InventoryClosed, () => {
+        this.game.events.on(InventoryUi.INVENTORY_CLOSED, () => {
             this.scene.resume(this.scene.key)
         })
     }
@@ -76,8 +79,6 @@ export default class GameScene extends GameBaseScene {
     }
 
     private addPortals() {
-        this.portals = []
-
         this.addPortal(50, 61, 183, 5, 0)
         this.addPortal(134, 64, 159, 123, 1)
         this.addPortal(51, 108, 79, 65, 2)

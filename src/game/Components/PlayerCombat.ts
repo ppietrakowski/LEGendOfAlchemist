@@ -1,8 +1,7 @@
 import Phaser from 'phaser'
-import Character from '../Entities/Character'
 import Enemy from '../Entities/Enemy'
 import Player from '../Entities/Player'
-import Component from './Component'
+import {Component, addToUpdateList } from './Component'
 import Effect from './Effect'
 
 
@@ -14,7 +13,7 @@ export default class PlayerCombat implements Component {
         this.deltaTime = 0
         this.attacked = false
 
-        player.scene.events.on(Phaser.Scenes.Events.UPDATE, (sys: any, time: number, deltaTime: number) => this.deltaTime = deltaTime, this)
+        addToUpdateList(this.player.scene, (_time: number, deltaTime: number) => this.deltaTime = deltaTime, this)
     }
 
     getName(): string {

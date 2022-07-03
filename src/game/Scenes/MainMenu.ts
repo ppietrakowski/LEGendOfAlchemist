@@ -5,7 +5,7 @@ import Button from '../Entities/Button'
 
 
 export default class MainMenu extends Phaser.Scene {
-    private buttons: Button[]
+    private readonly buttons: Button[]
     private theme: Phaser.Sound.BaseSound
     private music_button: Button
 
@@ -39,18 +39,18 @@ export default class MainMenu extends Phaser.Scene {
         this.add.text(-20, 400, text, { fontFamily: 'pixellari', fontSize: '20px', color: '#000000', stroke: '#fff', strokeThickness: 1 })
     }
 
-    onMainGameClicked(): void {
+    private onMainGameClicked(): void {
         this.onExit()
 
         this.game.scene.stop('MainMenu')
         this.game.scene.run('GameScene')
     }
 
-    onCreditsClicked(): void {
+    private onCreditsClicked(): void {
         this.game.scene.switch('MainMenu', 'Credits')
     }
 
-    onSoundClicked(): void {
+    private onSoundClicked(): void {
         if (this.theme.isPlaying && !this.theme.isPaused) {
             this.theme.stop()
             this.music_button.setNewImage(this.add.sprite(this.scale.width - 70, this.scale.height - 70, 'sound-off'))
@@ -62,7 +62,7 @@ export default class MainMenu extends Phaser.Scene {
         this.music_button.addClickListener(this.onSoundClicked, this)
     }
 
-    onExit(): void {
+    private onExit(): void {
         this.theme.destroy()
     }
 

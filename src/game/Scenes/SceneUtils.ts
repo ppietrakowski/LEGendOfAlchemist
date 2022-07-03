@@ -1,7 +1,5 @@
 import Phaser from "phaser";
 
-
-
 type Vector2Like = {
     x: number;
     y: number;

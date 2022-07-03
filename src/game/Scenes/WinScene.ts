@@ -1,9 +1,6 @@
 import Button from "../Entities/Button"
-import MainMenu from "./MainMenu"
-
 
 export default class WinScene extends Phaser.Scene {
-
     private back: Button
 
     constructor() {

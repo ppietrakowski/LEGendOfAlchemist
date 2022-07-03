@@ -1,6 +1,4 @@
 
-import EnemyController from '../Components/EnemyController'
-import GameScene from '../Scenes/GameScene'
 import Boss from './Boss'
 import Player from './Player'
 

@@ -1,10 +1,10 @@
-import Character from "../../Entities/Character";
+import GameObject from "../../Entities/GameObject";
 import EnemyController from "../EnemyController";
 import { EnemyState } from "./EnemyState";
 import { RoamState } from "./RoamState";
 
 export class MoveState extends EnemyState {
-    constructor (controller: EnemyController, owner: Character, private readonly endPosition: Phaser.Math.Vector2) {
+    constructor (controller: EnemyController, owner: GameObject, private readonly endPosition: Phaser.Math.Vector2) {
         super(controller, owner)
     }
     

@@ -7,18 +7,22 @@ import Attribute from '../Components/Attribute'
 import { addInformationText } from './SceneUtils'
 
 export abstract class GameBaseScene extends Phaser.Scene {
-    protected enemies: Enemy[]
+    
     protected map: Phaser.Tilemaps.Tilemap
     protected tileset: Phaser.Tilemaps.Tileset
     protected seaLayer: Phaser.Tilemaps.TilemapLayer
-    protected enemyFactory: EnemyFactory
+    
     protected player: Player
+    
+    protected enemyFactory: EnemyFactory
+    protected enemies: Enemy[]
     protected enemyKilled = 0
 
     get killStatistics() { return this.enemyKilled }
 
     constructor(key: string) {
         super(key)
+        this.enemies = []
     }
 
     preload() {
@@ -44,7 +48,6 @@ export abstract class GameBaseScene extends Phaser.Scene {
     }
 
     protected addEnemies() {
-        this.enemies = []
         const MaxNormalEnemies = 50
 
         for (let i = 0; i < MaxNormalEnemies; i++)
@@ -67,9 +70,9 @@ export abstract class GameBaseScene extends Phaser.Scene {
     }
 
     protected addEnemy(i: number): void {
-        let enemy = this.enemyFactory.getRandomEnemy(i % 4)
+        const enemy = this.enemyFactory.getRandomEnemy(i % 4)
         this.enemies.push(enemy)
-        enemy.attributes.on(Attribute.CharacterDead, () => {
+        enemy.attributes.on(Attribute.CHARACTER_DEAD, () => {
             this.enemyKilled++
             this.deleteEnemy(enemy)
         }, this)
@@ -80,7 +83,6 @@ export abstract class GameBaseScene extends Phaser.Scene {
     }
 
     protected addCollisionWithSeaLayer(): void {
-
         const Sea = [0, 7]
         const Houses = [10, 15]
 

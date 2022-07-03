@@ -1,24 +1,22 @@
-import Character from '../Entities/Character'
+import GameObject from '../Entities/GameObject'
 import Player from '../Entities/Player'
 import HealthBar from './HealthBar'
-import ChangeableAttribute from '../ChangeableAttribute'
 
 export default class PlayerHealthBar extends HealthBar {
 
-    constructor(player: Player) {
-        super(player, 100)
+    constructor(owner: Player) {
+        super(owner, 100)
     }
 
-    start(character: Character): void {
-        this.text = character.scene.add.text(20, 20,
+    start(): void {
+        this.text = this.owner.scene.add.text(20, 20,
             this.player.attributes.hp.value.toString(), {
             fontFamily: 'pixellari', color: '#ffffff',
             backgroundColor: '#880000', fontSize: '16px'
         })
 
         this.text.setScrollFactor(0)
-        this.hpMax = character.attributes.hp.value
-        this.self = this.player
+        this.hpMax = this.owner.attributes.hp.value
 
         this.addHealthChangedListener()
     }

@@ -1,46 +1,40 @@
 import Phaser from 'phaser'
 import ChangeableAttribute from '../ChangeableAttribute'
-import Character from '../Entities/Character'
+import GameObject from '../Entities/GameObject'
 import Player from '../Entities/Player'
-import Attribute from './Attribute'
-import Component from './Component'
+import {Component, addToUpdateList } from './Component'
 
 
 export default class HealthBar implements Component {
     protected hpMax: number
-    private range: number
 
-    protected self: Character
     protected text: Phaser.GameObjects.Text
-    protected player: Player
+    protected readonly player: Player
     
-
-    constructor(player: Player, range: number) {
-        this.player = player
-        this.range = range
+    constructor(protected readonly owner: GameObject, private readonly range: number) {
     }
 
     getName(): string {
         return 'hp-bar'
     }
 
-    start(character: Character): void {
-        let { attributes } = character
+    protected start(): void {
+        const { attributes } = this.owner
+        const { scene } = this.owner
 
-        this.self = character
-        this.hpMax = this.self.attributes.hp.value
+        this.hpMax = this.owner.attributes.hp.value
 
-        this.text = character.scene.add.text(character.x, character.y - 2 * this.self.width, attributes.hp.value.toString(), { fontFamily: 'pixellari', color: '#ffffff', backgroundColor: '#880000' })
+        this.text = scene.add.text(this.owner.x, this.owner.y - 2 * this.owner.width, attributes.hp.value.toString(), { fontFamily: 'pixellari', color: '#ffffff', backgroundColor: '#880000' })
         this.text.setVisible(false)
 
         this.addHealthChangedListener()
 
-        character.on(Phaser.GameObjects.Events.DESTROY, () => this.text.destroy(), this)
-        character.scene.events.on(Phaser.Scenes.Events.UPDATE, this.update, this)
+        this.owner.on(Phaser.GameObjects.Events.DESTROY, () => this.text.destroy(), this)
+        addToUpdateList(this.owner.scene, this.update, this)
     }
 
     update(_time: number, _deltaTime: number): void {
-        if (this.self.isNearObject(this.player, this.range))
+        if (this.owner.isNearObject(this.player, this.range))
             this.show()
         else
             this.hide()
@@ -48,13 +42,13 @@ export default class HealthBar implements Component {
 
     private show(): void {
         this.text.setVisible(true)
-        this.text.setPosition(this.self.x, this.self.y - 1.5 * this.self.width)
+        this.text.setPosition(this.owner.x, this.owner.y - 1.5 * this.owner.width)
     }
 
     private healthUpdated(): void {
-        if (this.self.attributes.hp.value >= this.hpMax)
-            this.hpMax = this.self.attributes.hp.value
-        this.text.setText(Math.round(this.self.attributes.hp.value).toString() + "/" + Math.round(this.hpMax))
+        if (this.owner.attributes.hp.value >= this.hpMax)
+            this.hpMax = this.owner.attributes.hp.value
+        this.text.setText(Math.round(this.owner.attributes.hp.value).toString() + "/" + Math.round(this.hpMax))
     }
 
     private hide(): void {
@@ -62,7 +56,7 @@ export default class HealthBar implements Component {
     }
 
     protected addHealthChangedListener() {
-        let { attributes } = this.self
+        const { attributes } = this.owner
         attributes.hp.addListener(ChangeableAttribute.AttributeChanged, this.healthUpdated, this)
     }
 }

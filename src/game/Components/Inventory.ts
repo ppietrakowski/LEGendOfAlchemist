@@ -1,11 +1,11 @@
 
-import Character from '../Entities/Character'
+import GameObject from '../Entities/GameObject'
 import Item from './../Entities/Item'
-import Component from './Component'
+import {Component, addToUpdateList } from './Component'
 
 export interface InventoryStartEvent {
     inventory: Inventory,
-    owner: Character
+    owner: GameObject
 }
 
 export class Inventory extends Phaser.Events.EventEmitter implements Component {
@@ -14,24 +14,22 @@ export class Inventory extends Phaser.Events.EventEmitter implements Component {
     /*
      * Inventory event handlers name
      */
-    static readonly InventoryFull = "InventoryFull"
-    static readonly AddedItem = "AddedItem"
-    static readonly InventoryStart = "InventoryStart"
-    static readonly DeletedItem = "DeletedItem"
-    static readonly InventoryNeedUpdate = "InventoryNeedUpdate"
+    static readonly INVENTORY_FULL = "InventoryFull"
+    static readonly ADDED_ITEM = "AddedItem"
+    static readonly INVENTORY_START = "InventoryStart"
+    static readonly DELETED_ITEM = "DeletedItem"
+    static readonly INVENTORY_NEED_UPDATE = "InventoryNeedUpdate"
 
-    constructor(private readonly owner: Character) {
+    constructor(public readonly owner: GameObject) {
         super()
 
         this.items = []
-        owner.scene.game.events.emit(Inventory.InventoryStart, { inventory: this, owner: this.owner })
+        owner.scene.game.events.emit(Inventory.INVENTORY_START, { inventory: this, owner: this.owner })
     }
 
     getName(): string {
         return 'inventory'
     }
-
-    get currentOwner(): Character { return this.owner }
 
     getItem(index: number): Item {
         return this.items[index]
@@ -44,12 +42,7 @@ export class Inventory extends Phaser.Events.EventEmitter implements Component {
         if (this.hasFreeSpace())
             this.addOnFreeSpace(item)
         else
-            this.emit(Inventory.InventoryFull)
-    }
-
-    private addOnFreeSpace(item: Item) {
-        this.items.push(item)
-        this.emit(Inventory.AddedItem, item)
+            this.emit(Inventory.INVENTORY_FULL)
     }
 
     hasFreeSpace(): boolean {
@@ -62,11 +55,16 @@ export class Inventory extends Phaser.Events.EventEmitter implements Component {
                 this.removeItem(item, i)
         }
         
-        this.emit(Inventory.InventoryNeedUpdate, item.name)
+        this.emit(Inventory.INVENTORY_NEED_UPDATE, item.name)
+    }
+
+    private addOnFreeSpace(item: Item) {
+        this.items.push(item)
+        this.emit(Inventory.ADDED_ITEM, item)
     }
 
     private removeItem(item: Item, i: number): void {
-        this.emit(Inventory.DeletedItem, item)
+        this.emit(Inventory.DELETED_ITEM, item)
         this.items.splice(i, 1)
     }
 }

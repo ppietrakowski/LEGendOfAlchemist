@@ -5,10 +5,10 @@ import PlayerCombat from '../Components/PlayerCombat'
 import PlayerHealthBar from '../Components/PlayerHealthBar'
 import PlayerMovement from '../Components/PlayerMovement'
 import { GameBaseScene } from '../Scenes/GameBaseScene'
-import Character from './Character'
+import GameObject from './GameObject'
 
 
-export default class Player extends Character {
+export default class Player extends GameObject {
     constructor(public gameScene: GameBaseScene, x: number, y: number, texture: string | Phaser.Textures.Texture) {
         super(gameScene, x, y, texture, 0)
         this.setName('player')
@@ -16,14 +16,14 @@ export default class Player extends Character {
         this.addComponent(new PlayerHealthBar(this))
         this.addComponent(new PlayerCombat(this))
         this.addComponent(new Inventory(this))
-        this.addComponent(new PlayerMovement(new Phaser.Math.Vector2(190, 190)))
+        this.addComponent(new PlayerMovement(this, new Phaser.Math.Vector2(190, 190)))
 
         this.setScrollFactor(1)
 
         this.scene.cameras.main.startFollow(this, true, 0.08, 0.08)
 
-        this.attributes.on(Attribute.CharacterDead, this.makeDead, this)
-        this.inventory.addListener(Inventory.InventoryFull, gameScene.showCannotGatherInfo, gameScene)
+        this.attributes.on(Attribute.CHARACTER_DEAD, this.playerKilled, this)
+        this.inventory.addListener(Inventory.INVENTORY_FULL, gameScene.showCannotGatherInfo, gameScene)
     }
 
     get inventory(): Inventory {
@@ -43,7 +43,7 @@ export default class Player extends Character {
         this.scaleY = 1.5
     }
 
-    makeDead(): void {
+    private playerKilled(): void {
         // for now just show dead screen
         this.scene.game.scene.run('DeadScene')
         this.scene.game.scene.stop('GameScene')

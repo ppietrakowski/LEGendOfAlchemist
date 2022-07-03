@@ -1,9 +1,7 @@
 import Phaser from 'phaser'
-import Character from '../Entities/Character'
 import Enemy from '../Entities/Enemy'
 import Player from '../Entities/Player'
-import Component from './Component'
-import Effect from './Effect'
+import {Component, addToUpdateList } from './Component'
 
 import { EnemyState } from './AI/EnemyState'
 import { RoamState } from './AI/RoamState'
@@ -20,39 +18,41 @@ enum AI_State {
  * TODO split behaviours to separate classes - pawelp
  */
 export default class EnemyController implements Component {
-    private self: Enemy
     private state: AI_State
     private endPos: Phaser.Math.Vector2
     private hitSound: Phaser.Sound.BaseSound
+
     private currentState: EnemyState
 
-    constructor(public target: Player, public maxRange: number) {
+    constructor(public readonly player: Player, private readonly possesedPawn: Enemy, public readonly maxDetectionRange: number) {
         this.state = AI_State.Roaming
+        this.endPos = new Phaser.Math.Vector2(this.possesedPawn.x, this.possesedPawn.y)
+        
+        this.start()
     }
 
     getName(): string {
         return 'enemy-movement';
     }
 
-    start(character: Character): void {
-        this.self = character as Enemy
+    private start(): void {
+        const {scene} = this.possesedPawn
 
-        this.self.setVelocityX(0)
-        this.self.setVelocityY(0)
-        this.endPos = new Phaser.Math.Vector2(character.x, character.y)
-        character.scene.physics.add.collider(character, this.target)
+        this.possesedPawn.setVelocityX(0)
+        this.possesedPawn.setVelocityY(0)
+        
+        scene.physics.add.collider(this.possesedPawn, this.player)
 
-
-        this.currentState = new RoamState(this, this.self);
+        this.currentState = new RoamState(this, this.possesedPawn);
         this.currentState.stateStarted()
 
-        this.hitSound = this.self.scene.sound.add('player-slap')
+        this.hitSound = scene.sound.add('player-slap')
 
-        character.scene.events.on(Phaser.Scenes.Events.UPDATE, this.update, this)
+        addToUpdateList(this.possesedPawn.scene, this.update, this)
     }
 
     update(_time: number, deltaTime: number): void {
-        this.state = this.getNextState()
+        //this.state = this.getNextState()
 
         this.currentState.update(deltaTime)
     }
@@ -81,19 +81,19 @@ export default class EnemyController implements Component {
     }
 
     private isPlayerNear(): boolean {
-        return this.self.isNearObject(this.target, 67)
+        return this.possesedPawn.isNearObject(this.player, 67)
     }
 
     private isPlayerInRange(): boolean {
-        return this.self.isNearObject(this.target, this.maxRange)
+        return this.possesedPawn.isNearObject(this.player, this.maxDetectionRange)
     }
 
     private isPlayerOutOfRange(): boolean {
-        return this.self.isNearObject(this.target, this.maxRange + 100)
+        return this.possesedPawn.isNearObject(this.player, this.maxDetectionRange + 100)
     }
 
     private switchToRoaming(): void {
-        this.self.setVelocity(0, 0)
+        this.possesedPawn.setVelocity(0, 0)
         this.state = AI_State.Roaming
     }
 

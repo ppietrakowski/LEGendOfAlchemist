@@ -1,20 +1,19 @@
-import Character from '../Entities/Character'
+import GameObject from '../Entities/GameObject'
 import Attribute from './Attribute'
-import Component from './Component'
 
 
 export default class Effect extends Phaser.Events.EventEmitter {
     private timePassed: number
     private attributes: Attribute
 
-    static readonly EffectEnded = 'Ended'
+    static readonly EFFECT_ENDED = 'Ended'
 
     constructor(public deltaHp: number, public deltaStrength: number, public deltaWisdom: number, public readonly duration: number) {
         super()
         this.timePassed = 0
     }
 
-    start(character: Character) {
+    addTo(character: GameObject) {
         character.scene.events.on(Phaser.Scenes.Events.UPDATE, this.update, this)
         this.attributes = character.attributes
     }
@@ -27,7 +26,7 @@ export default class Effect extends Phaser.Events.EventEmitter {
         this.attributes.strength.value += this.deltaStrength * deltaTime
 
         if (this.hasTimePassed())
-            this.emit(Effect.EffectEnded, this)
+            this.emit(Effect.EFFECT_ENDED, this)
     }
 
     private hasTimePassed(): boolean {

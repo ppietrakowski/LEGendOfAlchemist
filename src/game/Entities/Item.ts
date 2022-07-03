@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 import Effect from '../Components/Effect'
-import Character from './Character'
+import GameObject from './GameObject'
 
 
 /* TODO replace composition with generalization ! */
@@ -11,5 +11,5 @@ export default abstract class Item {
         image.setInteractive({ pixelPerfect: true })
     }
 
-    abstract used(character: Character): void
+    abstract used(character: GameObject): void
 }

@@ -7,9 +7,9 @@ export default class Button extends Phaser.Events.EventEmitter {
 
     private image: Phaser.GameObjects.Image
 
-    static readonly Clicked = "Clicked"
-    static readonly Hover = "Hover"
-    static readonly UnHover = "UnHover"
+    static readonly BUTTON_CLICKED = "Clicked"
+    static readonly BUTTON_HOVER = "Hover"
+    static readonly BUTTON_UNHOVER = "UnHover"
 
     constructor(image: Phaser.GameObjects.Image) {
         super()
@@ -22,14 +22,14 @@ export default class Button extends Phaser.Events.EventEmitter {
     }
 
     addClickListener(fn: Function, context: any) {
-        this.on(Button.Clicked, fn, context)
+        this.on(Button.BUTTON_CLICKED, fn, context)
     }
 
     setNewImage(image: Phaser.GameObjects.Image) {
         this.image.destroy()
-        this.removeAllListeners(Button.Hover)
-            .removeAllListeners(Button.UnHover)
-            .removeAllListeners(Button.Clicked)
+        this.removeAllListeners(Button.BUTTON_HOVER)
+            .removeAllListeners(Button.BUTTON_UNHOVER)
+            .removeAllListeners(Button.BUTTON_CLICKED)
             
         this.image = image
         this.image.setInteractive({ pixelPerfect: true })
@@ -38,12 +38,12 @@ export default class Button extends Phaser.Events.EventEmitter {
     }
 
     private addEvents() {
-        this.on(Button.Hover, () => this.image.setTint(0x787878))
-        this.on(Button.UnHover, this.image.clearTint, this.image)
+        this.on(Button.BUTTON_HOVER, () => this.image.setTint(0x787878))
+        this.on(Button.BUTTON_UNHOVER, this.image.clearTint, this.image)
 
-        this.image.on(Phaser.Input.Events.POINTER_OVER, () => this.emit(Button.Hover))
-        this.image.on(Phaser.Input.Events.POINTER_OUT, () => this.emit(Button.UnHover))
-        this.image.on(Phaser.Input.Events.POINTER_DOWN, () => this.emit(Button.Clicked))
+        this.image.on(Phaser.Input.Events.POINTER_OVER, () => this.emit(Button.BUTTON_HOVER))
+        this.image.on(Phaser.Input.Events.POINTER_OUT, () => this.emit(Button.BUTTON_UNHOVER))
+        this.image.on(Phaser.Input.Events.POINTER_DOWN, () => this.emit(Button.BUTTON_CLICKED))
     }
         
 }

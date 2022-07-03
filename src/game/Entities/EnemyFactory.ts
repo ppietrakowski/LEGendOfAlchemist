@@ -7,9 +7,9 @@ import Boss from './Boss'
 import UltraBoss from './UltraBoss'
 
 export default class EnemyFactory {
-    private scene: Phaser.Scene
-    private player: Player
-    private seaLayer: Phaser.Tilemaps.TilemapLayer
+    private readonly scene: Phaser.Scene
+    private readonly player: Player
+    private readonly seaLayer: Phaser.Tilemaps.TilemapLayer
 
     constructor(scene: Phaser.Scene, player: Player, seaLayer: Phaser.Tilemaps.TilemapLayer) {
         this.scene = scene
@@ -18,7 +18,7 @@ export default class EnemyFactory {
     }
 
     getEnemy(textureName: string, isleNo: number): Enemy {
-        let enemy = new Enemy(this.scene, 0, 0, textureName, textureName, 140, this.player)
+        const enemy = new Enemy(this.scene, 0, 0, textureName, textureName, 140, this.player)
 
         spawnAtTile(enemy, isleNo, this.seaLayer)
 
@@ -32,7 +32,7 @@ export default class EnemyFactory {
     }
 
     getBoss(tileX: number, tileY: number, portalNo: number, wantUltraBoss=false): Boss {
-        let enemyName = getRandomEnemyKey()
+        const enemyName = getRandomEnemyKey()
         let boss: Boss
 
         if (wantUltraBoss)

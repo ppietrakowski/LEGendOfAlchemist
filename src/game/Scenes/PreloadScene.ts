@@ -22,7 +22,6 @@ const images = [
 ]
 
 export default class PreloadScene extends Phaser.Scene {
-
     constructor() {
         super('Preload')
     }
@@ -34,28 +33,32 @@ export default class PreloadScene extends Phaser.Scene {
         for (let i of images)
             this.load.image(i.key, `assets/${i.src}`)
 
-        this.load.audio('player-slap', 'assets/sounds/player-slap.wav')
-        this.load.audio('potion-hit', 'assets/sounds/potion-hit.wav')
-        this.load.audio('potion-throwed', 'assets/sounds/throw.wav')
-        this.load.audio('menu-theme', 'assets/sounds/menu-theme.mp3')
-        this.load.audio('portal-sound', 'assets/sounds/Teleport.wav')
+        this.loadSounds()
 
         loadMusic(this)
         enemies.loadAllEnemies(this)
         items.loadItems(this)
     }
 
-    loadAllUi() {
+    create() {
+        this.loadAllUi()
+        this.game.scene.add('MainMenu', new MainMenu())
+        this.game.scene.run('MainMenu')
+    }
+
+    private loadSounds() {
+        this.load.audio('player-slap', 'assets/sounds/player-slap.wav')
+        this.load.audio('potion-hit', 'assets/sounds/potion-hit.wav')
+        this.load.audio('potion-throwed', 'assets/sounds/throw.wav')
+        this.load.audio('menu-theme', 'assets/sounds/menu-theme.mp3')
+        this.load.audio('portal-sound', 'assets/sounds/Teleport.wav')
+    }
+
+    private loadAllUi() {
         this.game.scene.run('Inventory')
         this.game.scene.getScene('Inventory').scene.setVisible(false)
 
         this.game.scene.pause('Inventory')
-        this.game.scene.run('MainMenu')
-    }
-
-    create() {
-        this.loadAllUi()
-        this.game.scene.add('MainMenu', new MainMenu())
         this.game.scene.run('MainMenu')
     }
 }

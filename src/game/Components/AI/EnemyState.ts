@@ -1,9 +1,9 @@
 
-import Character from '../../Entities/Character'
+import GameObject from '../../Entities/GameObject'
 import EnemyController from './../EnemyController'
 
 export abstract class EnemyState {
-    constructor (protected readonly controller: EnemyController, protected readonly owner: Character) {
+    constructor (protected readonly controller: EnemyController, protected readonly owner: GameObject) {
     }
 
     abstract stateStarted(): void

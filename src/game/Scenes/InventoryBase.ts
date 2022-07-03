@@ -6,7 +6,7 @@ import InventoryContainer from './InventoryContainer'
 export default abstract class InventoryBase extends Phaser.Scene {
     protected inventory: Inventory
     protected container: InventoryContainer
-    static readonly InventoryClosed = "InventoryClosed"
+    static readonly INVENTORY_CLOSED = "InventoryClosed"
     
     constructor(key: string) {
         super({ key })
@@ -17,13 +17,13 @@ export default abstract class InventoryBase extends Phaser.Scene {
 
         this.container.setScrollFactor(0)
 
-        this.game.events.on(Inventory.InventoryStart, this.assignInventory, this)
+        this.game.events.on(Inventory.INVENTORY_START, this.assignInventory, this)
     }
 
     protected setupItem(item: Item): void {
         if (item.image.texture.key !== 'teleport-stone')
             this.useItemAsUsable(item)
-            
+
         item.image.setInteractive({ pixelPerfect: true })
     }
 
@@ -37,7 +37,7 @@ export default abstract class InventoryBase extends Phaser.Scene {
     }
 
     private useItemAsUsable(item: Item) {
-        const owner = this.inventory.currentOwner
+        const owner = this.inventory.owner
         item.image.once(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
             let inventory = owner.getComponent<Inventory>('inventory')
 
@@ -49,9 +49,9 @@ export default abstract class InventoryBase extends Phaser.Scene {
     private assignInventory(inventoryEvent: InventoryStartEvent) {
         if (inventoryEvent.owner.name === 'player') {
             this.inventory = inventoryEvent.inventory
-            this.inventory.on(Inventory.AddedItem, this.addElement, this)
-            this.inventory.on(Inventory.InventoryFull, () => console.log("Inventory full !"))
-            this.game.events.off(Inventory.InventoryStart, this.assignInventory)
+            this.inventory.on(Inventory.ADDED_ITEM, this.addElement, this)
+            this.inventory.on(Inventory.INVENTORY_FULL, () => console.log("Inventory full !"))
+            this.game.events.off(Inventory.INVENTORY_START, this.assignInventory)
         }
     }
 }

@@ -1,14 +1,14 @@
 
 import Phaser from 'phaser'
 import {Inventory} from '../Components/Inventory'
-import Character from '../Entities/Character'
+import GameObject from '../Entities/GameObject'
 import { getItemWithRandomEffect } from '../Entities/Items'
 import Player from '../Entities/Player'
 import { addInformationText, spawnGameobjectAtTile } from './SceneUtils'
 
 
 function throwAway(scene: Phaser.Scene, sprite: Phaser.GameObjects.Image) {
-    let item = getItemWithRandomEffect(-10, -10, scene)
+    const item = getItemWithRandomEffect(-10, -10, scene)
     const player = scene.children.getByName('player') as Player
 
     addInformationText(scene, sprite.x, sprite.y, `You have received ${item.image.texture.key}`,
@@ -25,7 +25,7 @@ export default class BushSpawner {
     constructor(private readonly scene: Phaser.Scene, private readonly howMany: number) { }
 
     public putItems(seaLayer: Phaser.Tilemaps.TilemapLayer): void {
-        const player = this.scene.children.getByName('player') as Character
+        const player = this.scene.children.getByName('player') as GameObject
 
         for (let i = 0; i < this.howMany; i++) {
             let sprite = this.scene.add.image(0, 0, 'bush')

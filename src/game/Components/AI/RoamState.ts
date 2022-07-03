@@ -1,5 +1,5 @@
 
-import Character from "../../Entities/Character";
+import GameObject from "../../Entities/GameObject";
 import EnemyController from "../EnemyController";
 import { EnemyState } from "./EnemyState";
 import { MoveState } from "./MoveState";
@@ -19,7 +19,7 @@ export class RoamState extends EnemyState {
 
     private readonly endPosition: Phaser.Math.Vector2
 
-    constructor(controller: EnemyController, owner: Character) {
+    constructor(controller: EnemyController, owner: GameObject) {
         super(controller, owner)
         this.endPosition = getRoamingPosition(this.owner.body.position)
     }
