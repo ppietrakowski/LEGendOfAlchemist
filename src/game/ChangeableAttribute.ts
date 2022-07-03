@@ -1,8 +1,18 @@
 
 import Phaser from 'phaser'
 
+/**
+ * Class for reading and writting value
+ * It's used to send event, when value changed
+ */
 export default class ChangeableAttribute<T> extends Phaser.Events.EventEmitter {
 
+    /**
+     * Name of event
+     * 
+     * It's delegate can look like:
+     * valueChanged(previousValue: T): void
+     */
     static AttributeChanged = 'Changed'
 
     constructor(protected property: T) { super() }

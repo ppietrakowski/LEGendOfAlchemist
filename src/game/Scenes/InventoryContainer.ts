@@ -9,7 +9,6 @@ const offset = 24
 const marginBetweenTwoElements = 16
 
 export default class InventoryContainer extends Phaser.GameObjects.Container {
-
     private readonly maxRow: number = 5
     private itemInfo: Phaser.GameObjects.Text
     private currentRow = 0
@@ -38,27 +37,27 @@ export default class InventoryContainer extends Phaser.GameObjects.Container {
         this.itemInfo.text = ''
     }
 
-    public addItemInfo(sprite: Phaser.GameObjects.Sprite, effect: Effect): void {
-        sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER, () => {
+    public addItemInfo(image: Phaser.GameObjects.Image, effect: Effect): void {
+        image.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER, () => {
             this.itemInfo.setText(`hp: ${effect.deltaHp}\nstr: ${effect.deltaStrength}\nwis: ${effect.deltaWisdom}`)
-            this.itemInfo.setPosition(sprite.x, sprite.y)
+            this.itemInfo.setPosition(image.x, image.y)
             this.itemInfo.setVisible(true)
         })
 
-        sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT, () => {
+        image.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT, () => {
             this.itemInfo.setVisible(false)
         })
     }
 
     public addTeleportInfo(teleport: TeleportStone): void {
-        teleport.sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER, () => {
+        teleport.image.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER, () => {
 
             this.itemInfo.setText(`Allows for teleport\nin teleport number ${teleport.index}`)
-            this.itemInfo.setPosition(teleport.sprite.x, teleport.sprite.y)
+            this.itemInfo.setPosition(teleport.image.x, teleport.image.y)
             this.itemInfo.setVisible(true)
         })
 
-        teleport.sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT, () => {
+        teleport.image.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT, () => {
             this.itemInfo.setVisible(false)
         })
     }

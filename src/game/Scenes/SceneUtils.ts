@@ -34,7 +34,7 @@ export function spawnAtTile(sprite: Phaser.Physics.Arcade.Sprite, isle: number, 
 }
 
 
-export function spawnGameobjectAtTile(isle: number, sprite: Phaser.GameObjects.Sprite, excludingLayer: Phaser.Tilemaps.TilemapLayer): void {
+export function spawnGameobjectAtTile(isle: number, sprite: Phaser.GameObjects.Image, excludingLayer: Phaser.Tilemaps.TilemapLayer): void {
     while (excludingLayer.getTileAtWorldXY(Math.round(sprite.x), Math.round(sprite.y)) != null) {
         let pos = getXandY(isle)
         sprite.x = pos.x

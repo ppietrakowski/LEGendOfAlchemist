@@ -5,13 +5,13 @@ import Phaser from 'phaser'
  */
 export default class Button extends Phaser.Events.EventEmitter {
 
-    private image: Phaser.GameObjects.Sprite
+    private image: Phaser.GameObjects.Image
 
     static readonly Clicked = "Clicked"
     static readonly Hover = "Hover"
     static readonly UnHover = "UnHover"
 
-    constructor(image: Phaser.GameObjects.Sprite) {
+    constructor(image: Phaser.GameObjects.Image) {
         super()
         this.image = image
 
@@ -25,7 +25,7 @@ export default class Button extends Phaser.Events.EventEmitter {
         this.on(Button.Clicked, fn, context)
     }
 
-    setNewImage(image: Phaser.GameObjects.Sprite) {
+    setNewImage(image: Phaser.GameObjects.Image) {
         this.image.destroy()
         this.removeAllListeners(Button.Hover)
             .removeAllListeners(Button.UnHover)

@@ -22,8 +22,4 @@ export default class PlayerHealthBar extends HealthBar {
 
         this.addHealthChangedListener()
     }
-
-    update(_timeSinceLastFrame: number): void {
-
-    }
 }

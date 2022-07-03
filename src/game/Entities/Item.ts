@@ -7,8 +7,8 @@ import Character from './Character'
 export default abstract class Item {
     name: string
 
-    constructor(public effect: Effect, public sprite: Phaser.GameObjects.Sprite) {
-        sprite.setInteractive({ pixelPerfect: true })
+    constructor(public effect: Effect, public image: Phaser.GameObjects.Image) {
+        image.setInteractive({ pixelPerfect: true })
     }
 
     abstract used(character: Character): void

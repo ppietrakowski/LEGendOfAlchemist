@@ -12,15 +12,10 @@ export default class Enemy extends Character {
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string | Phaser.Textures.Texture, name: string, maxRange: number, player: Player) {
         super(scene, x, y, texture, 0)
         this.name = name
-        this.start(scene)
         this.addComponent(new EnemyController(player, maxRange))
         this.addComponent(new HealthBar(player, 100))
 
-
         this.attributes.on(Attribute.CharacterDead, this.killed, this)
-    }
-
-    start(_scene: Phaser.Scene): void {
     }
 
     protected killed(): void {
@@ -28,7 +23,7 @@ export default class Enemy extends Character {
         let ingredient = getItemWithRandomEffect(this.x, this.y, player.scene) as Ingredient
 
         // add event to throw item in place of enemy
-        ingredient.sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, (pointer: Phaser.Input.Pointer) => player.inventory.addItem(ingredient));
+        ingredient.image.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, (pointer: Phaser.Input.Pointer) => player.inventory.addItem(ingredient));
 
         this.destroy(true)
     }

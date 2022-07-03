@@ -43,11 +43,6 @@ export abstract class GameBaseScene extends Phaser.Scene {
         this.addCollisionWithSeaLayer()
     }
 
-    update(_time: number, delta: number): void {
-        for (let i of this.enemies)
-            this.updateEnemy(i, delta)
-    }
-
     protected addEnemies() {
         this.enemies = []
         const MaxNormalEnemies = 50
@@ -78,10 +73,6 @@ export abstract class GameBaseScene extends Phaser.Scene {
             this.enemyKilled++
             this.deleteEnemy(enemy)
         }, this)
-    }
-
-    protected updateEnemy(enemy: Enemy, deltaTime: number): void {
-        enemy.update(deltaTime)
     }
 
     protected deleteEnemy(enemy: Enemy) {

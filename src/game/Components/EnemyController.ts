@@ -47,12 +47,14 @@ export default class EnemyController implements Component {
         this.currentState.stateStarted()
 
         this.hitSound = this.self.scene.sound.add('player-slap')
+
+        character.scene.events.on(Phaser.Scenes.Events.UPDATE, this.update, this)
     }
 
-    update(timeSinceLastFrame: number): void {
+    update(_time: number, deltaTime: number): void {
         this.state = this.getNextState()
 
-        this.currentState.update(timeSinceLastFrame)
+        this.currentState.update(deltaTime)
     }
 
     switchToNewState(state: EnemyState) {

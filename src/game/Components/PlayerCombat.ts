@@ -7,28 +7,24 @@ import Effect from './Effect'
 
 
 export default class PlayerCombat implements Component {
-    private player: Player
     private deltaTime: number
     private attacked: boolean
 
-    getName(): string {
-        return 'player-combat'
-    }
-
-    start(character: Character): void {
-        this.player = character as Player
+    constructor(private readonly player: Player) {
         this.deltaTime = 0
         this.attacked = false
+
+        player.scene.events.on(Phaser.Scenes.Events.UPDATE, (sys: any, time: number, deltaTime: number) => this.deltaTime = deltaTime, this)
+    }
+
+    getName(): string {
+        return 'player-combat'
     }
 
     addEnemy(enemy: Enemy): void {
         enemy.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, (pointer: Phaser.Input.Pointer) => {
             this.onThrowAnything(enemy)
         });
-    }
-
-    update(timeSinceLastFrame: number): void {
-        this.deltaTime = timeSinceLastFrame
     }
 
     onThrowAnything(enemy: Enemy) {

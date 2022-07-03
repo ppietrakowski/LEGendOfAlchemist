@@ -14,7 +14,7 @@ export default abstract class Character extends Phaser.Physics.Arcade.Sprite {
         super(scene, x, y, texture, frame)
         this.components = {}
         this.setInteractive({ pixelPerfect: true })
-        this.addComponent(new Attribute(100, 20, 10))
+        this.addComponent(new Attribute(this, 100, 20, 10))
 
         scene.physics.add.existing(this)
         scene.add.existing(this)
@@ -22,18 +22,10 @@ export default abstract class Character extends Phaser.Physics.Arcade.Sprite {
 
     addComponent(component: Component): void {
         this.components[component.getName()] = component
-        component.start(this)
     }
 
     getComponent<T extends Component>(name: string): T {
         return this.components[name] as T
-    }
-
-    abstract start(scene: Phaser.Scene): void
-
-    update(timePassedSinceLastFrame: number): void {
-        for (let i in this.components)
-            this.components[i].update(timePassedSinceLastFrame)
     }
 
     get attributes(): Attribute {

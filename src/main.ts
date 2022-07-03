@@ -1,11 +1,8 @@
 import Phaser from 'phaser'
 import Credits from './game/Scenes/Credits'
-import DeadScene from './game/Scenes/DeadScene'
 import GameScene from './game/Scenes/GameScene'
 import InventoryUi from './game/Scenes/InventoryUi'
-import MainMenu from './game/Scenes/MainMenu'
 import PreloadScene from './game/Scenes/PreloadScene'
-import WinScene from './game/Scenes/WinScene'
 
 
 class Game extends Phaser.Game {
@@ -41,10 +38,8 @@ class Game extends Phaser.Game {
     loadScenes(): void {
         this.scene.add('Preload', PreloadScene, true)
         this.scene.add('Credits', Credits, false)
-        this.scene.add('DeadScene', DeadScene, false)
         this.scene.add('GameScene', GameScene, false)
         this.scene.add('Inventory', InventoryUi, false)
-        this.scene.add('WinScene', WinScene, false)
     }
 }
 

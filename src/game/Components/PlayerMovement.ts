@@ -5,9 +5,9 @@ import Component from './Component'
 
 export default class PlayerMovement implements Component {
     private input: Phaser.Types.Input.Keyboard.CursorKeys
-    private character: Player
+    private character: Character
     private onStayAnimation: string
-
+    private once = true
     constructor(private speed: Phaser.Math.Vector2) {
         this.speed = speed
     }
@@ -20,25 +20,26 @@ export default class PlayerMovement implements Component {
         let {keyboard} = character.scene.input
 
         this.onStayAnimation = 'player-front'
-        this.character = character as Player
+        this.character = character
         this.input = keyboard.createCursorKeys()
+
+        character.scene.events.on(Phaser.Scenes.Events.UPDATE, this.update, this)
     }
 
-    update(timeSinceLastFrame: number): void {
-        timeSinceLastFrame *= 50
-
+    update(_time: number, deltaTime: number): void {
+        deltaTime *= 0.05
         if (this.input.down.isDown) {
-            this.onMovement('player-front-run', 0, this.speed.y * timeSinceLastFrame)
+            this.onMovement('player-front-run', 0, this.speed.y * deltaTime)
             this.onStayAnimation = 'player-front'
         } else if (this.input.up.isDown) {
-            this.onMovement('player-back-run', 0, -this.speed.y * timeSinceLastFrame)
+            this.onMovement('player-back-run', 0, -this.speed.y * deltaTime)
             this.onStayAnimation = 'player-back'
         } else if (this.input.left.isDown) {
-            this.onMovement('player-left-run', -this.speed.x * timeSinceLastFrame, 0)
+            this.onMovement('player-left-run', -this.speed.x * deltaTime, 0)
             this.onStayAnimation = 'player-front'
         }
         else if (this.input.right.isDown) {
-            this.onMovement('player-right-run', this.speed.x * timeSinceLastFrame, 0)
+            this.onMovement('player-right-run', this.speed.x * deltaTime, 0)
             this.onStayAnimation = 'player-front'
         }
         else

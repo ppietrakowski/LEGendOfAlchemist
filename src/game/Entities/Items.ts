@@ -48,5 +48,5 @@ export function getItemWithRandomEffect(x: number, y: number, scene: Phaser.Scen
     while (time === 0)
         time = Math.floor(Math.random() * (2 + 1) - 1)
 
-    return new Ingredient(new Effect(hp, strength, wisdom, time), scene.add.sprite(x, y, Items[index]).setOrigin(0, 0))
+    return new Ingredient(new Effect(hp, strength, wisdom, time), scene.add.image(x, y, Items[index]).setOrigin(0, 0))
 }

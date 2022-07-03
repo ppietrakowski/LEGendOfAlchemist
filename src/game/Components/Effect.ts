@@ -1,33 +1,30 @@
 import Character from '../Entities/Character'
+import Attribute from './Attribute'
 import Component from './Component'
 
 
-export default class Effect extends Phaser.Events.EventEmitter implements Component {
-    private character: Character
+export default class Effect extends Phaser.Events.EventEmitter {
     private timePassed: number
+    private attributes: Attribute
 
-    static EffectEnded = 'Ended'
+    static readonly EffectEnded = 'Ended'
 
     constructor(public deltaHp: number, public deltaStrength: number, public deltaWisdom: number, public readonly duration: number) {
         super()
         this.timePassed = 0
     }
 
-    getName(): string {
-        return 'Effect'
+    start(character: Character) {
+        character.scene.events.on(Phaser.Scenes.Events.UPDATE, this.update, this)
+        this.attributes = character.attributes
     }
 
-    start(character: Character): void {
-        this.character = character
-    }
+    update(_time: number, deltaTime: number): void {
+        this.timePassed += deltaTime * 0.01
 
-    update(timeSinceLastFrame: number): void {
-        this.timePassed += timeSinceLastFrame
-        let {attributes} = this.character
-
-        attributes.hp.value += this.deltaHp * timeSinceLastFrame
-        attributes.wisdom.value += this.deltaWisdom * timeSinceLastFrame
-        attributes.strength.value += this.deltaStrength * timeSinceLastFrame
+        this.attributes.hp.value += this.deltaHp * deltaTime
+        this.attributes.wisdom.value += this.deltaWisdom * deltaTime
+        this.attributes.strength.value += this.deltaStrength * deltaTime
 
         if (this.hasTimePassed())
             this.emit(Effect.EffectEnded, this)

@@ -36,9 +36,10 @@ export default class HealthBar implements Component {
         this.addHealthChangedListener()
 
         character.on(Phaser.GameObjects.Events.DESTROY, () => this.text.destroy(), this)
+        character.scene.events.on(Phaser.Scenes.Events.UPDATE, this.update, this)
     }
 
-    update(_timeSinceLastFrame: number): void {
+    update(_time: number, _deltaTime: number): void {
         if (this.self.isNearObject(this.player, this.range))
             this.show()
         else

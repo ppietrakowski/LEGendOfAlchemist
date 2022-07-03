@@ -4,37 +4,33 @@ import Effect from './Effect'
 import ChangeableAttribute from '../ChangeableAttribute'
 
 export default class Attribute extends Phaser.Events.EventEmitter implements Component {
-    private character: Character
+    private readonly character: Character
     private effects: Effect[]
 
-    static CharacterDead = 'Dead'
+    static readonly CharacterDead = 'Dead'
 
-    hp: ChangeableAttribute<number>
-    strength: ChangeableAttribute<number>
-    wisdom: ChangeableAttribute<number>
+    readonly hp: ChangeableAttribute<number>
+    readonly strength: ChangeableAttribute<number>
+    readonly wisdom: ChangeableAttribute<number>
 
-    constructor(hp: number, strength: number, wisdom: number) {
+    constructor(character: Character, hp: number, strength: number, wisdom: number) {
         super()
 
         this.hp = new ChangeableAttribute(hp)
         this.strength = new ChangeableAttribute(strength)
         this.wisdom = new ChangeableAttribute(wisdom)
 
+        this.character = character
         this.effects = []
+
+        character.scene.events.on(Phaser.Scenes.Events.UPDATE, this.update, this)
     }
 
     getName(): string {
         return 'attributes'
     }
 
-    start(character: Character): void {
-        this.character = character
-    }
-
-    update(timeSinceLastFrame: number): void {
-        for (let effect of this.effects)
-            effect.update(timeSinceLastFrame)
-
+    update(_time: number, _deltaTime: number): void {
         if (!this.isAlive())
             this.emit(Attribute.CharacterDead, this)
     }
