@@ -20,6 +20,12 @@ export default abstract class GameObject extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this)
     }
 
+    destroy(fromScene?: boolean): void {
+        for (const component of Object.values(this.components))
+            component.destroy()
+        super.destroy(fromScene)
+    }
+
     addComponent(component: Component): void {
         this.components[component.getName()] = component
     }

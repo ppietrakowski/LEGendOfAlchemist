@@ -1,6 +1,6 @@
 
 import GameObject from "../../../Entities/GameObject";
-import { EnemySensing, SensingListener } from "./EnemySensing"
+import { EnemySensing, SenseType, SensingListener } from "./EnemySensing"
 
 
 
@@ -24,12 +24,12 @@ export default class SeeSense implements EnemySensing {
 
     private emitEnemySensed() {
         for (const listener of this.listeners)
-            listener.sensed(this.target)
+            listener.sensed(this.target, SenseType.SEE_SENSE)
     }
 
     private emitEnemyStopSensing() {
         for (const listener of this.listeners)
-            listener.stopsSensing(this.target)
+            listener.stopsSensing(this.target, SenseType.SEE_SENSE)
     }
 
     private isPlayerInRange(): boolean {

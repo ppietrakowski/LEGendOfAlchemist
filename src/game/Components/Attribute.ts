@@ -27,6 +27,22 @@ export default class Attribute extends Phaser.Events.EventEmitter implements Com
         this.hp.on(ChangeableAttribute.AttributeChanged, this.checkIsAlive, this)
     }
 
+    destroy(): void {
+        this.hp.destroy()
+        this.strength.destroy()
+        this.wisdom.destroy()
+
+        for (const effect of this.effects) {
+            effect.off(Effect.EFFECT_ENDED, this.deleteEffect)
+            effect.destroy()
+        }
+
+        this.effects = null
+
+        this.character.scene.events.off(Phaser.Scenes.Events.UPDATE, this.update)
+        super.destroy()
+    }
+
     getName(): string {
         return 'attributes'
     }

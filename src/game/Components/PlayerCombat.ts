@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 import Enemy from '../Entities/Enemy'
 import Player from '../Entities/Player'
+import Attribute from './Attribute'
 import {Component, addToUpdateList } from './Component'
 import Effect from './Effect'
 
@@ -9,11 +10,21 @@ export default class PlayerCombat implements Component {
     private deltaTime: number
     private attacked: boolean
 
-    constructor(private readonly player: Player) {
+    constructor(private player: Player) {
         this.deltaTime = 0
         this.attacked = false
 
-        addToUpdateList(this.player.scene, (_time: number, deltaTime: number) => this.deltaTime = deltaTime, this)
+        addToUpdateList(this.player.scene, this.cacheDeltaTime, this)
+    }
+
+    private cacheDeltaTime(_time: number, deltaTime: number) {
+        this.deltaTime = deltaTime
+    }
+
+    destroy(): void {
+        this.player.attributes.removeAllListeners(Attribute.CHARACTER_DEAD)
+        this.player.scene.events.off(Phaser.Scenes.Events.UPDATE, this.cacheDeltaTime, this)
+        this.player = null
     }
 
     getName(): string {

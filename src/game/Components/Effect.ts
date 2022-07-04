@@ -17,6 +17,11 @@ export default class Effect extends Phaser.Events.EventEmitter {
         this.attributes = character.attributes
     }
 
+    destroy(): void {
+        this.attributes = null
+        super.destroy()
+    }
+
     update(_time: number, deltaTime: number): void {
         deltaTime *= 0.01
         this.timePassed += deltaTime

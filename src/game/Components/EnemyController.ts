@@ -7,7 +7,7 @@ import { EnemyState } from './AI/EnemyState'
 import { RoamState } from './AI/RoamState'
 import ChasingState from './AI/ChasingState'
 
-import { EnemySensing, SensingListener } from "./AI/sense/EnemySensing"
+import { EnemySensing, SenseType, SensingListener } from "./AI/sense/EnemySensing"
 import SeeSense from "./AI/sense/SeeSense"
 import GameObject from '../Entities/GameObject'
 import Controller from './Controller'
@@ -30,16 +30,18 @@ export default class EnemyController implements Component, SensingListener, Cont
         this.start()
     }
 
+    destroy(): void {}
+
     getCurrentState(): EnemyState {
         return this.currentState
     }
 
-    sensed(_sensedObject: GameObject): void {
+    sensed(_sensedObject: GameObject, _senseType: SenseType): void {
         if (this.currentState.getState() !== AI_State.Attack)
             this.switchToNewState(new ChasingState(this, this.possesedEnemy))
     }
 
-    stopsSensing(_sensedObject: GameObject): void {
+    stopsSensing(_sensedObject: GameObject, _senseType: SenseType): void {
         this.switchToNewState(new RoamState(this, this.possesedEnemy))
     }
 

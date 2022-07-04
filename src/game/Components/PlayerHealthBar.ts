@@ -1,3 +1,4 @@
+import ChangeableAttribute from '../ChangeableAttribute'
 import GameObject from '../Entities/GameObject'
 import Player from '../Entities/Player'
 import HealthBar from './HealthBar'
@@ -5,7 +6,17 @@ import HealthBar from './HealthBar'
 export default class PlayerHealthBar extends HealthBar {
 
     constructor(owner: Player) {
-        super(owner, 100)
+        super(owner, 100, owner)
+    }
+
+    destroy(): void {
+        this.owner.scene.events.off(Phaser.Scenes.Events.UPDATE, this.update, this)
+        const { attributes } = this.owner
+        attributes.hp.removeAllListeners(ChangeableAttribute.AttributeChanged)
+
+        this.text.destroy()
+        
+        this.player = null
     }
 
     start(): void {

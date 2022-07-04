@@ -9,10 +9,12 @@ export default class HealthBar implements Component {
     protected hpMax: number
 
     protected text: Phaser.GameObjects.Text
-    protected readonly player: Player
     
-    constructor(protected readonly owner: GameObject, private readonly range: number) {
+    constructor(protected readonly owner: GameObject, private readonly range: number, protected player: Player) {
+        this.start()
     }
+    
+    destroy(): void {}
 
     getName(): string {
         return 'hp-bar'
@@ -45,7 +47,7 @@ export default class HealthBar implements Component {
         this.text.setPosition(this.owner.x, this.owner.y - 1.5 * this.owner.width)
     }
 
-    private healthUpdated(): void {
+    protected healthUpdated(): void {
         if (this.owner.attributes.hp.value >= this.hpMax)
             this.hpMax = this.owner.attributes.hp.value
         this.text.setText(Math.round(this.owner.attributes.hp.value).toString() + "/" + Math.round(this.hpMax))

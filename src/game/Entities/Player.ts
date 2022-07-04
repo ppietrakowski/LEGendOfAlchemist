@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import ChangeableAttribute from '../ChangeableAttribute'
 import Attribute from '../Components/Attribute'
 import {Inventory} from '../Components/Inventory'
 import PlayerCombat from '../Components/PlayerCombat'
@@ -43,10 +44,21 @@ export default class Player extends GameObject {
         this.scaleY = 1.5
     }
 
+    destroy(fromScene?: boolean): void {
+        this.inventory.removeAllListeners(Inventory.ADDED_ITEM)
+            .removeAllListeners(Inventory.DELETED_ITEM)
+            .removeAllListeners(Inventory.INVENTORY_FULL)
+            .removeAllListeners(Inventory.INVENTORY_NEED_UPDATE)
+            .removeAllListeners(Inventory.INVENTORY_START)
+        this.attributes.removeAllListeners(Attribute.CHARACTER_DEAD)
+
+        super.destroy(fromScene)
+    }
+
     private playerKilled(): void {
         // for now just show dead screen
-        this.scene.game.scene.run('DeadScene')
         this.scene.game.scene.stop('GameScene')
+        this.destroy(true)
     }
 
     hasTeleportStone(index: number): boolean {

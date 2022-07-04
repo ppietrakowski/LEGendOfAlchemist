@@ -1,7 +1,5 @@
 import Effect from "../Components/Effect";
 import Ingredient from "./Ingredient";
-import Item from "./Item";
-
 
 export const Items = [
     'cherries',
@@ -38,7 +36,7 @@ export function loadItems(scene: Phaser.Scene): void {
  * @param {Phaser.Scene} scene 
  * @returns {Item}
  */
-export function getItemWithRandomEffect(x: number, y: number, scene: Phaser.Scene): Item {
+export function getItemWithRandomEffect(x: number, y: number, scene: Phaser.Scene): Ingredient {
     let index = getRandomItemIndex()
     let hp = Math.ceil(Math.random() * (10 + 4) - 4)
     let strength = Math.ceil(Math.random() * (10 + 4) - 4)

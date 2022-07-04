@@ -9,8 +9,11 @@ export default class PlayerMovement implements Component {
 
     constructor(private readonly player: Player, private readonly speed: Phaser.Math.Vector2) {
         this.speed = speed
-
         this.start()
+    }
+
+    destroy(): void {
+        this.player.scene.events.off(Phaser.Scenes.Events.UPDATE, this.update, this)
     }
 
     getName(): string {
