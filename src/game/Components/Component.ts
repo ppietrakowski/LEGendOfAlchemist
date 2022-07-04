@@ -1,4 +1,5 @@
 
+
 export interface Component {
     /**
      * A unique name of the component
@@ -7,6 +8,7 @@ export interface Component {
 
     destroy(): void
 }
+
 
 export function addToUpdateList(scene: Phaser.Scene, fn: Function, context: any) {
     scene.events.on(Phaser.Scenes.Events.UPDATE, fn, context)

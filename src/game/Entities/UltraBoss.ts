@@ -11,8 +11,8 @@ export default class UltraBoss extends Boss {
 
 
     protected killed(): void {
-        let {sound} = this.scene
-        
+        let { sound } = this.scene
+
         // for now just show dead screen
         this.scene.game.scene.run('WinScene')
         sound.stopAll()

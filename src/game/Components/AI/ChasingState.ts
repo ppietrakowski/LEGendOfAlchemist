@@ -1,16 +1,12 @@
-
 import GameObject from '../../Entities/GameObject'
 import Controller from '../Controller'
 import DefaultDamageCalculator from '../DefaultDamageCalculator'
 import AttackState from './AttackState'
 import { EnemyState } from './EnemyState'
-import { RoamState } from './RoamState'
 import { AI_State } from './AI_State'
 
+
 export default class ChasingState extends EnemyState {
-    getState(): AI_State {
-        return AI_State.Chasing
-    }
     constructor(controller: Controller, owner: GameObject) {
         super(controller, owner)
     }
@@ -23,6 +19,10 @@ export default class ChasingState extends EnemyState {
     update(_deltaTime: number): void {
         if (this.isPlayerNear())
             this.controller.switchToNewState(new AttackState(this.controller, this.owner, new DefaultDamageCalculator(this.owner)))
+    }
+
+    getState(): AI_State {
+        return AI_State.CHASING
     }
 
     private isPlayerNear(): boolean {

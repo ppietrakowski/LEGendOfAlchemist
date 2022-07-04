@@ -1,4 +1,3 @@
-
 import GameObject from '../../Entities/GameObject'
 import Effect from '../Effect'
 import { EnemyState } from './EnemyState'
@@ -6,6 +5,7 @@ import DamageCalculator from './DamageCalculator'
 import Controller from '../Controller'
 import Enemy from '../../Entities/Enemy'
 import { AI_State } from './AI_State'
+
 
 export default class AttackState extends EnemyState {
     private delay: number
@@ -25,12 +25,12 @@ export default class AttackState extends EnemyState {
 
     update(deltaTime: number): void {
         this.delay += deltaTime
-        
+
         if (this.delay >= AttackState.ATTACK_DELAY)
             this.controller.switchToNewState(new AttackState(this.controller, this.owner, this.calculator))
     }
 
     getState(): AI_State {
-        return AI_State.Attack
+        return AI_State.ATTACK
     }
 }

@@ -5,16 +5,15 @@ import * as enemies from '../Entities/Enemies'
 import EnemyFactory from '../Entities/EnemyFactory'
 import Attribute from '../Components/Attribute'
 import { addInformationText } from './SceneUtils'
-import GameObject from '../Entities/GameObject'
 
 export abstract class GameBaseScene extends Phaser.Scene {
-    
+
     protected map: Phaser.Tilemaps.Tilemap
     protected tileset: Phaser.Tilemaps.Tileset
     protected seaLayer: Phaser.Tilemaps.TilemapLayer
-    
+
     protected player: Player
-    
+
     protected enemyFactory: EnemyFactory
     protected enemies: Enemy[]
     protected enemyKilled = 0
@@ -81,7 +80,7 @@ export abstract class GameBaseScene extends Phaser.Scene {
             this.deleteEnemy(enemy)
         }, this)
 
-        enemy.on(Enemy.ENEMY_ATTACKED, () => this.hitSound.play({volume: 0.2}))
+        enemy.on(Enemy.ENEMY_ATTACKED, () => this.hitSound.play({ volume: 0.2 }))
     }
 
     protected deleteEnemy(enemy: Enemy) {

@@ -7,6 +7,7 @@ export const Enemies = [
     "turtle"
 ];
 
+
 export function generateFrame(anims: Phaser.Animations.AnimationManager, textureName: string, animName: string, start: number, end: number): Phaser.Animations.Animation {
     let frame = anims.create(
         {
@@ -18,6 +19,7 @@ export function generateFrame(anims: Phaser.Animations.AnimationManager, texture
     return frame === false ? null : frame
 }
 
+
 export function addAnimation(anims: Phaser.Animations.AnimationManager, textureName: string) {
     generateFrame(anims, textureName, 'stay', 0, 0)
 
@@ -27,10 +29,12 @@ export function addAnimation(anims: Phaser.Animations.AnimationManager, textureN
     generateFrame(anims, textureName, 'back-run', 4, 7).repeat = -1
 }
 
+
 export function loadAllEnemies(scene: Phaser.Scene): void {
     for (let enemy of Enemies)
         scene.load.spritesheet(enemy, 'assets/enemies/' + enemy + '.png', { frameWidth: 32, frameHeight: 32 })
 }
+
 
 export function getRandomEnemyKey(): string {
     let index = Math.round(Math.random() * (Enemies.length - 1))

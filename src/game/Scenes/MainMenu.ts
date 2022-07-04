@@ -1,9 +1,6 @@
 import Phaser from 'phaser'
 import Button from '../Entities/Button'
 
-
-
-
 export default class MainMenu extends Phaser.Scene {
     private readonly buttons: Button[]
     private theme: Phaser.Sound.BaseSound
@@ -40,7 +37,7 @@ export default class MainMenu extends Phaser.Scene {
     }
 
     private onMainGameClicked(): void {
-        this.onExit()
+        this.theme.destroy()
 
         this.game.scene.stop('MainMenu')
         this.game.scene.run('GameScene')
@@ -61,9 +58,4 @@ export default class MainMenu extends Phaser.Scene {
 
         this.music_button.addClickListener(this.onSoundClicked, this)
     }
-
-    private onExit(): void {
-        this.theme.destroy()
-    }
-
 }

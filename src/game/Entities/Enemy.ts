@@ -10,7 +10,6 @@ import Player from './Player'
 
 
 export default class Enemy extends GameObject {
-
     static readonly ENEMY_ATTACKED = "EnemyAttacked"
 
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string | Phaser.Textures.Texture, name: string, maxRange: number, player: Player) {

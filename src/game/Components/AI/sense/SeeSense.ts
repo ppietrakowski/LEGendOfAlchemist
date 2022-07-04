@@ -1,7 +1,5 @@
-
 import GameObject from "../../../Entities/GameObject";
 import { EnemySensing, SenseType, SensingListener } from "./EnemySensing"
-
 
 
 export default class SeeSense implements EnemySensing {

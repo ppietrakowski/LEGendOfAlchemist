@@ -4,7 +4,6 @@ import Item from "./Item"
 
 
 export default class Ingredient extends Item {
-
     constructor(effect: Effect, sprite: Phaser.GameObjects.Image) {
         super(effect, sprite)
         this.image.setInteractive({ pixelPerfect: true })

@@ -1,7 +1,5 @@
 import Phaser from 'phaser'
-import Attribute from '../Components/Attribute'
 import EnemyController from '../Components/EnemyController'
-import HealthBar from '../Components/HealthBar'
 import { Inventory } from '../Components/Inventory'
 import Enemy from './Enemy'
 import Player from './Player'

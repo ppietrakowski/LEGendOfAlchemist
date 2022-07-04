@@ -1,21 +1,21 @@
-
 import GameObject from '../../Entities/GameObject'
 import Controller from '../Controller'
-import {AI_State} from './AI_State'
+import { AI_State } from './AI_State'
+
 
 export abstract class EnemyState {
-    constructor (protected readonly controller: Controller, protected readonly owner: GameObject) {
+    constructor(protected readonly controller: Controller, protected readonly owner: GameObject) {
     }
 
     abstract stateStarted(): void
-    stateClosed(): void {}
+    stateClosed(): void { }
 
-    update(_deltaTime: number) {}
+    update(_deltaTime: number) { }
 
     abstract getState(): AI_State
 
     protected playMoveAnim(): void {
-        let {velocity} = this.owner.body
+        let { velocity } = this.owner.body
 
         if (this.isDirectedInRightSide())
             this.directedInLeftOrRight(velocity.x > Math.abs(velocity.y), velocity, `${this.owner.name}-right-run`)

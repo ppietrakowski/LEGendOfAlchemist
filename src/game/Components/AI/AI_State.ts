@@ -1,7 +1,7 @@
 export enum AI_State {
-    Roaming,
-    DuringMove,
-    Chasing,
-    Attack,
-    Aborted
+    ROAMING,
+    DURING_MOVE,
+    CHASING,
+    ATTACK,
+    ABORTED
 }

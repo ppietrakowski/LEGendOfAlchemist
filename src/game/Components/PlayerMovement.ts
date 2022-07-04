@@ -1,6 +1,5 @@
-import GameObject from '../Entities/GameObject'
 import Player from '../Entities/Player'
-import {Component, addToUpdateList} from './Component'
+import { Component, addToUpdateList } from './Component'
 
 
 export default class PlayerMovement implements Component {
@@ -21,7 +20,7 @@ export default class PlayerMovement implements Component {
     }
 
     private start(): void {
-        let {keyboard} = this.player.scene.input
+        let { keyboard } = this.player.scene.input
 
         this.onStayAnimation = 'player-front'
         this.input = keyboard.createCursorKeys()

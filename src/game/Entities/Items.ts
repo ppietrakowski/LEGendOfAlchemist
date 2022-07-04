@@ -10,6 +10,7 @@ export const Items = [
     'bush'
 ]
 
+
 /**
  * Returns random index of Items.
  * @returns {number}
@@ -18,6 +19,7 @@ export function getRandomItemIndex(): number {
     let index = Math.round(Math.random() * (Items.length - 3))
     return index
 }
+
 
 /**
  * Loads items with names in array Items
@@ -28,6 +30,7 @@ export function loadItems(scene: Phaser.Scene): void {
     for (let i of Items)
         scene.load.image(i, `assets/items/${i}.png`)
 }
+
 
 /**
  * Returns a item with random effect

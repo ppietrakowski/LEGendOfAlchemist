@@ -2,7 +2,7 @@ import Phaser from 'phaser'
 import Enemy from '../Entities/Enemy'
 import Player from '../Entities/Player'
 import Attribute from './Attribute'
-import {Component, addToUpdateList } from './Component'
+import { Component, addToUpdateList } from './Component'
 import Effect from './Effect'
 
 

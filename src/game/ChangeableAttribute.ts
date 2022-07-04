@@ -1,5 +1,5 @@
-
 import Phaser from 'phaser'
+
 
 /**
  * Class for reading and writting value
@@ -13,14 +13,14 @@ export default class ChangeableAttribute<T> extends Phaser.Events.EventEmitter {
      * It's delegate can look like:
      * valueChanged(previousValue: T): void
      */
-    static AttributeChanged = 'Changed'
+    static readonly ATTRIBUTE_CHANGED = 'Changed'
 
     constructor(protected _property: T) { super() }
 
     get value(): T { return this._property }
-    set value(newValue: T) { 
+    set value(newValue: T) {
         let temp = this._property
         this._property = newValue
-        this.emit(ChangeableAttribute.AttributeChanged, this._property)
+        this.emit(ChangeableAttribute.ATTRIBUTE_CHANGED, this._property)
     }
 }

@@ -13,7 +13,6 @@ export default class GameScene extends GameBaseScene {
     private readonly musicPlayer: MusicPlayer
 
     private keyI: Phaser.Input.Keyboard.Key
-    
 
     constructor() {
         super('GameScene')
@@ -28,7 +27,7 @@ export default class GameScene extends GameBaseScene {
 
         this.addKeyListener()
 
-        
+
 
         this.game.events.on(InventoryUi.INVENTORY_CLOSED, () => {
             this.scene.resume(this.scene.key)

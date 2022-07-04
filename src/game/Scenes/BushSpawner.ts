@@ -1,6 +1,6 @@
 
 import Phaser from 'phaser'
-import {Inventory} from '../Components/Inventory'
+import { Inventory } from '../Components/Inventory'
 import GameObject from '../Entities/GameObject'
 import { getItemWithRandomEffect } from '../Entities/Items'
 import Player from '../Entities/Player'

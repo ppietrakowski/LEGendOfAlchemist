@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
 import ChangeableAttribute from '../ChangeableAttribute'
 import Attribute from '../Components/Attribute'
-import {Inventory} from '../Components/Inventory'
+import { Inventory } from '../Components/Inventory'
 import PlayerCombat from '../Components/PlayerCombat'
 import PlayerHealthBar from '../Components/PlayerHealthBar'
 import PlayerMovement from '../Components/PlayerMovement'

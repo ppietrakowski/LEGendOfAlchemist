@@ -6,7 +6,7 @@ type Vector2Like = {
 };
 
 function getXandY(isle: number): Vector2Like {
-    let pos = {x: 0, y: 0}
+    let pos = { x: 0, y: 0 }
     if (isle === 0) {
         pos.x = Math.round(Phaser.Math.Between(9, 68)) * 32
         pos.y = Math.round(Phaser.Math.Between(6, 53)) * 32

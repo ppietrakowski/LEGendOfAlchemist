@@ -6,6 +6,7 @@ import Player from './Player'
 import Boss from './Boss'
 import UltraBoss from './UltraBoss'
 
+
 export default class EnemyFactory {
     private readonly scene: Phaser.Scene
     private readonly player: Player

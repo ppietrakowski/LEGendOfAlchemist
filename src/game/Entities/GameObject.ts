@@ -7,6 +7,7 @@ interface ComponentDictionary {
     [key: string]: Component
 }
 
+
 export default abstract class GameObject extends Phaser.Physics.Arcade.Sprite {
     private components: ComponentDictionary
 

@@ -1,6 +1,4 @@
-import Phaser from 'phaser'
 import Enemy from '../Entities/Enemy'
-import Player from '../Entities/Player'
 import { Component, addToUpdateList } from './Component'
 
 import { EnemyState } from './AI/EnemyState'
@@ -13,9 +11,8 @@ import GameObject from '../Entities/GameObject'
 import Controller from './Controller'
 
 import {AI_State} from './AI/AI_State'
-/**
- * TODO split behaviours to separate classes - pawelp
- */
+
+
 export default class EnemyController implements Component, SensingListener, Controller {
     private readonly senses: EnemySensing[]
 
@@ -37,7 +34,7 @@ export default class EnemyController implements Component, SensingListener, Cont
     }
 
     sensed(_sensedObject: GameObject, _senseType: SenseType): void {
-        if (this.currentState.getState() !== AI_State.Attack)
+        if (this.currentState.getState() !== AI_State.ATTACK)
             this.switchToNewState(new ChasingState(this, this.possesedEnemy))
     }
 

@@ -16,8 +16,8 @@ export default class DeadScene extends Phaser.Scene {
     }
 
     private onButtonPressed(): void {
-        const {scene} = this.game
-    
+        const { scene } = this.game
+
         scene.switch('DeadScene', 'MainMenu');
     }
 }

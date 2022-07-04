@@ -1,16 +1,18 @@
 
 import GameObject from '../Entities/GameObject'
 import Item from './../Entities/Item'
-import {Component, addToUpdateList } from './Component'
+import { Component } from './Component'
+
 
 export interface InventoryStartEvent {
     inventory: Inventory,
     owner: GameObject
 }
 
+
 export class Inventory extends Phaser.Events.EventEmitter implements Component {
     private items: Item[]
-   
+
     /*
      * Inventory event handlers name
      */
@@ -54,7 +56,7 @@ export class Inventory extends Phaser.Events.EventEmitter implements Component {
             if (this.items[i] === item && item.image.texture.key !== 'teleport-stone')
                 this.removeItem(item, i)
         }
-        
+
         this.emit(Inventory.INVENTORY_NEED_UPDATE, item.name)
     }
 

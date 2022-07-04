@@ -1,7 +1,8 @@
 import GameObject from '../Entities/GameObject'
-import {Component, addToUpdateList} from './Component'
+import { Component, addToUpdateList } from './Component'
 import Effect from './Effect'
 import ChangeableAttribute from '../ChangeableAttribute'
+
 
 export default class Attribute extends Phaser.Events.EventEmitter implements Component {
     private readonly character: GameObject
@@ -24,7 +25,7 @@ export default class Attribute extends Phaser.Events.EventEmitter implements Com
         this.effects = []
 
         addToUpdateList(character.scene, this.update, this)
-        this.hp.on(ChangeableAttribute.AttributeChanged, this.checkIsAlive, this)
+        this.hp.on(ChangeableAttribute.ATTRIBUTE_CHANGED, this.checkIsAlive, this)
     }
 
     destroy(): void {
