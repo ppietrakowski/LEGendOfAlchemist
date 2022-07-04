@@ -64,12 +64,11 @@ export default class EnemyController implements Component, SensingListener, Cont
     }
 
     update(_time: number, deltaTime: number): void {
-        deltaTime *= 0.01
+        deltaTime *= 0.001
         this.currentState.update(deltaTime)
 
         for (let sense of this.senses)
             sense.update(deltaTime)
-
     }
 
     switchToNewState(state: EnemyState) {

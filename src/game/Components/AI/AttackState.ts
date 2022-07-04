@@ -10,6 +10,8 @@ import { AI_State } from './AI_State'
 export default class AttackState extends EnemyState {
     private delay: number
 
+    private static readonly ATTACK_DELAY = 1.4
+
     constructor(controller: Controller, owner: GameObject, private readonly calculator: DamageCalculator) {
         super(controller, owner)
         this.delay = 0
@@ -24,9 +26,8 @@ export default class AttackState extends EnemyState {
     update(deltaTime: number): void {
         this.delay += deltaTime
         
-        if (this.delay >= 1.5) {
+        if (this.delay >= AttackState.ATTACK_DELAY)
             this.controller.switchToNewState(new AttackState(this.controller, this.owner, this.calculator))
-        }
     }
 
     getState(): AI_State {

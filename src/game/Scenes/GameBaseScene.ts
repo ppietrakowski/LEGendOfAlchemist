@@ -18,6 +18,7 @@ export abstract class GameBaseScene extends Phaser.Scene {
     protected enemyFactory: EnemyFactory
     protected enemies: Enemy[]
     protected enemyKilled = 0
+    private hitSound: Phaser.Sound.BaseSound
 
     get killStatistics() { return this.enemyKilled }
 
@@ -45,6 +46,8 @@ export abstract class GameBaseScene extends Phaser.Scene {
         this.player = new Player(this, 19 * 32, 14 * 32, 'player')
 
         this.enemyFactory = new EnemyFactory(this, this.player, this.seaLayer)
+        this.hitSound = this.sound.add('player-slap')
+
         this.addCollisionWithSeaLayer()
     }
 
@@ -78,7 +81,7 @@ export abstract class GameBaseScene extends Phaser.Scene {
             this.deleteEnemy(enemy)
         }, this)
 
-        enemy.on(Enemy.ENEMY_ATTACKED, (target: GameObject) => console.log(target.attributes.hp))
+        enemy.on(Enemy.ENEMY_ATTACKED, () => this.hitSound.play({volume: 0.2}))
     }
 
     protected deleteEnemy(enemy: Enemy) {
