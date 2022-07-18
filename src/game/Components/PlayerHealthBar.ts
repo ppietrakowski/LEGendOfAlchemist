@@ -1,4 +1,3 @@
-import ChangeableAttribute from '../ChangeableAttribute'
 import Player from '../Entities/Player'
 import HealthBar from './HealthBar'
 
@@ -7,25 +6,15 @@ export default class PlayerHealthBar extends HealthBar {
         super(owner, 100, owner)
     }
 
-    destroy(): void {
-        this.owner.scene.events.off(Phaser.Scenes.Events.UPDATE, this.update, this)
-        const { attributes } = this.owner
-        attributes.hp.removeAllListeners(ChangeableAttribute.ATTRIBUTE_CHANGED)
-
-        this.text.destroy()
-
-        this.player = null
-    }
-
     start(): void {
         this.text = this.owner.scene.add.text(20, 20,
-            this.player.attributes.hp.value.toString(), {
+            this.player.attributes.health.toString(), {
             fontFamily: 'pixellari', color: '#ffffff',
             backgroundColor: '#880000', fontSize: '16px'
         })
 
         this.text.setScrollFactor(0)
-        this.hpMax = this.owner.attributes.hp.value
+        this.hpMax = this.owner.attributes.health
 
         this.addHealthChangedListener()
     }

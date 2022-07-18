@@ -33,7 +33,7 @@ export default class BushSpawner {
             sprite.setInteractive({ pixelPerfect: true })
 
             sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
-                if (player.getComponent<Inventory>('inventory').hasFreeSpace())
+                if (player.getComponent<Inventory>(Inventory.COMPONENT_NAME).hasFreeSpace())
                     throwAway(this.scene, sprite)
                 else
                     showCannotGatherInfo(this.scene, player)

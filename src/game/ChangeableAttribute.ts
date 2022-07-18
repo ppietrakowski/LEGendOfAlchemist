@@ -11,7 +11,7 @@ export default class ChangeableAttribute<T> extends Phaser.Events.EventEmitter {
      * Name of event
      * 
      * It's delegate can look like:
-     * valueChanged(previousValue: T): void
+     * valueChanged(newValue: T): void
      */
     static readonly ATTRIBUTE_CHANGED = 'Changed'
 
@@ -19,7 +19,6 @@ export default class ChangeableAttribute<T> extends Phaser.Events.EventEmitter {
 
     get value(): T { return this._property }
     set value(newValue: T) {
-        let temp = this._property
         this._property = newValue
         this.emit(ChangeableAttribute.ATTRIBUTE_CHANGED, this._property)
     }

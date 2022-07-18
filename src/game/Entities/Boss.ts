@@ -7,10 +7,13 @@ import TeleportStone from './TeleportStone'
 
 
 export default class Boss extends Enemy {
-    constructor(scene: Phaser.Scene, x: number, y: number, texture: string | Phaser.Textures.Texture, name: string, maxRange: number, player: Player, public readonly teleportIndex: number) {
+    constructor(scene: Phaser.Scene, x: number, y: number,
+        texture: string | Phaser.Textures.Texture, name: string,
+        maxRange: number, player: Player, public readonly teleportIndex: number) {
+
         super(scene, x, y, texture, name, maxRange, player)
         // make it significant tougher than default enemy
-        this.attributes.hp.value *= 5.2
+        this.attributes.changeHealth(this.attributes.health * 5.2)
         this.attributes.strength.value *= 5.2
         this.setScale(1.5, 1.5)
     }
@@ -19,8 +22,8 @@ export default class Boss extends Enemy {
     }
 
     protected killed(): void {
-        const player = this.getComponent<EnemyController>('enemy-movement').target
-        const inventory = player.getComponent<Inventory>('inventory')
+        const player = this.getComponent<EnemyController>(EnemyController.COMPONENT_NAME).target
+        const inventory = player.getComponent<Inventory>(Inventory.COMPONENT_NAME)
 
         const teleportStone = new TeleportStone(null, player.scene.add.image(this.x, this.y, 'teleport-stone'), this.teleportIndex)
         teleportStone.image.name = 'teleport-stone-' + this.teleportIndex

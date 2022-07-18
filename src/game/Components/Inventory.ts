@@ -18,26 +18,33 @@ export class Inventory extends Phaser.Events.EventEmitter implements Component {
      */
     static readonly INVENTORY_FULL = "InventoryFull"
     static readonly ADDED_ITEM = "AddedItem"
-    static readonly INVENTORY_START = "InventoryStart"
     static readonly DELETED_ITEM = "DeletedItem"
     static readonly INVENTORY_NEED_UPDATE = "InventoryNeedUpdate"
+
+    static readonly COMPONENT_NAME = 'inventory'
 
     constructor(public readonly owner: GameObject) {
         super()
 
         this.items = []
-        owner.scene.game.events.emit(Inventory.INVENTORY_START, { inventory: this, owner: this.owner })
+    }
+
+    destroy(): void {
+        this.items = null
+        super.destroy()
     }
 
     getName(): string {
-        return 'inventory'
+        return Inventory.COMPONENT_NAME;
     }
 
     getItem(index: number): Item {
         return this.items[index]
     }
 
-    hasItem(name: string): boolean { return this.items.findIndex(value => value.image.name === name) != -1 }
+    hasItem(name: string): boolean { 
+        return this.items.findIndex(value => value.image.name === name) != -1
+    }
 
     addItem(item: Item) {
 

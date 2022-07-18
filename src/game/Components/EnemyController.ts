@@ -1,5 +1,5 @@
 import Enemy from '../Entities/Enemy'
-import { Component, addToUpdateList } from './Component'
+import { Component } from './Component'
 
 import { EnemyState } from './AI/EnemyState'
 import { RoamState } from './AI/RoamState'
@@ -11,12 +11,19 @@ import GameObject from '../Entities/GameObject'
 import Controller from './Controller'
 
 import {AI_State} from './AI/AI_State'
-
+import EnemyStatePool from './AI/EnemyStatePool'
 
 export default class EnemyController implements Component, SensingListener, Controller {
     private readonly senses: EnemySensing[]
 
     private currentState: EnemyState
+
+    /**
+     * For reduce gc overhead
+     */
+    private statePool: EnemyStatePool
+
+    static readonly COMPONENT_NAME = "EnemyController"
 
     constructor(public readonly target: GameObject, private readonly possesedEnemy: Enemy, maxDetectionRange: number) {
         this.senses = []
@@ -24,29 +31,47 @@ export default class EnemyController implements Component, SensingListener, Cont
 
         this.senses[0].addSenseListener(this)
 
-        this.start()
+        this.statePool = new EnemyStatePool(this, this.possesedEnemy);
+
+        this.runStateMachine()
     }
 
-    destroy(): void {}
+    destroy(): void {
+        this.senses.forEach(sense => sense.removeSenseListener(this))
+        this.possesedEnemy.off(GameObject.GAMEOBJECT_UPDATE, this.update, this)
+        this.currentState = null    
+    }
 
     getCurrentState(): EnemyState {
         return this.currentState
     }
 
     sensed(_sensedObject: GameObject, _senseType: SenseType): void {
-        if (this.currentState.getState() !== AI_State.ATTACK)
-            this.switchToNewState(new ChasingState(this, this.possesedEnemy))
+        if (this.currentState && this.currentState.getState() !== AI_State.ATTACK)
+            this.switchToNewState(AI_State.CHASING)
     }
 
     stopsSensing(_sensedObject: GameObject, _senseType: SenseType): void {
-        this.switchToNewState(new RoamState(this, this.possesedEnemy))
+        this.switchToNewState(AI_State.ROAMING)
     }
 
     getName(): string {
-        return 'enemy-movement';
+        return EnemyController.COMPONENT_NAME
     }
 
-    private start(): void {
+    update(deltaTime: number): void {
+        this.currentState?.update(deltaTime)
+
+        for (let sense of this.senses)
+            sense.update(deltaTime)
+    }
+
+    switchToNewState(state: AI_State) {
+        this.currentState = this.statePool.getState(state)
+        this.currentState.stateStarted()
+    }
+
+    private runStateMachine(): void {
         const { scene } = this.possesedEnemy
 
         this.possesedEnemy.setVelocityX(0)
@@ -57,20 +82,6 @@ export default class EnemyController implements Component, SensingListener, Cont
         this.currentState = new RoamState(this, this.possesedEnemy);
         this.currentState.stateStarted()
 
-        addToUpdateList(this.possesedEnemy.scene, this.update, this)
-    }
-
-    update(_time: number, deltaTime: number): void {
-        deltaTime *= 0.001
-        this.currentState.update(deltaTime)
-
-        for (let sense of this.senses)
-            sense.update(deltaTime)
-    }
-
-    switchToNewState(state: EnemyState) {
-        this.currentState.stateClosed()
-        this.currentState = state
-        state.stateStarted()
+        this.possesedEnemy.on(GameObject.GAMEOBJECT_UPDATE, this.update, this);
     }
 }

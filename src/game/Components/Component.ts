@@ -8,8 +8,3 @@ export interface Component {
 
     destroy(): void
 }
-
-
-export function addToUpdateList(scene: Phaser.Scene, fn: Function, context: any) {
-    scene.events.on(Phaser.Scenes.Events.UPDATE, fn, context)
-}

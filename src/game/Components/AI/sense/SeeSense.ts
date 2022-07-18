@@ -3,10 +3,15 @@ import { EnemySensing, SenseType, SensingListener } from "./EnemySensing"
 
 
 export default class SeeSense implements EnemySensing {
-    private readonly listeners: SensingListener[]
+    private listeners: SensingListener[]
 
-    constructor(private readonly possesedPawn: GameObject, private readonly target: GameObject, private readonly maxDetectionRange: number) {
+    constructor(private readonly possesedPawn: GameObject, private readonly target: GameObject,
+        private readonly maxDetectionRange: number) {
         this.listeners = []
+    }
+
+    removeSenseListener(sensingListener: SensingListener): void {
+        this.listeners = this.listeners.filter(value => value !== sensingListener)
     }
 
     addSenseListener(sensingListener: SensingListener): void {

@@ -10,7 +10,7 @@ export default class DefaultMusicPlayer implements MusicPlayer {
     constructor() {
     }
 
-    addMusic(music: Phaser.Sound.BaseSound): MusicPlayer {
+    addMusic(music: Phaser.Sound.BaseSound): this {
         this.music.push(music)
 
         if (!this.currentMusic)

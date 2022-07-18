@@ -8,19 +8,19 @@ export abstract class EnemyState {
     }
 
     abstract stateStarted(): void
-    stateClosed(): void { }
+    abstract getState(): AI_State
 
     update(_deltaTime: number) { }
-
-    abstract getState(): AI_State
 
     protected playMoveAnim(): void {
         let { velocity } = this.owner.body
 
         if (this.isDirectedInRightSide())
-            this.directedInLeftOrRight(velocity.x > Math.abs(velocity.y), velocity, `${this.owner.name}-right-run`)
+            this.directedInLeftOrRight(
+                velocity.x > Math.abs(velocity.y), velocity, `${this.owner.name}-right-run`)
         else
-            this.directedInLeftOrRight(Math.abs(velocity.x) > Math.abs(velocity.y), velocity, `${this.owner.name}-left-run`)
+            this.directedInLeftOrRight(
+                Math.abs(velocity.x) > Math.abs(velocity.y), velocity, `${this.owner.name}-left-run`)
     }
 
     private directedInLeftOrRight(condition: boolean, vel: Phaser.Math.Vector2, animName: string): void {

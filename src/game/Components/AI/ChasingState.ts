@@ -1,7 +1,5 @@
 import GameObject from '../../Entities/GameObject'
 import Controller from '../Controller'
-import DefaultDamageCalculator from '../DefaultDamageCalculator'
-import AttackState from './AttackState'
 import { EnemyState } from './EnemyState'
 import { AI_State } from './AI_State'
 
@@ -18,7 +16,7 @@ export default class ChasingState extends EnemyState {
 
     update(_deltaTime: number): void {
         if (this.isPlayerNear())
-            this.controller.switchToNewState(new AttackState(this.controller, this.owner, new DefaultDamageCalculator(this.owner)))
+            this.controller.switchToNewState(AI_State.ATTACK)
     }
 
     getState(): AI_State {

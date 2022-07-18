@@ -1,7 +1,6 @@
 import GameObject from "../../Entities/GameObject";
 import Controller from "../Controller";
 import { EnemyState } from "./EnemyState";
-import { MoveState } from "./MoveState";
 import { AI_State } from './AI_State'
 
 
@@ -19,21 +18,20 @@ export function getRoamingPosition(startPos: Phaser.Math.Vector2): Phaser.Math.V
 
 
 export class RoamState extends EnemyState {
-    private readonly endPosition: Phaser.Math.Vector2
+    public endPosition: Phaser.Math.Vector2
 
     constructor(controller: Controller, owner: GameObject) {
         super(controller, owner)
-        this.endPosition = getRoamingPosition(this.owner.body.position)
     }
-
     
     stateStarted(): void {
+        this.endPosition = getRoamingPosition(this.owner.body.position)
         this.owner.setVelocity(0, 0)
 
         this.owner.scene.physics.moveTo(this.owner, this.endPosition.x, this.endPosition.y)
         this.playMoveAnim()
 
-        this.controller.switchToNewState(new MoveState(this.controller, this.owner, this.endPosition))
+        this.controller.switchToNewState(AI_State.DURING_MOVE)
     }
 
     getState(): AI_State {

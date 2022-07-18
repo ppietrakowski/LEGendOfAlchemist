@@ -1,5 +1,5 @@
 import GameObject from '../Entities/GameObject'
-import { Component, addToUpdateList } from './Component'
+import { Component } from './Component'
 import Effect from './Effect'
 import ChangeableAttribute from '../ChangeableAttribute'
 
@@ -9,48 +9,47 @@ export default class Attribute extends Phaser.Events.EventEmitter implements Com
     private effects: Effect[]
 
     static readonly CHARACTER_DEAD = 'Dead'
+    static readonly HEALTH_CHANGED = 'healthChanged'
 
-    readonly hp: ChangeableAttribute<number>
-    readonly strength: ChangeableAttribute<number>
-    readonly wisdom: ChangeableAttribute<number>
+    static readonly COMPONENT_NAME = 'attributes';
+
+    private readonly hp = new ChangeableAttribute(0)
+    readonly strength = new ChangeableAttribute(0)
+    readonly wisdom = new ChangeableAttribute(0)
+
+    get health() { return this.hp.value }
 
     constructor(character: GameObject, hp: number, strength: number, wisdom: number) {
         super()
 
-        this.hp = new ChangeableAttribute(hp)
-        this.strength = new ChangeableAttribute(strength)
-        this.wisdom = new ChangeableAttribute(wisdom)
+        this.hp.value = hp
+        this.strength.value = strength
+        this.wisdom.value = wisdom
 
         this.character = character
         this.effects = []
 
-        addToUpdateList(character.scene, this.update, this)
         this.hp.on(ChangeableAttribute.ATTRIBUTE_CHANGED, this.checkIsAlive, this)
+        this.character.on(GameObject.GAMEOBJECT_UPDATE, this.update, this);
+    }
+
+    changeHealth(amount: number) {
+        this.hp.value += amount
+        this.emit(Attribute.HEALTH_CHANGED, this.hp.value)
     }
 
     destroy(): void {
-        this.hp.destroy()
-        this.strength.destroy()
-        this.wisdom.destroy()
-
-        for (const effect of this.effects) {
-            effect.off(Effect.EFFECT_ENDED, this.deleteEffect)
-            effect.destroy()
-        }
-
         this.effects = null
-
-        this.character.scene.events.off(Phaser.Scenes.Events.UPDATE, this.update)
         super.destroy()
     }
 
     getName(): string {
-        return 'attributes'
+        return Attribute.COMPONENT_NAME;
     }
 
-    update(_time: number, _deltaTime: number): void {
+    update(deltaTime: number): void {
         for (const effect of this.effects)
-            effect.update(_time, _deltaTime)
+            effect.update(deltaTime)
     }
 
     addEffect(effect: Effect): void {

@@ -22,13 +22,13 @@ export default class Enemy extends GameObject {
     }
 
     protected killed(): void {
-        const player = this.getComponent<EnemyController>('enemy-movement').target
+        const player = this.getComponent<EnemyController>(EnemyController.COMPONENT_NAME).target
         const ingredient = getItemWithRandomEffect(this.x, this.y, player.scene) as Ingredient
 
-        const inventory = player.getComponent<Inventory>('inventory')
+        const inventory = player.getComponent<Inventory>(Inventory.COMPONENT_NAME)
 
         // add event to throw item in place of enemy
-        ingredient.image.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, (pointer: Phaser.Input.Pointer) => inventory.addItem(ingredient));
+        ingredient.image.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => inventory.addItem(ingredient));
 
         this.destroy(true)
     }

@@ -16,7 +16,7 @@ export const Items = [
  * @returns {number}
  */
 export function getRandomItemIndex(): number {
-    let index = Math.round(Math.random() * (Items.length - 3))
+    const index = Math.round(Math.random() * (Items.length - 3))
     return index
 }
 
@@ -27,7 +27,7 @@ export function getRandomItemIndex(): number {
  * @returns {void}
  */
 export function loadItems(scene: Phaser.Scene): void {
-    for (let i of Items)
+    for (const i of Items)
         scene.load.image(i, `assets/items/${i}.png`)
 }
 
@@ -40,10 +40,10 @@ export function loadItems(scene: Phaser.Scene): void {
  * @returns {Item}
  */
 export function getItemWithRandomEffect(x: number, y: number, scene: Phaser.Scene): Ingredient {
-    let index = getRandomItemIndex()
-    let hp = Math.ceil(Math.random() * (10 + 4) - 4)
-    let strength = Math.ceil(Math.random() * (10 + 4) - 4)
-    let wisdom = Math.ceil(Math.random() * (10 + 4) - 4)
+    const index = getRandomItemIndex()
+    const hp = Math.ceil(Math.random() * (10 + 4) - 4)
+    const strength = Math.ceil(Math.random() * (10 + 4) - 4)
+    const wisdom = Math.ceil(Math.random() * (10 + 4) - 4)
     let time = 0
 
     while (time === 0)

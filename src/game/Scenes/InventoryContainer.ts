@@ -65,7 +65,7 @@ export default class InventoryContainer extends Phaser.GameObjects.Container {
 
     private buildInventorySlot(child: Phaser.GameObjects.GameObject) {
         if (child != this.background && child != this.title) {
-            let ch = child as Phaser.GameObjects.Sprite
+            const ch = child as Phaser.GameObjects.Sprite
             ch.x = margin + offset * this.currentRow
             ch.y = this.heigth
             ++this.currentRow

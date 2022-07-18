@@ -44,5 +44,5 @@ class Game extends Phaser.Game {
 }
 
 window.onload = () => {
-    Object.defineProperty(window, 'game', new Game())
+    window['game'] = new Game()
 }

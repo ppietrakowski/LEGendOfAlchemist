@@ -3,5 +3,9 @@ export enum AI_State {
     DURING_MOVE,
     CHASING,
     ATTACK,
+
+    /**
+     * @deprecated NOT USED IN CODE
+     */
     ABORTED
 }

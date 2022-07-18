@@ -1,22 +1,26 @@
+import GameObject from '../Entities/GameObject'
 import Player from '../Entities/Player'
-import { Component, addToUpdateList } from './Component'
+import { Component } from './Component'
 
 
 export default class PlayerMovement implements Component {
     private input: Phaser.Types.Input.Keyboard.CursorKeys
     private onStayAnimation: string
 
+    static readonly COMPONENT_NAME = 'movement';
+
     constructor(private readonly player: Player, private readonly speed: Phaser.Math.Vector2) {
         this.speed = speed
         this.start()
     }
 
-    destroy(): void {
-        this.player.scene.events.off(Phaser.Scenes.Events.UPDATE, this.update, this)
+    getName(): string {
+        return PlayerMovement.COMPONENT_NAME;
     }
 
-    getName(): string {
-        return 'movement'
+    destroy(): void {
+        this.input = null
+        this.onStayAnimation = null
     }
 
     private start(): void {
@@ -25,11 +29,12 @@ export default class PlayerMovement implements Component {
         this.onStayAnimation = 'player-front'
         this.input = keyboard.createCursorKeys()
 
-        addToUpdateList(this.player.scene, this.update, this)
+        this.player.on(GameObject.GAMEOBJECT_UPDATE, this.update, this)
     }
 
-    update(_time: number, deltaTime: number): void {
-        deltaTime *= 0.05
+    update(deltaTime: number): void {
+        deltaTime *= 20
+
         if (this.input.down.isDown) {
             this.onMovement('player-front-run', 0, this.speed.y * deltaTime)
             this.onStayAnimation = 'player-front'
@@ -49,6 +54,9 @@ export default class PlayerMovement implements Component {
     }
 
     private onMovement(frameName: string, velX: number, velY: number) {
+        if (!this.player.anims)
+            return;
+        
         this.player.anims.play(frameName, true)
         this.player.setVelocity(velX, velY)
     }

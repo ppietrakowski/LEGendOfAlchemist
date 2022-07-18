@@ -7,13 +7,15 @@ export default class Portal {
     private teleportSound: Phaser.Sound.BaseSound
     private text: Phaser.GameObjects.Text = null
 
-    constructor(public name: string, public sprite: Phaser.Physics.Arcade.Sprite, public player: Player, private readonly endPoint: Phaser.Math.Vector2, private readonly portalNo: number) {
+    constructor(public name: string, public sprite: Phaser.Physics.Arcade.Sprite,
+        public player: Player, private readonly endPoint: Phaser.Math.Vector2,
+        private readonly portalNo: number) {
+
         this.teleportSound = sprite.scene.sound.add('portal-sound')
         this.sprite.scene.physics.add.overlap(this.sprite, this.player, () => this.playerEnteredIntoPortal())
         sprite.setInteractive()
         sprite.body.pushable = false
     }
-
 
     private playerEnteredIntoPortal() {
         if (this.player.hasTeleportStone(this.portalNo))
@@ -29,7 +31,7 @@ export default class Portal {
             (txt: Phaser.GameObjects.GameObject) => { txt.destroy(); this.text = null }
         )
     }
-    
+
 
     private teleport() {
         this.teleportSound.play()

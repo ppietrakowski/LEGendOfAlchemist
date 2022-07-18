@@ -1,13 +1,14 @@
 import Phaser from "phaser"
-import {Inventory, InventoryStartEvent} from '../Components/Inventory'
+import { Inventory, InventoryStartEvent } from '../Components/Inventory'
 import Item from "../Entities/Item"
+import Player from "../Entities/Player"
 import InventoryContainer from './InventoryContainer'
 
 export default abstract class InventoryBase extends Phaser.Scene {
     protected inventory: Inventory
     protected container: InventoryContainer
     static readonly INVENTORY_CLOSED = "InventoryClosed"
-    
+
     constructor(key: string) {
         super({ key })
     }
@@ -17,29 +18,28 @@ export default abstract class InventoryBase extends Phaser.Scene {
 
         this.container.setScrollFactor(0)
 
-        this.game.events.on(Inventory.INVENTORY_START, this.assignInventory, this)
+        this.game.events.once(Player.INVENTORY_START, this.assignInventory, this)
     }
 
     protected setupItem(item: Item): void {
         if (item.image.texture.key !== 'teleport-stone')
-            this.useItemAsUsable(item)
+            this.makeItemUsableInInventory(item)
 
         item.image.setInteractive({ pixelPerfect: true })
     }
 
     protected addElement(item: Item): void {
-        let sprite = item.image
-        
-        item.image = this.add.sprite(item.image.x, item.image.y, item.image.texture.key)
-        sprite.destroy()
+        const {image} = item
 
-        item.image.name = sprite.texture.key + "-" + Math.round(sprite.x) + "-" + Math.round(sprite.y)
+        item.image = this.add.sprite(item.image.x, item.image.y, item.image.texture.key)
+        item.image.name = image.texture.key + "-" + Math.round(image.x) + "-" + Math.round(image.y)
+        image.destroy()
     }
 
-    private useItemAsUsable(item: Item) {
-        const owner = this.inventory.owner
+    private makeItemUsableInInventory(item: Item) {
+        const {owner} = this.inventory
         item.image.once(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
-            let inventory = owner.getComponent<Inventory>('inventory')
+            let inventory = owner.getComponent<Inventory>(Inventory.COMPONENT_NAME)
 
             item.used(owner)
             inventory.deleteItem(item)
@@ -47,11 +47,8 @@ export default abstract class InventoryBase extends Phaser.Scene {
     }
 
     private assignInventory(inventoryEvent: InventoryStartEvent) {
-        if (inventoryEvent.owner.name === 'player') {
-            this.inventory = inventoryEvent.inventory
-            this.inventory.on(Inventory.ADDED_ITEM, this.addElement, this)
-            this.inventory.on(Inventory.INVENTORY_FULL, () => console.log("Inventory full !"))
-            this.game.events.off(Inventory.INVENTORY_START, this.assignInventory)
-        }
+        this.inventory = inventoryEvent.inventory
+        this.inventory.on(Inventory.ADDED_ITEM, this.addElement, this)
+        this.inventory.on(Inventory.INVENTORY_FULL, () => console.log("Inventory full !"))
     }
 }

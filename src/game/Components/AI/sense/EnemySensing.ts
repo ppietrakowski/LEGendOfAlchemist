@@ -14,5 +14,6 @@ export interface SensingListener {
 
 export interface EnemySensing {
     addSenseListener(sensingListener: SensingListener): void
+    removeSenseListener(sensingListener: SensingListener): void
     update(deltaTime: number): void
 }

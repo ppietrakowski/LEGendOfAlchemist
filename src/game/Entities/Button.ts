@@ -1,9 +1,6 @@
 import Phaser from 'phaser'
 
 
-/**
- * TODO this can just be a dom element
- */
 export default class Button extends Phaser.Events.EventEmitter {
     private image: Phaser.GameObjects.Image
 
@@ -22,8 +19,9 @@ export default class Button extends Phaser.Events.EventEmitter {
     }
 
     
-    addClickListener(fn: Function, context: any) {
+    addClickListener(fn: Function, context: any): this {
         this.on(Button.BUTTON_CLICKED, fn, context)
+        return this
     }
 
 

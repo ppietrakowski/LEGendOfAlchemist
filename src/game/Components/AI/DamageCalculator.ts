@@ -1,6 +1,6 @@
 import GameObject from "../../Entities/GameObject";
 
 
-export default interface DamageCalculator {
+export default interface IDamageCalculator {
     calculateDamage(target: GameObject): number
 }
