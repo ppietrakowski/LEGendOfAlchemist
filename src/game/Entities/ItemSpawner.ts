@@ -1,10 +1,10 @@
-import { IItem } from "./Item";
+import { Item } from "./Item";
 import Player from "./Player";
 
 
 export class ItemImage {
 
-    constructor(public item: IItem, public image: Phaser.GameObjects.Image) {
+    constructor(public item: Item, public image: Phaser.GameObjects.Image) {
 
         image.setInteractive({pixelPerfect: true})
 
@@ -31,7 +31,7 @@ export class ItemSpawner {
 
     }
 
-    addItem(x: number, y: number, item: IItem) {
+    addItem(x: number, y: number, item: Item) {
         return new ItemImage(item, this.scene.add.image(x, y, item.imageKey))
     }
 }

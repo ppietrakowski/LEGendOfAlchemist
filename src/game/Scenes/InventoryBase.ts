@@ -1,6 +1,6 @@
 import Phaser from "phaser"
 import { Inventory, InventoryStartEvent } from '../Components/Inventory'
-import { Item, IItem } from "../Entities/Item"
+import { Item } from "../Entities/Item"
 import Player from "../Entities/Player"
 import InventoryContainer from './InventoryContainer'
 
@@ -36,11 +36,11 @@ export default abstract class InventoryBase extends Phaser.Scene {
         this.container.updatePosition()
     }
 
-    private addElement(item: IItem): Phaser.GameObjects.Image {
+    private addElement(item: Item): Phaser.GameObjects.Image {
         const image = this.add.image(0, 0, item.imageKey)
 
         image.setData(InventoryBase.DATA_ITEM_KEY, item)
-        
+
         this.setupItem(image)
         image.setScrollFactor(0)
 
@@ -48,13 +48,14 @@ export default abstract class InventoryBase extends Phaser.Scene {
     }
 
     private itemUsed(item: Phaser.GameObjects.Image) {
-        let itemState = item.data.get(InventoryBase.DATA_ITEM_KEY) as IItem
+        let itemState = item.data.get(InventoryBase.DATA_ITEM_KEY) as Item
 
-        if (itemState.used)
+        if (itemState.used) {
             itemState.used(itemState, this.inventory.owner)
 
-        this.inventory.deleteItem(itemState)
-        item.destroy()
+            this.inventory.deleteItem(itemState)
+            item.destroy()
+        }
     }
 
     private assignInventory(inventoryEvent: InventoryStartEvent) {

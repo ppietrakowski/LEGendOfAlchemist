@@ -1,8 +1,7 @@
 import Effect from "../Components/Effect";
 import { Inventory } from "../Components/Inventory";
 import GameObject from "./GameObject";
-import Ingredient from "./Ingredient";
-import { IItem } from "./Item";
+import { Item } from "./Item";
 
 export const Items = [
     'cherries',
@@ -35,40 +34,20 @@ export function loadItems(scene: Phaser.Scene): void {
 }
 
 
-/**
- * Returns a item with random effect
- * @param {number} x 
- * @param {number} y 
- * @param {Phaser.Scene} scene 
- * @returns {Item}
- */
-export function getItemWithRandomEffect(x: number, y: number, scene: Phaser.Scene): Ingredient {
-    const index = getRandomItemIndex()
-    const hp = Math.ceil(Math.random() * (10 + 4) - 4)
-    const strength = Math.ceil(Math.random() * (10 + 4) - 4)
-    const wisdom = Math.ceil(Math.random() * (10 + 4) - 4)
-    let time = 0
-
-    while (time === 0)
-        time = Math.floor(Math.random() * (2 + 1) - 1)
-
-    return new Ingredient(new Effect(hp, strength, wisdom, time), scene.add.image(x, y, Items[index]).setOrigin(0, 0))
-}
-
 export const ItemCherry = {
     name: "Cherry",
     imageKey: 'cherries',
     effect: new Effect(10, 5, 3, 1),
     firstTimeUsed: false,
     description: undefined,
-    used: function(item: IItem, gameObject: GameObject) {
+    used: function(item: Item, gameObject: GameObject) {
         let effect = Effect.clone(item.effect)
 
         if (!this.firstTimeUsed) {
             this.description = `Heals ${effect.deltaHp} and adds a ${effect.deltaStrength} strength and a ${effect.deltaWisdom} wisdom`
             this.firstTimeUsed = true
         }
-        
+
         gameObject.attributes.addEffect(effect)
 
         gameObject.getComponent<Inventory>(Inventory.COMPONENT_NAME).deleteItem(item)

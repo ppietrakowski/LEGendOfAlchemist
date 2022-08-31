@@ -1,6 +1,5 @@
 import Phaser from 'phaser'
-import {IItem, Item} from '../Entities/Item'
-import TeleportStone from '../Entities/TeleportStone'
+import { Item } from '../Entities/Item'
 import InventoryBase from './InventoryBase'
 
 export default class InventoryUi extends InventoryBase {

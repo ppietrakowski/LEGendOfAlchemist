@@ -1,6 +1,6 @@
 
 import Phaser from 'phaser'
-import { IItem } from '../Entities/Item'
+import { Item } from '../Entities/Item'
 import InventoryBase from './InventoryBase'
 
 const margin = 10
@@ -49,7 +49,7 @@ export default class InventoryContainer extends Phaser.GameObjects.Container {
     }
 
     private showInfo(item: Phaser.GameObjects.Image) {
-        let itemState = item.data.get(InventoryBase.DATA_ITEM_KEY) as IItem
+        let itemState = item.data.get(InventoryBase.DATA_ITEM_KEY) as Item
 
         this.itemInfo.setText(`${itemState.name}\n${itemState.description ? itemState.description : '????'}`)
         this.itemInfo.setPosition(item.x, item.y)
