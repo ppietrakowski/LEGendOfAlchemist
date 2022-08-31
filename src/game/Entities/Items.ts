@@ -55,12 +55,20 @@ export function getItemWithRandomEffect(x: number, y: number, scene: Phaser.Scen
     return new Ingredient(new Effect(hp, strength, wisdom, time), scene.add.image(x, y, Items[index]).setOrigin(0, 0))
 }
 
-export const ItemCherry: IItem = {
+export const ItemCherry = {
     name: "Cherry",
     imageKey: 'cherries',
     effect: new Effect(10, 5, 3, 1),
-    used: (item: IItem, gameObject: GameObject) => {
+    firstTimeUsed: false,
+    description: undefined,
+    used: function(item: IItem, gameObject: GameObject) {
         let effect = Effect.clone(item.effect)
+
+        if (!this.firstTimeUsed) {
+            this.description = `Heals ${effect.deltaHp} and adds a ${effect.deltaStrength} strength and a ${effect.deltaWisdom} wisdom`
+            this.firstTimeUsed = true
+        }
+        
         gameObject.attributes.addEffect(effect)
 
         gameObject.getComponent<Inventory>(Inventory.COMPONENT_NAME).deleteItem(item)

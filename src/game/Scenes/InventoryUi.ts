@@ -20,16 +20,4 @@ export default class InventoryUi extends InventoryBase {
             this.game.events.emit(InventoryUi.INVENTORY_CLOSED)
         })
     }
-
-    protected addElement(item: IItem): Phaser.GameObjects.Image {
-        let image = super.addElement(item)
-
-        this.container.add(image)
-        image.setScrollFactor(0)
-
-        this.setupItem(image)
-        this.container.updatePosition()
-
-        return image
-    }
 }

@@ -12,7 +12,7 @@ import Attribute from '../Components/Attribute'
 import Enemy from '../Entities/Enemy'
 import EnemyFactory from '../Entities/EnemyFactory'
 
-import {ItemSpawner} from '../Entities/ItemSpawner'
+import { ItemSpawner } from '../Entities/ItemSpawner'
 
 export default class GameScene extends GameBaseScene {
     private readonly portals: Portal[]

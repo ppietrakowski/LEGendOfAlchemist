@@ -1,13 +1,13 @@
 
 import Phaser from 'phaser'
-import Effect from '../Components/Effect'
 import { IItem } from '../Entities/Item'
-import TeleportStone from '../Entities/TeleportStone'
 import InventoryBase from './InventoryBase'
 
 const margin = 10
 const offset = 24
 const marginBetweenTwoElements = 16
+
+const TextConfig = { fontFamily: 'pixellari', padding: { bottom: 3, left: 3 }, backgroundColor: '#111122' };
 
 export default class InventoryContainer extends Phaser.GameObjects.Container {
     private readonly maxRow: number = 5
@@ -21,9 +21,12 @@ export default class InventoryContainer extends Phaser.GameObjects.Container {
         private readonly title: Phaser.GameObjects.GameObject, ...children: Phaser.GameObjects.GameObject[]) {
         super(scene, x, y, children)
 
+        let { events } = this.scene.game
+
         this.scene.add.existing(this)
-        this.itemInfo = this.scene.add.text(0, 0, '', { fontFamily: 'pixellari', padding: { bottom: 3, left: 3 }, backgroundColor: '#111122' })
-        this.scene.game.events.on(InventoryBase.INVENTORY_CLOSED, () => this.itemInfo.setVisible(false))
+        this.itemInfo = this.scene.add.text(0, 0, '', TextConfig)
+
+        events.on(InventoryBase.INVENTORY_CLOSED, () => this.itemInfo.setVisible(false))
     }
 
     public updatePosition() {
@@ -39,19 +42,18 @@ export default class InventoryContainer extends Phaser.GameObjects.Container {
         this.itemInfo.text = ''
     }
 
+    public addItemInfo(item: Phaser.GameObjects.Image): void {
+        item.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER, () => this.showInfo(item))
 
-    public addItemInfo(image: Phaser.GameObjects.Image): void {
-        image.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER, () => {
-            let itemState = image.data.get(InventoryBase.DATA_ITEM_KEY) as IItem
+        item.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT, () => this.itemInfo.setVisible(false))
+    }
 
-            this.itemInfo.setText(`${itemState.name}\n${itemState.description ? itemState.description : '????'}`)
-            this.itemInfo.setPosition(image.x, image.y)
-            this.itemInfo.setVisible(true)
-        })
+    private showInfo(item: Phaser.GameObjects.Image) {
+        let itemState = item.data.get(InventoryBase.DATA_ITEM_KEY) as IItem
 
-        image.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT, () => {
-            this.itemInfo.setVisible(false)
-        })
+        this.itemInfo.setText(`${itemState.name}\n${itemState.description ? itemState.description : '????'}`)
+        this.itemInfo.setPosition(item.x, item.y)
+        this.itemInfo.setVisible(true)
     }
 
     private buildInventorySlot(child: Phaser.GameObjects.GameObject) {
@@ -60,6 +62,7 @@ export default class InventoryContainer extends Phaser.GameObjects.Container {
             ch.x = margin + offset * this.currentRow
             ch.y = this.heigth
             ++this.currentRow
+
             if (this.currentRow === this.maxRow) {
                 this.heigth += 16
                 this.currentRow = 0

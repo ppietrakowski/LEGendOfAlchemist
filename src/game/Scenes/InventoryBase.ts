@@ -24,17 +24,26 @@ export default abstract class InventoryBase extends Phaser.Scene {
         this.game.events.once(Player.INVENTORY_START, this.assignInventory, this)
     }
 
-    protected setupItem(image: Phaser.GameObjects.Image): void {
-        if (image.texture.key !== 'teleport-stone')
-            image.once(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => this.itemUsed(image))
+    private setupItem(item: Phaser.GameObjects.Image): void {
+        if (!item.name.includes('TeleportStone'))
+            item.once(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => this.itemUsed(item))
 
-        image.setInteractive({ pixelPerfect: true })
+        item.setInteractive({ pixelPerfect: true })
+
+        // add it to container to easier track it's state
+        this.container.addItemInfo(item)
+        this.container.add(item)
+        this.container.updatePosition()
     }
 
-    protected addElement(item: IItem): Phaser.GameObjects.Image {
+    private addElement(item: IItem): Phaser.GameObjects.Image {
         const image = this.add.image(0, 0, item.imageKey)
+
         image.setData(InventoryBase.DATA_ITEM_KEY, item)
-        this.container.addItemInfo(image)
+        
+        this.setupItem(image)
+        image.setScrollFactor(0)
+
         return image
     }
 
