@@ -1,6 +1,7 @@
 
 import Phaser from 'phaser'
 import Effect from '../Components/Effect'
+import { IItem } from '../Entities/Item'
 import TeleportStone from '../Entities/TeleportStone'
 import InventoryBase from './InventoryBase'
 
@@ -38,10 +39,12 @@ export default class InventoryContainer extends Phaser.GameObjects.Container {
         this.itemInfo.text = ''
     }
 
-    /*
-    public addItemInfo(image: Phaser.GameObjects.Image, effect: Effect): void {
+
+    public addItemInfo(image: Phaser.GameObjects.Image): void {
         image.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER, () => {
-            this.itemInfo.setText(`hp: ${effect.deltaHp}\nstr: ${effect.deltaStrength}\nwis: ${effect.deltaWisdom}`)
+            let itemState = image.data.get(InventoryBase.DATA_ITEM_KEY) as IItem
+
+            this.itemInfo.setText(`${itemState.name}\n${itemState.description ? itemState.description : '????'}`)
             this.itemInfo.setPosition(image.x, image.y)
             this.itemInfo.setVisible(true)
         })
@@ -50,23 +53,6 @@ export default class InventoryContainer extends Phaser.GameObjects.Container {
             this.itemInfo.setVisible(false)
         })
     }
-    */
-
-    /*
-
-    public addTeleportInfo(teleport: TeleportStone): void {
-        teleport.image.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER, () => {
-
-            this.itemInfo.setText(`Allows for teleport\nin teleport number ${teleport.index}`)
-            this.itemInfo.setPosition(teleport.image.x, teleport.image.y)
-            this.itemInfo.setVisible(true)
-        })
-
-        teleport.image.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT, () => {
-            this.itemInfo.setVisible(false)
-        })
-    }
-        */
 
     private buildInventorySlot(child: Phaser.GameObjects.GameObject) {
         if (child != this.background && child != this.title) {

@@ -12,7 +12,11 @@ function throwAway(scene: Phaser.Scene, sprite: Phaser.GameObjects.Image) {
     const player = scene.children.getByName('player') as Player
 
     addInformationText(scene, sprite.x, sprite.y, `You have received ${item.name}`,
-        (text: Phaser.GameObjects.GameObject) => { text.destroy(); player.inventory.addItem(item) })
+        (text: Phaser.GameObjects.GameObject) => {
+            text.destroy()
+            player.inventory.addItem(item)
+        })
+
     sprite.destroy(true)
 }
 

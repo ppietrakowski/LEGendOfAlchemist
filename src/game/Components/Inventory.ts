@@ -1,6 +1,6 @@
 
 import GameObject from '../Entities/GameObject'
-import {Item, IItem} from './../Entities/Item'
+import { Item, IItem } from './../Entities/Item'
 import { Component } from './Component'
 
 
@@ -42,7 +42,7 @@ export class Inventory extends Phaser.Events.EventEmitter implements Component {
         return this.items[index]
     }
 
-    hasItem(name: string): boolean { 
+    hasItem(name: string): boolean {
         return this.items.findIndex(value => value.name === name) != -1
     }
 
