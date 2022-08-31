@@ -7,14 +7,12 @@ export class ItemImage {
     constructor(public item: Item, public image: Phaser.GameObjects.Image) {
 
         image.setInteractive({pixelPerfect: true})
-
-        this.image.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, this.give, this)
     }
 
-    private give() {
+    public giveToPlayer() {
         let player = this.image.scene.data.get('player') as Player
         player.inventory.addItem(this.item)
-        this.image.destroy(true)
+        this.image.destroy()
 
         // activate this for gc
         this.image = null

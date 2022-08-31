@@ -2,13 +2,13 @@
 import Phaser from 'phaser'
 import { Inventory } from '../Components/Inventory'
 import GameObject from '../Entities/GameObject'
-import { ItemCherry } from '../Entities/Items'
+import { getRandomItem } from '../Entities/Items'
 import Player from '../Entities/Player'
 import { addInformationText, spawnGameobjectAtTile } from './SceneUtils'
 
 
 function throwAway(scene: Phaser.Scene, sprite: Phaser.GameObjects.Image) {
-    const item = ItemCherry
+    const item = getRandomItem()
     const player = scene.children.getByName('player') as Player
 
     addInformationText(scene, sprite.x, sprite.y, `You have received ${item.name}`,

@@ -13,6 +13,7 @@ export interface Item {
     description?: string
     
     used?: UsedCallback
+    firstTimeUsed?: boolean
     
     effect?: Effect
 }
