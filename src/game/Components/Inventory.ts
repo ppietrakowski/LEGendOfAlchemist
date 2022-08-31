@@ -1,6 +1,6 @@
 
 import GameObject from '../Entities/GameObject'
-import Item from './../Entities/Item'
+import {Item, IItem} from './../Entities/Item'
 import { Component } from './Component'
 
 
@@ -11,7 +11,7 @@ export interface InventoryStartEvent {
 
 
 export class Inventory extends Phaser.Events.EventEmitter implements Component {
-    private items: Item[]
+    private items: IItem[]
 
     /*
      * Inventory event handlers name
@@ -38,15 +38,15 @@ export class Inventory extends Phaser.Events.EventEmitter implements Component {
         return Inventory.COMPONENT_NAME;
     }
 
-    getItem(index: number): Item {
+    getItem(index: number): IItem {
         return this.items[index]
     }
 
     hasItem(name: string): boolean { 
-        return this.items.findIndex(value => value.image.name === name) != -1
+        return this.items.findIndex(value => value.name === name) != -1
     }
 
-    addItem(item: Item) {
+    addItem(item: IItem) {
 
         if (this.hasFreeSpace())
             this.addOnFreeSpace(item)
@@ -58,21 +58,21 @@ export class Inventory extends Phaser.Events.EventEmitter implements Component {
         return this.items.length < 25
     }
 
-    deleteItem(item: Item) {
+    deleteItem(item: IItem) {
         for (let i = 0; i < this.items.length; i++) {
-            if (this.items[i] === item && item.image.texture.key !== 'teleport-stone')
+            if (this.items[i] === item)
                 this.removeItem(item, i)
         }
 
         this.emit(Inventory.INVENTORY_NEED_UPDATE, item.name)
     }
 
-    private addOnFreeSpace(item: Item) {
+    private addOnFreeSpace(item: IItem) {
         this.items.push(item)
         this.emit(Inventory.ADDED_ITEM, item)
     }
 
-    private removeItem(item: Item, i: number): void {
+    private removeItem(item: IItem, i: number): void {
         this.emit(Inventory.DELETED_ITEM, item)
         this.items.splice(i, 1)
     }

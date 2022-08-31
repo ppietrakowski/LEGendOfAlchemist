@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 import EnemyController from '../Components/EnemyController'
 import { Inventory } from '../Components/Inventory'
 import Enemy from './Enemy'
+import { ItemSpawner } from './ItemSpawner'
 import Player from './Player'
 import TeleportStone from './TeleportStone'
 
@@ -25,14 +26,9 @@ export default class Boss extends Enemy {
         const player = this.getComponent<EnemyController>(EnemyController.COMPONENT_NAME).target
         const inventory = player.getComponent<Inventory>(Inventory.COMPONENT_NAME)
 
-        const teleportStone = new TeleportStone(null, player.scene.add.image(this.x, this.y, 'teleport-stone'), this.teleportIndex)
-        teleportStone.image.name = 'teleport-stone-' + this.teleportIndex
-
-        // add event to throw item in place of enemey
-        teleportStone.image.once(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
-            inventory.addItem(teleportStone)
-            teleportStone.image.name = 'teleport-stone-' + this.teleportIndex
-        });
+        const itemSpawner = this.scene.data.get('spawner') as ItemSpawner
+        
+        itemSpawner.addItem(this.x, this.y, new TeleportStone('teleport-stone', this.teleportIndex))
 
         this.destroy()
     }

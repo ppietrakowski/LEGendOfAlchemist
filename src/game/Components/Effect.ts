@@ -8,6 +8,10 @@ export default class Effect extends Phaser.Events.EventEmitter {
 
     static readonly EFFECT_ENDED = 'Ended'
 
+    static clone(effect: Effect): Effect {
+        return new Effect(effect.deltaHp, effect.deltaStrength, effect.deltaWisdom, effect.duration)
+    }
+
     constructor(public deltaHp: number, public deltaStrength: number,
         public deltaWisdom: number, public readonly duration: number) {
 

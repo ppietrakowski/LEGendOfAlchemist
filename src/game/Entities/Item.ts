@@ -4,7 +4,7 @@ import GameObject from './GameObject'
 
 
 /* TODO replace composition with generalization ! */
-export default abstract class Item {
+export abstract class Item {
     name: string
 
     constructor(public effect: Effect, public image: Phaser.GameObjects.Image) {
@@ -12,4 +12,20 @@ export default abstract class Item {
     }
 
     abstract used(character: GameObject): void
+}
+
+
+export interface UsedCallback {
+    (item: IItem, gameObject: GameObject): void
+}
+
+export interface IItem {
+
+    name: string
+    imageKey: string
+    description?: string
+    
+    used?: UsedCallback
+    
+    effect?: Effect
 }

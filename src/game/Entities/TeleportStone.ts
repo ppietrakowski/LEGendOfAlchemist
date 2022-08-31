@@ -1,13 +1,21 @@
 import Effect from "../Components/Effect"
 import GameObject from "./GameObject"
-import Item from "./Item"
+import {IItem, Item, UsedCallback} from "./Item"
 
 
-export default class TeleportStone extends Item {
-    constructor(effect: Effect, sprite: Phaser.GameObjects.Image, public index: number) {
-        super(effect, sprite)
+export default class TeleportStone implements IItem {
+    name: string
+    used?: UsedCallback
+    description?: string
+
+    constructor(public imageKey: string, public index: number) {
+
+        this.name = `TeleportStone0${index}`
+        this.used = this.beenUsed.bind(this)
+        
+        this.description = 'Is used to teleport'
     }
-
-    used(_character: GameObject): void {
+    
+    private beenUsed(item: IItem, gameObject: GameObject) {
     }
 }

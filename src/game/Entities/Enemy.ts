@@ -5,7 +5,7 @@ import HealthBar from '../Components/HealthBar'
 import { Inventory } from '../Components/Inventory'
 import GameObject from './GameObject'
 import Ingredient from './Ingredient'
-import { getItemWithRandomEffect } from './Items'
+import { getItemWithRandomEffect, ItemCherry } from './Items'
 import Player from './Player'
 
 
@@ -28,7 +28,7 @@ export default class Enemy extends GameObject {
         const inventory = player.getComponent<Inventory>(Inventory.COMPONENT_NAME)
 
         // add event to throw item in place of enemy
-        ingredient.image.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => inventory.addItem(ingredient));
+        ingredient.image.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => inventory.addItem(ItemCherry));
 
         this.destroy(true)
     }

@@ -1,5 +1,8 @@
 import Effect from "../Components/Effect";
+import { Inventory } from "../Components/Inventory";
+import GameObject from "./GameObject";
 import Ingredient from "./Ingredient";
+import { IItem } from "./Item";
 
 export const Items = [
     'cherries',
@@ -50,4 +53,16 @@ export function getItemWithRandomEffect(x: number, y: number, scene: Phaser.Scen
         time = Math.floor(Math.random() * (2 + 1) - 1)
 
     return new Ingredient(new Effect(hp, strength, wisdom, time), scene.add.image(x, y, Items[index]).setOrigin(0, 0))
+}
+
+export const ItemCherry: IItem = {
+    name: "Cherry",
+    imageKey: 'cherries',
+    effect: new Effect(10, 5, 3, 1),
+    used: (item: IItem, gameObject: GameObject) => {
+        let effect = Effect.clone(item.effect)
+        gameObject.attributes.addEffect(effect)
+
+        gameObject.getComponent<Inventory>(Inventory.COMPONENT_NAME).deleteItem(item)
+    }
 }

@@ -33,11 +33,12 @@ export default class InventoryContainer extends Phaser.GameObjects.Container {
     }
 
     public deleteChild(child: string) {
-        this.each((ch: Phaser.GameObjects.Sprite) => { if (ch.name === child) this.remove(ch); })
+        this.each((ch: Phaser.GameObjects.Image) => { if (ch.name === child) this.remove(ch); })
         this.updatePosition()
         this.itemInfo.text = ''
     }
 
+    /*
     public addItemInfo(image: Phaser.GameObjects.Image, effect: Effect): void {
         image.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER, () => {
             this.itemInfo.setText(`hp: ${effect.deltaHp}\nstr: ${effect.deltaStrength}\nwis: ${effect.deltaWisdom}`)
@@ -49,6 +50,9 @@ export default class InventoryContainer extends Phaser.GameObjects.Container {
             this.itemInfo.setVisible(false)
         })
     }
+    */
+
+    /*
 
     public addTeleportInfo(teleport: TeleportStone): void {
         teleport.image.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER, () => {
@@ -62,6 +66,7 @@ export default class InventoryContainer extends Phaser.GameObjects.Container {
             this.itemInfo.setVisible(false)
         })
     }
+        */
 
     private buildInventorySlot(child: Phaser.GameObjects.GameObject) {
         if (child != this.background && child != this.title) {

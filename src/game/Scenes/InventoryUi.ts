@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import Item from '../Entities/Item'
+import {IItem, Item} from '../Entities/Item'
 import TeleportStone from '../Entities/TeleportStone'
 import InventoryBase from './InventoryBase'
 
@@ -21,18 +21,15 @@ export default class InventoryUi extends InventoryBase {
         })
     }
 
-    protected addElement(item: Item): void {
-        super.addElement(item)
+    protected addElement(item: IItem): Phaser.GameObjects.Image {
+        let image = super.addElement(item)
 
-        this.container.add(item.image)
-        item.image.setScrollFactor(0)
+        this.container.add(image)
+        image.setScrollFactor(0)
 
-        if (item.image.texture.key !== 'teleport-stone')
-            this.container.addItemInfo(item.image, item.effect)
-        else
-            this.container.addTeleportInfo(item as TeleportStone)
-
-        this.setupItem(item)
+        this.setupItem(image)
         this.container.updatePosition()
+
+        return image
     }
 }

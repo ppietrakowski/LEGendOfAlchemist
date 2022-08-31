@@ -12,6 +12,8 @@ import Attribute from '../Components/Attribute'
 import Enemy from '../Entities/Enemy'
 import EnemyFactory from '../Entities/EnemyFactory'
 
+import {ItemSpawner} from '../Entities/ItemSpawner'
+
 export default class GameScene extends GameBaseScene {
     private readonly portals: Portal[]
     private readonly musicPlayer: MusicPlayer
@@ -34,6 +36,8 @@ export default class GameScene extends GameBaseScene {
         this.game.events.on(InventoryUi.INVENTORY_CLOSED, () => {
             this.scene.resume(this.scene.key)
         })
+
+        this.data.set('spawner', new ItemSpawner(this))
     }
 
     private addKeyListener() {
@@ -58,7 +62,7 @@ export default class GameScene extends GameBaseScene {
         this.children.bringToTop(this.player)
         this.initializeMusic()
 
-        this.addEnemies()
+        //this.addEnemies()
     }
 
     private initializeMusic() {

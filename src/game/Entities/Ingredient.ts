@@ -1,6 +1,6 @@
 import Effect from "../Components/Effect"
 import GameObject from "./GameObject"
-import Item from "./Item"
+import {Item} from "./Item"
 
 
 export default class Ingredient extends Item {
