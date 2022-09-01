@@ -1,5 +1,4 @@
 import Phaser from 'phaser'
-import { Item } from '../Entities/Item'
 import InventoryBase from './InventoryBase'
 
 export default class InventoryUi extends InventoryBase {

@@ -1,6 +1,4 @@
 import Phaser from 'phaser'
-import EnemyController from '../Components/EnemyController'
-import { Inventory } from '../Components/Inventory'
 import Enemy from './Enemy'
 import { ItemSpawner } from './ItemSpawner'
 import Player from './Player'

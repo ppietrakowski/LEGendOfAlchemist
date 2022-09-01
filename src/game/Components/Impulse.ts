@@ -1,7 +1,7 @@
 import GameObject from "../Entities/GameObject";
-import DamageInflictor from "./DamageInflictor";
+import Effect from "./DamageInflictor";
 
-export default class Impulse implements DamageInflictor {
+export default class Impulse implements Effect {
 
     constructor(public deltaHp: number, public deltaStrength: number,
         public deltaWisdom: number) {
@@ -20,7 +20,7 @@ export default class Impulse implements DamageInflictor {
         this.events.emit('ended')
     }
 
-    clone(): DamageInflictor {
+    clone(): Effect {
         return new Impulse(this.deltaHp, this.deltaStrength, this.deltaWisdom)
     }
 

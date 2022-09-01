@@ -1,13 +1,12 @@
 import GameObject from '../Entities/GameObject'
 import { Component } from './Component'
-import Effect from './Effect'
 import ChangeableAttribute from '../ChangeableAttribute'
-import DamageInflictor from './DamageInflictor'
+import Effect from './DamageInflictor'
 
 
 export default class Attribute extends Phaser.Events.EventEmitter implements Component {
     private readonly character: GameObject
-    private damageInflictors: DamageInflictor[]
+    private damageInflictors: Effect[]
 
     static readonly CHARACTER_DEAD = 'Dead'
     static readonly HEALTH_CHANGED = 'healthChanged'
@@ -53,7 +52,7 @@ export default class Attribute extends Phaser.Events.EventEmitter implements Com
             effect.update(deltaTime)
     }
 
-    damage(damageInflictor: DamageInflictor): void {
+    damage(damageInflictor: Effect): void {
         damageInflictor.appliedTo(this.character)
 
         damageInflictor.events.on('ended', this.deleteEffect, this)
@@ -69,7 +68,7 @@ export default class Attribute extends Phaser.Events.EventEmitter implements Com
         return this.hp.value >= 0
     }
 
-    private deleteEffect(damageInflictor: DamageInflictor): void {
+    private deleteEffect(damageInflictor: Effect): void {
         this.damageInflictors = this.damageInflictors.filter(value => value !== damageInflictor)
     }
 }

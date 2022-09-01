@@ -8,13 +8,10 @@ import PreloadScene from './game/Scenes/PreloadScene'
 class Game extends Phaser.Game {
 
     constructor() {
-        const width = 960
-        const height = 540
-
         super({
             type: Phaser.AUTO,
-            width: width,
-            height: height,
+            width: 960,
+            height: 540,
             physics: {
                 default: 'arcade',
                 arcade: {

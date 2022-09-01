@@ -1,5 +1,5 @@
 import GameObject from '../../Entities/GameObject'
-import Effect from '../Effect'
+import TimedEffect from '../Effect'
 import { EnemyState } from './EnemyState'
 import IDamageCalculator from './DamageCalculator'
 import Controller from '../Controller'
@@ -19,7 +19,7 @@ export default class AttackState extends EnemyState {
     stateStarted(): void {
         this.owner.setVelocity(0, 0)
         this.controller.target.attributes.damage(
-            new Effect(-this.calculator.calculateDamage(this.controller.target), 0, 0, 1))
+            new TimedEffect(-this.calculator.calculateDamage(this.controller.target), 0, 0, 1))
         this.owner.emit(Enemy.ENEMY_ATTACKED, this.controller.target)
         this.delay = 0
     }

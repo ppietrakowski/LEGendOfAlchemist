@@ -1,5 +1,3 @@
-import Effect from "../Components/Effect"
-import GameObject from "./GameObject"
 import {Item, UsedCallback} from "./Item"
 
 

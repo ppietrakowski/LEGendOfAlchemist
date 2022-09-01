@@ -3,7 +3,7 @@ import Enemy from '../Entities/Enemy'
 import GameObject from '../Entities/GameObject'
 import Player from '../Entities/Player'
 import { Component } from './Component'
-import Effect from './Effect'
+import TimedEffect from './Effect'
 
 
 export default class PlayerCombat implements Component {
@@ -56,7 +56,7 @@ export default class PlayerCombat implements Component {
             y: enemy.y,
             onComplete: () => {
                 throwable.scene.sound.add('potion-hit').play()
-                enemy.attributes.damage(new Effect(24 * this.deltaTime * -this.player.attributes.strength, 0, 0, 0.5))
+                enemy.attributes.damage(new TimedEffect(24 * this.deltaTime * -this.player.attributes.strength, 0, 0, 0.5))
                 this.attacked = false
                 throwable.destroy()
             },

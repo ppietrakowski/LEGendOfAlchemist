@@ -2,8 +2,6 @@ import Enemy from '../Entities/Enemy'
 import { Component } from './Component'
 
 import { EnemyState } from './AI/EnemyState'
-import { RoamState } from './AI/RoamState'
-import ChasingState from './AI/ChasingState'
 
 import { EnemySensing, SenseType, SensingListener } from "./AI/sense/EnemySensing"
 import SeeSense from "./AI/sense/SeeSense"

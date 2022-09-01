@@ -1,4 +1,4 @@
-import DamageInflictor from '../Components/DamageInflictor'
+import Effect from '../Components/DamageInflictor'
 import GameObject from './GameObject'
 
 
@@ -15,5 +15,5 @@ export interface Item {
     used?: UsedCallback
     firstTimeUsed?: boolean
     
-    effect?: DamageInflictor
+    effect?: Effect
 }
