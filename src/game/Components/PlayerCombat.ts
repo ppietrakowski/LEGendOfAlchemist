@@ -34,26 +34,26 @@ export default class PlayerCombat implements Component {
 
     private onThrowAnything(enemy: Enemy) {
         let { scene } = enemy
-        if (this.player.isNearObject(enemy, 5 * this.player.attributes.strength.value) && !this.attacked) {
+        if (this.player.isNearObject(enemy, 10 * this.player.attributes.strength.value) && !this.attacked) {
             let throwable = scene.add.image(this.player.x, this.player.y, 'potion')
-
-            scene.sound.add('potion-throwed').play()
             this.throw(throwable, enemy)
         }
     }
 
     private throw(throwable: Phaser.GameObjects.Image, enemy: Enemy) {
         let duration = 100 *
-            Phaser.Math.Distance.Between(enemy.x, enemy.y, this.player.x, this.player.y) * this.deltaTime
+            Phaser.Math.Distance.Between(enemy.x, enemy.y, this.player.x, this.player.y) * this.deltaTime;
 
         throwable.setRotation(Math.PI / 360)
 
         this.attacked = true
 
+        console.log(`duration: ${duration} s`)
+
         throwable.scene.tweens.add({
             targets: [throwable],
             ease: 'linear',
-            duration,
+            duration: duration,
             x: enemy.x,
             y: enemy.y,
             onComplete: () => {
@@ -61,11 +61,11 @@ export default class PlayerCombat implements Component {
                 enemy.attributes.damage(new Effect(24 * this.deltaTime * -this.player.attributes.strength, 0, 0, 0.5))
                 this.attacked = false
                 throwable.destroy()
-            }
+            },
         });
     }
 
     private cacheDeltaTime(deltaTime: number) {
-        this.deltaTime = deltaTime * 0.001
+        this.deltaTime = deltaTime
     }
 }
