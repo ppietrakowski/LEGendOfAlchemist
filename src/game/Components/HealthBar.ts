@@ -1,11 +1,13 @@
 import Phaser from 'phaser'
+import Enemy from '../Entities/Enemy'
 import GameObject from '../Entities/GameObject'
 import Player from '../Entities/Player'
+import { SenseType, SensingListener } from './AI/sense/EnemySensing'
 import Attribute from './Attribute'
 import { Component } from './Component'
 
 
-export default class HealthBar implements Component {
+export class HealthBar implements Component, SensingListener {
     protected hpMax: number
     protected text: Phaser.GameObjects.Text
 
@@ -16,8 +18,16 @@ export default class HealthBar implements Component {
         this.start()
     }
 
+    sensed(_sensedObject: GameObject, _senseType: SenseType): void {
+        this.show()
+    }
+
+    stopsSensing(_sensedObject: GameObject, _senseType: SenseType): void {
+        this.hide()
+    }
+
     destroy(): void {
-        this.text.destroy(true)
+        this.text.destroy()
         this.text = null
         this.player = null
     }
@@ -39,14 +49,10 @@ export default class HealthBar implements Component {
 
         this.addHealthChangedListener()
 
-        this.owner.on(GameObject.GAMEOBJECT_UPDATE, this.update, this)
-    }
-
-    update(_deltaTime: number): void {
-        if (this.owner.isNearObject(this.player, this.range))
-            this.show()
-        else
-            this.hide()
+        if (this.owner instanceof Enemy) {
+            let enemy = this.owner as Enemy
+            enemy.addSenseListener(this)
+        }
     }
 
     protected healthUpdated(newHealth: number): void {
@@ -61,11 +67,11 @@ export default class HealthBar implements Component {
     }
 
     private show(): void {
-        this.text.setVisible(true)
-        this.text.setPosition(this.owner.x, this.owner.y - 1.5 * this.owner.width)
+        this.text?.setVisible(true)
+        this.text?.setPosition(this.owner.x, this.owner.y - 1.5 * this.owner.width)
     }
 
     private hide(): void {
-        this.text.setVisible(false)
+        this.text?.setVisible(false)
     }
 }

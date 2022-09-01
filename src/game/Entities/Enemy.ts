@@ -1,7 +1,9 @@
 import Phaser from 'phaser'
+import { SensingListener } from '../Components/AI/sense/EnemySensing'
 import Attribute from '../Components/Attribute'
+import Controller from '../Components/Controller'
 import EnemyController from '../Components/EnemyController'
-import HealthBar from '../Components/HealthBar'
+import { HealthBar } from '../Components/HealthBar'
 import GameObject from './GameObject'
 import { getRandomItem } from './Items'
 import { ItemSpawner } from './ItemSpawner'
@@ -30,5 +32,14 @@ export default class Enemy extends GameObject {
         itemImage = null
 
         this.destroy()
+    }
+
+    get controller(): Controller {
+        return this.getComponent<EnemyController>(EnemyController.COMPONENT_NAME)
+    }
+
+    addSenseListener(listener: SensingListener): void {
+        let controller = this.getComponent<EnemyController>(EnemyController.COMPONENT_NAME)
+        controller.addSenseListener(listener)
     }
 }

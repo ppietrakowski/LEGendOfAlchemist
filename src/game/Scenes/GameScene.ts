@@ -74,7 +74,7 @@ export default class GameScene extends GameBaseScene {
     }
 
     protected addEnemies() {
-        const MaxNormalEnemies = 5
+        const MaxNormalEnemies = 50
 
         for (let i = 0; i < MaxNormalEnemies; i++)
             this.addEnemy(i)
@@ -91,7 +91,6 @@ export default class GameScene extends GameBaseScene {
         enemy.attributes.on(Attribute.CHARACTER_DEAD, () => this.enemyKilled++)
 
         enemy.on(Enemy.ENEMY_ATTACKED, () => this.hitSound.play({ volume: 0.2 }))
-        
     }
 
 

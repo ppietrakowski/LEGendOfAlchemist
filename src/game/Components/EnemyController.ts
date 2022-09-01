@@ -13,7 +13,7 @@ import Controller from './Controller'
 import {AI_State} from './AI/AI_State'
 import EnemyStatePool from './AI/EnemyStatePool'
 
-export default class EnemyController implements Component, SensingListener, Controller {
+export default class EnemyController implements Component, SensingListener, Controller, EnemySensing {
     private readonly senses: EnemySensing[]
 
     private currentState: EnemyState
@@ -35,6 +35,7 @@ export default class EnemyController implements Component, SensingListener, Cont
 
         this.runStateMachine()
     }
+    
 
     destroy(): void {
         this.senses.forEach(sense => sense.removeSenseListener(this))
@@ -71,6 +72,15 @@ export default class EnemyController implements Component, SensingListener, Cont
         this.currentState.stateStarted()
     }
 
+    addSenseListener(sensingListener: SensingListener): void {
+        for (let sense of this.senses)
+            sense.addSenseListener(sensingListener)
+    }
+    removeSenseListener(sensingListener: SensingListener): void {
+        for (let sense of this.senses)
+            sense.removeSenseListener(sensingListener)
+    }
+
     private runStateMachine(): void {
         const { scene } = this.possesedEnemy
 
@@ -81,6 +91,6 @@ export default class EnemyController implements Component, SensingListener, Cont
 
         this.switchToNewState(AI_State.ROAMING)
 
-        this.possesedEnemy.on(GameObject.GAMEOBJECT_UPDATE, this.update, this);
+        this.possesedEnemy.on(GameObject.GAMEOBJECT_UPDATE, this.update, this)
     }
 }
