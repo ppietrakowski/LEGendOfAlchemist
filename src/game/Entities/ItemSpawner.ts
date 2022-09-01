@@ -10,7 +10,7 @@ export class ItemImage {
     }
 
     public giveToPlayer() {
-        let player = this.image.scene.data.get('player') as Player
+        let player = this.image.scene.children.getByName('player') as Player
         player.inventory.addItem(this.item)
         this.image.destroy()
 
