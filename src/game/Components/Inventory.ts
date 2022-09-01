@@ -90,7 +90,6 @@ export class Inventory extends Phaser.Events.EventEmitter implements Component {
     deleteItem(item: Item) {
         for (let i = 0; i < this.items.length; i++) {
             if (this.items[i].item === item) {
-                console.log(this.items[i])
                 this.items[i].removeItemFromSlot()
             }
         }
@@ -99,17 +98,23 @@ export class Inventory extends Phaser.Events.EventEmitter implements Component {
     }
 
     private addOnFreeSpace(item: Item) {
+        if (!this.hasItem(item.name)) 
+            this.createNewItem(item)
+        else
+            this.addExistingItem(item)
+    }
 
-        if (!this.hasItem(item.name)) {
-            let slot = new ItemSlot(item)
-            this.emit(Inventory.ADDED_ITEM, item)
-            this.items.push(slot)
+    private createNewItem(item: Item) {
+        let slot = new ItemSlot(item)
+        this.emit(Inventory.ADDED_ITEM, item)
+        this.items.push(slot)
 
-            slot.events.on(ItemSlot.ITEM_NOT_IN_SLOT, this.removeItem, this)
-        } else {
-            let itemState = this.items.find(v => v.item === item)
-            itemState.addItemToSlot()
-        }
+        slot.events.on(ItemSlot.ITEM_NOT_IN_SLOT, this.removeItem, this)
+    }
+
+    private addExistingItem(item: Item) {
+        let itemState = this.items.find(v => v.item === item)
+        itemState.addItemToSlot()
     }
 
     private removeItem(item: Item): void {
