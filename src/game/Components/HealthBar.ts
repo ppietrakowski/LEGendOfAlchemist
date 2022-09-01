@@ -19,11 +19,12 @@ export class HealthBar implements Component, SensingListener {
     }
 
     sensed(_sensedObject: GameObject, _senseType: SenseType): void {
-        this.show()
+        this.text?.setVisible(true)
+        this.text?.setPosition(this.owner.x, this.owner.y - 1.5 * this.owner.width)
     }
 
     stopsSensing(_sensedObject: GameObject, _senseType: SenseType): void {
-        this.hide()
+        this.text?.setVisible(false)
     }
 
     destroy(): void {
@@ -64,14 +65,5 @@ export class HealthBar implements Component, SensingListener {
     protected addHealthChangedListener() {
         const { attributes } = this.owner
         attributes.addListener(Attribute.HEALTH_CHANGED, this.healthUpdated, this)
-    }
-
-    private show(): void {
-        this.text?.setVisible(true)
-        this.text?.setPosition(this.owner.x, this.owner.y - 1.5 * this.owner.width)
-    }
-
-    private hide(): void {
-        this.text?.setVisible(false)
     }
 }
