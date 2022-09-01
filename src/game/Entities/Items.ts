@@ -31,6 +31,12 @@ export function getRandomItemIndex(): number {
 export function loadItems(scene: Phaser.Scene): void {
     for (const i of Items)
         scene.load.image(i, `assets/items/${i}.png`)
+    
+    for (const item of ITEMS) {
+        Object.freeze(item.effect)
+        Object.freeze(item.name)
+        Object.freeze(item.imageKey)
+    }
 }
 
 
@@ -43,7 +49,6 @@ function useIngredient(ingredient: Item, gameObject: GameObject) {
     }
 
     gameObject.attributes.damage(effect)
-
     gameObject.getComponent<Inventory>(Inventory.COMPONENT_NAME).deleteItem(ingredient)
 }
 

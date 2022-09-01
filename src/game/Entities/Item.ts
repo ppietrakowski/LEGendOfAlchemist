@@ -1,5 +1,4 @@
 import DamageInflictor from '../Components/DamageInflictor'
-import Effect from '../Components/Effect'
 import GameObject from './GameObject'
 
 
