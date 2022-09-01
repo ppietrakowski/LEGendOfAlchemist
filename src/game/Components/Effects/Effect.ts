@@ -1,4 +1,4 @@
-import GameObject from "../Entities/GameObject";
+import GameObject from "../../Entities/GameObject";
 
 export default interface Effect {
 

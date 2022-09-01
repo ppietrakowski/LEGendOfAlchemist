@@ -1,5 +1,5 @@
 
-import GameObject from '../Entities/GameObject';
+import GameObject from '../../Entities/GameObject';
 import Effect from './Effect'
 
 export default class TeleportEffect implements Effect {

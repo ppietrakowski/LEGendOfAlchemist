@@ -1,5 +1,5 @@
-import GameObject from '../Entities/GameObject'
-import Attribute from './Attribute'
+import GameObject from '../../Entities/GameObject'
+import Attribute from './../Attribute'
 import Effect from './Effect'
 
 export default class TimedEffect implements Effect {

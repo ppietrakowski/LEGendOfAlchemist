@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
 import { addInformationText } from '../Scenes/SceneUtils'
 import Player from './Player'
-import TeleportEffect from '../Components/TeleportEffect'
+import TeleportEffect from '../Components/Effects/TeleportEffect'
 
 export default class Portal {
     private teleportSound: Phaser.Sound.BaseSound

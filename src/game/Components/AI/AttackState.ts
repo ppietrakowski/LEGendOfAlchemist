@@ -1,5 +1,5 @@
 import GameObject from '../../Entities/GameObject'
-import TimedEffect from '../TimedEffect'
+import TimedEffect from '../Effects/TimedEffect'
 import { EnemyState } from './EnemyState'
 import IDamageCalculator from './DamageCalculator'
 import Controller from '../Controller'

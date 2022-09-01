@@ -1,4 +1,4 @@
-import Impulse from "../Components/Impulse";
+import Impulse from "../Components/Effects/Impulse";
 import GameObject from "./GameObject";
 import { Item } from "./Item";
 

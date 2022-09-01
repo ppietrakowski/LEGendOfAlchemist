@@ -1,7 +1,7 @@
 import GameObject from '../Entities/GameObject'
 import { Component } from './Component'
 import ChangeableAttribute from '../ChangeableAttribute'
-import Effect from './Effect'
+import Effect from './Effects/Effect'
 
 
 export default class Attribute extends Phaser.Events.EventEmitter implements Component {

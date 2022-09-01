@@ -1,4 +1,4 @@
-import Effect from '../Components/Effect'
+import Effect from '../Components/Effects/Effect'
 import GameObject from './GameObject'
 
 

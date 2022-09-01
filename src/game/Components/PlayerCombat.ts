@@ -3,7 +3,7 @@ import Enemy from '../Entities/Enemy'
 import GameObject from '../Entities/GameObject'
 import Player from '../Entities/Player'
 import { Component } from './Component'
-import TimedEffect from './TimedEffect'
+import TimedEffect from './Effects/TimedEffect'
 
 
 export default class PlayerCombat implements Component {
