@@ -1,4 +1,4 @@
-import Effect from "../Components/Effect";
+import Impulse from "../Components/Impulse";
 import { Inventory } from "../Components/Inventory";
 import GameObject from "./GameObject";
 import { Item } from "./Item";
@@ -35,14 +35,14 @@ export function loadItems(scene: Phaser.Scene): void {
 
 
 function useIngredient(ingredient: Item, gameObject: GameObject) {
-    let effect = Effect.clone(ingredient.effect)
+    let effect = ingredient.effect.clone()
 
     if (!ingredient.firstTimeUsed) {
         ingredient.description = `Heals ${effect.deltaHp} and adds a ${effect.deltaStrength} strength and a ${effect.deltaWisdom} wisdom`
         ingredient.firstTimeUsed = true
     }
 
-    gameObject.attributes.addEffect(effect)
+    gameObject.attributes.damage(effect)
 
     gameObject.getComponent<Inventory>(Inventory.COMPONENT_NAME).deleteItem(ingredient)
 }
@@ -51,7 +51,7 @@ function useIngredient(ingredient: Item, gameObject: GameObject) {
 export const ItemCherry = {
     name: "Cherry",
     imageKey: 'cherries',
-    effect: new Effect(10, 5, 0, 1),
+    effect: new Impulse(10, 5, 0),
     firstTimeUsed: false,
     description: undefined,
     used: useIngredient
@@ -60,7 +60,7 @@ export const ItemCherry = {
 export const ItemOrange = {
     name: "Orange",
     imageKey: 'orange',
-    effect: new Effect(3, 2, 5, 1),
+    effect: new Impulse(3, 2, 5),
     firstTimeUsed: false,
     description: undefined,
     used: useIngredient
@@ -69,7 +69,7 @@ export const ItemOrange = {
 export const ItemRedFlower = {
     name: "Red Flower",
     imageKey: 'red_flower',
-    effect: new Effect(4, 5, 3, 1),
+    effect: new Impulse(4, 5, 3),
     firstTimeUsed: false,
     description: undefined,
     used: useIngredient

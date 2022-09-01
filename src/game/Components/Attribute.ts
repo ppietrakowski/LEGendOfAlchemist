@@ -2,11 +2,12 @@ import GameObject from '../Entities/GameObject'
 import { Component } from './Component'
 import Effect from './Effect'
 import ChangeableAttribute from '../ChangeableAttribute'
+import DamageInflictor from './DamageInflictor'
 
 
 export default class Attribute extends Phaser.Events.EventEmitter implements Component {
     private readonly character: GameObject
-    private effects: Effect[]
+    private damageInflictors: DamageInflictor[]
 
     static readonly CHARACTER_DEAD = 'Dead'
     static readonly HEALTH_CHANGED = 'healthChanged'
@@ -27,7 +28,7 @@ export default class Attribute extends Phaser.Events.EventEmitter implements Com
         this.wisdom.value = wisdom
 
         this.character = character
-        this.effects = []
+        this.damageInflictors = []
 
         this.hp.on(ChangeableAttribute.ATTRIBUTE_CHANGED, this.checkIsAlive, this)
         this.character.on(GameObject.GAMEOBJECT_UPDATE, this.update, this);
@@ -39,7 +40,7 @@ export default class Attribute extends Phaser.Events.EventEmitter implements Com
     }
 
     destroy(): void {
-        this.effects = null
+        this.damageInflictors = null
         super.destroy()
     }
 
@@ -48,15 +49,15 @@ export default class Attribute extends Phaser.Events.EventEmitter implements Com
     }
 
     update(deltaTime: number): void {
-        for (const effect of this.effects)
+        for (const effect of this.damageInflictors)
             effect.update(deltaTime)
     }
 
-    addEffect(effect: Effect): void {
-        effect.addTo(this.character)
+    damage(damageInflictor: DamageInflictor): void {
+        damageInflictor.appliedTo(this.character)
 
-        effect.on(Effect.EFFECT_ENDED, this.deleteEffect, this)
-        this.effects.push(effect)
+        damageInflictor.events.on('ended', this.deleteEffect, this)
+        this.damageInflictors.push(damageInflictor)
     }
 
     private checkIsAlive(): void {
@@ -68,7 +69,7 @@ export default class Attribute extends Phaser.Events.EventEmitter implements Com
         return this.hp.value >= 0
     }
 
-    private deleteEffect(effect: Effect): void {
-        this.effects = this.effects.filter(value => value !== effect)
+    private deleteEffect(damageInflictor: DamageInflictor): void {
+        this.damageInflictors = this.damageInflictors.filter(value => value !== damageInflictor)
     }
 }

@@ -1,25 +1,26 @@
 import GameObject from '../Entities/GameObject'
 import Attribute from './Attribute'
+import DamageInflictor from './DamageInflictor'
 
-
-export default class Effect extends Phaser.Events.EventEmitter {
+export default class Effect implements DamageInflictor {
     private timePassed: number
     private attributes: Attribute
+    events: Phaser.Events.EventEmitter
 
-    static readonly EFFECT_ENDED = 'Ended'
+    static readonly EFFECT_ENDED = 'ended'
 
-    static clone(effect: Effect): Effect {
-        return new Effect(effect.deltaHp, effect.deltaStrength, effect.deltaWisdom, effect.duration)
+    clone(): Effect {
+        return new Effect(this.deltaHp, this.deltaStrength, this.deltaWisdom, this.duration)
     }
 
     constructor(public deltaHp: number, public deltaStrength: number,
         public deltaWisdom: number, public readonly duration: number) {
 
-        super()
+        this.events = new Phaser.Events.EventEmitter()
         this.timePassed = 0
     }
 
-    addTo(character: GameObject) {
+    appliedTo(character: GameObject) {
         this.attributes = character.attributes
     }
 
@@ -31,7 +32,7 @@ export default class Effect extends Phaser.Events.EventEmitter {
         this.attributes.strength.value = this.attributes.strength.value + this.deltaStrength * deltaTime
 
         if (this.hasTimePassed())
-            this.emit(Effect.EFFECT_ENDED, this)
+            this.events.emit(Effect.EFFECT_ENDED, this)
     }
 
     private hasTimePassed(): boolean {
