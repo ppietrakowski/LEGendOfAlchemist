@@ -17,7 +17,7 @@ Your
 * enemy AI (simple)
 * inventory
 * portal system
-* crafting menu
+* ~~crafting menu~~ for now just removed this feature (buggy one)
 
 ## special thanks to
 * Authors of program Tiled.
