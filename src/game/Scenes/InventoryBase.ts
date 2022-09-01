@@ -3,6 +3,7 @@ import { Inventory, InventoryStartEvent } from '../Components/Inventory'
 import { Item } from "../Entities/Item"
 import Player from "../Entities/Player"
 import InventoryContainer from './InventoryContainer'
+import { addInformationText } from './SceneUtils'
 
 export default abstract class InventoryBase extends Phaser.Scene {
     protected inventory: Inventory
@@ -74,7 +75,8 @@ export default abstract class InventoryBase extends Phaser.Scene {
     private assignInventory(inventoryEvent: InventoryStartEvent) {
         this.inventory = inventoryEvent.inventory
         this.inventory.on(Inventory.ADDED_ITEM, this.addElement, this)
-        this.inventory.on(Inventory.INVENTORY_FULL, () => console.log("Inventory full !"))
+        this.inventory.on(Inventory.INVENTORY_FULL, () => addInformationText(this.inventory.owner.scene,
+             this.inventory.owner.x, this.inventory.owner.y, `I'm overburden`, () => null))
         this.inventory.on(Inventory.DELETED_ITEM, this.itemRemoved, this)
     }
 }

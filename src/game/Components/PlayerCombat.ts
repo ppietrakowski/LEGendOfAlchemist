@@ -48,8 +48,6 @@ export default class PlayerCombat implements Component {
 
         this.attacked = true
 
-        console.log(`duration: ${duration} s`)
-
         throwable.scene.tweens.add({
             targets: [throwable],
             ease: 'linear',

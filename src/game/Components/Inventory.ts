@@ -29,12 +29,13 @@ class ItemSlot {
         this._count++
     }
 
-
     removeItemFromSlot() {
         this._count--
 
-        if (this.count <= 0)
+        if (this.count <= 0) {
             this.events.emit(ItemSlot.ITEM_NOT_IN_SLOT, this.item)
+            this.events.removeAllListeners()
+        }
     }
 
 }
@@ -76,7 +77,6 @@ export class Inventory extends Phaser.Events.EventEmitter implements Component {
     }
 
     addItem(item: Item) {
-
         if (this.hasFreeSpace())
             this.addOnFreeSpace(item)
         else
@@ -98,7 +98,7 @@ export class Inventory extends Phaser.Events.EventEmitter implements Component {
     }
 
     private addOnFreeSpace(item: Item) {
-        if (!this.hasItem(item.name)) 
+        if (!this.hasItem(item.name))
             this.createNewItem(item)
         else
             this.addExistingItem(item)
