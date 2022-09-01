@@ -7,8 +7,4 @@ export default interface Effect {
     clone(): Effect
 
     events: Phaser.Events.EventEmitter
-
-    deltaHp: number
-    deltaStrength: number
-    deltaWisdom: number
 }

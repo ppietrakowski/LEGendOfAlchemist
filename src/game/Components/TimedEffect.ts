@@ -1,6 +1,6 @@
 import GameObject from '../Entities/GameObject'
 import Attribute from './Attribute'
-import Effect from './DamageInflictor'
+import Effect from './Effect'
 
 export default class TimedEffect implements Effect {
     private timePassed: number

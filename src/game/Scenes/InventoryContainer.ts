@@ -42,7 +42,7 @@ export default class InventoryContainer extends Phaser.GameObjects.Container {
         this.itemInfo.text = ''
     }
 
-    public addItemInfo(item: Phaser.GameObjects.Image): void {
+    public addItemInfo(item: Phaser.GameObjects.Image): void { 
         item.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER, () => this.showInfo(item))
 
         item.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT, () => this.itemInfo.setVisible(false))

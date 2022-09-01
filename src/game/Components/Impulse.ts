@@ -1,5 +1,5 @@
 import GameObject from "../Entities/GameObject";
-import Effect from "./DamageInflictor";
+import Effect from "./Effect";
 
 export default class Impulse implements Effect {
 

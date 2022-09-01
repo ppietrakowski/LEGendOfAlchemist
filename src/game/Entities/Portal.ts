@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
 import { addInformationText } from '../Scenes/SceneUtils'
 import Player from './Player'
-
+import TeleportEffect from '../Components/TeleportEffect'
 
 export default class Portal {
     private teleportSound: Phaser.Sound.BaseSound
@@ -35,7 +35,6 @@ export default class Portal {
 
     private teleport() {
         this.teleportSound.play()
-        this.player.setX(this.endPoint.x)
-        this.player.setY(this.endPoint.y)
+        this.player.attributes.applyEffect(new TeleportEffect(this.endPoint))
     }
 }

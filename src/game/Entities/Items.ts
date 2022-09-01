@@ -43,11 +43,11 @@ function useIngredient(ingredient: Item, gameObject: GameObject) {
     let effect = ingredient.effect.clone()
 
     if (!ingredient.firstTimeUsed) {
-        ingredient.description = `Heals ${effect.deltaHp} and adds a ${effect.deltaStrength} strength and a ${effect.deltaWisdom} wisdom`
+        ingredient.description = `Heals ${effect['deltaHp']} and adds a ${effect['deltaStrength']} strength and a ${effect['deltaWisdom']} wisdom`
         ingredient.firstTimeUsed = true
     }
 
-    gameObject.attributes.damage(effect)
+    gameObject.attributes.applyEffect(effect)
 }
 
 
