@@ -22,7 +22,7 @@ export class MoveState extends EnemyState {
     }
 
     private isNearTarget(): boolean {
-        return (typeof this.owner.body !== 'undefined') && (this.owner.isNear(this.endPosition, 1.5)
+        return this.owner.body && (this.owner.isNear(this.endPosition, 1.5)
             || !this.owner.body.blocked.none || !this.owner.body.touching.none)
     }
 

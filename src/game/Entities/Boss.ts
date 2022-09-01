@@ -23,9 +23,6 @@ export default class Boss extends Enemy {
     }
 
     protected killed(): void {
-        const player = this.getComponent<EnemyController>(EnemyController.COMPONENT_NAME).target
-        const inventory = player.getComponent<Inventory>(Inventory.COMPONENT_NAME)
-
         const itemSpawner = this.scene.data.get('spawner') as ItemSpawner
         
         itemSpawner.addItem(this.x, this.y, new TeleportStone('teleport-stone', this.teleportIndex))

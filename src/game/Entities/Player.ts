@@ -57,7 +57,7 @@ export default class Player extends GameObject {
     }
 
     private playerKilled(): void {
-        const {game} = this.scene
+        const { game } = this.scene
 
         game.scene.stop('GameScene')
         game.scene.run('Credits')

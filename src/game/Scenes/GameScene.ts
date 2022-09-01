@@ -62,38 +62,36 @@ export default class GameScene extends GameBaseScene {
         this.children.bringToTop(this.player)
         this.initializeMusic()
 
-        //this.addEnemies()
+        this.addEnemies()
     }
 
     private initializeMusic() {
         this.musicPlayer.addMusic(this.sound.add('roam2'))
             .addMusic(this.sound.add('roam1'))
-            .addMusic(this.sound.add('attack'));
+            .addMusic(this.sound.add('attack'))
 
-        this.hitSound = this.sound.add('player-slap');
+        this.hitSound = this.sound.add('player-slap')
     }
 
     protected addEnemies() {
-        const MaxNormalEnemies = 50;
+        const MaxNormalEnemies = 5
 
         for (let i = 0; i < MaxNormalEnemies; i++)
-            this.addEnemy(i);
+            this.addEnemy(i)
 
-        this.enemyFactory.createBoss(43, 52, 0);
-        this.enemyFactory.createBoss(161, 69, 1);
-        this.enemyFactory.createBoss(116, 107, 2);
-        this.enemyFactory.createBoss(104, 61, -1, true);
+        this.enemyFactory.createBoss(43, 52, 0)
+        this.enemyFactory.createBoss(161, 69, 1)
+        this.enemyFactory.createBoss(116, 107, 2)
+        this.enemyFactory.createBoss(104, 61, -1, true)
     }
 
     protected addEnemy(i: number): void {
         const enemy = this.enemyFactory.createRandomEnemy(i % 4)
 
-        enemy.attributes.on(Attribute.CHARACTER_DEAD, () => {
-            this.enemyKilled++
-            this.enemyFactory.deleteEnemy(enemy)
-        }, this)
+        enemy.attributes.on(Attribute.CHARACTER_DEAD, () => this.enemyKilled++)
 
         enemy.on(Enemy.ENEMY_ATTACKED, () => this.hitSound.play({ volume: 0.2 }))
+        
     }
 
 

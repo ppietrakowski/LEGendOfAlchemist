@@ -27,7 +27,8 @@ export default class Enemy extends GameObject {
 
         // add event to throw item in place of enemy
         itemImage.image.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, itemImage.giveToPlayer, itemImage);
+        itemImage = null
 
-        this.destroy(true)
+        this.destroy()
     }
 }

@@ -6,7 +6,7 @@ export class ItemImage {
 
     constructor(public item: Item, public image: Phaser.GameObjects.Image) {
 
-        image.setInteractive({pixelPerfect: true})
+        image.setInteractive({ pixelPerfect: true })
     }
 
     public giveToPlayer() {

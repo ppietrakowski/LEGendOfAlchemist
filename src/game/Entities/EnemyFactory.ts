@@ -6,6 +6,7 @@ import Player from './Player'
 import Boss from './Boss'
 import UltraBoss from './UltraBoss'
 import GameObject from './GameObject'
+import Attribute from '../Components/Attribute'
 
 
 export default class EnemyFactory {
@@ -29,11 +30,13 @@ export default class EnemyFactory {
 
         spawnAtTile(enemy, isleNo, this.seaLayer)
         this.setupEnemy(enemy)
+
+        enemy.attributes.once(Attribute.CHARACTER_DEAD, () => this.deleteEnemy(enemy))
         
         return enemy
     }
 
-    deleteEnemy(enemy: GameObject) {
+    private deleteEnemy(enemy: GameObject) {
         this.enemies = this.enemies.filter(value => value !== enemy)
     }
 

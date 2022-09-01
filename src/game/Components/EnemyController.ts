@@ -79,8 +79,7 @@ export default class EnemyController implements Component, SensingListener, Cont
 
         scene.physics.add.collider(this.possesedEnemy, this.target)
 
-        this.currentState = new RoamState(this, this.possesedEnemy);
-        this.currentState.stateStarted()
+        this.switchToNewState(AI_State.ROAMING)
 
         this.possesedEnemy.on(GameObject.GAMEOBJECT_UPDATE, this.update, this);
     }
