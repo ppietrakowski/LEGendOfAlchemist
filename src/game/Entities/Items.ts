@@ -49,7 +49,6 @@ function useIngredient(ingredient: Item, gameObject: GameObject) {
     }
 
     gameObject.attributes.damage(effect)
-    gameObject.getComponent<Inventory>(Inventory.COMPONENT_NAME).deleteItem(ingredient)
 }
 
 

@@ -26,7 +26,7 @@ export default abstract class InventoryBase extends Phaser.Scene {
 
     private setupItem(item: Phaser.GameObjects.Image): void {
         if (!item.name.includes('TeleportStone'))
-            item.once(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => this.itemUsed(item))
+            item.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => this.itemUsed(item))
 
         item.setInteractive({ pixelPerfect: true })
 
@@ -36,15 +36,16 @@ export default abstract class InventoryBase extends Phaser.Scene {
         this.container.updatePosition()
     }
 
-    private addElement(item: Item): Phaser.GameObjects.Image {
-        const image = this.add.image(0, 0, item.imageKey)
+    private addElement(item: Item): void {
 
-        image.setData(InventoryBase.DATA_ITEM_KEY, item)
+        if (!this.inventory.hasItem(item.name)) {
+            const image = this.add.image(0, 0, item.imageKey)
 
-        this.setupItem(image)
-        image.setScrollFactor(0)
+            image.setData(InventoryBase.DATA_ITEM_KEY, item)
 
-        return image
+            this.setupItem(image)
+            image.setScrollFactor(0)
+        }
     }
 
     private itemUsed(item: Phaser.GameObjects.Image) {
@@ -54,13 +55,26 @@ export default abstract class InventoryBase extends Phaser.Scene {
             itemState.used(itemState, this.inventory.owner)
 
             this.inventory.deleteItem(itemState)
-            item.destroy()
         }
+    }
+
+    private itemRemoved(item: Item) {
+        let itemImage: Phaser.GameObjects.Image;
+
+        this.container.iterate((v: Phaser.GameObjects.GameObject) => {
+            if (v.getData('info') === item)  {
+                itemImage = v as Phaser.GameObjects.Image
+            }
+        })
+
+        this.container.deleteChild(item.name)
+        itemImage.destroy()
     }
 
     private assignInventory(inventoryEvent: InventoryStartEvent) {
         this.inventory = inventoryEvent.inventory
         this.inventory.on(Inventory.ADDED_ITEM, this.addElement, this)
         this.inventory.on(Inventory.INVENTORY_FULL, () => console.log("Inventory full !"))
+        this.inventory.on(Inventory.DELETED_ITEM, this.itemRemoved, this)
     }
 }
