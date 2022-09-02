@@ -1,9 +1,9 @@
 import Player from '../Entities/Player'
-import {HealthBar} from './HealthBar'
+import { HealthBar } from './HealthBar'
 
 export default class PlayerHealthBar extends HealthBar {
     constructor(owner: Player) {
-        super(owner, 100, owner)
+        super(owner, owner)
     }
 
     start(): void {
