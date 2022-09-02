@@ -23,7 +23,7 @@ export class RoamState extends EnemyState {
     constructor(controller: Controller, owner: GameObject) {
         super(controller, owner)
     }
-    
+
     stateStarted(): void {
         this.endPosition = getRoamingPosition(this.owner.body.position)
         this.owner.setVelocity(0, 0)

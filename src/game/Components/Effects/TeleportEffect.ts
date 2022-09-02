@@ -4,7 +4,7 @@ import Effect from './Effect'
 
 export default class TeleportEffect implements Effect {
 
-    constructor(private destination: {x: number, y: number}) {
+    constructor(private destination: { x: number, y: number }) {
         this.events = new Phaser.Events.EventEmitter()
     }
 

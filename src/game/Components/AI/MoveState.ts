@@ -1,7 +1,7 @@
 import GameObject from "../../Entities/GameObject";
 import Controller from "../Controller";
+import { AI_State } from './AI_State';
 import { EnemyState } from "./EnemyState";
-import { AI_State } from './AI_State'
 
 
 export class MoveState extends EnemyState {

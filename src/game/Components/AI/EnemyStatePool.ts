@@ -1,14 +1,14 @@
 
+import Enemy from '../../Entities/Enemy'
 import { EnemyState } from '../AI/EnemyState'
+import Controller from '../Controller'
+import DefaultDamageCalculator from '../DefaultDamageCalculator'
 
 import { AI_State } from '../AI/AI_State'
-import Controller from '../Controller'
-import Enemy from '../../Entities/Enemy'
 import AttackState from './AttackState'
-import DefaultDamageCalculator from '../DefaultDamageCalculator'
+import ChasingState from './ChasingState'
 import { MoveState } from './MoveState'
 import { RoamState } from './RoamState'
-import ChasingState from './ChasingState'
 
 export default class EnemyStatePool {
 

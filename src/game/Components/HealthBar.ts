@@ -55,7 +55,7 @@ export class HealthBar implements Component, SensingListener {
         }
     }
 
-    protected healthUpdated(newHealth: number): void {
+    private healthUpdated(newHealth: number): void {
         if (this.owner.attributes.health >= this.hpMax)
             this.hpMax = this.owner.attributes.health
         this.text.setText(Math.round(newHealth).toString() + "/" + Math.round(this.hpMax))

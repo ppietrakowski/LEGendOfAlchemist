@@ -17,10 +17,13 @@ export default class AttackState extends EnemyState {
     }
 
     stateStarted(): void {
+
+        let { target } = this.controller
+
         this.owner.setVelocity(0, 0)
-        this.controller.target.attributes.applyEffect(
-            new TimedEffect(-this.calculator.calculateDamage(this.controller.target), 0, 0, 1))
-        this.owner.emit(Enemy.ENEMY_ATTACKED, this.controller.target)
+        target.attributes.applyEffect(
+            new TimedEffect(-this.calculator.calculateDamage(target), 0, 0, 1))
+        this.owner.emit(Enemy.ENEMY_ATTACKED, target)
         this.delay = 0
     }
 

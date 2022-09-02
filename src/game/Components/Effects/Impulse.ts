@@ -9,7 +9,7 @@ export default class Impulse implements Effect {
     }
 
     appliedTo(gameObject: GameObject): void {
-        let {attributes} = gameObject
+        let { attributes } = gameObject
 
         attributes.changeHealth(this.deltaHp)
         attributes.strength.value += this.deltaStrength

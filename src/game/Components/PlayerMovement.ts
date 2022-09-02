@@ -56,7 +56,7 @@ export default class PlayerMovement implements Component {
     private onMovement(frameName: string, velX: number, velY: number) {
         if (!this.player.anims)
             return;
-        
+
         this.player.anims.play(frameName, true)
         this.player.setVelocity(velX, velY)
     }
