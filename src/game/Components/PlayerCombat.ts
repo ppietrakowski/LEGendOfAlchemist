@@ -1,4 +1,4 @@
-import Phaser from 'phaser'
+import Phaser, { Tweens } from 'phaser'
 import Enemy from '../Entities/Enemy'
 import GameObject from '../Entities/GameObject'
 import Player from '../Entities/Player'
@@ -48,14 +48,18 @@ export default class PlayerCombat implements Component {
 
         this.attacked = true
 
-        throwable.scene.tweens.add({
+        throwable.scene.tweens.add(this.getTweenConfig(throwable, enemy, duration));
+    }
+
+    private getTweenConfig(throwable: Phaser.GameObjects.Image, enemy: Enemy, duration: number): object {
+        return {
             targets: [throwable],
             ease: 'linear',
             duration: duration,
             x: enemy.x,
             y: enemy.y,
             onComplete: () => this.potionHitEnemy(throwable, enemy),
-        });
+        }
     }
 
     private potionHitEnemy(throwable: Phaser.GameObjects.Image, enemy: Enemy) {
