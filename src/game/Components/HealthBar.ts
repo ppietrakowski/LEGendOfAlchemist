@@ -13,8 +13,7 @@ export class HealthBar implements Component, SensingListener {
 
     static readonly COMPONENT_NAME = 'hp-bar'
 
-    constructor(protected readonly owner: GameObject,
-        private readonly range: number, protected player: Player) {
+    constructor(protected readonly owner: GameObject, protected player: Player) {
         this.start()
     }
 

@@ -54,15 +54,17 @@ export default class PlayerCombat implements Component {
             duration: duration,
             x: enemy.x,
             y: enemy.y,
-            onComplete: () => {
-                throwable.scene.sound.add('potion-hit').play()
-                enemy.attributes.applyEffect(new TimedEffect(24 * this.deltaTime * -this.player.attributes.strength, 0, 0, 0.5))
-                this.attacked = false
-                throwable.destroy()
-            },
+            onComplete: () => this.potionHitEnemy(throwable, enemy),
         });
     }
 
+    private potionHitEnemy(throwable: Phaser.GameObjects.Image, enemy: Enemy) {
+        throwable.scene.sound.add('potion-hit').play()
+        enemy.attributes.applyEffect(new TimedEffect(24 * this.deltaTime * -this.player.attributes.strength, 0, 0, 0.5))
+        this.attacked = false
+        throwable.destroy()
+    }
+    
     private cacheDeltaTime(deltaTime: number) {
         this.deltaTime = deltaTime
     }
