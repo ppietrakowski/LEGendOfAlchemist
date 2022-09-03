@@ -20,7 +20,6 @@ export interface Item {
 
 
 export interface ItemContainer {
-    get count(): number
     events: Phaser.Events.EventEmitter
     readonly owner: GameObject
 
@@ -29,4 +28,4 @@ export interface ItemContainer {
     addItem(item: Item): void
     hasFreeSpace(): boolean
     deleteItem(item: Item): void
-}
+}   

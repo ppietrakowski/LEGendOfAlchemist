@@ -2,42 +2,11 @@
 import GameObject from '../Entities/GameObject'
 import { Item, ItemContainer } from './../Entities/Item'
 import { Component } from './Component'
-
+import ItemSlot from './ItemSlot'
 
 export interface InventoryStartEvent {
     inventory: ItemContainer,
     owner: GameObject
-}
-
-class ItemSlot {
-
-    private _count: number
-    events: Phaser.Events.EventEmitter
-
-    static readonly ITEM_NOT_IN_SLOT = 'itemNotInSlot'
-
-    constructor(public readonly item: Item) {
-        this._count = 1
-        this.events = new Phaser.Events.EventEmitter()
-    }
-
-    get count() {
-        return this._count
-    }
-
-    addItemToSlot() {
-        this._count++
-    }
-
-    removeItemFromSlot() {
-        this._count--
-
-        if (this.count <= 0) {
-            this.events.emit(ItemSlot.ITEM_NOT_IN_SLOT, this.item)
-            this.events.removeAllListeners()
-        }
-    }
-
 }
 
 export class Inventory implements Component, ItemContainer {
@@ -59,10 +28,6 @@ export class Inventory implements Component, ItemContainer {
         this.events = new Phaser.Events.EventEmitter()
     }
     
-    get count(): number {
-        throw new Error('Method not implemented.')
-    }
-
     destroy(): void {
         this.items = null
         this.events.destroy()
