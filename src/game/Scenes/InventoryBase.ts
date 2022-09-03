@@ -15,38 +15,6 @@ export default abstract class InventoryBase extends Phaser.Scene {
         super({ key })
     }
 
-    preload(): void {
-        this.container = new InventoryContainer(this, 50, 60,
-            this.add.sprite(0, 60, 'inventory-background').setOrigin(0, 0),
-            this.add.text(20, 60, 'Inventory', { fontFamily: 'pixellari' }))
-
-        this.container.setScrollFactor(0)
-
-        this.game.events.once(Player.INVENTORY_START, this.assignInventory, this)
-    }
-
-    private itemUsed(item: Phaser.GameObjects.Image) {
-        let itemState = item.data.get(InventoryBase.DATA_ITEM_KEY) as Item
-
-        if (itemState.used) {
-            itemState.used(itemState, this.inventory.owner)
-
-            this.inventory.deleteItem(itemState)
-        }
-    }
-
-    private setupItem(item: Phaser.GameObjects.Image): void {
-        if (!item.name.includes('TeleportStone'))
-            item.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => this.itemUsed(item))
-
-        item.setInteractive({ pixelPerfect: true })
-
-        // add it to container to easier track it's state
-        this.container.addItemInfo(item)
-        this.container.add(item)
-        this.container.updatePosition()
-    }
-
     private addElement(item: Item): void {
 
         if (!this.inventory.hasItem(item.name)) {
@@ -78,5 +46,37 @@ export default abstract class InventoryBase extends Phaser.Scene {
         this.inventory.events.on(Inventory.INVENTORY_FULL, () => addInformationText(this.inventory.owner.scene,
             this.inventory.owner.x, this.inventory.owner.y, `I'm overburden`, () => null))
         this.inventory.events.on(Inventory.DELETED_ITEM, this.itemRemoved, this)
+    }
+
+    preload(): void {
+        this.container = new InventoryContainer(this, 50, 60,
+            this.add.sprite(0, 60, 'inventory-background').setOrigin(0, 0),
+            this.add.text(20, 60, 'Inventory', { fontFamily: 'pixellari' }))
+
+        this.container.setScrollFactor(0)
+
+        this.game.events.once(Player.INVENTORY_START, this.assignInventory, this)
+    }
+
+    private itemUsed(item: Phaser.GameObjects.Image) {
+        let itemState = item.data.get(InventoryBase.DATA_ITEM_KEY) as Item
+
+        if (itemState.used) {
+            itemState.used(itemState, this.inventory.owner)
+
+            this.inventory.deleteItem(itemState)
+        }
+    }
+
+    private setupItem(item: Phaser.GameObjects.Image): void {
+        if (!item.name.includes('TeleportStone'))
+            item.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => this.itemUsed(item))
+
+        item.setInteractive({ pixelPerfect: true })
+
+        // add it to container to easier track it's state
+        this.container.addItemInfo(item)
+        this.container.add(item)
+        this.container.updatePosition()
     }
 }

@@ -12,14 +12,6 @@ export default class Player extends GameObject {
 
     static readonly INVENTORY_START = "InventoryStart"
 
-    get inventory(): Inventory {
-        return this.getComponent<Inventory>(Inventory.COMPONENT_NAME)
-    }
-
-    get combat(): PlayerCombat {
-        return this.getComponent<PlayerCombat>(PlayerCombat.COMPONENT_NAME) as PlayerCombat
-    }
-
     constructor(public gameScene: GameBaseScene, x: number, y: number, texture: string | Phaser.Textures.Texture) {
         super(gameScene, x, y, texture, 0)
         this.setName('player')
@@ -35,19 +27,6 @@ export default class Player extends GameObject {
         this.inventory.events.on(Inventory.INVENTORY_FULL, gameScene.showCannotGatherInfo, gameScene)
     }
 
-    addedToScene(): void {
-        super.addedToScene()
-
-        this.anims.play('player-front', false)
-
-        this.scaleX = 1.5
-        this.scaleY = 1.5
-    }
-
-    hasTeleportStone(index: number): boolean {
-        return this.inventory.hasItem(`teleport-stone-` + index);
-    }
-
     private addComponents() {
         this.addComponent(new PlayerHealthBar(this))
         this.addComponent(new PlayerCombat(this))
@@ -60,5 +39,26 @@ export default class Player extends GameObject {
 
         game.scene.stop('GameScene')
         game.scene.run('Credits')
+    }
+
+    get inventory(): Inventory {
+        return this.getComponent<Inventory>(Inventory.COMPONENT_NAME)
+    }
+
+    get combat(): PlayerCombat {
+        return this.getComponent<PlayerCombat>(PlayerCombat.COMPONENT_NAME) as PlayerCombat
+    }
+
+    addedToScene(): void {
+        super.addedToScene()
+
+        this.anims.play('player-front', false)
+
+        this.scaleX = 1.5
+        this.scaleY = 1.5
+    }
+
+    hasTeleportStone(index: number): boolean {
+        return this.inventory.hasItem(`teleport-stone-` + index);
     }
 }

@@ -6,5 +6,5 @@ import { EnemyState } from "./AI/EnemyState";
 export default interface Controller {
     readonly target: GameObject
     getCurrentState(): EnemyState
-    switchToNewState(state: AI_State): void
+    switchToNewState(state: AI_State, ...args: any[]): void
 }

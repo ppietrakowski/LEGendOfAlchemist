@@ -26,6 +26,14 @@ export default class PreloadScene extends Phaser.Scene {
         super('Preload')
     }
 
+    private loadSounds() {
+        this.load.audio('player-slap', 'assets/sounds/player-slap.wav')
+        this.load.audio('potion-hit', 'assets/sounds/potion-hit.wav')
+        this.load.audio('potion-throwed', 'assets/sounds/throw.wav')
+        this.load.audio('menu-theme', 'assets/sounds/menu-theme.mp3')
+        this.load.audio('portal-sound', 'assets/sounds/Teleport.wav')
+    }
+
     preload() {
         this.load.spritesheet('player', 'assets/player.png', { frameWidth: 32, frameHeight: 64 })
         this.load.tilemapTiledJSON('island', 'assets/tilemap/main-island.json')
@@ -40,25 +48,17 @@ export default class PreloadScene extends Phaser.Scene {
         items.loadItems(this)
     }
 
-    create() {
-        this.loadAllUi()
-        this.game.scene.add('MainMenu', new MainMenu())
-        this.game.scene.run('MainMenu')
-    }
-
-    private loadSounds() {
-        this.load.audio('player-slap', 'assets/sounds/player-slap.wav')
-        this.load.audio('potion-hit', 'assets/sounds/potion-hit.wav')
-        this.load.audio('potion-throwed', 'assets/sounds/throw.wav')
-        this.load.audio('menu-theme', 'assets/sounds/menu-theme.mp3')
-        this.load.audio('portal-sound', 'assets/sounds/Teleport.wav')
-    }
-
     private loadAllUi() {
         this.game.scene.run('Inventory')
         this.game.scene.getScene('Inventory').scene.setVisible(false)
 
         this.game.scene.pause('Inventory')
+        this.game.scene.run('MainMenu')
+    }
+
+    create() {
+        this.loadAllUi()
+        this.game.scene.add('MainMenu', new MainMenu())
         this.game.scene.run('MainMenu')
     }
 }

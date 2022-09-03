@@ -18,11 +18,8 @@ export default class SeeSense implements EnemySensing {
         this.listeners.push(sensingListener)
     }
 
-    update(_deltaTime: number): void {
-        if (this.isPlayerInRange())
-            this.emitEnemySensed()
-        else if (this.isPlayerOutOfRange())
-            this.emitEnemyStopSensing()
+    private isPlayerInRange(): boolean {
+        return this.possesedPawn.isNearObject(this.target, this.maxDetectionRange)
     }
 
     private emitEnemySensed() {
@@ -30,16 +27,19 @@ export default class SeeSense implements EnemySensing {
             listener.sensed(this.target, SenseType.SEE_SENSE)
     }
 
+    private isPlayerOutOfRange(): boolean {
+        return this.possesedPawn.isNearObject(this.target, this.maxDetectionRange + 100)
+    }
+
     private emitEnemyStopSensing() {
         for (const listener of this.listeners)
             listener.stopsSensing(this.target, SenseType.SEE_SENSE)
     }
 
-    private isPlayerInRange(): boolean {
-        return this.possesedPawn.isNearObject(this.target, this.maxDetectionRange)
-    }
-
-    private isPlayerOutOfRange(): boolean {
-        return this.possesedPawn.isNearObject(this.target, this.maxDetectionRange + 100)
+    update(_deltaTime: number): void {
+        if (this.isPlayerInRange())
+            this.emitEnemySensed()
+        else if (this.isPlayerOutOfRange())
+            this.emitEnemyStopSensing()
     }
 }

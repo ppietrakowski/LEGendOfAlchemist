@@ -50,19 +50,25 @@ export default class GameScene extends GameBaseScene {
         })
     }
 
-    private spawnGameObjects() {
-        this.physics.add.collider(this.player, this.seaLayer)
-        this.addPortals()
-        this.enemyFactory = new EnemyFactory(this, this.player, this.seaLayer,
-            this.portals.map(value => value.sprite))
+    private addPortal(tile1X: number, tile1Y: number, tile2X: number, tile2Y: number, stoneNo: number) {
+        this.portals.push(new Portal('1', this.physics.add.sprite(tile1X * 32, tile1Y * 32, 'portal'), this.player, new Phaser.Math.Vector2(tile2X * 32 - 90, tile2Y * 32), stoneNo));
+        this.portals.push(new Portal(`2`, this.physics.add.sprite(tile2X * 32, tile2Y * 32, 'portal'), this.player, new Phaser.Math.Vector2(tile1X * 32 - 90, tile1Y * 32), stoneNo));
+    }
 
-        this.addCollisionWithPortal(this.player)
-        this.putItems()
+    private addPortals() {
+        this.addPortal(50, 61, 183, 5, 0)
+        this.addPortal(134, 64, 159, 123, 1)
+        this.addPortal(51, 108, 79, 65, 2)
+    }
 
-        this.children.bringToTop(this.player)
-        this.initializeMusic()
+    private addCollisionWithPortal(sprite: Phaser.Physics.Arcade.Sprite): void {
+        for (const portal of this.portals)
+            this.physics.add.collider(sprite, portal.sprite)
+    }
 
-        this.addEnemies()
+    private putItems(): void {
+        const spawner = new BushSpawner(this, 100)
+        spawner.putItems(this.seaLayer)
     }
 
     private initializeMusic() {
@@ -71,6 +77,14 @@ export default class GameScene extends GameBaseScene {
             .addMusic(this.sound.add('attack'))
 
         this.hitSound = this.sound.add('player-slap')
+    }
+
+    protected addEnemy(i: number): void {
+        const enemy = this.enemyFactory.createRandomEnemy(i % 4)
+
+        enemy.attributes.on(Attribute.CHARACTER_DEAD, () => this.enemyKilled++)
+
+        enemy.on(Enemy.ENEMY_ATTACKED, () => this.hitSound.play({ volume: 0.2 }))
     }
 
     protected addEnemies() {
@@ -85,34 +99,18 @@ export default class GameScene extends GameBaseScene {
         this.enemyFactory.createBoss(104, 61, -1, true)
     }
 
-    protected addEnemy(i: number): void {
-        const enemy = this.enemyFactory.createRandomEnemy(i % 4)
+    private spawnGameObjects() {
+        this.physics.add.collider(this.player, this.seaLayer)
+        this.addPortals()
+        this.enemyFactory = new EnemyFactory(this, this.player, this.seaLayer,
+            this.portals.map(value => value.sprite))
 
-        enemy.attributes.on(Attribute.CHARACTER_DEAD, () => this.enemyKilled++)
+        this.addCollisionWithPortal(this.player)
+        this.putItems()
 
-        enemy.on(Enemy.ENEMY_ATTACKED, () => this.hitSound.play({ volume: 0.2 }))
-    }
+        this.children.bringToTop(this.player)
+        this.initializeMusic()
 
-
-    private addCollisionWithPortal(sprite: Phaser.Physics.Arcade.Sprite): void {
-        for (const portal of this.portals)
-            this.physics.add.collider(sprite, portal.sprite)
-    }
-
-    private addPortals() {
-        this.addPortal(50, 61, 183, 5, 0)
-        this.addPortal(134, 64, 159, 123, 1)
-        this.addPortal(51, 108, 79, 65, 2)
-
-    }
-
-    private addPortal(tile1X: number, tile1Y: number, tile2X: number, tile2Y: number, stoneNo: number) {
-        this.portals.push(new Portal('1', this.physics.add.sprite(tile1X * 32, tile1Y * 32, 'portal'), this.player, new Phaser.Math.Vector2(tile2X * 32 - 90, tile2Y * 32), stoneNo));
-        this.portals.push(new Portal(`2`, this.physics.add.sprite(tile2X * 32, tile2Y * 32, 'portal'), this.player, new Phaser.Math.Vector2(tile1X * 32 - 90, tile1Y * 32), stoneNo));
-    }
-
-    private putItems(): void {
-        const spawner = new BushSpawner(this, 100)
-        spawner.putItems(this.seaLayer)
+        this.addEnemies()
     }
 }

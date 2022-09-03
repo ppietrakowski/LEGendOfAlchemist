@@ -17,14 +17,6 @@ export default class Portal {
         sprite.body.pushable = false
     }
 
-    private playerEnteredIntoPortal() {
-        if (this.player.hasTeleportStone(this.portalNo))
-            this.teleport()
-        else if (this.text === null)
-            this.showCannotTeleport()
-    }
-
-
     private showCannotTeleport() {
         this.text = addInformationText(this.player.gameScene, this.player.x, this.player.y,
             `Cannot go any futher without teleporting stone  ${this.portalNo}`,
@@ -32,9 +24,15 @@ export default class Portal {
         )
     }
 
-
     private teleport() {
         this.teleportSound.play()
         this.player.attributes.applyEffect(new TeleportEffect(this.endPoint))
+    }
+
+    private playerEnteredIntoPortal() {
+        if (this.player.hasTeleportStone(this.portalNo))
+            this.teleport()
+        else if (this.text === null)
+            this.showCannotTeleport()
     }
 }

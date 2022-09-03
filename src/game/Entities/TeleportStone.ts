@@ -7,7 +7,6 @@ export default class TeleportStone implements Item {
     description?: string
 
     constructor(public imageKey: string, public index: number) {
-
         this.name = `TeleportStone0${index}`
         this.used = undefined
         

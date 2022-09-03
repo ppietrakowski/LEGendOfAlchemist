@@ -15,47 +15,18 @@ export default class EnemyFactory {
     private enemies: GameObject[]
 
     constructor(private readonly scene: Phaser.Scene,
-         private readonly player: Player,
-         private readonly seaLayer: Phaser.Tilemaps.TilemapLayer,
-         private readonly portals: Phaser.GameObjects.GameObject[]
-         ) {
-            this.enemies = []
+        private readonly player: Player,
+        private readonly seaLayer: Phaser.Tilemaps.TilemapLayer,
+        private readonly portals: Phaser.GameObjects.GameObject[]
+    ) {
+        this.enemies = []
     }
 
     get lastCreatedEnemy() { return this.cachedEnemy }
     get createdEnemies() { return this.enemies.map(v => v) }
 
-    createEnemy(textureName: string, isleNo: number): Enemy {
-        const enemy = new Enemy(this.scene, 0, 0, textureName, textureName, 140, this.player)
-
-        spawnAtTile(enemy, isleNo, this.seaLayer)
-        this.setupEnemy(enemy)
-
-        enemy.attributes.once(Attribute.CHARACTER_DEAD, () => this.deleteEnemy(enemy))
-        
-        return enemy
-    }
-
     private deleteEnemy(enemy: GameObject) {
         this.enemies = this.enemies.filter(value => value !== enemy)
-    }
-
-    createRandomEnemy(isleNo: number): Enemy {
-        return this.createEnemy(getRandomEnemyKey(), isleNo)
-    }
-
-    createBoss(tileX: number, tileY: number, portalNo: number, wantUltraBoss = false): Boss {
-        const enemyName = getRandomEnemyKey()
-        let boss: Boss
-
-        if (wantUltraBoss)
-            boss = new UltraBoss(this.scene, tileX * 32, tileY * 32, enemyName, enemyName, 140, this.player)
-        else
-            boss = new Boss(this.scene, tileX * 32, tileY * 32, enemyName, enemyName, 140, this.player, portalNo)
-        
-        this.setupEnemy(boss)
-
-        return boss
     }
 
     private setupEnemy(enemy: Enemy): void {
@@ -71,5 +42,34 @@ export default class EnemyFactory {
         for (let portal of this.portals)
             this.scene.physics.add.collider(this.cachedEnemy, portal)
         this.scene.physics.add.collider(this.cachedEnemy, this.seaLayer)
+    }
+
+    createEnemy(textureName: string, isleNo: number): Enemy {
+        const enemy = new Enemy(this.scene, 0, 0, textureName, textureName, 140, this.player)
+
+        spawnAtTile(enemy, isleNo, this.seaLayer)
+        this.setupEnemy(enemy)
+
+        enemy.attributes.once(Attribute.CHARACTER_DEAD, () => this.deleteEnemy(enemy))
+
+        return enemy
+    }
+
+    createRandomEnemy(isleNo: number): Enemy {
+        return this.createEnemy(getRandomEnemyKey(), isleNo)
+    }
+
+    createBoss(tileX: number, tileY: number, portalNo: number, wantUltraBoss = false): Boss {
+        const enemyName = getRandomEnemyKey()
+        let boss: Boss
+
+        if (wantUltraBoss)
+            boss = new UltraBoss(this.scene, tileX * 32, tileY * 32, enemyName, enemyName, 140, this.player)
+        else
+            boss = new Boss(this.scene, tileX * 32, tileY * 32, enemyName, enemyName, 140, this.player, portalNo)
+
+        this.setupEnemy(boss)
+
+        return boss
     }
 }

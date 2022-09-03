@@ -52,6 +52,10 @@ export default class Attribute extends Phaser.Events.EventEmitter implements Com
             effect.update(deltaTime)
     }
 
+    private deleteEffect(effect: Effect): void {
+        this.effects = this.effects.filter(value => value !== effect)
+    }
+
     applyEffect(effect: Effect): void {
         effect.appliedTo(this.character)
 
@@ -59,16 +63,12 @@ export default class Attribute extends Phaser.Events.EventEmitter implements Com
         this.effects.push(effect)
     }
 
-    private checkIsAlive(): void {
-        if (!this.isAlive())
-            this.emit(Attribute.CHARACTER_DEAD, this)
-    }
-
     private isAlive(): boolean {
         return this.hp.value >= 0
     }
 
-    private deleteEffect(effect: Effect): void {
-        this.effects = this.effects.filter(value => value !== effect)
+    private checkIsAlive(): void {
+        if (!this.isAlive())
+            this.emit(Attribute.CHARACTER_DEAD, this)
     }
 }

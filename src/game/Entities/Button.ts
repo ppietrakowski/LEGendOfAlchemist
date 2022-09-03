@@ -18,12 +18,19 @@ export default class Button extends Phaser.Events.EventEmitter {
         this.addEvents()
     }
 
-    
     addClickListener(fn: Function, context: any): this {
         this.on(Button.BUTTON_CLICKED, fn, context)
         return this
     }
 
+    private addEvents() {
+        this.on(Button.BUTTON_HOVER, () => this.image.setTint(0x787878))
+        this.on(Button.BUTTON_UNHOVER, this.image.clearTint, this.image)
+
+        this.image.on(Phaser.Input.Events.POINTER_OVER, () => this.emit(Button.BUTTON_HOVER))
+        this.image.on(Phaser.Input.Events.POINTER_OUT, () => this.emit(Button.BUTTON_UNHOVER))
+        this.image.on(Phaser.Input.Events.POINTER_DOWN, () => this.emit(Button.BUTTON_CLICKED))
+    }
 
     setNewImage(image: Phaser.GameObjects.Image) {
         this.image.destroy()
@@ -36,15 +43,4 @@ export default class Button extends Phaser.Events.EventEmitter {
 
         this.addEvents()
     }
-
-
-    private addEvents() {
-        this.on(Button.BUTTON_HOVER, () => this.image.setTint(0x787878))
-        this.on(Button.BUTTON_UNHOVER, this.image.clearTint, this.image)
-
-        this.image.on(Phaser.Input.Events.POINTER_OVER, () => this.emit(Button.BUTTON_HOVER))
-        this.image.on(Phaser.Input.Events.POINTER_OUT, () => this.emit(Button.BUTTON_UNHOVER))
-        this.image.on(Phaser.Input.Events.POINTER_DOWN, () => this.emit(Button.BUTTON_CLICKED))
-    }
-
 }

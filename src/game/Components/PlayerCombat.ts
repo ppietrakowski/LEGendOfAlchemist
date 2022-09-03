@@ -17,6 +17,10 @@ export default class PlayerCombat implements Component {
 
         this.player.on(GameObject.GAMEOBJECT_UPDATE, this.cacheDeltaTime, this)
     }
+    
+    private cacheDeltaTime(deltaTime: number) {
+        this.deltaTime = deltaTime
+    }
 
     destroy(): void {
         this.player = null
@@ -25,18 +29,22 @@ export default class PlayerCombat implements Component {
     getName(): string {
         return PlayerCombat.COMPONENT_NAME;
     }
-
-    addEnemy(enemy: Enemy): void {
-        enemy.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, (_p: any) => {
-            this.onThrowAnything(enemy)
-        });
+    
+    private potionHitEnemy(throwable: Phaser.GameObjects.Image, enemy: Enemy) {
+        throwable.scene.sound.add('potion-hit').play()
+        enemy.attributes.applyEffect(new TimedEffect(24 * this.deltaTime * -this.player.attributes.strength, 0, 0, 0.5))
+        this.attacked = false
+        throwable.destroy()
     }
 
-    private onThrowAnything(enemy: Enemy) {
-        let { scene } = enemy
-        if (this.player.isNearObject(enemy, 10 * this.player.attributes.strength.value) && !this.attacked) {
-            let throwable = scene.add.image(this.player.x, this.player.y, 'potion')
-            this.throw(throwable, enemy)
+    private getTweenConfig(throwable: Phaser.GameObjects.Image, enemy: Enemy, duration: number): object {
+        return {
+            targets: [throwable],
+            ease: 'linear',
+            duration: duration,
+            x: enemy.x,
+            y: enemy.y,
+            onComplete: () => this.potionHitEnemy(throwable, enemy),
         }
     }
 
@@ -51,25 +59,15 @@ export default class PlayerCombat implements Component {
         throwable.scene.tweens.add(this.getTweenConfig(throwable, enemy, duration));
     }
 
-    private getTweenConfig(throwable: Phaser.GameObjects.Image, enemy: Enemy, duration: number): object {
-        return {
-            targets: [throwable],
-            ease: 'linear',
-            duration: duration,
-            x: enemy.x,
-            y: enemy.y,
-            onComplete: () => this.potionHitEnemy(throwable, enemy),
+    private onThrowAnything(enemy: Enemy) {
+        let { scene } = enemy
+        if (this.player.isNearObject(enemy, 10 * this.player.attributes.strength.value) && !this.attacked) {
+            let throwable = scene.add.image(this.player.x, this.player.y, 'potion')
+            this.throw(throwable, enemy)
         }
     }
 
-    private potionHitEnemy(throwable: Phaser.GameObjects.Image, enemy: Enemy) {
-        throwable.scene.sound.add('potion-hit').play()
-        enemy.attributes.applyEffect(new TimedEffect(24 * this.deltaTime * -this.player.attributes.strength, 0, 0, 0.5))
-        this.attacked = false
-        throwable.destroy()
-    }
-    
-    private cacheDeltaTime(deltaTime: number) {
-        this.deltaTime = deltaTime
+    addEnemy(enemy: Enemy): void {
+        enemy.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, _p => this.onThrowAnything(enemy));
     }
 }

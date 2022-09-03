@@ -9,7 +9,7 @@ export class ItemImage {
         image.setInteractive({ pixelPerfect: true })
     }
 
-    public giveToPlayer() {
+    giveToPlayer() {
         let player = this.image.scene.children.getByName('player') as Player
         player.inventory.addItem(this.item)
         this.image.destroy()
@@ -26,7 +26,6 @@ export class ItemImage {
 export class ItemSpawner {
 
     constructor(private scene: Phaser.Scene) {
-
     }
 
     addItem(x: number, y: number, item: Item) {

@@ -25,5 +25,4 @@ export default class Impulse implements Effect {
     }
 
     events: Phaser.Events.EventEmitter;
-
 }

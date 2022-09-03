@@ -5,15 +5,18 @@ import IDamageCalculator from './DamageCalculator'
 import Controller from '../Controller'
 import Enemy from '../../Entities/Enemy'
 import { AI_State } from './AI_State'
+import DefaultDamageCalculator from '../DefaultDamageCalculator'
 
 
 export default class AttackState extends EnemyState {
-    private delay: number
+    private _delay: number
+    private _calculator: IDamageCalculator
 
     private static readonly ATTACK_DELAY = 1.4
 
-    constructor(controller: Controller, owner: GameObject, private readonly calculator: IDamageCalculator) {
+    constructor(controller: Controller, owner: GameObject) {
         super(controller, owner)
+        this._calculator = new DefaultDamageCalculator(owner)
     }
 
     stateStarted(): void {
@@ -22,15 +25,15 @@ export default class AttackState extends EnemyState {
 
         this.owner.setVelocity(0, 0)
         target.attributes.applyEffect(
-            new TimedEffect(-this.calculator.calculateDamage(target), 0, 0, 1))
+            new TimedEffect(-this._calculator.calculateDamage(target), 0, 0, 1))
         this.owner.emit(Enemy.ENEMY_ATTACKED, target)
-        this.delay = 0
+        this._delay = 0
     }
 
     update(deltaTime: number): void {
-        this.delay += deltaTime
+        this._delay += deltaTime
 
-        if (this.delay >= AttackState.ATTACK_DELAY)
+        if (this._delay >= AttackState.ATTACK_DELAY)
             this.controller.switchToNewState(AI_State.ATTACK)
     }
 

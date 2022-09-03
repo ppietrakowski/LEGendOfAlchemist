@@ -10,7 +10,6 @@ export default class UltraBoss extends Boss {
         this.setTint(0xff0000)
     }
 
-
     protected killed(): void {
         const { sound } = this.scene
 

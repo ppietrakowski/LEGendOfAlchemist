@@ -22,9 +22,9 @@ export default class MainMenu extends Phaser.Scene {
         this.music_button = new Button(this.add.sprite(this.scale.width - 70, this.scale.height - 70, 'sound-on'))
         this.buttons.push(this.music_button)
 
-        this.buttons[0].addClickListener(this.onMainGameClicked, this)
-        this.buttons[1].addClickListener(this.onCreditsClicked, this)
-        this.buttons[2].addClickListener(this.onSoundClicked, this)
+        this.buttons[0].addClickListener(this.mainGameButtonClicked, this)
+        this.buttons[1].addClickListener(this.creditsButtonClicked, this)
+        this.buttons[2].addClickListener(this.soundButtonClicked, this)
 
         let text = `
         Use arrows to move around
@@ -36,18 +36,18 @@ export default class MainMenu extends Phaser.Scene {
         this.add.text(-20, 400, text, { fontFamily: 'pixellari', fontSize: '20px', color: '#000000', stroke: '#fff', strokeThickness: 1 })
     }
 
-    private onMainGameClicked(): void {
+    private mainGameButtonClicked(): void {
         this.theme.destroy()
 
         this.game.scene.stop('MainMenu')
         this.game.scene.run('GameScene')
     }
 
-    private onCreditsClicked(): void {
+    private creditsButtonClicked(): void {
         this.game.scene.switch('MainMenu', 'Credits')
     }
 
-    private onSoundClicked(): void {
+    private soundButtonClicked(): void {
         if (this.theme.isPlaying && !this.theme.isPaused) {
             this.theme.stop()
             this.music_button.setNewImage(this.add.sprite(this.scale.width - 70, this.scale.height - 70, 'sound-off'))
@@ -56,6 +56,6 @@ export default class MainMenu extends Phaser.Scene {
             this.music_button.setNewImage(this.add.sprite(this.scale.width - 70, this.scale.height - 70, 'sound-on'))
         }
 
-        this.music_button.addClickListener(this.onSoundClicked, this)
+        this.music_button.addClickListener(this.soundButtonClicked, this)
     }
 }

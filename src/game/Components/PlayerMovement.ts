@@ -6,7 +6,6 @@ import { Component } from './Component'
 export default class PlayerMovement implements Component {
     private input: Phaser.Types.Input.Keyboard.CursorKeys
     private onStayAnimation: string
-    private direction: Phaser.Math.Vector2
 
     static readonly COMPONENT_NAME = 'movement';
 
@@ -33,6 +32,14 @@ export default class PlayerMovement implements Component {
         this.player.on(GameObject.GAMEOBJECT_UPDATE, this.update, this)
     }
 
+    private onMovement(frameName: string, velX: number, velY: number) {
+        if (!this.player.anims)
+            return;
+
+        this.player.anims.play(frameName, true)
+        this.player.setVelocity(velX, velY)
+    }
+
     update(deltaTime: number): void {
         deltaTime *= 20
 
@@ -54,11 +61,5 @@ export default class PlayerMovement implements Component {
             this.onMovement(this.onStayAnimation, 0, 0)
     }
 
-    private onMovement(frameName: string, velX: number, velY: number) {
-        if (!this.player.anims)
-            return;
-
-        this.player.anims.play(frameName, true)
-        this.player.setVelocity(velX, velY)
-    }
+    
 }

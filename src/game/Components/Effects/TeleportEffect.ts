@@ -3,7 +3,6 @@ import GameObject from '../../Entities/GameObject';
 import Effect from './Effect'
 
 export default class TeleportEffect implements Effect {
-
     constructor(private destination: { x: number, y: number }) {
         this.events = new Phaser.Events.EventEmitter()
     }
@@ -14,7 +13,7 @@ export default class TeleportEffect implements Effect {
     }
 
     update(_deltaTime: number): void {
-        this.events.emit('closed')
+        this.events.emit('ended')
     }
 
     clone(): Effect {

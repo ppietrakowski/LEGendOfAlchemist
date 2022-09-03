@@ -44,14 +44,14 @@ export default class InventoryContainer extends Phaser.GameObjects.Container {
             this.heigth += marginBetweenTwoElements
     }
 
-    public updatePosition() {
+    updatePosition() {
         this.currentRow = 0
         this.heigth = 72
 
         this.each(this.buildInventorySlot, this)
     }
 
-    public deleteChild(child: string) {
+    deleteChild(child: string) {
         this.each((ch: Phaser.GameObjects.Image) => { if (ch.name === child) this.remove(ch); })
         this.updatePosition()
         this.itemInfo.text = ''
@@ -65,7 +65,7 @@ export default class InventoryContainer extends Phaser.GameObjects.Container {
         this.itemInfo.setVisible(true)
     }
 
-    public addItemInfo(item: Phaser.GameObjects.Image): void {
+    addItemInfo(item: Phaser.GameObjects.Image): void {
         item.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER, () => this.showInfo(item))
 
         item.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT, () => this.itemInfo.setVisible(false))

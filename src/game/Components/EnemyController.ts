@@ -8,7 +8,7 @@ import SeeSense from "./AI/sense/SeeSense"
 import GameObject from '../Entities/GameObject'
 import Controller from './Controller'
 
-import {AI_State} from './AI/AI_State'
+import { AI_State } from './AI/AI_State'
 import EnemyStatePool from './AI/EnemyStatePool'
 
 export default class EnemyController implements Component, SensingListener, Controller, EnemySensing {
@@ -33,11 +33,24 @@ export default class EnemyController implements Component, SensingListener, Cont
 
         this.runStateMachine()
     }
-    
+
+    private runStateMachine(): void {
+        const { scene } = this.possesedEnemy
+
+        this.possesedEnemy.setVelocity(0)
+
+        //here configuration of collision ??
+        scene.physics.add.collider(this.possesedEnemy, this.target)
+
+        this.switchToNewState(AI_State.ROAMING)
+
+        this.possesedEnemy.on(GameObject.GAMEOBJECT_UPDATE, this.update, this)
+    }
+
     destroy(): void {
         this.senses.forEach(sense => sense.removeSenseListener(this))
         this.possesedEnemy.off(GameObject.GAMEOBJECT_UPDATE, this.update, this)
-        this.currentState = null    
+        this.currentState = null
     }
 
     getCurrentState(): EnemyState {
@@ -64,9 +77,9 @@ export default class EnemyController implements Component, SensingListener, Cont
             sense.update(deltaTime)
     }
 
-    switchToNewState(state: AI_State) {
+    switchToNewState(state: AI_State, ...args: any[]) {
         this.currentState = this.statePool.getState(state)
-        this.currentState.stateStarted()
+        this.currentState.stateStarted(...args)
     }
 
     addSenseListener(sensingListener: SensingListener): void {
@@ -76,18 +89,5 @@ export default class EnemyController implements Component, SensingListener, Cont
     removeSenseListener(sensingListener: SensingListener): void {
         for (let sense of this.senses)
             sense.removeSenseListener(sensingListener)
-    }
-
-    private runStateMachine(): void {
-        const { scene } = this.possesedEnemy
-
-        this.possesedEnemy.setVelocity(0)
-
-        //here configuration of collision ??
-        scene.physics.add.collider(this.possesedEnemy, this.target)
-
-        this.switchToNewState(AI_State.ROAMING)
-
-        this.possesedEnemy.on(GameObject.GAMEOBJECT_UPDATE, this.update, this)
     }
 }

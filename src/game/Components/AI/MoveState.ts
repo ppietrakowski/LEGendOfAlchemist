@@ -5,11 +5,14 @@ import { EnemyState } from "./EnemyState";
 
 
 export class MoveState extends EnemyState {
-    constructor(controller: Controller, owner: GameObject, private readonly endPosition: Phaser.Math.Vector2) {
+    endPosition: Phaser.Math.Vector2
+
+    constructor(controller: Controller, owner: GameObject) {
         super(controller, owner)
     }
 
-    stateStarted(): void {
+    stateStarted(endPosition: Phaser.Math.Vector2): void {
+        this.endPosition = endPosition
     }
 
     update(_deltaTime: number): void {

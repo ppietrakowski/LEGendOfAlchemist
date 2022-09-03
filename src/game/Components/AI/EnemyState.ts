@@ -7,7 +7,7 @@ export abstract class EnemyState {
     constructor(protected readonly controller: Controller, protected readonly owner: GameObject) {
     }
 
-    abstract stateStarted(): void
+    abstract stateStarted(...args: any[]): void
     abstract getState(): AI_State
 
     update(_deltaTime: number) { }
