@@ -18,7 +18,7 @@ export default class Enemy extends GameObject {
         super(scene, x, y, texture, 0)
         this.name = name
         this.addComponent(new EnemyController(player, this, maxRange))
-        this.addComponent(new HealthBar(this, 100, player))
+        this.addComponent(new HealthBar(this, player))
 
         this.attributes.on(Attribute.CHARACTER_DEAD, this.killed, this)
     }

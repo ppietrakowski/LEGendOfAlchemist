@@ -32,7 +32,7 @@ export default class Player extends GameObject {
 
         this.attributes.on(Attribute.CHARACTER_DEAD, this.playerKilled, this)
         this.scene.game.events.emit(Player.INVENTORY_START, { inventory: this.inventory, owner: this })
-        this.inventory.addListener(Inventory.INVENTORY_FULL, gameScene.showCannotGatherInfo, gameScene)
+        this.inventory.events.on(Inventory.INVENTORY_FULL, gameScene.showCannotGatherInfo, gameScene)
     }
 
     addedToScene(): void {

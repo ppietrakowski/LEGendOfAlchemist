@@ -6,6 +6,7 @@ import { Component } from './Component'
 export default class PlayerMovement implements Component {
     private input: Phaser.Types.Input.Keyboard.CursorKeys
     private onStayAnimation: string
+    private direction: Phaser.Math.Vector2
 
     static readonly COMPONENT_NAME = 'movement';
 

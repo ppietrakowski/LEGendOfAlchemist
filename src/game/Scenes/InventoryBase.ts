@@ -1,12 +1,12 @@
 import Phaser from "phaser"
 import { Inventory, InventoryStartEvent } from '../Components/Inventory'
-import { Item } from "../Entities/Item"
+import { Item, ItemContainer } from "../Entities/Item"
 import Player from "../Entities/Player"
 import InventoryContainer from './InventoryContainer'
 import { addInformationText } from './SceneUtils'
 
 export default abstract class InventoryBase extends Phaser.Scene {
-    protected inventory: Inventory
+    protected inventory: ItemContainer
     protected container: InventoryContainer
     static readonly INVENTORY_CLOSED = 'InventoryClosed'
     static readonly DATA_ITEM_KEY = 'info'
@@ -23,6 +23,16 @@ export default abstract class InventoryBase extends Phaser.Scene {
         this.container.setScrollFactor(0)
 
         this.game.events.once(Player.INVENTORY_START, this.assignInventory, this)
+    }
+
+    private itemUsed(item: Phaser.GameObjects.Image) {
+        let itemState = item.data.get(InventoryBase.DATA_ITEM_KEY) as Item
+
+        if (itemState.used) {
+            itemState.used(itemState, this.inventory.owner)
+
+            this.inventory.deleteItem(itemState)
+        }
     }
 
     private setupItem(item: Phaser.GameObjects.Image): void {
@@ -49,21 +59,11 @@ export default abstract class InventoryBase extends Phaser.Scene {
         }
     }
 
-    private itemUsed(item: Phaser.GameObjects.Image) {
-        let itemState = item.data.get(InventoryBase.DATA_ITEM_KEY) as Item
-
-        if (itemState.used) {
-            itemState.used(itemState, this.inventory.owner)
-
-            this.inventory.deleteItem(itemState)
-        }
-    }
-
     private itemRemoved(item: Item) {
         let itemImage: Phaser.GameObjects.Image;
 
         this.container.iterate((v: Phaser.GameObjects.GameObject) => {
-            if (v.getData('info') === item)  {
+            if (v.getData('info') === item) {
                 itemImage = v as Phaser.GameObjects.Image
             }
         })
@@ -74,9 +74,9 @@ export default abstract class InventoryBase extends Phaser.Scene {
 
     private assignInventory(inventoryEvent: InventoryStartEvent) {
         this.inventory = inventoryEvent.inventory
-        this.inventory.on(Inventory.ADDED_ITEM, this.addElement, this)
-        this.inventory.on(Inventory.INVENTORY_FULL, () => addInformationText(this.inventory.owner.scene,
-             this.inventory.owner.x, this.inventory.owner.y, `I'm overburden`, () => null))
-        this.inventory.on(Inventory.DELETED_ITEM, this.itemRemoved, this)
+        this.inventory.events.on(Inventory.ADDED_ITEM, this.addElement, this)
+        this.inventory.events.on(Inventory.INVENTORY_FULL, () => addInformationText(this.inventory.owner.scene,
+            this.inventory.owner.x, this.inventory.owner.y, `I'm overburden`, () => null))
+        this.inventory.events.on(Inventory.DELETED_ITEM, this.itemRemoved, this)
     }
 }

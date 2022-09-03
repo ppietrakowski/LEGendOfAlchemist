@@ -1,11 +1,11 @@
 
 import GameObject from '../Entities/GameObject'
-import { Item } from './../Entities/Item'
+import { Item, ItemContainer } from './../Entities/Item'
 import { Component } from './Component'
 
 
 export interface InventoryStartEvent {
-    inventory: Inventory,
+    inventory: ItemContainer,
     owner: GameObject
 }
 
@@ -40,9 +40,10 @@ class ItemSlot {
 
 }
 
-export class Inventory extends Phaser.Events.EventEmitter implements Component {
+export class Inventory implements Component, ItemContainer {
     private items: ItemSlot[]
 
+    events: Phaser.Events.EventEmitter
     /*
      * Inventory event handlers name
      */
@@ -54,14 +55,17 @@ export class Inventory extends Phaser.Events.EventEmitter implements Component {
     static readonly COMPONENT_NAME = 'inventory'
 
     constructor(public readonly owner: GameObject) {
-        super()
-
         this.items = []
+        this.events = new Phaser.Events.EventEmitter()
+    }
+    
+    get count(): number {
+        throw new Error('Method not implemented.')
     }
 
     destroy(): void {
         this.items = null
-        super.destroy()
+        this.events.destroy()
     }
 
     getName(): string {
@@ -76,11 +80,36 @@ export class Inventory extends Phaser.Events.EventEmitter implements Component {
         return this.items.findIndex(value => value.item.name === name) != -1
     }
 
+    private removeItem(item: Item): void {
+        this.events.emit(Inventory.DELETED_ITEM, item)
+        this.items = this.items.filter(value => value.item !== item)
+    }
+
+    private createNewItem(item: Item) {
+        let slot = new ItemSlot(item)
+        this.events.emit(Inventory.ADDED_ITEM, item)
+        this.items.push(slot)
+
+        slot.events.on(ItemSlot.ITEM_NOT_IN_SLOT, this.removeItem, this)
+    }
+
+    private addExistingItem(item: Item) {
+        let itemState = this.items.find(v => v.item === item)
+        itemState.addItemToSlot()
+    }
+
+    private addOnFreeSpace(item: Item) {
+        if (!this.hasItem(item.name))
+            this.createNewItem(item)
+        else
+            this.addExistingItem(item)
+    }
+
     addItem(item: Item) {
         if (this.hasFreeSpace())
             this.addOnFreeSpace(item)
         else
-            this.emit(Inventory.INVENTORY_FULL)
+            this.events.emit(Inventory.INVENTORY_FULL)
     }
 
     hasFreeSpace(): boolean {
@@ -94,31 +123,6 @@ export class Inventory extends Phaser.Events.EventEmitter implements Component {
             }
         }
 
-        this.emit(Inventory.INVENTORY_NEED_UPDATE, item.name)
-    }
-
-    private addOnFreeSpace(item: Item) {
-        if (!this.hasItem(item.name))
-            this.createNewItem(item)
-        else
-            this.addExistingItem(item)
-    }
-
-    private createNewItem(item: Item) {
-        let slot = new ItemSlot(item)
-        this.emit(Inventory.ADDED_ITEM, item)
-        this.items.push(slot)
-
-        slot.events.on(ItemSlot.ITEM_NOT_IN_SLOT, this.removeItem, this)
-    }
-
-    private addExistingItem(item: Item) {
-        let itemState = this.items.find(v => v.item === item)
-        itemState.addItemToSlot()
-    }
-
-    private removeItem(item: Item): void {
-        this.emit(Inventory.DELETED_ITEM, item)
-        this.items = this.items.filter(value => value.item !== item)
+        this.events.emit(Inventory.INVENTORY_NEED_UPDATE, item.name)
     }
 }

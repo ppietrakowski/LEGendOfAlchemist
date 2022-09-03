@@ -29,33 +29,6 @@ export default class InventoryContainer extends Phaser.GameObjects.Container {
         events.on(InventoryBase.INVENTORY_CLOSED, () => this.itemInfo.setVisible(false))
     }
 
-    public updatePosition() {
-        this.currentRow = 0
-        this.heigth = 72
-
-        this.each(this.buildInventorySlot, this)
-    }
-
-    public deleteChild(child: string) {
-        this.each((ch: Phaser.GameObjects.Image) => { if (ch.name === child) this.remove(ch); })
-        this.updatePosition()
-        this.itemInfo.text = ''
-    }
-
-    public addItemInfo(item: Phaser.GameObjects.Image): void {
-        item.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER, () => this.showInfo(item))
-
-        item.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT, () => this.itemInfo.setVisible(false))
-    }
-
-    private showInfo(item: Phaser.GameObjects.Image) {
-        let itemState = item.data.get(InventoryBase.DATA_ITEM_KEY) as Item
-
-        this.itemInfo.setText(`${itemState.name}\n${itemState.description ? itemState.description : '????'}`)
-        this.itemInfo.setPosition(item.x, item.y)
-        this.itemInfo.setVisible(true)
-    }
-
     private buildInventorySlot(child: Phaser.GameObjects.GameObject) {
         if (child != this.background && child != this.title) {
             const ch = child as Phaser.GameObjects.Sprite
@@ -69,5 +42,32 @@ export default class InventoryContainer extends Phaser.GameObjects.Container {
             }
         } else if (child === this.title)
             this.heigth += marginBetweenTwoElements
+    }
+
+    public updatePosition() {
+        this.currentRow = 0
+        this.heigth = 72
+
+        this.each(this.buildInventorySlot, this)
+    }
+
+    public deleteChild(child: string) {
+        this.each((ch: Phaser.GameObjects.Image) => { if (ch.name === child) this.remove(ch); })
+        this.updatePosition()
+        this.itemInfo.text = ''
+    }
+
+    private showInfo(item: Phaser.GameObjects.Image) {
+        let itemState = item.data.get(InventoryBase.DATA_ITEM_KEY) as Item
+
+        this.itemInfo.setText(`${itemState.name}\n${itemState.description ? itemState.description : '????'}`)
+        this.itemInfo.setPosition(item.x, item.y)
+        this.itemInfo.setVisible(true)
+    }
+
+    public addItemInfo(item: Phaser.GameObjects.Image): void {
+        item.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER, () => this.showInfo(item))
+
+        item.on(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT, () => this.itemInfo.setVisible(false))
     }
 }

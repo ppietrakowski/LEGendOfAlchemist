@@ -17,3 +17,16 @@ export interface Item {
     
     effect?: Effect
 }
+
+
+export interface ItemContainer {
+    get count(): number
+    events: Phaser.Events.EventEmitter
+    readonly owner: GameObject
+
+    getItem(index: number): Item
+    hasItem(name: string): boolean
+    addItem(item: Item): void
+    hasFreeSpace(): boolean
+    deleteItem(item: Item): void
+}
