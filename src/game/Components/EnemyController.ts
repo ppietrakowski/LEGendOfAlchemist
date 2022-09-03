@@ -34,7 +34,6 @@ export default class EnemyController implements Component, SensingListener, Cont
         this.runStateMachine()
     }
     
-
     destroy(): void {
         this.senses.forEach(sense => sense.removeSenseListener(this))
         this.possesedEnemy.off(GameObject.GAMEOBJECT_UPDATE, this.update, this)
@@ -82,9 +81,9 @@ export default class EnemyController implements Component, SensingListener, Cont
     private runStateMachine(): void {
         const { scene } = this.possesedEnemy
 
-        this.possesedEnemy.setVelocityX(0)
-        this.possesedEnemy.setVelocityY(0)
+        this.possesedEnemy.setVelocity(0)
 
+        //here configuration of collision ??
         scene.physics.add.collider(this.possesedEnemy, this.target)
 
         this.switchToNewState(AI_State.ROAMING)
