@@ -1,18 +1,20 @@
-import GameObject from "../../Entities/GameObject";
-import Controller from "../Controller";
-import { AI_State } from './AI_State';
-import { EnemyState } from "./EnemyState";
+import GameObject from '../../Entities/GameObject'
+import Controller from '../Controller'
+import { AI_State } from './AI_State'
+import { EnemyState } from './EnemyState'
 
 
 export class MoveState extends EnemyState {
-    endPosition: Phaser.Math.Vector2
+    private _endPosition: Phaser.Math.Vector2
+
+    private static readonly NearlyTouchRange = 1.5
 
     constructor(controller: Controller, owner: GameObject) {
         super(controller, owner)
     }
 
     stateStarted(endPosition: Phaser.Math.Vector2): void {
-        this.endPosition = endPosition
+        this._endPosition = endPosition
     }
 
     update(_deltaTime: number): void {
@@ -25,12 +27,16 @@ export class MoveState extends EnemyState {
     }
 
     private isNearTarget(): boolean {
-        return this.owner.body && (this.owner.isNear(this.endPosition, 1.5)
-            || !this.owner.body.blocked.none || !this.owner.body.touching.none)
+
+        const isNearEndPosition = this._owner.body && (this._owner.isNear(this._endPosition, MoveState.NearlyTouchRange))
+
+        const isCollidingWithSomething = !this._owner.body.blocked.none || !this._owner.body.touching.none
+
+        return isNearEndPosition && isCollidingWithSomething
     }
 
     private collided() {
-        this.owner.setVelocity(0, 0)
-        this.controller.switchToNewState(AI_State.ROAMING)
+        this._owner.setVelocity(0)
+        this._controller.switchToNewState(AI_State.ROAMING)
     }
 }

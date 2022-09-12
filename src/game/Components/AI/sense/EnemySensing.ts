@@ -1,4 +1,4 @@
-import GameObject from "../../../Entities/GameObject"
+import GameObject from '../../../Entities/GameObject'
 
 
 export enum SenseType {
@@ -7,13 +7,13 @@ export enum SenseType {
 
 
 export interface SensingListener {
-    sensed(sensedObject: GameObject, senseType: SenseType): void
-    stopsSensing(sensedObject: GameObject, senseType: SenseType): void
+    sensed(sensedObject: GameObject, senseType: SenseType): void;
+    stopsSensing(sensedObject: GameObject, senseType: SenseType): void;
 }
 
 
 export interface EnemySensing {
-    addSenseListener(sensingListener: SensingListener): void
-    removeSenseListener(sensingListener: SensingListener): void
-    update(deltaTime: number): void
+    addSenseListener(sensingListener: SensingListener): void;
+    removeSenseListener(sensingListener: SensingListener): void;
+    update(deltaTime: number): void;
 }

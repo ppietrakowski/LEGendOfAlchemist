@@ -1,11 +1,11 @@
-import Phaser from 'phaser';
+import Phaser from 'phaser'
 
 
 export const Music = [
-    "roam1",
-    "roam2",
-    "attack"
-];
+    'roam1',
+    'roam2',
+    'attack'
+]
 
 
 export function loadMusic(scene: Phaser.Scene): void {

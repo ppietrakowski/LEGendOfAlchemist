@@ -1,70 +1,78 @@
 import GameObject from '../Entities/GameObject'
 import { Component } from './Component'
 import ChangeableAttribute from '../ChangeableAttribute'
-import Effect from './Effects/Effect'
+import {Effect, EFFECT_ENDED} from './Effects/Effect'
 
 
 export default class Attribute extends Phaser.Events.EventEmitter implements Component {
-    private readonly character: GameObject
-    private effects: Effect[]
+    private readonly _gameObject: GameObject
+    private _effects: Effect[]
 
-    static readonly CHARACTER_DEAD = 'Dead'
-    static readonly HEALTH_CHANGED = 'healthChanged'
+    static readonly CHARACTER_DEAD = Symbol('Event symbol, called when character is dead')
+    static readonly HEALTH_CHANGED = Symbol('Event symbol, called when character\' health has changed')
 
-    static readonly COMPONENT_NAME = 'attributes';
+    static readonly COMPONENT_NAME = 'attributes'
 
-    private readonly hp = new ChangeableAttribute(0)
+    private readonly _hitpoints = new ChangeableAttribute(0)
     readonly strength = new ChangeableAttribute(0)
     readonly wisdom = new ChangeableAttribute(0)
 
-    get health() { return this.hp.value }
+    get health() { return this._hitpoints.value }
 
     constructor(character: GameObject, hp: number, strength: number, wisdom: number) {
         super()
 
-        this.hp.value = hp
+        this._hitpoints.value = hp
         this.strength.value = strength
         this.wisdom.value = wisdom
 
-        this.character = character
-        this.effects = []
+        this._gameObject = character
+        this._effects = []
 
-        this.hp.on(ChangeableAttribute.ATTRIBUTE_CHANGED, this.checkIsAlive, this)
-        this.character.on(GameObject.GAMEOBJECT_UPDATE, this.update, this);
+
+        this._hitpoints.on(ChangeableAttribute.ATTRIBUTE_CHANGED, this.checkIsAlive, this)
+        this._gameObject.on(GameObject.GAMEOBJECT_UPDATE, this.update, this)
     }
 
     changeHealth(amount: number) {
-        this.hp.value += amount
-        this.emit(Attribute.HEALTH_CHANGED, this.hp.value)
+        this._hitpoints.value += amount
+        this.emit(Attribute.HEALTH_CHANGED, this._hitpoints.value)
     }
 
     destroy(): void {
-        this.effects = null
+        this._effects = null
         super.destroy()
     }
 
     getName(): string {
-        return Attribute.COMPONENT_NAME;
+        return Attribute.COMPONENT_NAME
     }
 
     update(deltaTime: number): void {
-        for (const effect of this.effects)
+        for (const effect of this._effects)
             effect.update(deltaTime)
     }
 
+    private deletePredicate(effect: Effect, value: Effect): boolean {
+        return value !== effect
+    }
+
     private deleteEffect(effect: Effect): void {
-        this.effects = this.effects.filter(value => value !== effect)
+        effect.events.destroy()
+
+        this._effects = this._effects.filter(value => this.deletePredicate(effect, value))
     }
 
     applyEffect(effect: Effect): void {
-        effect.appliedTo(this.character)
+        effect.appliedTo(this._gameObject)
 
-        effect.events.once('ended', this.deleteEffect, this)
-        this.effects.push(effect)
+
+        effect.events.once(EFFECT_ENDED, this.deleteEffect, this)
+        this._effects.push(effect)
     }
 
     private isAlive(): boolean {
-        return this.hp.value >= 0
+        return this._hitpoints.value >= 0
     }
 
     private checkIsAlive(): void {

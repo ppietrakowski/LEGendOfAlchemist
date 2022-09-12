@@ -2,31 +2,31 @@ import Phaser from 'phaser'
 import Button from '../Entities/Button'
 
 export default class MainMenu extends Phaser.Scene {
-    private readonly buttons: Button[]
-    private theme: Phaser.Sound.BaseSound
-    private music_button: Button
+    private readonly _buttons: Button[]
+    private _theme: Phaser.Sound.BaseSound
+    private _musicButton: Button
 
     constructor() {
         super('MainMenu')
-        this.buttons = []
+        this._buttons = []
     }
 
     create(): void {
-        this.theme = this.sound.add('menu-theme')
-        this.theme.play({ loop: true, delay: 0.25, volume: 0.2 })
+        this._theme = this.sound.add('menu-theme')
+        this._theme.play({ loop: true, delay: 0.25, volume: 0.2 })
         this.add.image(0, 0, 'background').setOrigin(0, 0)
         this.add.image(this.scale.width / 2, 100, 'logo')
 
-        this.buttons.push(new Button(this.add.sprite(this.scale.width / 2, 125 + 120, 'play')))
-        this.buttons.push(new Button(this.add.sprite(this.scale.width / 2, 125 + 255, 'credits')))
-        this.music_button = new Button(this.add.sprite(this.scale.width - 70, this.scale.height - 70, 'sound-on'))
-        this.buttons.push(this.music_button)
+        this._buttons.push(new Button(this.add.sprite(this.scale.width / 2, 125 + 120, 'play')))
+        this._buttons.push(new Button(this.add.sprite(this.scale.width / 2, 125 + 255, 'credits')))
+        this._musicButton = new Button(this.add.sprite(this.scale.width - 70, this.scale.height - 70, 'sound-on'))
+        this._buttons.push(this._musicButton)
 
-        this.buttons[0].addClickListener(this.mainGameButtonClicked, this)
-        this.buttons[1].addClickListener(this.creditsButtonClicked, this)
-        this.buttons[2].addClickListener(this.soundButtonClicked, this)
+        this._buttons[0].addClickListener(this.mainGameButtonClicked, this)
+        this._buttons[1].addClickListener(this.creditsButtonClicked, this)
+        this._buttons[2].addClickListener(this.soundButtonClicked, this)
 
-        let text = `
+        const text = `
         Use arrows to move around
         Press C to open Craft Menu
         Press I to open Inventory
@@ -37,7 +37,7 @@ export default class MainMenu extends Phaser.Scene {
     }
 
     private mainGameButtonClicked(): void {
-        this.theme.destroy()
+        this._theme.destroy()
 
         this.game.scene.stop('MainMenu')
         this.game.scene.run('GameScene')
@@ -48,14 +48,14 @@ export default class MainMenu extends Phaser.Scene {
     }
 
     private soundButtonClicked(): void {
-        if (this.theme.isPlaying && !this.theme.isPaused) {
-            this.theme.stop()
-            this.music_button.setNewImage(this.add.sprite(this.scale.width - 70, this.scale.height - 70, 'sound-off'))
+        if (this._theme.isPlaying && !this._theme.isPaused) {
+            this._theme.stop()
+            this._musicButton.setNewImage(this.add.sprite(this.scale.width - 70, this.scale.height - 70, 'sound-off'))
         } else {
-            this.theme.play({ loop: true, delay: 0.25 })
-            this.music_button.setNewImage(this.add.sprite(this.scale.width - 70, this.scale.height - 70, 'sound-on'))
+            this._theme.play({ loop: true, delay: 0.25 })
+            this._musicButton.setNewImage(this.add.sprite(this.scale.width - 70, this.scale.height - 70, 'sound-on'))
         }
 
-        this.music_button.addClickListener(this.soundButtonClicked, this)
+        this._musicButton.addClickListener(this.soundButtonClicked, this)
     }
 }

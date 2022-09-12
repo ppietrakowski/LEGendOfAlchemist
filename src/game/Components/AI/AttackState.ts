@@ -17,16 +17,16 @@ export default class AttackState extends EnemyState {
     constructor(controller: Controller, owner: GameObject) {
         super(controller, owner)
         this._calculator = new DefaultDamageCalculator(owner)
+
+        this._owner.on(Enemy.ENEMY_ATTACKED, this.attacked, this)
     }
 
     stateStarted(): void {
+        const { target } = this._controller
 
-        let { target } = this.controller
+        this._owner.setVelocity(0)
 
-        this.owner.setVelocity(0, 0)
-        target.attributes.applyEffect(
-            new TimedEffect(-this._calculator.calculateDamage(target), 0, 0, 1))
-        this.owner.emit(Enemy.ENEMY_ATTACKED, target)
+        this._owner.emit(Enemy.ENEMY_ATTACKED, target)
         this._delay = 0
     }
 
@@ -34,10 +34,20 @@ export default class AttackState extends EnemyState {
         this._delay += deltaTime
 
         if (this._delay >= AttackState.ATTACK_DELAY)
-            this.controller.switchToNewState(AI_State.ATTACK)
+            this._controller.switchToNewState(AI_State.ATTACK)
     }
 
     getState(): AI_State {
         return AI_State.ATTACK
+    }
+
+    private attacked(target: GameObject) {
+        const deltaHp = -this._calculator.calculateDamage(target)
+        const deltaStrength = 0
+        const deltaWisdom = 0
+        const duration = 1
+
+        target.attributes.applyEffect(
+            new TimedEffect(deltaHp, deltaStrength, deltaWisdom, duration))
     }
 }

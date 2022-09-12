@@ -7,19 +7,19 @@ import TimedEffect from './Effects/TimedEffect'
 
 
 export default class PlayerCombat implements Component {
-    private deltaTime: number
-    private attacked: boolean
+    private _cachedDeltaTime: number
+    private _attacked: boolean
 
     static readonly COMPONENT_NAME = 'player-combat'
     constructor(private player: Player) {
-        this.deltaTime = 0
-        this.attacked = false
+        this._cachedDeltaTime = 0
+        this._attacked = false
 
         this.player.on(GameObject.GAMEOBJECT_UPDATE, this.cacheDeltaTime, this)
     }
     
     private cacheDeltaTime(deltaTime: number) {
-        this.deltaTime = deltaTime
+        this._cachedDeltaTime = deltaTime
     }
 
     destroy(): void {
@@ -27,13 +27,13 @@ export default class PlayerCombat implements Component {
     }
 
     getName(): string {
-        return PlayerCombat.COMPONENT_NAME;
+        return PlayerCombat.COMPONENT_NAME
     }
     
     private potionHitEnemy(throwable: Phaser.GameObjects.Image, enemy: Enemy) {
         throwable.scene.sound.add('potion-hit').play()
-        enemy.attributes.applyEffect(new TimedEffect(24 * this.deltaTime * -this.player.attributes.strength, 0, 0, 0.5))
-        this.attacked = false
+        enemy.attributes.applyEffect(new TimedEffect(24 * this._cachedDeltaTime * -this.player.attributes.strength, 0, 0, 0.5))
+        this._attacked = false
         throwable.destroy()
     }
 
@@ -49,25 +49,25 @@ export default class PlayerCombat implements Component {
     }
 
     private throw(throwable: Phaser.GameObjects.Image, enemy: Enemy) {
-        let duration = 100 *
-            Phaser.Math.Distance.Between(enemy.x, enemy.y, this.player.x, this.player.y) * this.deltaTime;
+        const duration = 100 *
+            Phaser.Math.Distance.Between(enemy.x, enemy.y, this.player.x, this.player.y) * this._cachedDeltaTime
 
         throwable.setRotation(Math.PI / 360)
 
-        this.attacked = true
+        this._attacked = true
 
-        throwable.scene.tweens.add(this.getTweenConfig(throwable, enemy, duration));
+        throwable.scene.tweens.add(this.getTweenConfig(throwable, enemy, duration))
     }
 
     private onThrowAnything(enemy: Enemy) {
-        let { scene } = enemy
-        if (this.player.isNearObject(enemy, 10 * this.player.attributes.strength.value) && !this.attacked) {
-            let throwable = scene.add.image(this.player.x, this.player.y, 'potion')
+        const { scene } = enemy
+        if (this.player.isNearObject(enemy, 10 * this.player.attributes.strength.value) && !this._attacked) {
+            const throwable = scene.add.image(this.player.x, this.player.y, 'potion')
             this.throw(throwable, enemy)
         }
     }
 
     addEnemy(enemy: Enemy): void {
-        enemy.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, _p => this.onThrowAnything(enemy));
+        enemy.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => this.onThrowAnything(enemy))
     }
 }

@@ -3,8 +3,8 @@ import { Component } from './Component'
 
 import { EnemyState } from './AI/EnemyState'
 
-import { EnemySensing, SenseType, SensingListener } from "./AI/sense/EnemySensing"
-import SeeSense from "./AI/sense/SeeSense"
+import { EnemySensing, SenseType, SensingListener } from './AI/sense/EnemySensing'
+import SeeSense from './AI/sense/SeeSense'
 import GameObject from '../Entities/GameObject'
 import Controller from './Controller'
 
@@ -12,53 +12,54 @@ import { AI_State } from './AI/AI_State'
 import EnemyStatePool from './AI/EnemyStatePool'
 
 export default class EnemyController implements Component, SensingListener, Controller, EnemySensing {
-    private readonly senses: EnemySensing[]
+    private readonly _senses: EnemySensing[]
 
-    private currentState: EnemyState
+    private _currentState: EnemyState
 
     /**
      * For reduce gc overhead
      */
     private statePool: EnemyStatePool
 
-    static readonly COMPONENT_NAME = "EnemyController"
+    static readonly COMPONENT_NAME = 'EnemyController'
 
-    constructor(public readonly target: GameObject, private readonly possesedEnemy: Enemy, maxDetectionRange: number) {
-        this.senses = []
-        this.senses.push(new SeeSense(this.possesedEnemy, this.target, maxDetectionRange))
+    constructor(public readonly target: GameObject, private readonly _controlledEnemy: Enemy, maxDetectionRange: number) {
+        this._senses = []
+        this._senses.push(new SeeSense(this._controlledEnemy, this.target, maxDetectionRange))
 
-        this.senses[0].addSenseListener(this)
+        this._senses[0].addSenseListener(this)
 
-        this.statePool = new EnemyStatePool(this, this.possesedEnemy);
+        this.statePool = new EnemyStatePool(this, this._controlledEnemy)
 
         this.runStateMachine()
     }
 
     private runStateMachine(): void {
-        const { scene } = this.possesedEnemy
+        const { scene } = this._controlledEnemy
 
-        this.possesedEnemy.setVelocity(0)
+        this._controlledEnemy.setVelocity(0)
 
         //here configuration of collision ??
-        scene.physics.add.collider(this.possesedEnemy, this.target)
+        scene.physics.add.collider(this._controlledEnemy, this.target)
 
         this.switchToNewState(AI_State.ROAMING)
 
-        this.possesedEnemy.on(GameObject.GAMEOBJECT_UPDATE, this.update, this)
+        this._controlledEnemy.on(GameObject.GAMEOBJECT_UPDATE, this.update, this)
     }
 
     destroy(): void {
-        this.senses.forEach(sense => sense.removeSenseListener(this))
-        this.possesedEnemy.off(GameObject.GAMEOBJECT_UPDATE, this.update, this)
-        this.currentState = null
+        this._senses.forEach(sense => sense.removeSenseListener(this))
+        this._controlledEnemy.off(GameObject.GAMEOBJECT_UPDATE, this.update, this)
+        this._currentState = null
     }
 
     getCurrentState(): EnemyState {
-        return this.currentState
+        return this._currentState
     }
 
     sensed(_sensedObject: GameObject, _senseType: SenseType): void {
-        if (this.currentState && this.currentState.getState() !== AI_State.ATTACK)
+        const wasWondering = this._currentState && this._currentState.getState() !== AI_State.ATTACK
+        if (wasWondering)
             this.switchToNewState(AI_State.CHASING)
     }
 
@@ -71,23 +72,23 @@ export default class EnemyController implements Component, SensingListener, Cont
     }
 
     update(deltaTime: number): void {
-        this.currentState?.update(deltaTime)
+        this._currentState?.update(deltaTime)
 
-        for (let sense of this.senses)
+        for (const sense of this._senses)
             sense.update(deltaTime)
     }
 
     switchToNewState(state: AI_State, ...args: any[]) {
-        this.currentState = this.statePool.getState(state)
-        this.currentState.stateStarted(...args)
+        this._currentState = this.statePool.getState(state)
+        this._currentState.stateStarted(...args)
     }
 
     addSenseListener(sensingListener: SensingListener): void {
-        for (let sense of this.senses)
+        for (const sense of this._senses)
             sense.addSenseListener(sensingListener)
     }
     removeSenseListener(sensingListener: SensingListener): void {
-        for (let sense of this.senses)
+        for (const sense of this._senses)
             sense.removeSenseListener(sensingListener)
     }
 }

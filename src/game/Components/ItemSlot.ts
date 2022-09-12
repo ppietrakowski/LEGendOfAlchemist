@@ -1,12 +1,12 @@
 import Phaser from 'phaser'
-import { Item, ItemContainer } from './../Entities/Item'
+import { Item } from './../Entities/Item'
 
 export default class ItemSlot {
     
     private _count: number
     events: Phaser.Events.EventEmitter
 
-    static readonly ITEM_NOT_IN_SLOT = 'itemNotInSlot'
+    static readonly ITEM_NOT_IN_SLOT = Symbol('itemNotInSlot')
 
     constructor(public readonly item: Item) {
         this._count = 1

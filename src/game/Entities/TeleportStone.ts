@@ -1,4 +1,4 @@
-import {Item, UsedCallback} from "./Item"
+import {Item, UsedCallback} from './Item'
 
 
 export default class TeleportStone implements Item {

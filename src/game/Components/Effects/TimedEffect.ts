@@ -1,13 +1,11 @@
 import GameObject from '../../Entities/GameObject'
 import Attribute from './../Attribute'
-import Effect from './Effect'
+import {Effect, EFFECT_ENDED} from './Effect'
 
 export default class TimedEffect implements Effect {
-    private timePassed: number
-    private attributes: Attribute
+    private _timePassed: number
+    private _attributes: Attribute
     events: Phaser.Events.EventEmitter
-
-    static readonly EFFECT_ENDED = 'ended'
 
     clone(): TimedEffect {
         return new TimedEffect(this.deltaHp, this.deltaStrength, this.deltaWisdom, this.duration)
@@ -17,25 +15,25 @@ export default class TimedEffect implements Effect {
         public deltaWisdom: number, public readonly duration: number) {
 
         this.events = new Phaser.Events.EventEmitter()
-        this.timePassed = 0
+        this._timePassed = 0
     }
 
     appliedTo(character: GameObject) {
-        this.attributes = character.attributes
+        this._attributes = character.attributes
     }
 
     update(deltaTime: number): void {
-        this.timePassed += deltaTime
+        this._timePassed += deltaTime
 
-        this.attributes.changeHealth(this.deltaHp * deltaTime)
-        this.attributes.wisdom.value = this.attributes.wisdom.value + this.deltaWisdom * deltaTime
-        this.attributes.strength.value = this.attributes.strength.value + this.deltaStrength * deltaTime
+        this._attributes.changeHealth(this.deltaHp * deltaTime)
+        this._attributes.wisdom.value = this._attributes.wisdom.value + this.deltaWisdom * deltaTime
+        this._attributes.strength.value = this._attributes.strength.value + this.deltaStrength * deltaTime
 
         if (this.hasTimePassed())
-            this.events.emit(TimedEffect.EFFECT_ENDED, this)
+            this.events.emit(EFFECT_ENDED, this)
     }
 
     private hasTimePassed(): boolean {
-        return this.timePassed >= this.duration
+        return this._timePassed >= this.duration
     }
 }

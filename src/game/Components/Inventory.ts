@@ -10,56 +10,56 @@ export interface InventoryStartEvent {
 }
 
 export class Inventory implements Component, ItemContainer {
-    private items: ItemSlot[]
+    private _items: ItemSlot[]
 
     events: Phaser.Events.EventEmitter
     /*
      * Inventory event handlers name
      */
-    static readonly INVENTORY_FULL = "InventoryFull"
-    static readonly ADDED_ITEM = "AddedItem"
-    static readonly DELETED_ITEM = "DeletedItem"
-    static readonly INVENTORY_NEED_UPDATE = "InventoryNeedUpdate"
+    static readonly INVENTORY_FULL = Symbol('InventoryFull')
+    static readonly ADDED_ITEM = Symbol('AddedItem')
+    static readonly DELETED_ITEM = Symbol('DeletedItem')
+    static readonly INVENTORY_NEED_UPDATE = Symbol('InventoryNeedUpdate')
 
     static readonly COMPONENT_NAME = 'inventory'
 
     constructor(public readonly owner: GameObject) {
-        this.items = []
+        this._items = []
         this.events = new Phaser.Events.EventEmitter()
     }
     
     destroy(): void {
-        this.items = null
+        this._items = null
         this.events.destroy()
     }
 
     getName(): string {
-        return Inventory.COMPONENT_NAME;
+        return Inventory.COMPONENT_NAME
     }
 
     getItem(index: number): Item {
-        return this.items[index].item
+        return this._items[index].item
     }
 
     hasItem(name: string): boolean {
-        return this.items.findIndex(value => value.item.name === name) != -1
+        return this._items.findIndex(value => value.item.name === name) != -1
     }
 
     private removeItem(item: Item): void {
         this.events.emit(Inventory.DELETED_ITEM, item)
-        this.items = this.items.filter(value => value.item !== item)
+        this._items = this._items.filter(value => value.item !== item)
     }
 
     private createNewItem(item: Item) {
-        let slot = new ItemSlot(item)
+        const slot = new ItemSlot(item)
         this.events.emit(Inventory.ADDED_ITEM, item)
-        this.items.push(slot)
+        this._items.push(slot)
 
         slot.events.on(ItemSlot.ITEM_NOT_IN_SLOT, this.removeItem, this)
     }
 
     private addExistingItem(item: Item) {
-        let itemState = this.items.find(v => v.item === item)
+        const itemState = this._items.find(v => v.item === item)
         itemState.addItemToSlot()
     }
 
@@ -78,13 +78,13 @@ export class Inventory implements Component, ItemContainer {
     }
 
     hasFreeSpace(): boolean {
-        return this.items.length < 25
+        return this._items.length < 25
     }
 
     deleteItem(item: Item) {
-        for (let i = 0; i < this.items.length; i++) {
-            if (this.items[i].item === item) {
-                this.items[i].removeItemFromSlot()
+        for (let i = 0; i < this._items.length; i++) {
+            if (this._items[i].item === item) {
+                this._items[i].removeItemFromSlot()
             }
         }
 

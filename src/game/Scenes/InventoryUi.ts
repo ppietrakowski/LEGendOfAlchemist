@@ -2,7 +2,7 @@ import Phaser from 'phaser'
 import InventoryBase from './InventoryBase'
 
 export default class InventoryUi extends InventoryBase {
-    private keyI: Phaser.Input.Keyboard.Key
+    private _keyI: Phaser.Input.Keyboard.Key
 
     constructor() {
         super('Inventory')
@@ -10,9 +10,9 @@ export default class InventoryUi extends InventoryBase {
 
     preload() {
         super.preload()
-        this.keyI = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I)
+        this._keyI = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I)
 
-        this.keyI.on(Phaser.Input.Keyboard.Events.DOWN, this.switchToGame, this)
+        this._keyI.on(Phaser.Input.Keyboard.Events.DOWN, this.switchToGame, this)
     }
 
     switchToGame() {

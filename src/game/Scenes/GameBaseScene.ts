@@ -6,16 +6,18 @@ import { addInformationText } from './SceneUtils'
 
 export abstract class GameBaseScene extends Phaser.Scene {
 
-    protected map: Phaser.Tilemaps.Tilemap
-    protected tileset: Phaser.Tilemaps.Tileset
-    protected seaLayer: Phaser.Tilemaps.TilemapLayer
+    protected _map: Phaser.Tilemaps.Tilemap
+    protected _tileset: Phaser.Tilemaps.Tileset
+    protected _seaLayer: Phaser.Tilemaps.TilemapLayer
 
-    protected player: Player
+    protected _player: Player
 
-    protected enemyFactory: EnemyFactory
-    protected enemyKilled = 0
+    protected _enemyFactory: EnemyFactory
+    protected _enemyKilled = 0
 
-    get killStatistics() { return this.enemyKilled }
+    get enemyKilled() { 
+        return this._enemyKilled
+    }
 
     constructor(key: string) {
         super(key)
@@ -23,7 +25,7 @@ export abstract class GameBaseScene extends Phaser.Scene {
 
     preload() {
         enemies.addAnimation(this.anims, 'player')
-        for (let enemy of enemies.Enemies)
+        for (const enemy of enemies.Enemies)
             enemies.addAnimation(this.anims, enemy)
 
         enemies.generateFrame(this.anims, 'player', 'front', 0, 0).repeat = -1
@@ -31,31 +33,31 @@ export abstract class GameBaseScene extends Phaser.Scene {
     }
 
     create(): void {
-        this.cameras.main.setBounds(0, 0, 7168, 5120);
-        this.map = this.make.tilemap({ key: 'island' })
-        this.tileset = this.map.addTilesetImage('textures', 'main-island')
+        this.cameras.main.setBounds(0, 0, 7168, 5120)
+        this._map = this.make.tilemap({ key: 'island' })
+        this._tileset = this._map.addTilesetImage('textures', 'main-island')
 
-        this.map.createLayer('island', this.tileset, -100, -100)
-        this.seaLayer = this.map.createLayer('sea', this.tileset, -100, -100)
-        this.player = new Player(this, 19 * 32, 14 * 32, 'player')
+        this._map.createLayer('island', this._tileset, -100, -100)
+        this._seaLayer = this._map.createLayer('sea', this._tileset, -100, -100)
+        this._player = new Player(this, 19 * 32, 14 * 32, 'player')
         
         this.addCollisionWithSeaLayer()
     }
 
     showCannotGatherInfo(): void {
-        addInformationText(this, this.player.x, this.player.y, 
+        addInformationText(this, this._player.x, this._player.y, 
             'I don\'t have enough space to gather this item',
-             (text: Phaser.GameObjects.GameObject) => text.destroy())
+            (text: Phaser.GameObjects.GameObject) => text.destroy())
     }
 
     protected addCollisionWithSeaLayer(): void {
         const Sea = [0, 7]
         const Houses = [10, 15]
 
-        this.seaLayer.setCollisionBetween(Sea[0], Sea[1])
-        this.seaLayer.setCollisionBetween(8, 8)
-        this.seaLayer.setCollisionBetween(Houses[0], Houses[1])
-        this.seaLayer.setCollisionBetween(16, 23)
-        this.seaLayer.setCollisionBetween(29, 31)
+        this._seaLayer.setCollisionBetween(Sea[0], Sea[1])
+        this._seaLayer.setCollisionBetween(8, 8)
+        this._seaLayer.setCollisionBetween(Houses[0], Houses[1])
+        this._seaLayer.setCollisionBetween(16, 23)
+        this._seaLayer.setCollisionBetween(29, 31)
     }
 }

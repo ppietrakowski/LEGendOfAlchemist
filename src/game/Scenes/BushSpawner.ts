@@ -7,7 +7,7 @@ import Player from '../Entities/Player'
 import { addInformationText, spawnGameobjectAtTile } from './SceneUtils'
 
 
-function throwAway(scene: Phaser.Scene, sprite: Phaser.GameObjects.Image) {
+function pickUpItem(scene: Phaser.Scene, sprite: Phaser.GameObjects.Image) {
     const item = getRandomItem()
     const player = scene.children.getByName('player') as Player
 
@@ -26,22 +26,23 @@ function showCannotGatherInfo(scene: Phaser.Scene, player: Phaser.GameObjects.Sp
 
 export default class BushSpawner {
 
-    constructor(private readonly scene: Phaser.Scene, private readonly howMany: number) { }
+    constructor(private readonly _scene: Phaser.Scene, private readonly _howMany: number) {
+    }
 
     public putItems(seaLayer: Phaser.Tilemaps.TilemapLayer): void {
-        const player = this.scene.children.getByName('player') as GameObject
+        const player = this._scene.children.getByName('player') as GameObject
 
-        for (let i = 0; i < this.howMany; i++) {
-            let sprite = this.scene.add.image(0, 0, 'bush')
+        for (let i = 0; i < this._howMany; i++) {
+            const sprite = this._scene.add.image(0, 0, 'bush')
             spawnGameobjectAtTile(i % 4, sprite, seaLayer)
             sprite.setInteractive({ pixelPerfect: true })
 
             sprite.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
                 if (player.getComponent<Inventory>(Inventory.COMPONENT_NAME).hasFreeSpace())
-                    throwAway(this.scene, sprite)
+                    pickUpItem(this._scene, sprite)
                 else
-                    showCannotGatherInfo(this.scene, player)
-            });
+                    showCannotGatherInfo(this._scene, player)
+            })
         }
     }
 }

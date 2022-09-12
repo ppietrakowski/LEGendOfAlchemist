@@ -11,43 +11,44 @@ import Attribute from '../Components/Attribute'
 
 export default class EnemyFactory {
 
-    private cachedEnemy: GameObject
-    private enemies: GameObject[]
+    private _cachedEnemy: GameObject
+    private _enemies: GameObject[]
 
-    constructor(private readonly scene: Phaser.Scene,
-        private readonly player: Player,
-        private readonly seaLayer: Phaser.Tilemaps.TilemapLayer,
-        private readonly portals: Phaser.GameObjects.GameObject[]
+    constructor(private readonly _scene: Phaser.Scene,
+        private readonly _player: Player,
+        private readonly _seaLayer: Phaser.Tilemaps.TilemapLayer,
+        private readonly _portals: Phaser.GameObjects.GameObject[]
     ) {
-        this.enemies = []
+        this._enemies = []
     }
 
-    get lastCreatedEnemy() { return this.cachedEnemy }
-    get createdEnemies() { return this.enemies.map(v => v) }
+    get createdEnemies() {
+        return this._enemies.map(v => v)
+    }
 
     private deleteEnemy(enemy: GameObject) {
-        this.enemies = this.enemies.filter(value => value !== enemy)
+        this._enemies = this._enemies.filter(value => value !== enemy)
     }
 
     private setupEnemy(enemy: Enemy): void {
-        this.player.combat.addEnemy(enemy)
+        this._player.combat.addEnemy(enemy)
 
-        this.cachedEnemy = enemy
+        this._cachedEnemy = enemy
 
         this.addCollisionToEnemy()
-        this.enemies.push(enemy)
+        this._enemies.push(enemy)
     }
 
     private addCollisionToEnemy(): void {
-        for (let portal of this.portals)
-            this.scene.physics.add.collider(this.cachedEnemy, portal)
-        this.scene.physics.add.collider(this.cachedEnemy, this.seaLayer)
+        for (const portal of this._portals)
+            this._scene.physics.add.collider(this._cachedEnemy, portal)
+        this._scene.physics.add.collider(this._cachedEnemy, this._seaLayer)
     }
 
     createEnemy(textureName: string, isleNo: number): Enemy {
-        const enemy = new Enemy(this.scene, 0, 0, textureName, textureName, 140, this.player)
+        const enemy = new Enemy(this._scene, 0, 0, textureName, textureName, 140, this._player)
 
-        spawnAtTile(enemy, isleNo, this.seaLayer)
+        spawnAtTile(enemy, isleNo, this._seaLayer)
         this.setupEnemy(enemy)
 
         enemy.attributes.once(Attribute.CHARACTER_DEAD, () => this.deleteEnemy(enemy))
@@ -64,9 +65,9 @@ export default class EnemyFactory {
         let boss: Boss
 
         if (wantUltraBoss)
-            boss = new UltraBoss(this.scene, tileX * 32, tileY * 32, enemyName, enemyName, 140, this.player)
+            boss = new UltraBoss(this._scene, tileX * 32, tileY * 32, enemyName, enemyName, 140, this._player)
         else
-            boss = new Boss(this.scene, tileX * 32, tileY * 32, enemyName, enemyName, 140, this.player, portalNo)
+            boss = new Boss(this._scene, tileX * 32, tileY * 32, enemyName, enemyName, 140, this._player, portalNo)
 
         this.setupEnemy(boss)
 

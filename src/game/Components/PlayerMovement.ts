@@ -4,62 +4,65 @@ import { Component } from './Component'
 
 
 export default class PlayerMovement implements Component {
-    private input: Phaser.Types.Input.Keyboard.CursorKeys
-    private onStayAnimation: string
+    private _input: Phaser.Types.Input.Keyboard.CursorKeys
+    static readonly COMPONENT_NAME = 'movement'
+    static readonly DefaultAnimationName = 'player-front'
 
-    static readonly COMPONENT_NAME = 'movement';
-
-    constructor(private readonly player: Player, private readonly speed: Phaser.Math.Vector2) {
-        this.speed = speed
+    constructor(private readonly _player: Player, private readonly _speed: Phaser.Math.Vector2) {
+        this._speed = _speed
         this.start()
     }
 
     getName(): string {
-        return PlayerMovement.COMPONENT_NAME;
+        return PlayerMovement.COMPONENT_NAME
     }
 
     destroy(): void {
-        this.input = null
-        this.onStayAnimation = null
+        this._input = null
+        this._player.off(GameObject.GAMEOBJECT_UPDATE, this.update, this)
     }
 
     private start(): void {
-        let { keyboard } = this.player.scene.input
+        const { keyboard } = this._player.scene.input
+        this._input = keyboard.createCursorKeys()
 
-        this.onStayAnimation = 'player-front'
-        this.input = keyboard.createCursorKeys()
-
-        this.player.on(GameObject.GAMEOBJECT_UPDATE, this.update, this)
+        this._player.on(GameObject.GAMEOBJECT_UPDATE, this.update, this)
     }
 
     private onMovement(frameName: string, velX: number, velY: number) {
-        if (!this.player.anims)
-            return;
+        if (!this._player.anims)
+            return
 
-        this.player.anims.play(frameName, true)
-        this.player.setVelocity(velX, velY)
+        this._player.anims.play(frameName, true)
+        this._player.setVelocity(velX, velY)
+    }
+
+    private applyMovement(deltaTime: number) {
+        let speedX = 0
+        let speedY = 0
+        let animationName = PlayerMovement.DefaultAnimationName
+
+        if (this._input.down.isDown) {
+            animationName = 'player-front-run'
+            speedY = this._speed.y * deltaTime
+        } else if (this._input.up.isDown) {
+            animationName = 'player-back-run'
+            speedY = -this._speed.y * deltaTime
+        } else if (this._input.left.isDown) {
+            animationName = 'player-left-run'
+            speedX = -this._speed.x * deltaTime
+        }
+        else if (this._input.right.isDown) {
+            animationName = 'player-right-run'
+            speedX = this._speed.x * deltaTime
+        }
+    
+        this.onMovement(animationName, speedX, speedY)
     }
 
     update(deltaTime: number): void {
         deltaTime *= 20
 
-        if (this.input.down.isDown) {
-            this.onMovement('player-front-run', 0, this.speed.y * deltaTime)
-            this.onStayAnimation = 'player-front'
-        } else if (this.input.up.isDown) {
-            this.onMovement('player-back-run', 0, -this.speed.y * deltaTime)
-            this.onStayAnimation = 'player-back'
-        } else if (this.input.left.isDown) {
-            this.onMovement('player-left-run', -this.speed.x * deltaTime, 0)
-            this.onStayAnimation = 'player-front'
-        }
-        else if (this.input.right.isDown) {
-            this.onMovement('player-right-run', this.speed.x * deltaTime, 0)
-            this.onStayAnimation = 'player-front'
-        }
-        else
-            this.onMovement(this.onStayAnimation, 0, 0)
+        this.applyMovement(deltaTime)
     }
-
-    
 }

@@ -1,23 +1,20 @@
-import MusicPlayer from "./MusicPlayer";
+import MusicPlayer from './MusicPlayer'
 
 
 export default class DefaultMusicPlayer implements MusicPlayer {
-    currentMusic: Phaser.Sound.BaseSound;
+    currentMusic: Phaser.Sound.BaseSound
 
-    private readonly music: Phaser.Sound.BaseSound[] = []
-    private currentMusicIndex = 0
-
-    constructor() {
-    }
+    private readonly _music: Phaser.Sound.BaseSound[] = []
+    private _currentMusicIndex = 0
 
     private startPlayMusic(): void {
-        this.currentMusic = this.music[this.currentMusicIndex]
+        this.currentMusic = this._music[this._currentMusicIndex]
         this.currentMusic.once(Phaser.Sound.Events.STOP, this.playNextMusic, this)
         this.currentMusic.play({ volume: 0.2 })
     }
 
     addMusic(music: Phaser.Sound.BaseSound): this {
-        this.music.push(music)
+        this._music.push(music)
 
         if (!this.currentMusic)
             this.startPlayMusic()
@@ -26,10 +23,10 @@ export default class DefaultMusicPlayer implements MusicPlayer {
     }
 
     playNextMusic(): void {
-        this.currentMusicIndex++
+        this._currentMusicIndex++
 
-        if (this.currentMusicIndex === this.music.length)
-            this.currentMusicIndex = 0
+        if (this._currentMusicIndex === this._music.length)
+            this._currentMusicIndex = 0
 
         this.startPlayMusic()
     }

@@ -1,5 +1,5 @@
-import { Item } from "./Item";
-import Player from "./Player";
+import { Item } from './Item'
+import Player from './Player'
 
 
 export class ItemImage {
@@ -10,7 +10,7 @@ export class ItemImage {
     }
 
     giveToPlayer() {
-        let player = this.image.scene.children.getByName('player') as Player
+        const player = this.image.scene.children.getByName('player') as Player
         player.inventory.addItem(this.item)
         this.image.destroy()
 
@@ -25,10 +25,10 @@ export class ItemImage {
  */
 export class ItemSpawner {
 
-    constructor(private scene: Phaser.Scene) {
+    constructor(private _scene: Phaser.Scene) {
     }
 
     addItem(x: number, y: number, item: Item) {
-        return new ItemImage(item, this.scene.add.image(x, y, item.imageKey))
+        return new ItemImage(item, this._scene.add.image(x, y, item.imageKey))
     }
 }

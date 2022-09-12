@@ -8,61 +8,64 @@ import { Component } from './Component'
 
 
 export class HealthBar implements Component, SensingListener {
-    protected hpMax: number
-    protected text: Phaser.GameObjects.Text
+    protected _hpMax: number
+    protected _text: Phaser.GameObjects.Text
 
     static readonly COMPONENT_NAME = 'hp-bar'
 
-    constructor(protected readonly owner: GameObject, protected player: Player) {
+    constructor(protected readonly _owner: GameObject, protected _player: Player) {
         this.start()
     }
 
     sensed(_sensedObject: GameObject, _senseType: SenseType): void {
-        this.text?.setVisible(true)
-        this.text?.setPosition(this.owner.x, this.owner.y - 1.5 * this.owner.width)
+        this._text?.setVisible(true)
+        this._text?.setPosition(this._owner.x, this._owner.y - 1.5 * this._owner.width)
     }
 
     stopsSensing(_sensedObject: GameObject, _senseType: SenseType): void {
-        this.text?.setVisible(false)
+        this._text?.setVisible(false)
     }
 
     destroy(): void {
-        this.text.destroy()
-        this.text = null
-        this.player = null
+        this._text.destroy()
+        this._text = null
+        this._player = null
     }
 
     getName(): string {
-        return HealthBar.COMPONENT_NAME;
+        return HealthBar.COMPONENT_NAME
     }
 
     protected start(): void {
-        const { attributes } = this.owner
-        const { scene } = this.owner
+        const { attributes } = this._owner
+        const { scene } = this._owner
+        this._hpMax = this._owner.attributes.health
+        const healthAsText = attributes.health.toString()
 
-        this.hpMax = this.owner.attributes.health
-
-        this.text = scene.add.text(this.owner.x, this.owner.y - 2 * this.owner.width,
-            attributes.health.toString(),
+        this._text = scene.add.text(this._owner.x, this._owner.y - 2 * this._owner.width,
+            healthAsText,
             { fontFamily: 'pixellari', color: '#ffffff', backgroundColor: '#880000' })
-        this.text.setVisible(false)
+        this._text.setVisible(false)
 
         this.addHealthChangedListener()
-
-        if (this.owner instanceof Enemy) {
-            let enemy = this.owner as Enemy
-            enemy.addSenseListener(this)
-        }
+        this.addHealthBarWhenNear()
     }
 
     private healthUpdated(newHealth: number): void {
-        if (this.owner.attributes.health >= this.hpMax)
-            this.hpMax = this.owner.attributes.health
-        this.text.setText(Math.round(newHealth).toString() + "/" + Math.round(this.hpMax))
+        if (this._owner.attributes.health >= this._hpMax)
+            this._hpMax = this._owner.attributes.health
+        this._text.setText(Math.round(newHealth).toString() + '/' + Math.round(this._hpMax))
     }
 
     protected addHealthChangedListener() {
-        const { attributes } = this.owner
+        const { attributes } = this._owner
         attributes.addListener(Attribute.HEALTH_CHANGED, this.healthUpdated, this)
+    }
+
+    private addHealthBarWhenNear() {
+        if (this._owner instanceof Enemy) {
+            const enemy = this._owner as Enemy
+            enemy.addSenseListener(this)
+        }
     }
 }

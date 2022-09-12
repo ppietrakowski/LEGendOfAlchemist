@@ -17,9 +17,6 @@ export default class Boss extends Enemy {
         this.setScale(1.5, 1.5)
     }
 
-    start(_scene: Phaser.Scene): void {
-    }
-
     protected killed(): void {
         const itemSpawner = this.scene.data.get('spawner') as ItemSpawner
         

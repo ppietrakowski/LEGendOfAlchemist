@@ -10,7 +10,7 @@ import GameObject from './GameObject'
 
 export default class Player extends GameObject {
 
-    static readonly INVENTORY_START = "InventoryStart"
+    static readonly INVENTORY_START = Symbol('InventoryStart')
 
     constructor(public gameScene: GameBaseScene, x: number, y: number, texture: string | Phaser.Textures.Texture) {
         super(gameScene, x, y, texture, 0)
@@ -21,8 +21,6 @@ export default class Player extends GameObject {
         this.setScrollFactor(1)
 
         this.scene.cameras.main.startFollow(this, true, 0.08, 0.08)
-
-        this.attributes.on(Attribute.CHARACTER_DEAD, this.playerKilled, this)
         this.scene.game.events.emit(Player.INVENTORY_START, { inventory: this.inventory, owner: this })
         this.inventory.events.on(Inventory.INVENTORY_FULL, gameScene.showCannotGatherInfo, gameScene)
     }
@@ -32,13 +30,6 @@ export default class Player extends GameObject {
         this.addComponent(new PlayerCombat(this))
         this.addComponent(new Inventory(this))
         this.addComponent(new PlayerMovement(this, new Phaser.Math.Vector2(190, 190)))
-    }
-
-    private playerKilled(): void {
-        const { game } = this.scene
-
-        game.scene.stop('GameScene')
-        game.scene.run('Credits')
     }
 
     get inventory(): Inventory {
@@ -59,6 +50,6 @@ export default class Player extends GameObject {
     }
 
     hasTeleportStone(index: number): boolean {
-        return this.inventory.hasItem(`teleport-stone-` + index);
+        return this.inventory.hasItem('teleport-stone-' + index)
     }
 }

@@ -1,5 +1,5 @@
 import GameObject from "../../Entities/GameObject";
-import Effect from "./Effect";
+import { Effect, EFFECT_ENDED } from "./Effect";
 
 export default class Impulse implements Effect {
 
@@ -17,7 +17,7 @@ export default class Impulse implements Effect {
     }
 
     update(_deltaTime: number): void {
-        this.events.emit('ended')
+        this.events.emit(EFFECT_ENDED)
     }
 
     clone(): Effect {

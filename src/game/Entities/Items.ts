@@ -1,6 +1,6 @@
-import Impulse from "../Components/Effects/Impulse";
-import GameObject from "./GameObject";
-import { Item } from "./Item";
+import Impulse from '../Components/Effects/Impulse'
+import GameObject from './GameObject'
+import { Item } from './Item'
 
 export const Items = [
     'cherries',
@@ -40,10 +40,13 @@ export function loadItems(scene: Phaser.Scene): void {
 
 
 function useIngredient(ingredient: Item, gameObject: GameObject) {
-    let effect = ingredient.effect.clone()
+    const effect = ingredient.effect.clone()
 
     if (!ingredient.firstTimeUsed) {
-        ingredient.description = `Heals ${effect['deltaHp']} and adds a ${effect['deltaStrength']} strength and a ${effect['deltaWisdom']} wisdom`
+
+        if (effect instanceof Impulse)
+            ingredient.description = `Heals ${effect['deltaHp']} and adds a ${effect['deltaStrength']} strength and a ${effect['deltaWisdom']} wisdom`
+
         ingredient.firstTimeUsed = true
     }
 
@@ -52,36 +55,33 @@ function useIngredient(ingredient: Item, gameObject: GameObject) {
 
 
 export const ItemCherry = {
-    name: "Cherry",
+    name: 'Cherry',
     imageKey: 'cherries',
     effect: new Impulse(10, 5, 0),
     firstTimeUsed: false,
-    description: undefined,
     used: useIngredient
 }
 
 export const ItemOrange = {
-    name: "Orange",
+    name: 'Orange',
     imageKey: 'orange',
     effect: new Impulse(3, 2, 5),
     firstTimeUsed: false,
-    description: undefined,
     used: useIngredient
 }
 
 export const ItemRedFlower = {
-    name: "Red Flower",
+    name: 'Red Flower',
     imageKey: 'red_flower',
     effect: new Impulse(4, 5, 3),
     firstTimeUsed: false,
-    description: undefined,
     used: useIngredient
 }
 
 const ITEMS = [ItemCherry, ItemOrange, ItemRedFlower]
 
 export function getRandomItem() {
-    let index = Math.floor(Math.random() * ITEMS.length)
+    const index = Math.floor(Math.random() * ITEMS.length)
 
     return ITEMS[index]
 }

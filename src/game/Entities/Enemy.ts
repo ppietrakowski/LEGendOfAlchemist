@@ -11,7 +11,7 @@ import Player from './Player'
 
 
 export default class Enemy extends GameObject {
-    static readonly ENEMY_ATTACKED = "EnemyAttacked"
+    static readonly ENEMY_ATTACKED = Symbol('EnemyAttacked')
 
     constructor(scene: Phaser.Scene, x: number, y: number,
         texture: string | Phaser.Textures.Texture, name: string, maxRange: number, player: Player) {
@@ -24,11 +24,11 @@ export default class Enemy extends GameObject {
     }
 
     protected killed(): void {
-        let spawner = this.scene.data.get('spawner') as ItemSpawner
+        const spawner = this.scene.data.get('spawner') as ItemSpawner
         let itemImage = spawner.addItem(this.x, this.y, getRandomItem())
 
         // add event to throw item in place of enemy
-        itemImage.image.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, itemImage.giveToPlayer, itemImage);
+        itemImage.image.on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, itemImage.giveToPlayer, itemImage)
         itemImage = null
 
         this.destroy()
@@ -39,7 +39,7 @@ export default class Enemy extends GameObject {
     }
 
     addSenseListener(listener: SensingListener): void {
-        let controller = this.getComponent<EnemyController>(EnemyController.COMPONENT_NAME)
+        const controller = this.getComponent<EnemyController>(EnemyController.COMPONENT_NAME)
         controller.addSenseListener(listener)
     }
 }

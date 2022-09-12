@@ -13,11 +13,16 @@ export default class ChangeableAttribute<T> extends Phaser.Events.EventEmitter {
      * It's delegate can look like:
      * valueChanged(newValue: T): void
      */
-    static readonly ATTRIBUTE_CHANGED = 'Changed'
+    static readonly ATTRIBUTE_CHANGED = Symbol('Changed')
 
-    constructor(protected _property: T) { super() }
+    constructor(protected _property: T) { 
+        super()
+    }
 
-    get value(): T { return this._property }
+    get value(): T { 
+        return this._property
+    }
+
     set value(newValue: T) {
         this._property = newValue
         this.emit(ChangeableAttribute.ATTRIBUTE_CHANGED, this._property)

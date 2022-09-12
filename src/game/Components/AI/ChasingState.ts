@@ -5,18 +5,21 @@ import { AI_State } from './AI_State'
 
 
 export default class ChasingState extends EnemyState {
+
+    static readonly SwitchToAttackRange = 67
+
     constructor(controller: Controller, owner: GameObject) {
         super(controller, owner)
     }
 
     stateStarted(): void {
-        this.owner.scene.physics.moveToObject(this.owner, this.controller.target, 67)
+        this._owner.scene.physics.moveToObject(this._owner, this._controller.target, ChasingState.SwitchToAttackRange)
         this.playMoveAnim()
     }
 
     update(_deltaTime: number): void {
         if (this.isPlayerNear())
-            this.controller.switchToNewState(AI_State.ATTACK)
+            this._controller.switchToNewState(AI_State.ATTACK)
     }
 
     getState(): AI_State {
@@ -24,6 +27,6 @@ export default class ChasingState extends EnemyState {
     }
 
     private isPlayerNear(): boolean {
-        return this.owner.isNearObject(this.controller.target, 67)
+        return this._owner.isNearObject(this._controller.target, ChasingState.SwitchToAttackRange)
     }
 }

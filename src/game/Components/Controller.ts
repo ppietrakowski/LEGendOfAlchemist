@@ -1,6 +1,6 @@
-import GameObject from "../Entities/GameObject";
-import { AI_State } from "./AI/AI_State";
-import { EnemyState } from "./AI/EnemyState";
+import GameObject from '../Entities/GameObject'
+import { AI_State } from './AI/AI_State'
+import { EnemyState } from './AI/EnemyState'
 
 
 export default interface Controller {

@@ -3,15 +3,15 @@ import Button from '../Entities/Button'
 
 
 export default class Credits extends Phaser.Scene {
-    private text: string
-    private back: Button
-
+    private _text: string
+    private _backButton: Button
+    
     constructor() {
         super('Credits')
     }
 
     preload(): void {
-        this.text = `
+        this._text = `
         Created by ppietrakowski, SebaPGK, MichalDrozdz2000
 
         Font: https://www.dafont.com/pixellari.font
@@ -34,10 +34,10 @@ export default class Credits extends Phaser.Scene {
 
     create(): void {
         this.add.image(0, 0, 'background').setOrigin(0, 0)
-        this.add.text(50, 50, this.text, { fontFamily: 'pixellari', fontSize: '20px', color: '#111155', stroke: '#fff', strokeThickness: 1 })
-        let sprite = this.add.sprite(185, 500, 'back')
-        this.back = new Button(sprite)
-        this.back.addClickListener(this.onBack, this)
+        this.add.text(50, 50, this._text, { fontFamily: 'pixellari', fontSize: '20px', color: '#111155', stroke: '#fff', strokeThickness: 1 })
+        const sprite = this.add.sprite(185, 500, 'back')
+        this._backButton = new Button(sprite)
+        this._backButton.addClickListener(this.onBack, this)
         sprite.scaleX = 0.5
         sprite.scaleY = 0.5
     }
